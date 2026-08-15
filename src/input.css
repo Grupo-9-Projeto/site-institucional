@@ -1,1 +1,18 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@theme {
+  --font-montserrat: "Montserrat", sans-serif; 
+}
+@theme {
+  --font-space-grotesk: "Space Grotesk", sans-serif; 
+}
+@keyframes slide {
+    from{
+        opacity: 0;
+        transform: translateX(-200);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

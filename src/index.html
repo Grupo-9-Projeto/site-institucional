@@ -6,12 +6,16 @@
 
     <link rel="stylesheet" href="./output.css">
 
-    <title>Document</title>
+    <title>Argos - Página Inicial</title>
 </head>
-<body>
-    <h1 class="text-4xl font-bold text-red-600">
-        Tailwind funcionando!
-    </h1>
+<body class="bg-black">
+    <div class="max-w-dvw mx-auto bg-linear-to-br from-[#09121A] to-[#251F48] text-white p-10 pt-20 pb-20">
+        <div class="flex m-5 animate-[slide_1s]">
+            <img src="../public/assets/logos/Argos-logo_branco.png" class="sm:size-9 size-16 lg:size-25 transition-opacity"> <h1 class="font-space-grotesk font-bold sm:text-4xl text-6xl lg:text-8xl">Argos</h1>
+        </div>
+        <p class="opacity-0 font-montserrat m-5 mb-3 animate-[slide_1s_ease-out_forwards] [animation-delay:0.25s]">Monitoramento de hardware para Switches, Firewalls e Routers <span class="text-[#00BCEB] font-medium">Cisco™</span></p>
+        <button class="opacity-0 font-space-grotesk rounded-[10px] border-2 border-white text-white hover:border-transparent hover:bg-white hover:text-[#251F48] active:bg-gray-300 p-2 m-5 mt-0 animate-[slide_1s_ease-out_forwards] [animation-delay:0.5s]">Fazer Login</button> 
+    </div>
 
     <script src="./script.js"></script>
 </body>
