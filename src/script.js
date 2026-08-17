@@ -1,14 +1,14 @@
 
 function registerUser() {
-    let name;
-    let email;
-    let passwordHash;
-    let token;
+    let name
+    let email
+    let passwordHash
+    let token
     
     const verifyFieldParam = { name, email, passwordHash, token }
 
     try {
-        verifyField(verifyFieldParam)    
+        verifyFields(verifyFieldParam)    
         console.log("Todos os campos estão válidos!");
     } catch {
          console.error("Erro de validação:", error);
@@ -17,7 +17,7 @@ function registerUser() {
     fetch("/usuario/cadastrar", {
         method: "POST"  ,
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             nameServer: name,
@@ -39,11 +39,53 @@ function registerUser() {
     })
 }
 
+
 function authUser() {
+    let email
+    let passwordHash
+
+    const verifyFieldParam = { email, password }
     
+    try {
+        verifyFields(verifyFieldParam)    
+        console.log("Todos os campos estão válidos!");
+    } catch {
+         console.error("Erro de validação:", error);
+    }
+
+    fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            emailServer: email,
+            passwordHashServer: passwordHash 
+        })
+    }).then(response => {
+        if (response.ok) {
+            response.json().then(json => {
+                sessionStorage.EMAIL = JSON.email
+                sessionStorage.NAME = JSON.name
+                sessionStorage.ID = JSON.id 
+                sessionStorage.CARGO = JSON.cargo 
+
+                setTimeout(() => {
+                    window.location = "./"
+                })
+            })
+        } else {
+            console.error("Houve um erro ao tentar realizar o login!, Erro: ", error);
+        }
+    }).catch(function (erro) {
+        console.error(erro);
+    })
+
+    return false;
 }
 
-function verifyField(fieldsObj) {
+
+function verifyFields(fieldsObj) {
     for (const [fieldName, fieldValue] of Object.entries(fieldsObj)) {
 
         if (!fieldValue || String(fieldValue).trim().length === 0) {
