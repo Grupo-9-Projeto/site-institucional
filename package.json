@@ -14,8 +14,6 @@
     "is-glob": "^4.0.3",
     "is-number": "^7.0.0",
     "jiti": "^2.7.0",
-    "lightningcss": "^1.32.0",
-    "lightningcss-linux-x64-gnu": "^1.32.0",
     "magic-string": "^0.30.21",
     "micromatch": "^4.0.8",
     "mri": "^1.2.0",
@@ -42,5 +40,8 @@
   "bugs": {
     "url": "https://github.com/Grupo-9-Projeto/site-institucional/issues"
   },
-  "homepage": "https://github.com/Grupo-9-Projeto/site-institucional#readme"
+  "homepage": "https://github.com/Grupo-9-Projeto/site-institucional#readme",
+  "devDependencies": {
+    "lightningcss": "^1.33.0"
+  }
 }
