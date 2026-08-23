@@ -7,50 +7,54 @@
 
     <link rel="stylesheet" href="../output.css">
 </head>
-<body>
+<body class="font-space-grotesk">
     <div class="h-screen w-screen bg-[#09121B] flex flex-row gap-4 p-8 text-white">
-        <div class="w-[70%] flex border border-white bg-gradient-to-b from-[#09121B] to-[#251E47] gradient-border p-10">
-            <div>   
-                <div class="self-center">
-                    <img class="size-12" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
+        <div class="w-[65%] flex border border-white bg-gradient-to-b from-[#09121B] to-[#251E47] gradient-border p-10">
+            <div class="flex flex-col w-full">   
+                <div class="self-center mt-auto">
+                    <img class="size-72" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
                 </div>
-                <div class="self-end">
-                    <h3>
-                        <span>Tenha total controle.</span>
-                        <span>Monitore seus equipamentos</span>
-                        <span>Cisco com Argos.</span>
+                <div class="mt-auto">
+                    <h3 class="font-medium text-5xl">
+                        <span class="block">Tenha <span class="font-bold">total controle.</span></span>
+                        <span class="block">Monitore seus equipamentos</span>
+                        <span class="block">Cisco com <span class="font-bold">Argos.</span></span>
                     </h3>
                 </div>
             </div>
         </div>
-        <div class="w-[30%] flex flex-col gap-20 gradient-border bg-gradient-to-b from-[#09121B] to-[#251E47] p-10">
-            <div class="content-center">
-                <h1 class="font-medium text-5xl">Cadastre-se</h1>
-            </div>
+        <div class="w-[35%] flex flex-col justify-center gradient-border bg-gradient-to-b from-[#09121B] to-[#251E47] p-10">
             <div>
-                <div>
-                    <span>Nome</span>
-                    <input type="text" placeholder="Maria Jose da Silva">
+                <div class="flex items-center justify-center">
+                    <h1 class="font-bold text-5xl mb-12">Cadastre-se</h1>
                 </div>
-                <div>
-                    <span>Email</span>
-                    <input type="text" placeholder="Maria Jose da Silva">
+                <div class="flex flex-col gap-12">
+                    <div class="flex flex-col gap-6 w-full font-jet-brains">
+                        <div class="flex flex-col gap-2.5">
+                            <span class="text-lg">Nome</span>
+                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="Seu nome aqui">
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <span class="text-lg">Email</span>
+                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="exemplo@gmail.com">
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <span class="text-lg">Senha</span>
+                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Sua senha aqui">
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <span class="text-lg">Confirmação da Senha</span>
+                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Confirme sua senha aqui">
+                        </div>
+                        <div class="flex flex-col gap-2.5">
+                            <span class="text-lg">Token de Acesso</span>
+                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="1234-ABCD-5678-EFGH">
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <button class="w-full p-2.5 rounded-[12px] text-(--main-blue) font-bold text-3xl bg-(--off-white)">Cadastrar →</button>
+                    </div>
                 </div>
-                <div>
-                    <span>Senha</span>
-                    <input type="text" placeholder="Maria Jose da Silva">
-                </div>
-                <div>
-                    <span>Confirmação de Senha</span>
-                    <input type="text" placeholder="Maria Jose da Silva">
-                </div>
-                <div>
-                    <span>Token de Acesso</span>
-                    <input type="text" placeholder="Maria Jose da Silva">
-                </div>
-            </div>
-            <div>
-                <button>Cadastrar</button>
             </div>
         </div>
     </div>
