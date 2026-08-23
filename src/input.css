@@ -68,3 +68,6 @@
   background-origin: padding-box, border-box;
 }
 
+.transition-element {
+  transition: all 0.3s ease-in-out;
+}
