@@ -8,8 +8,103 @@
 
     <title>Argos - Página Inicial</title>
 </head>
-<body>
-   
-    <script src="./script.js"></script>
+<body class="bg-[#09121A] text-white">
+    <!-- Parte inicial -->
+<div class="bg-linear-to-b from-[#09121A] to-[#251F48] ml-5 mr-5 p-20 flex justify-center items-center rounded-2xl">
+    <div class="size-fit">
+        <p class="font-space-grotesk font-medium text-6xl w-280 mb-5"><span class="text-[#00BCEB] font-bold">Tenha total controle.</span> Monitore seus equipamentos Cisco com Argos.</p>
+        <span class="font-poppins text-2xl pb-10">Construído com um novo <span class="font-bold">propósito</span>. Desenhado para infraestrutura de <span class="font-bold">grandes corporações</span>.</span>
+        <img src="assets/foto-painel.png" class="rounded-2xl drop-shadow-2xl shadow-black border border-neutral-950 mt-10">
+    </div>
+</div>   
+    <!-- Grade com degradê -->
+    <div class="w-full bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_2rem]">
+        <div class="w-full bg-radial from-transparent to-[#09121b] flex justify-center align-center p-30">
+            <div class="flex-col justify-center">
+                <img src="assets/logos/Cisco-logo.png" class="justify-self-center mb-5">
+                <p class="p-5 bg-linear-to-b from-[#049FD9] via-[#083044] to-[#09121B] font-space-grotesk font-bold text-5xl text-center rounded-2xl mb-5">Clientes Cisco utilizam Argos.</p>
+                <p class="font-poppins font-medium justify-self-center">Ainda não monitora seus Switches, Firewalls e Routers? <span class="font-bold italic">Cadastre sua empresa já!</span></p>
+                <button onclick="" class="justify-self-center rounded-2xl bg-white text-[#09121B] p-5 font-space-grotesk font-bold size-fit flex m-10 duration-100 ease-in hover:bg-[#09121B] hover:text-white hover:cursor-pointer border-solid border-4 border-white">Cadastrar empresa</button>
+            </div>
+        </div>
+    </div>
+    <!-- Parte do Fio -->
+
+    <!-- Equipamentos -->
+     <div class="m-30">
+        <div>
+            <p class="font-space-grotesk text-6xl w-280 mb-5">A Cisco é lider no mercado de <span class="font-bold">equipamentos</span> e <span class="font-bold">infraestrutura</span> de redes. Já são mais de <span class="font-bold">U$70 bilhões</span> faturados.</p>
+            <span class="font-poppins text-2x1 pb-10">E o que o software Argos faz é monitorar CPU, RAM, Disco, entrada e saída de pacotes dos seus equipamentos. Tudo para garantir <span class="font-bold">Observabilidade.</span> Tudo para garantir <span class="font-bold">Manutenibilidade</span>. Tudo para garantir <span class="font-bold">Confiança.</span></span>
+        </div>
+        <div class="sm:flex mt-15">
+            <div class="sm:border-r-2 sm:border-b-0 sm:mr-5 border-b-2 border-white justify-items-center">
+                <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco Nexus 9500</p>
+                <div class="justify-center content-center h-50">
+                    <img src="assets/Switch.png">
+                </div>
+                <div class="h-1/3 mt-10 sm:mb-0 mb-5">
+                    <p class="font-space-grotesk font-bold text-2xl">Switches</p>
+                    <span class="font-poppins font-light mr-15">Switches de grande porte, como o Nexus 9000 Series, precisa de um monitoramento de CPU, RAM, entrada e saída de rede em tempo real.</span>
+                </div>
+            </div>
+            <div class="sm:border-r-2 sm:border-b-0 sm:mr-5 border-b-2 border-white justify-items-center">
+                <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco Firepower 9300</p>
+                <div class="justify-center content-center h-50">
+                    <img src="assets/Firewall.png">
+                </div>
+                <div class="h-1/3 mt-10 sm:mb-0 mb-5">
+                    <p class="font-space-grotesk font-bold text-2xl">Firewall</p>
+                    <span class="font-poppins font-light mr-15">Switches de grande porte, como o Nexus 9000 Series, precisa de um monitoramento de CPU, RAM, entrada e saída de rede em tempo real.</span>
+                </div>
+            </div>
+            <div class="justify-items-center">
+                <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco ASR-9006</p>
+                <div class="justify-center content-center h-50">
+                    <img src="assets/Router.png">
+                </div>
+                <div class="h-1/3 mt-10 sm:mb-0">
+                    <p class="font-space-grotesk font-bold text-2xl">Router</p>
+                    <span class="font-poppins font-light">Switches de grande porte, como o Nexus 9000 Series, precisa de um monitoramento de CPU, RAM, entrada e saída de rede em tempo real.</span>
+                </div>
+            </div>
+        </div>
+     </div>
+    <!-- Contato -->
+    <div class="m-30">
+        <div>
+            <div class="w-1/2 mb-10">
+                <p class="font-space-grotesk font-bold text-6xl">Pensa em implementar o software Argos?</p>
+                <span class="font-jetbrains font-medium text-2xl">Entre em contato conosco!</span>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="w-1/2 bg-linear-to-b from-[#09121A] to-[#251F48] border border-white rounded-2xl p-5">
+                <p class="font-jetbrains font-light text-lg">Nome</p>
+                <input type="text" id="ipt_nome" placeholder="Maria José da Silva..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                <p class="font-jetbrains font-light text-lg">Email</p>
+                <input type="text" id="ipt_email" placeholder="maria@assai.com..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                <p class="font-jetbrains font-light text-lg">Empresa</p>
+                <input type="text" id="ipt_empresa" placeholder="Assaí Atacadista..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                <p class="font-jetbrains font-light text-lg">Cargo / Função</p>
+                <input type="text" id="ipt_cargo" placeholder="Diretora de NOC..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                <p class="font-jetbrains font-light text-lg">Como o sistema Argos pode ajudar?</p>
+                <textarea id="ipt_motivo" class="mb-5 bg-[#15293D] border border-white rounded-lg w-full p-2 font-poppins font-medium" placeholder="Monitorar meus Core Switches para..." rows="5"></textarea>
+            </div>
+            <div class="w-1/2 h-full">
+                <div class="p-px bg-linear-to-b from-[#03C8FF] to-gray-400 rounded-2xl h-2/3">
+                    <div class="bg-[#0D1924] p-5 rounded-2xl">
+
+                    </div>
+                </div>
+                <div class="p-px bg-linear-to-tl from-[#03C8FF] to-white rounded-2xl h-1/3">
+                    <div class="bg-[#0D1924] p-5 rounded-2xl">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
 </body>
 </html>
+<script src="./script.js"></script>
