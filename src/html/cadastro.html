@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="../output.css">
 </head>
 <body class="font-space-grotesk select-none">
-    <div class="h-screen w-screen bg-[#09121B] flex flex-row gap-4 p-8 text-white">
-        <div class="w-[65%] flex border border-white bg-gradient-to-b from-[#09121B] to-[#251E47] gradient-border p-10">
-            <div class="flex flex-col w-full">   
-                <div class="text-6xl">
-                    <button>
+    <div class=" min-h-screen lg:h-screen w-full bg-[#09121B] flex flex-col lg:flex-row lg:gap-4 lg:p-8 text-white lg:overflow-hidden">
+        <div class="w-full lg:w-[65%] lg:min-w-0 flex lg:border lg:border-white bg-transparent lg:bg-gradient-to-b lg:from-[#09121B] lg:to-[#251E47] lg:gradient-border p-4 sm:p-6 lg:p-[clamp(16px,4vh,40px)] lg:overflow-hidden">
+            <div class="flex lg:flex-col w-full">   
+                <div class="text-2xl md:text-3xl lg:text-[clamp(24px,5.5vh,60px)] shrink-0">
+                    <button class="transition-transform duration-300 hover:scale-120">
                         ←
                     </button>
                 </div>
-                <div class="self-center mt-auto">
-                    <img class="size-72" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
+                <div class="hidden lg:flex lg:mt-auto flex justify-center shrink-0">
+                    <img class="max-w-[44px] sm:max-w-[56px] md:max-w-[80px] lg:max-w-[288px] max-h-[8vh] lg:max-h-[26vh] w-auto h-auto object-contain transition-transform duration-300 hover:scale-110" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
                 </div>
-                <div class="mt-auto">
-                    <h3 class="font-medium text-5xl">
+                <div class="hidden lg:block lg:mt-auto lg:flex-none min-w-0">
+                    <h3 class="font-medium text-xs sm:text-sm md:text-base lg:text-[clamp(20px,4.4vh,48px)] leading-tight truncate lg:whitespace-normal">
                         <span class="block">Tenha <span class="font-bold">total controle.</span></span>
                         <span class="block">Monitore seus equipamentos</span>
                         <span class="block">Cisco com <span class="font-bold">Argos.</span></span>
@@ -28,10 +28,10 @@
                 </div>
             </div>
         </div>
-        <div class="w-[35%] flex flex-col justify-center gradient-border bg-gradient-to-b from-[#09121B] to-[#251E47] p-10">
+        <div class="w-full lg:w-[35%]  flex flex-col justify-center gradient-border bg-gradient-to-b from-[#09121B] to-[#251E47] p-10  lg:overflow-hidden">
             <div>
                 <div class="flex items-center justify-center">
-                    <h1 class="font-bold text-5xl mb-12">Cadastre-se</h1>
+                    <h1 class="font-bold text-5xl mb-12 transition-transform duration-300 hover:scale-120">Cadastre-se</h1>
                 </div>
                 <div class="flex flex-col gap-12">
                     <div class="flex flex-col gap-6 w-full font-jet-brains">
