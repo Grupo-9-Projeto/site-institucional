@@ -9,6 +9,65 @@
     <title>Argos - Página Inicial</title>
 </head>
 <body class="bg-[#09121A] text-white">
+
+<nav class="sticky top-0 z-50 w-full bg-[#0a0e1a]/80 backdrop-blur-md border-b border-white/10">
+<div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between h-20">
+
+      <a href="#" class="shrink-0">
+        <img src="./assets/logos/Argos-logo_branco.png" alt="Argos" class="h-9 w-auto">
+      </a>
+
+      <div class="hidden md:flex items-center gap-10">
+        <div class="flex items-center gap-8 text-sm text-slate-300">
+          <a href="#" class="hover:text-white transition-colors">Produto</a>
+          <a href="#" class="hover:text-white transition-colors">Nossos Clientes</a>
+          <a href="#" class="hover:text-white transition-colors">Nosso Serviço</a>
+          <a href="#" class="hover:text-white transition-colors">Contato</a>
+        </div>
+
+        <div class="h-6 w-px bg-white/15"></div>
+
+        <div class="flex items-center gap-5">
+          <a href="#" class="text-sm text-slate-300 hover:text-white transition-colors">Log in</a>
+          <a href="#" class="bg-slate-100 text-slate-900 text-sm font-medium rounded-full px-5 py-2 hover:bg-white transition-colors">Cadastre-se</a>
+        </div>
+      </div>
+
+      <button id="threeStripes" onclick="toggleMenu()" class="md:hidden text-white">
+        <svg id="iconOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg id="iconClose" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+    </div>
+
+    <div id="mobileMenu" class="hidden md:hidden pb-6">
+      <div class="flex flex-col gap-4 text-sm text-slate-300 pt-2">
+        <a href="#" class="hover:text-white transition-colors">Produto</a>
+        <a href="#" class="hover:text-white transition-colors">Nossos Clientes</a>
+        <a href="#" class="hover:text-white transition-colors">Nosso Serviço</a>
+        <a href="#" class="hover:text-white transition-colors">Contato</a>
+      </div>
+
+      <div class="h-px w-full bg-white/15 my-4"></div>
+
+      <div class="flex flex-col gap-3">
+        <a href="#" class="text-sm text-slate-300 hover:text-white transition-colors">Log in</a>
+        <a href="#" class="bg-slate-100 text-slate-900 text-sm font-medium rounded-full px-5 py-2 text-center hover:bg-white transition-colors">Cadastre-se</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- fim da nav bar-->
+   </nav>
+
     <!-- Parte inicial -->
 <div class="bg-linear-to-b from-[#09121A] to-[#251F48] ml-5 mr-5 p-20 flex justify-center items-center rounded-2xl">
     <div class="size-fit">

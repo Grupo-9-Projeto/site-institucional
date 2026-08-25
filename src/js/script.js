@@ -109,3 +109,19 @@ function verifyFields(fieldsObj) {
 
     return true
 }
+
+function toggleMenu() {
+  var menu = document.getElementById('mobileMenu');
+  var iconOpen = document.getElementById('iconOpen');
+  var iconClose = document.getElementById('iconClose');
+
+  if (menu.classList.contains('hidden')) {
+    menu.classList.remove('hidden');
+    iconOpen.classList.add('hidden');
+    iconClose.classList.remove('hidden');
+  } else {
+    menu.classList.add('hidden');
+    iconOpen.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+  }
+}
