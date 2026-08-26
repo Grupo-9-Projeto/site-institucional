@@ -1,21 +1,28 @@
 
 function registerUser() {
-    let name
-    let email
-    let passwordHash
-    let token
-    
-    const verifyFieldParam = { name, email, passwordHash, token }
+    let name = document.getElementById("input_nome").value;
+    let email = document.getElementById("input_email").value;
+    let passwordHash = document.getElementById("input_senha").value;
+    let confirmPassword = document.getElementById("input_confirm_senha").value;
+    let token = document.getElementById("input_token").value;
+
+    const verifyFieldParam = { name, email, passwordHash, token };
 
     try {
         verifyFields(verifyFieldParam)    
         console.log("Todos os campos estão válidos!");
-    } catch {
-         console.error("Erro de validação:", error);
+    } catch (error) {
+        console.error("Erro de validação:", error);
+        return;
     }
 
-    fetch("/usuario/cadastrar", {
-        method: "POST"  ,
+    if (passwordHash !== confirmPassword) {
+        console.error("Senhas diferentes!");
+        return;
+    }
+
+    fetch("http://localhost:8080/usuarios/cadastrar", {
+        method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
@@ -23,34 +30,35 @@ function registerUser() {
             nameServer: name,
             emailServer: email,
             passwordHashServer: passwordHash,
-            tokenServer: authCode
+            tokenServer: token
         })
     }).then(response => {
         if (response.ok) {
+            alert("Cadastro realizado com sucesso! Você já pode fazer o login.");
             setTimeout(() => {
-                // window.location = "login.html";
-                return
-            }, "2000");
-            
+                window.location = "login.html";
+            }, 2000);
+        } else {
+            alert("Houve um erro ao tentar realizar o cadastro. Verifique se o token é válido.");
         }
-        throw "Houve um erro ao tentar realizar o cadastro!";
     }).catch(error => {
-        console.error("Erro ao realizar cadastro! Erro: ", error)
-    })
+        console.error("Erro na requisição: ", error);
+    });
 }
 
 
 function authUser() {
-    let email
-    let passwordHash
+    let email = document.getElementById("input_email").value;
+    let passwordHash = document.getElementById("input_senha").value;
 
-    const verifyFieldParam = { email, password }
-    
+    const verifyFieldParam = { email, passwordHash }
+
     try {
-        verifyFields(verifyFieldParam)    
+        verifyFields(verifyFieldParam)
         console.log("Todos os campos estão válidos!");
-    } catch {
-         console.error("Erro de validação:", error);
+    } catch (error) {
+        console.error("Erro de validação:", error);
+        return false;
     }
 
     fetch("/usuarios/autenticar", {
@@ -60,15 +68,15 @@ function authUser() {
         },
         body: JSON.stringify({
             emailServer: email,
-            passwordHashServer: passwordHash 
+            passwordHashServer: passwordHash
         })
     }).then(response => {
         if (response.ok) {
             response.json().then(json => {
-                sessionStorage.EMAIL = JSON.email
-                sessionStorage.NAME = JSON.name
-                sessionStorage.ID = JSON.id 
-                sessionStorage.CARGO = JSON.cargo 
+                sessionStorage.EMAIL = json.email;
+                sessionStorage.NAME = json.name;
+                sessionStorage.ID = json.id;
+                sessionStorage.CARGO = json.cargo;
 
                 setTimeout(() => {
                     window.location = "./"
