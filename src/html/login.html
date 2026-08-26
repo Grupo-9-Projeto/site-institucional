@@ -38,19 +38,20 @@
                     <div class="flex flex-col gap-6 w-full font-jet-brains">
                         <div class="flex flex-col gap-2.5">
                             <span class="text-lg">Email</span>
-                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="exemplo@gmail.com">
+                            <input id="input_email" class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="exemplo@gmail.com">
                         </div>
                         <div class="flex flex-col gap-2.5">
                             <span class="text-lg">Senha</span>
-                            <input class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Sua senha aqui">
+                            <input id="input_senha" class="text-base w-full rounded-[12px] border-2 p-3 px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Sua senha aqui">
                         </div>
                     </div>
                     <div class="w-full">
-                        <button class="w-full p-2.5 rounded-[12px] text-(--main-blue) font-bold text-3xl bg-(--off-white) transition-element transition-all duration-200 hover:border-4 hover:border-(--light-blue)">Log In →</button>
+                        <button onclick="authUser()" class="w-full p-2.5 rounded-[12px] text-(--main-blue) font-bold text-3xl bg-(--off-white) transition-element transition-all duration-200 hover:border-4 hover:border-(--light-blue)">Log In →</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../js/script.js"></script>
 </body>
 </html>
