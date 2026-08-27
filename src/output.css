@@ -27,8 +27,6 @@
     --text-2xl--line-height: calc(2 / 1.5);
     --text-3xl: 1.875rem;
     --text-3xl--line-height: calc(2.25 / 1.875);
-    --text-4xl: 2.25rem;
-    --text-4xl--line-height: calc(2.5 / 2.25);
     --text-5xl: 3rem;
     --text-5xl--line-height: 1;
     --text-6xl: 3.75rem;
@@ -237,9 +235,6 @@
   .hidden {
     display: none;
   }
-  .table {
-    display: table;
-  }
   .size-72 {
     width: calc(var(--spacing) * 72);
     height: calc(var(--spacing) * 72);
@@ -287,20 +282,8 @@
   .flex-1 {
     flex: 1;
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
   .shrink-0 {
     flex-shrink: 0;
-  }
-  .border-collapse {
-    border-collapse: collapse;
-  }
-  .transform {
-    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .resize {
-    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -314,14 +297,8 @@
   .justify-center {
     justify-content: center;
   }
-  .gap-1 {
-    gap: var(--spacing);
-  }
   .gap-1\.5 {
     gap: calc(var(--spacing) * 1.5);
-  }
-  .gap-2 {
-    gap: calc(var(--spacing) * 2);
   }
   .gap-2\.5 {
     gap: calc(var(--spacing) * 2.5);
@@ -560,31 +537,16 @@
   .italic {
     font-style: italic;
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .shadow-black {
     --tw-shadow-color: #000;
     @supports (color: color-mix(in lab, red, red)) {
       --tw-shadow-color: color-mix(in oklab, var(--color-black) var(--tw-shadow-alpha), transparent);
     }
   }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
   .drop-shadow-2xl {
     --tw-drop-shadow-size: drop-shadow(0 25px 25px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.15)));
     --tw-drop-shadow: drop-shadow(var(--drop-shadow-2xl));
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-  }
-  .filter {
-    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
-  }
-  .transition {
-    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
-    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-    transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
   .transition-all {
     transition-property: all;
@@ -665,9 +627,6 @@
     .sm\:gap-2 {
       gap: calc(var(--spacing) * 2);
     }
-    .sm\:gap-4 {
-      gap: calc(var(--spacing) * 4);
-    }
     .sm\:gap-8 {
       gap: calc(var(--spacing) * 8);
     }
@@ -684,10 +643,6 @@
       font-size: var(--text-3xl);
       line-height: var(--tw-leading, var(--text-3xl--line-height));
     }
-    .sm\:text-5xl {
-      font-size: var(--text-5xl);
-      line-height: var(--tw-leading, var(--text-5xl--line-height));
-    }
     .sm\:text-base {
       font-size: var(--text-base);
       line-height: var(--tw-leading, var(--text-base--line-height));
@@ -702,9 +657,6 @@
     }
   }
   @media (width >= 48rem) {
-    .md\:mb-10 {
-      margin-bottom: calc(var(--spacing) * 10);
-    }
     .md\:max-w-\[80px\] {
       max-width: 80px;
     }
@@ -715,10 +667,6 @@
       font-size: var(--text-3xl);
       line-height: var(--tw-leading, var(--text-3xl--line-height));
     }
-    .md\:text-4xl {
-      font-size: var(--text-4xl);
-      line-height: var(--tw-leading, var(--text-4xl--line-height));
-    }
     .md\:text-base {
       font-size: var(--text-base);
       line-height: var(--tw-leading, var(--text-base--line-height));
@@ -727,9 +675,6 @@
   @media (width >= 64rem) {
     .lg\:mt-auto {
       margin-top: auto;
-    }
-    .lg\:mb-12 {
-      margin-bottom: calc(var(--spacing) * 12);
     }
     .lg\:mb-\[clamp\(16px\,5\.4vh\,48px\)\] {
       margin-bottom: clamp(16px, 5.4vh, 48px);
@@ -767,17 +712,8 @@
     .lg\:flex-row {
       flex-direction: row;
     }
-    .lg\:gap-2\.5 {
-      gap: calc(var(--spacing) * 2.5);
-    }
     .lg\:gap-4 {
       gap: calc(var(--spacing) * 4);
-    }
-    .lg\:gap-6 {
-      gap: calc(var(--spacing) * 6);
-    }
-    .lg\:gap-12 {
-      gap: calc(var(--spacing) * 12);
     }
     .lg\:gap-\[clamp\(3px\,1\.1vh\,10px\)\] {
       gap: clamp(3px, 1.1vh, 10px);
@@ -813,9 +749,6 @@
     .lg\:p-8 {
       padding: calc(var(--spacing) * 8);
     }
-    .lg\:p-10 {
-      padding: calc(var(--spacing) * 10);
-    }
     .lg\:p-\[clamp\(16px\,4vh\,40px\)\] {
       padding: clamp(16px, 4vh, 40px);
     }
@@ -827,14 +760,6 @@
     }
     .lg\:py-\[clamp\(5px\,1\.4vh\,12px\)\] {
       padding-block: clamp(5px, 1.4vh, 12px);
-    }
-    .lg\:text-5xl {
-      font-size: var(--text-5xl);
-      line-height: var(--tw-leading, var(--text-5xl--line-height));
-    }
-    .lg\:text-lg {
-      font-size: var(--text-lg);
-      line-height: var(--tw-leading, var(--text-lg--line-height));
     }
     .lg\:text-\[clamp\(11px\,1\.8vh\,16px\)\] {
       font-size: clamp(11px, 1.8vh, 16px);
@@ -908,26 +833,6 @@
 }
 .transition-element {
   transition: all 0.3s ease-in-out;
-}
-@property --tw-rotate-x {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-rotate-y {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-rotate-z {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-skew-x {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-skew-y {
-  syntax: "*";
-  inherits: false;
 }
 @property --tw-border-style {
   syntax: "*";
@@ -1049,11 +954,6 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -1133,11 +1033,6 @@
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
-      --tw-rotate-x: initial;
-      --tw-rotate-y: initial;
-      --tw-rotate-z: initial;
-      --tw-skew-x: initial;
-      --tw-skew-y: initial;
       --tw-border-style: solid;
       --tw-gradient-position: initial;
       --tw-gradient-from: #0000;
@@ -1164,7 +1059,6 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
