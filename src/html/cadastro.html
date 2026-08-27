@@ -37,31 +37,32 @@
                     <div class="flex flex-col gap-3 lg:gap-[clamp(8px,2.7vh,24px)] w-full font-jet-brains">
                         <div class="flex flex-col gap-1.5 sm:gap-2 lg:gap-[clamp(3px,1.1vh,10px)]">
                             <span class="text-sm sm:text-base lg:text-[clamp(11px,2vh,18px)]">Nome</span>
-                            <input class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="Seu nome aqui">
+                            <input id="input_nome" class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="Seu nome aqui">
                         </div>
                         <div class="flex flex-col gap-1.5 sm:gap-2 lg:gap-[clamp(3px,1.1vh,10px)]">
                             <span class="text-sm sm:text-base lg:text-[clamp(11px,2vh,18px)]">Email</span>
-                            <input class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="exemplo@gmail.com">
+                            <input id="input_email" class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="exemplo@gmail.com">
                         </div>
                         <div class="flex flex-col gap-1.5 sm:gap-2 lg:gap-[clamp(3px,1.1vh,10px)]">
                             <span class="text-sm sm:text-base lg:text-[clamp(11px,2vh,18px)]">Senha</span>
-                            <input class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Sua senha aqui">
+                            <input id="input_senha" class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Sua senha aqui">
                         </div>
                         <div class="flex flex-col gap-1.5 sm:gap-2 lg:gap-[clamp(3px,1.1vh,10px)]">
                             <span class="text-sm sm:text-base lg:text-[clamp(11px,2vh,18px)]">Confirmação da Senha</span>
-                            <input class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Confirme sua senha aqui">
+                            <input id="input_confirm_senha"class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="password" placeholder="Confirme sua senha aqui">
                         </div>
                         <div class="flex flex-col gap-1.5 sm:gap-2 lg:gap-[clamp(3px,1.1vh,10px)]">
                             <span class="text-sm sm:text-base lg:text-[clamp(11px,2vh,18px)]">Token de Acesso</span>
-                            <input class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="1234-ABCD-5678-EFGH">
+                            <input id="input_token" class="text-sm sm:text-base lg:text-[clamp(11px,1.8vh,16px)] w-full rounded-[12px] border-2 lg:py-[clamp(5px,1.4vh,12px)] p-2 sm:p-2.5 lg:px-4 px-3 sm:px-4 bg-[#15293D] placeholder:text-gray-400" type="text" placeholder="1234-ABCD-5678-EFGH">
                         </div>
                     </div>
                     <div class="w-full">
-                        <button class="transition-transform duration-300 hover:scale-105 w-full lg:py-[clamp(4px,1.1vh,10px)] p-2 sm:p-2.5 rounded-[12px] text-(--main-blue) font-bold text-lg sm:text-xl lg:text-[clamp(15px,3.4vh,30px)] bg-(--off-white) transition-element transition-all duration-200 hover:border-4 hover:border-(--light-blue)">Cadastrar →</button>
+                        <button onclick="registerUser()" class="transition-transform duration-300 hover:scale-105 w-full lg:py-[clamp(4px,1.1vh,10px)] p-2 sm:p-2.5 rounded-[12px] text-(--main-blue) font-bold text-lg sm:text-xl lg:text-[clamp(15px,3.4vh,30px)] bg-(--off-white) transition-element transition-all duration-200 hover:border-4 hover:border-(--light-blue)">Cadastrar →</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="../js/script.js"></script>
 </body>
 </html>
