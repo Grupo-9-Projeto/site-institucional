@@ -125,3 +125,9 @@ function toggleMenu() {
     iconClose.classList.add('hidden');
   }
 }
+
+window.onscroll = function() {
+  var total_height = document.body.scrollHeight - window.innerHeight;
+  var progress = (window.scrollY / total_height) * 100;
+  document.getElementById("scrollBar").style.width = progress + "%";
+};
