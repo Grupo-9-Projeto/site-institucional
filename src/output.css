@@ -228,12 +228,6 @@
   .m-10 {
     margin: calc(var(--spacing) * 10);
   }
-  .m-30 {
-    margin: calc(var(--spacing) * 30);
-  }
-  .m-35 {
-    margin: calc(var(--spacing) * 35);
-  }
   .mx-4 {
     margin-inline: calc(var(--spacing) * 4);
   }
@@ -246,6 +240,9 @@
   .my-10 {
     margin-block: calc(var(--spacing) * 10);
   }
+  .mt-5 {
+    margin-top: calc(var(--spacing) * 5);
+  }
   .mt-10 {
     margin-top: calc(var(--spacing) * 10);
   }
@@ -257,9 +254,6 @@
   }
   .mr-1 {
     margin-right: var(--spacing);
-  }
-  .mr-5 {
-    margin-right: calc(var(--spacing) * 5);
   }
   .mr-15 {
     margin-right: calc(var(--spacing) * 15);
@@ -278,9 +272,6 @@
   }
   .mb-15 {
     margin-bottom: calc(var(--spacing) * 15);
-  }
-  .ml-5 {
-    margin-left: calc(var(--spacing) * 5);
   }
   .block {
     display: block;
@@ -334,9 +325,6 @@
   .h-50 {
     height: calc(var(--spacing) * 50);
   }
-  .h-180 {
-    height: calc(var(--spacing) * 180);
-  }
   .h-190 {
     height: calc(var(--spacing) * 190);
   }
@@ -354,21 +342,6 @@
   }
   .min-h-screen {
     min-height: 100vh;
-  }
-  .w-1 {
-    width: var(--spacing);
-  }
-  .w-1\/2 {
-    width: calc(1 / 2 * 100%);
-  }
-  .w-200 {
-    width: calc(var(--spacing) * 200);
-  }
-  .w-280 {
-    width: calc(var(--spacing) * 280);
-  }
-  .w-308 {
-    width: calc(var(--spacing) * 308);
   }
   .w-auto {
     width: auto;
@@ -743,6 +716,10 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
   .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
@@ -905,6 +882,9 @@
     }
   }
   @media (width >= 40rem) {
+    .sm\:mt-0 {
+      margin-top: 0px;
+    }
     .sm\:mr-5 {
       margin-right: calc(var(--spacing) * 5);
     }
@@ -914,11 +894,38 @@
     .sm\:mb-8 {
       margin-bottom: calc(var(--spacing) * 8);
     }
+    .sm\:mb-10 {
+      margin-bottom: calc(var(--spacing) * 10);
+    }
+    .sm\:ml-5 {
+      margin-left: calc(var(--spacing) * 5);
+    }
     .sm\:flex {
       display: flex;
     }
+    .sm\:h-1\/3 {
+      height: calc(1 / 3 * 100%);
+    }
+    .sm\:h-2\/3 {
+      height: calc(2 / 3 * 100%);
+    }
+    .sm\:h-180 {
+      height: calc(var(--spacing) * 180);
+    }
+    .sm\:h-190 {
+      height: calc(var(--spacing) * 190);
+    }
+    .sm\:w-1\/2 {
+      width: calc(1 / 2 * 100%);
+    }
     .sm\:max-w-\[56px\] {
       max-width: 56px;
+    }
+    .sm\:flex-row {
+      flex-direction: row;
+    }
+    .sm\:items-start {
+      align-items: flex-start;
     }
     .sm\:gap-2 {
       gap: calc(var(--spacing) * 2);
@@ -946,6 +953,10 @@
     .sm\:px-4 {
       padding-inline: calc(var(--spacing) * 4);
     }
+    .sm\:text-2xl {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
     .sm\:text-3xl {
       font-size: var(--text-3xl);
       line-height: var(--tw-leading, var(--text-3xl--line-height));
@@ -953,6 +964,10 @@
     .sm\:text-base {
       font-size: var(--text-base);
       line-height: var(--tw-leading, var(--text-base--line-height));
+    }
+    .sm\:text-lg {
+      font-size: var(--text-lg);
+      line-height: var(--tw-leading, var(--text-lg--line-height));
     }
     .sm\:text-sm {
       font-size: var(--text-sm);
@@ -985,14 +1000,44 @@
     .md\:m-16 {
       margin: calc(var(--spacing) * 16);
     }
+    .md\:m-30 {
+      margin: calc(var(--spacing) * 30);
+    }
     .md\:m-35 {
       margin: calc(var(--spacing) * 35);
+    }
+    .md\:mt-0 {
+      margin-top: 0px;
+    }
+    .md\:mr-5 {
+      margin-right: calc(var(--spacing) * 5);
+    }
+    .md\:mb-10 {
+      margin-bottom: calc(var(--spacing) * 10);
+    }
+    .md\:ml-5 {
+      margin-left: calc(var(--spacing) * 5);
     }
     .md\:flex {
       display: flex;
     }
     .md\:hidden {
       display: none;
+    }
+    .md\:h-1\/3 {
+      height: calc(1 / 3 * 100%);
+    }
+    .md\:h-2\/3 {
+      height: calc(2 / 3 * 100%);
+    }
+    .md\:h-180 {
+      height: calc(var(--spacing) * 180);
+    }
+    .md\:h-190 {
+      height: calc(var(--spacing) * 190);
+    }
+    .md\:w-1\/2 {
+      width: calc(1 / 2 * 100%);
     }
     .md\:w-200 {
       width: calc(var(--spacing) * 200);
@@ -1008,6 +1053,9 @@
     }
     .md\:grid-rows-4 {
       grid-template-rows: repeat(4, minmax(0, 1fr));
+    }
+    .md\:flex-row {
+      flex-direction: row;
     }
     .md\:gap-x-16 {
       column-gap: calc(var(--spacing) * 16);
@@ -1027,6 +1075,10 @@
     .md\:text-right {
       text-align: right;
     }
+    .md\:text-2xl {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
     .md\:text-3xl {
       font-size: var(--text-3xl);
       line-height: var(--tw-leading, var(--text-3xl--line-height));
@@ -1043,6 +1095,10 @@
       font-size: var(--text-base);
       line-height: var(--tw-leading, var(--text-base--line-height));
     }
+    .md\:text-lg {
+      font-size: var(--text-lg);
+      line-height: var(--tw-leading, var(--text-lg--line-height));
+    }
   }
   @media (width >= 64rem) {
     .lg\:m-30 {
@@ -1050,6 +1106,9 @@
     }
     .lg\:mt-auto {
       margin-top: auto;
+    }
+    .lg\:mb-10 {
+      margin-bottom: calc(var(--spacing) * 10);
     }
     .lg\:mb-\[clamp\(16px\,5\.4vh\,48px\)\] {
       margin-bottom: clamp(16px, 5.4vh, 48px);
@@ -1059,6 +1118,15 @@
     }
     .lg\:flex {
       display: flex;
+    }
+    .lg\:h-1\/3 {
+      height: calc(1 / 3 * 100%);
+    }
+    .lg\:h-2\/3 {
+      height: calc(2 / 3 * 100%);
+    }
+    .lg\:h-180 {
+      height: calc(var(--spacing) * 180);
     }
     .lg\:h-screen {
       height: 100vh;
@@ -1144,6 +1212,10 @@
     }
     .lg\:py-\[clamp\(5px\,1\.4vh\,12px\)\] {
       padding-block: clamp(5px, 1.4vh, 12px);
+    }
+    .lg\:text-2xl {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
     }
     .lg\:text-\[clamp\(11px\,1\.8vh\,16px\)\] {
       font-size: clamp(11px, 1.8vh, 16px);
