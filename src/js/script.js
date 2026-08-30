@@ -139,3 +139,14 @@ window.onscroll = function() {
   var progress = (window.scrollY / total_height) * 100;
   document.getElementById("scrollBar").style.width = progress + "%";
 };
+
+function toggleFaq(pergunta, marcador){
+        pergunta.classList.toggle("hidden")
+        pergunta.classList.toggle("block")
+
+        if (marcador.innerHTML == "+"){
+            marcador.innerHTML = '-'
+        } else {
+            marcador.innerHTML = '+'
+        }
+}
