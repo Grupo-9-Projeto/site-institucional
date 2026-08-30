@@ -486,9 +486,6 @@
     --tw-border-style: solid;
     border-style: solid;
   }
-  .border-neutral-950 {
-    border-color: var(--color-neutral-950);
-  }
   .border-white {
     border-color: var(--color-white);
   }
@@ -697,14 +694,6 @@
   .text-4xl {
     font-size: var(--text-4xl);
     line-height: var(--tw-leading, var(--text-4xl--line-height));
-  }
-  .text-5xl {
-    font-size: var(--text-5xl);
-    line-height: var(--tw-leading, var(--text-5xl--line-height));
-  }
-  .text-6xl {
-    font-size: var(--text-6xl);
-    line-height: var(--tw-leading, var(--text-6xl--line-height));
   }
   .text-base {
     font-size: var(--text-base);
