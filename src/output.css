@@ -942,6 +942,11 @@
     .hover\:text-white:hover {
       color: var(--color-white);
     }
+    .hover\:drop-shadow-\[0_0_15px_rgba\(0\,188\,235\,0\.5\)\]:hover {
+      --tw-drop-shadow-size: drop-shadow(0 0 15px var(--tw-drop-shadow-color, rgba(0,188,235,0.5)));
+      --tw-drop-shadow: var(--tw-drop-shadow-size);
+      filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+    }
   }
   @media (width >= 40rem) {
     .sm\:mt-0 {
