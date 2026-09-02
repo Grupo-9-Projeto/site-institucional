@@ -212,7 +212,7 @@
 
     <!-- Equipamentos -->
     <div class="p-6 md:p-0 my-10 md:m-35 max-w-full lg:max-w-308 justify-self-center sm:text-start text-center mt-30">
-        <div>
+        <div class="mb-24">
             <p class="font-space-grotesk text-2xl sm:text-3xl md:text-4xl w-full lg:w-280 mb-5">A Cisco é lider no
                 mercado de <span class="font-bold">equipamentos</span> e <span class="font-bold">infraestrutura</span>
                 de redes. Já são mais de <span class="font-bold">U$70 bilhões</span> faturados.</p>
@@ -222,44 +222,59 @@
                     class="font-bold">Manutenibilidade</span>. Tudo para garantir <span
                     class="font-bold">Confiança.</span></span>
         </div>
-        <div class="sm:flex mt-15">
-            <div class="sm:border-r-2 sm:border-b-0 sm:mr-5 border-b-2 border-white justify-items-center">
-                <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco Nexus 9500</p>
+
+        <div class="sm:flex mt-15 gap-12">
+            <div class="w-full sm:w-[33%] sm:mr-5 flex flex-col items-center">
+                <div class="flex items-center gap-4 w-full mb-15">
+                    <p class="font-jet-brains font-light text-sm text-[#00BCEB] whitespace-nowrap">Cisco Nexus 9500</p>
+                    <div class="h-[1px] bg-[#00BCEB] w-full"></div>
+                </div>
+
                 <div class="justify-center content-center h-50">
                     <img src="assets/Switch.png"
                         class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
                 </div>
-                <div class="h-1/3 mt-10 sm:mb-0 mb-5">
-                    <p class="font-space-grotesk font-bold text-2xl">Switches</p>
-                    <p class="font-poppins font-light sm:pr-5">Switches de grande porte, como o Nexus 9000 Series,
-                        precisam de um monitoramento de CPU, RAM, entrada e saída de rede em tempo real.</p>
+                
+                <div class="h-1/3 mt-10 sm:mb-0 mb-5 w-full">
+                    <p class="font-space-grotesk font-bold text-2xl mb-3">Switches</p>
+                    <p class="font-poppins font-light sm:pr-5 text-gray-300">Com arquitetura Cloud Scale para fluxos de até 400GbE, o Nexus 9000 exige telemetria precisa. Monitorar CPU, RAM e I/O em tempo real evita buffer bloat e mantém a latência mínima em workloads de IA e nuvem.</p>
                 </div>
             </div>
-            <div class="sm:border-r-2 sm:border-b-0 sm:mr-5 border-b-2 border-white justify-items-center md:mt-0 mt-5">
-                <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco Firepower 9300</p>
+                
+                <div class="hidden sm:block w-px bg-gray-800 mx-1"></div>
+                <div class="block sm:hidden h-px bg-gray-800 my-1 w-full"></div>
+
+            <div class="w-full sm:w-[33%] sm:mr-5 flex flex-col items-center">
+                <div class="flex items-center gap-4 w-full mb-15">
+                    <p class="font-jet-brains font-light text-sm text-[#00BCEB] whitespace-nowrap">Cisco Firepower 9300</p>
+                    <div class="h-[1px] bg-[#00BCEB] w-full"></div>
+                </div>
+                
                 <div class="justify-center content-center h-50">
                     <img src="assets/Firewall.png"
                         class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
                 </div>
                 <div class="h-1/3 mt-10 sm:mb-0 mb-5">
-                    <p class="font-space-grotesk font-bold text-2xl">Firewall</p>
-                    <p class="font-poppins font-light sm:pr-5">Criados para ambientes que necessitam de rendimentos
-                        excepcionais, como grandes data centers e centros de trading, firewalls como o Cisco Firepower®
-                        9300 necessitam de monitoramento de hardware em tempo real para impedir acidentes antes que eles
-                        aconteçam.</p>
+                    <p class="font-space-grotesk font-bold text-2xl mb-3">Firewall</p>
+                    <p class="font-poppins font-light sm:pr-5 text-gray-300">Suportando mais de 100 Gbps via security blades modulares, o Firepower 9300 atende trading e data centers. Acompanhar a saúde do hardware e da CPU previne gargalos no motor Snort 3 e impede quedas na segurança.</p>
                 </div>
             </div>
-            <div class="justify-items-center md:mt-0 mt-5">
-                <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco ASR-9006</p>
+
+                <div class="hidden sm:block w-px bg-gray-800 mx-1"></div>
+                <div class="block sm:hidden h-px bg-gray-800 my-1 w-full"></div>
+
+            <div class="w-full sm:w-[33%] sm:mr-5 flex flex-col items-center">
+                <div class="flex items-center gap-4 w-full mb-15">
+                    <p class="font-jet-brains font-light text-sm text-[#00BCEB] whitespace-nowrap">Cisco ASR-9006</p>
+                    <div class="h-[1px] bg-[#00BCEB] w-full"></div>
+                </div>
                 <div class="justify-center content-center h-50">
                     <img src="assets/Router.png"
                         class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
                 </div>
                 <div class="h-1/3 mt-10 sm:mb-0">
-                    <p class="font-space-grotesk font-bold text-2xl">Router</p>
-                    <p class="font-poppins font-light sm:pr-5">Para Routers de nível empresarial como a série ASR 9000,
-                        é indispensável um sistema de monitoramento em tempo real de entrada e saída de pacotes, assim
-                        como também de CPU e memória RAM.</p>
+                    <p class="font-space-grotesk font-bold text-2xl mb-3">Router</p>
+                    <p class="font-poppins font-light sm:pr-5 text-gray-300">Operando com IOS XR para agregação em escala de terabits, o ASR 9000 exige controle rígido. O monitoramento de PPS, CPU e memória da tabela FIB/RIB previne a saturação do roteador e a queda de sessões BGP/MPLS.</p>
                 </div>
             </div>
         </div>
