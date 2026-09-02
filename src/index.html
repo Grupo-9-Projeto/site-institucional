@@ -1,91 +1,105 @@
 <!DOCTYPE html>
-<html lang="en"  class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="./output.css">
 
     <title>Argos - Página Inicial</title>
 </head>
+
 <body class="bg-[#09121A] text-white overflow-x-hidden">
 
-<nav class="sticky top-0 z-50 w-full bg-[#0a0e1a]/80 backdrop-blur-md border-b border-white/10">
-<div class="max-w-7xl mx-auto px-6">
-    <div class="flex items-center justify-between h-20">
+    <nav class="sticky top-0 z-50 w-full bg-[#0a0e1a]/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
 
-      <a href="#" class="shrink-0 transition-transform duration-300 hover:scale-110">
-        <img src="./assets/logos/Argos-logo_branco.png" alt="Argos" class="h-9 w-auto">
-      </a>
+                <a href="#" class="shrink-0 transition-transform duration-300 hover:scale-110">
+                    <img src="./assets/logos/Argos-logo_branco.png" alt="Argos" class="h-9 w-auto">
+                </a>
 
-      <div class="hidden md:flex items-center gap-10">
-        <div class="flex items-center gap-8 text-sm text-slate-300">
-          <a href="#produto" class="hover:text-white transition-colors">Produto</a>
-          <a href="#clientes" class="hover:text-white transition-colors">Nossos Clientes</a>
-          <a href="#servico" class="hover:text-white transition-colors">Nosso Serviço</a>
-          <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+                <div class="hidden md:flex items-center gap-10">
+                    <div class="flex items-center gap-8 text-sm text-slate-300">
+                        <a href="#produto" class="hover:text-white transition-colors">Produto</a>
+                        <a href="#clientes" class="hover:text-white transition-colors">Nossos Clientes</a>
+                        <a href="#servico" class="hover:text-white transition-colors">Nosso Serviço</a>
+                        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+                    </div>
+
+                    <div class="h-6 w-px bg-white/15"></div>
+
+                    <div class="flex items-center gap-5">
+                        <a href="./html/login.html"
+                            class="text-sm text-slate-300 hover:text-white transition-colors">Log in</a>
+                        <a href="./html/cadastro.html"
+                            class="bg-slate-100 text-slate-900 text-sm font-medium rounded-full px-5 py-2 hover:bg-white transition-colors">Cadastre-se</a>
+                    </div>
+                </div>
+
+                <button id="threeStripes" onclick="toggleMenu()" class="md:hidden text-white">
+                    <svg id="iconOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                    <svg id="iconClose" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+            </div>
+
+            <div id="mobileMenu" class="hidden md:hidden pb-6">
+                <div class="flex flex-col gap-4 text-sm text-slate-300 pt-2">
+                    <a href="#produto" class="hover:text-white transition-colors">Produto</a>
+                    <a href="#clientes" class="hover:text-white transition-colors">Nossos Clientes</a>
+                    <a href="#servico" class="hover:text-white transition-colors">Nosso Serviço</a>
+                    <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+                </div>
+
+                <div class="h-px w-full bg-white/15 my-4"></div>
+
+                <div class="flex flex-col gap-3">
+                    <a href="./html/login.html" class="text-sm text-slate-300 hover:text-white transition-colors">Log
+                        in</a>
+                    <a href="./html/cadastro.html"
+                        class="bg-slate-100 text-slate-900 text-sm font-medium rounded-full px-5 py-2 text-center hover:bg-white transition-colors">Cadastre-se</a>
+                </div>
+            </div>
         </div>
-
-        <div class="h-6 w-px bg-white/15"></div>
-
-        <div class="flex items-center gap-5">
-          <a href="./html/login.html" class="text-sm text-slate-300 hover:text-white transition-colors">Log in</a>
-          <a href="./html/cadastro.html" class="bg-slate-100 text-slate-900 text-sm font-medium rounded-full px-5 py-2 hover:bg-white transition-colors">Cadastre-se</a>
+    </nav>
+    <!-- fim da nav bar-->
+    <div class="sticky top-20 z-40 w-full h-1.5 bg-white/5 overflow-hidden">
+        <div id="scrollBar" class="h-full"
+            style="width:0%; background-image:url('../src/assets/patterns/6d6a1423-6507-4b0b-b0a9-002e7f893b48.jfif'); background-size:100vw 100%; background-position:left center;">
         </div>
-      </div>
-
-      <button id="threeStripes" onclick="toggleMenu()" class="md:hidden text-white">
-        <svg id="iconOpen" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-        <svg id="iconClose" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-
     </div>
-
-    <div id="mobileMenu" class="hidden md:hidden pb-6">
-      <div class="flex flex-col gap-4 text-sm text-slate-300 pt-2">
-        <a href="#produto" class="hover:text-white transition-colors">Produto</a>
-        <a href="#clientes" class="hover:text-white transition-colors">Nossos Clientes</a>
-        <a href="#servico" class="hover:text-white transition-colors">Nosso Serviço</a>
-        <a href="#contato" class="hover:text-white transition-colors">Contato</a>
-      </div>
-
-      <div class="h-px w-full bg-white/15 my-4"></div>
-
-      <div class="flex flex-col gap-3">
-        <a href="./html/login.html" class="text-sm text-slate-300 hover:text-white transition-colors">Log in</a>
-        <a href="./html/cadastro.html" class="bg-slate-100 text-slate-900 text-sm font-medium rounded-full px-5 py-2 text-center hover:bg-white transition-colors">Cadastre-se</a>
-      </div>
-    </div>
-  </div>
-</nav>
-  <!-- fim da nav bar-->
-<div class="sticky top-20 z-40 w-full h-1.5 bg-white/5 overflow-hidden">
-  <div id="scrollBar" class="h-full" style="width:0%; background-image:url('../src/assets/patterns/6d6a1423-6507-4b0b-b0a9-002e7f893b48.jfif'); background-size:100vw 100%; background-position:left center;"></div>
-</div>
 
     <!-- Parte inicial -->
-<div class="bg-linear-to-b from-[#09121A] to-[#251F48] m-3 p-20 flex justify-center items-center rounded-lg pt-42">
-    <div class="size-fit">
-        <p class="font-space-grotesk font-semibold text-5xl w-220 mb-5">Tenha total controle. Monitore seus equipamentos Cisco com Argos.</p>
-        
-        <span class="font-poppins pb-10">Construído com um novo <span class="font-bold">propósito</span>. Desenhado para infraestrutura de <span class="font-bold">grandes corporações</span>.</span>
-        <img src="assets/images/Gemini_Generated_Image_h7cn3lh7cn3lh7cn.jpeg" class="rounded-2xl drop-shadow-2xl w-308 shadow-black shadow-2xl shadow-black/50 border border-gray-800 mt-10">
+    <div
+        class="bg-linear-to-b from-[#09121A] to-[#251F48] m-3 mb-12 p-20 flex justify-center items-center rounded-lg pt-42">
+        <div class="size-fit">
+            <p class="font-space-grotesk font-semibold text-5xl w-220 mb-5">Tenha total controle. Monitore seus
+                equipamentos Cisco com Argos.</p>
+
+            <span class="font-poppins pb-10">Construído com um novo <span class="font-bold">propósito</span>. Desenhado
+                para infraestrutura de <span class="font-bold">grandes corporações</span>.</span>
+            <img src="assets/images/Gemini_Generated_Image_h7cn3lh7cn3lh7cn.jpeg"
+                class="rounded-2xl drop-shadow-2xl w-308 shadow-black shadow-2xl shadow-black/50 border border-gray-800 mt-10">
+        </div>
     </div>
-</div>   
     <!-- Grade com degradê -->
     <!-- <div id="clientes" class="w-full bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_2rem] h-190"> -->
-    <div class="w-full h-full bg-radial from-transparent to-[#09121b] to-80% flex justify-center align-center p-6 md:p-30">
-     <div class="marquee-mask marquee-track overflow-hidden w-full py-8">
-         <div class="flex w-max animate-scroll gap-16">
-             <div class="flex w-max animate-scroll gap-16">
-                <img  src="../src/assets/logos/brands_logos/Protótipo Figma/image 10.png" class="max-w-none" alt="">
+    <div
+        class="w-full h-full bg-radial from-transparent to-[#09121b] to-80% flex justify-center align-center p-2 md:p-16">
+        <div class="marquee-mask marquee-track overflow-hidden w-full py-2">
+            <div class="flex w-max animate-scroll gap-16">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 10.png" class="max-w-none" alt="">
                 <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 11.png" class="max-w-none" alt="">
                 <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 12.png" class="max-w-none" alt="">
                 <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 13.png" class="max-w-none" alt="">
@@ -96,237 +110,306 @@
                 <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 6.png" class="max-w-none" alt="">
                 <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 7.png" class="max-w-none" alt="">
                 <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 8.png" class="max-w-none" alt="">
-             </div>
-             <div class="flex w-max animate-scroll gap-16 aria-hidden="true">
-                <img  src="../src/assets/logos/brands_logos/Protótipo Figma/image 10.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 11.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 12.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 13.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 14.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 15.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 16.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 5.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 6.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 7.png" class="max-w-none" alt="">
-                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 8.png" class="max-w-none" alt="">
-             </div>
-         </div>
-     </div>
 
-    </div>
-    <div class="w-full bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_2rem] h-190">
-        <div class="w-full h-full bg-radial from-transparent to-[#09121b] to-80% flex justify-center align-center p-30">
-            <div class="flex-col content-center">
-                <img src="assets/logos/Cisco-logo.png" class="justify-self-center mb-5 h-30">
-                <p class="p-5 bg-linear-to-b from-[#049FD9] via-[#083044] to-[#09121B] font-space-grotesk font-bold text-4xl text-center rounded-2xl mb-5 mr-5 ml-5">Clientes Cisco utilizam Argos.</p>
-                <p class="font-poppins font-medium justify-self-center text-center">Ainda não monitora seus Switches, Firewalls e Routers? <span class="font-bold italic">Cadastre sua empresa já!</span></p>
-                <button onclick="" class="justify-self-center w-fit p-2.5 rounded-[12px] text-(--main-blue) font-bold bg-white font-space-grotesk size-fit flex m-10 duration-100 ease-in hover:bg-[#09121B] hover:text-white hover:cursor-pointer border-solid border-4 border-white">Cadastrar empresa</button>
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 10.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 11.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 12.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 13.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 14.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 15.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 16.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 5.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 6.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 7.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 8.png" class="max-w-none" alt="">
             </div>
         </div>
     </div>
 
-    <div class="flex w-max animate-scroll gap-16 my-12">
-        <div class="flex w-max animate-scroll gap-16">
-        <img  src="../src/assets/logos/brands_logos/Protótipo Figma/image 10.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 11.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 12.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 13.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 14.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 15.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 16.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 5.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 6.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 7.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 8.png" class="max-w-none" alt="">
-        </div>
-        <div class="flex w-max animate-scroll gap-16 aria-hidden="true">
-        <img  src="../src/assets/logos/brands_logos/Protótipo Figma/image 10.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 11.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 12.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 13.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 14.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 15.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 16.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 5.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 6.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 7.png" class="max-w-none" alt="">
-        <img src="../src/assets/logos/brands_logos/Protótipo Figma/image 8.png" class="max-w-none" alt="">
+    <div
+        class="w-full bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[4rem_2rem] h-190">
+        <div class="w-full h-full bg-radial from-transparent to-[#09121b] to-80% flex justify-center align-center p-30">
+            <div class="flex-col content-center">
+                <img src="assets/logos/Cisco-logo.png" class="justify-self-center mb-5 h-30">
+                <p
+                    class="p-5 bg-linear-to-b from-[#049FD9] via-[#083044] to-[#09121B] font-space-grotesk font-bold text-4xl text-center rounded-2xl mb-5 mr-5 ml-5">
+                    Clientes Cisco utilizam Argos.</p>
+                <p class="font-poppins font-medium justify-self-center text-center">Ainda não monitora seus Switches,
+                    Firewalls e Routers? <span class="font-bold italic">Cadastre sua empresa já!</span></p>
+                <button onclick=""
+                    class="justify-self-center w-fit p-2.5 rounded-[12px] text-(--main-blue) font-bold bg-white font-space-grotesk size-fit flex m-10 duration-100 ease-in hover:bg-[#09121B] hover:text-white hover:cursor-pointer border-solid border-4 border-white">Cadastrar
+                    empresa</button>
+            </div>
         </div>
     </div>
 
+    <div
+        class="w-full h-full bg-radial from-transparent to-[#09121b] to-80% flex justify-center align-center p-2 md:p-16">
+        <div class="marquee-mask marquee-track overflow-hidden w-full py-2">
+            <div class="flex w-max animate-scroll gap-16 items-center">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 25.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 26.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 27.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 28.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 29.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 30.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 31.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 32.png" class="max-w-none" alt="">
+                <!-- <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 34.png" class="max-w-none" alt=""> -->
+
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 25.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 26.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 27.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 28.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 29.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 30.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 31.png" class="max-w-none" alt="">
+                <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 32.png" class="max-w-none" alt="">
+
+                <!-- <img src="../src/assets/logos/brands_logos/Protótipo Figma (2)/image 34.png" class="max-w-none" alt=""> -->
+            </div>
+        </div>
+    </div>
     <!-- Parte do Fio -->
     <section id="servico" class="max-w-308 mx-auto px-6 md:mt-30 mt-10 mb-10">
-      <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-4 gap-8 md:gap-x-16 md:gap-y-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-4 gap-8 md:gap-x-16 md:gap-y-10">
 
-        <div class="md:col-start-2 md:row-start-1 md:self-center">
-          <p class="font-space-grotesk font-medium text-4xl md:text-5xl md:text-right leading-tight">Entenda como o <span class="font-bold">Argos</span> funciona.</p>
+            <div class="md:col-start-2 md:row-start-1 md:self-center">
+                <p class="font-space-grotesk font-medium text-4xl md:text-5xl md:text-right leading-tight">Entenda como
+                    o <span class="font-bold">Argos</span> funciona.</p>
+            </div>
+
+            <div class="md:col-start-1 md:row-start-1 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">1.</span>O sistema
+                    Argos coleta periodicamente informações dos equipamentos monitorados, como utilização de CPU,
+                    memória RAM, armazenamento e recursos de rede. A coleta é realizada por um script de monitoramento,
+                    utilizando Python no processo de obtenção e tratamento das métricas.</p>
+            </div>
+
+            <div class="md:col-start-2 md:row-start-2 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">2.</span>Após a
+                    coleta, as métricas são armazenadas em um servidor da AWS, mantendo um histórico das informações.
+                    Isso permite consultar os dados posteriormente e analisar o comportamento dos equipamentos ao longo
+                    do tempo.</p>
+            </div>
+
+            <div class="md:col-start-1 md:row-start-3 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">3.</span>Os dados
+                    coletados são apresentados na dashboard por meio de gráficos, indicadores e KPIs. Assim, os
+                    profissionais responsáveis conseguem acompanhar individualmente os equipamentos e ter uma visão
+                    geral da infraestrutura monitorada.</p>
+            </div>
+
+            <div class="md:col-start-2 md:row-start-4 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">4.</span>O sistema
+                    compara as métricas com limiares previamente definidos. Quando uma condição de alerta é
+                    identificada, o evento é registrado, exibido na dashboard, e uma notificação é enviada para o
+                    responsável utilizando Slack para que uma ação possa ser tomada antes que um acidente aconteça.</p>
+            </div>
+
         </div>
-
-        <div class="md:col-start-1 md:row-start-1 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-          <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">1.</span>O sistema Argos coleta periodicamente informações dos equipamentos monitorados, como utilização de CPU, memória RAM, armazenamento e recursos de rede. A coleta é realizada por um script de monitoramento, utilizando Python no processo de obtenção e tratamento das métricas.</p>
-        </div>
-
-        <div class="md:col-start-2 md:row-start-2 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-          <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">2.</span>Após a coleta, as métricas são armazenadas em um servidor da AWS, mantendo um histórico das informações. Isso permite consultar os dados posteriormente e analisar o comportamento dos equipamentos ao longo do tempo.</p>
-        </div>
-
-        <div class="md:col-start-1 md:row-start-3 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-          <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">3.</span>Os dados coletados são apresentados na dashboard por meio de gráficos, indicadores e KPIs. Assim, os profissionais responsáveis conseguem acompanhar individualmente os equipamentos e ter uma visão geral da infraestrutura monitorada.</p>
-        </div>
-
-        <div class="md:col-start-2 md:row-start-4 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-          <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">4.</span>O sistema compara as métricas com limiares previamente definidos. Quando uma condição de alerta é identificada, o evento é registrado, exibido na dashboard, e uma notificação é enviada para o responsável utilizando Slack para que uma ação possa ser tomada antes que um acidente aconteça.</p>
-        </div>
-
-      </div>
     </section>
 
     <!-- Equipamentos -->
-     <div class="p-6 md:p-0 my-10 md:m-35 max-w-full lg:max-w-308 justify-self-center sm:text-start text-center mt-30">
+    <div class="p-6 md:p-0 my-10 md:m-35 max-w-full lg:max-w-308 justify-self-center sm:text-start text-center mt-30">
         <div>
-            <p class="font-space-grotesk text-2xl sm:text-3xl md:text-4xl w-full lg:w-280 mb-5">A Cisco é lider no mercado de <span class="font-bold">equipamentos</span> e <span class="font-bold">infraestrutura</span> de redes. Já são mais de <span class="font-bold">U$70 bilhões</span> faturados.</p>
-            <span class="font-poppins sm:text-base  pb-10">E o que o software Argos faz é monitorar CPU, RAM, Disco, entrada e saída de pacotes dos seus equipamentos. Tudo para garantir <span class="font-bold">Observabilidade.</span> Tudo para garantir <span class="font-bold">Manutenibilidade</span>. Tudo para garantir <span class="font-bold">Confiança.</span></span>
+            <p class="font-space-grotesk text-2xl sm:text-3xl md:text-4xl w-full lg:w-280 mb-5">A Cisco é lider no
+                mercado de <span class="font-bold">equipamentos</span> e <span class="font-bold">infraestrutura</span>
+                de redes. Já são mais de <span class="font-bold">U$70 bilhões</span> faturados.</p>
+            <span class="font-poppins sm:text-base  pb-10">E o que o software Argos faz é monitorar CPU, RAM, Disco,
+                entrada e saída de pacotes dos seus equipamentos. Tudo para garantir <span
+                    class="font-bold">Observabilidade.</span> Tudo para garantir <span
+                    class="font-bold">Manutenibilidade</span>. Tudo para garantir <span
+                    class="font-bold">Confiança.</span></span>
         </div>
         <div class="sm:flex mt-15">
             <div class="sm:border-r-2 sm:border-b-0 sm:mr-5 border-b-2 border-white justify-items-center">
                 <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco Nexus 9500</p>
                 <div class="justify-center content-center h-50">
-                    <img src="assets/Switch.png" class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
+                    <img src="assets/Switch.png"
+                        class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
                 </div>
                 <div class="h-1/3 mt-10 sm:mb-0 mb-5">
                     <p class="font-space-grotesk font-bold text-2xl">Switches</p>
-                    <p class="font-poppins font-light sm:pr-5">Switches de grande porte, como o Nexus 9000 Series, precisam de um monitoramento de CPU, RAM, entrada e saída de rede em tempo real.</p>
+                    <p class="font-poppins font-light sm:pr-5">Switches de grande porte, como o Nexus 9000 Series,
+                        precisam de um monitoramento de CPU, RAM, entrada e saída de rede em tempo real.</p>
                 </div>
             </div>
             <div class="sm:border-r-2 sm:border-b-0 sm:mr-5 border-b-2 border-white justify-items-center md:mt-0 mt-5">
                 <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco Firepower 9300</p>
                 <div class="justify-center content-center h-50">
-                    <img src="assets/Firewall.png" class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
+                    <img src="assets/Firewall.png"
+                        class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
                 </div>
                 <div class="h-1/3 mt-10 sm:mb-0 mb-5">
                     <p class="font-space-grotesk font-bold text-2xl">Firewall</p>
-                    <p class="font-poppins font-light sm:pr-5">Criados para ambientes que necessitam de rendimentos excepcionais, como grandes data centers e centros de trading, firewalls como o Cisco Firepower® 9300 necessitam de monitoramento de hardware em tempo real para impedir acidentes antes que eles aconteçam.</p>
+                    <p class="font-poppins font-light sm:pr-5">Criados para ambientes que necessitam de rendimentos
+                        excepcionais, como grandes data centers e centros de trading, firewalls como o Cisco Firepower®
+                        9300 necessitam de monitoramento de hardware em tempo real para impedir acidentes antes que eles
+                        aconteçam.</p>
                 </div>
             </div>
             <div class="justify-items-center md:mt-0 mt-5">
                 <p class="justify-self-start font-jetbrains font-light text-[#00BCEB] mb-15">Cisco ASR-9006</p>
                 <div class="justify-center content-center h-50">
-                    <img src="assets/Router.png" class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
+                    <img src="assets/Router.png"
+                        class="transition-transform duration-300 hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(0,188,235,0.5)]">
                 </div>
                 <div class="h-1/3 mt-10 sm:mb-0">
                     <p class="font-space-grotesk font-bold text-2xl">Router</p>
-                    <p class="font-poppins font-light sm:pr-5">Para Routers de nível empresarial como a série ASR 9000, é indispensável um sistema de monitoramento em tempo real de entrada e saída de pacotes, assim como também de CPU e memória RAM.</p>
-                </div>
-            </div>
-        </div>
-     </div>
-<!-- Contato -->
-<div id="contato" class="mx-4 my-10 md:m-30 mt-30 max-w-full lg:max-w-308 justify-self-center md:p-0">
-    <div>
-        <div class="w-full sm:w-1/2 mb-10">
-            <p class="font-space-grotesk font-bold text-2xl sm:text-3xl md:text-4xl">Pensa em implementar o software Argos?</p>
-            <span class="font-jetbrains font-medium text-sm sm:text-base">Entre em contato conosco!</span>
-        </div>
-    </div>
-    <div class="flex flex-col sm:flex-row sm:items-start">
-        <div class="w-full sm:w-1/2 sm:mr-5 bg-linear-to-b from-[#09121A] to-[#251F48] border border-white rounded-2xl p-5 flex-col content-evenly">
-            <div>
-                <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Nome</p>
-                <input type="text" id="ipt_nome" placeholder="Maria José da Silva..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
-            </div>
-            <div>
-                <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Email</p>
-                <input type="text" id="ipt_email" placeholder="maria@assai.com..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
-            </div>
-            <div>
-                <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Empresa</p>
-                <input type="text" id="ipt_empresa" placeholder="Assaí Atacadista..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
-            </div>
-            <div>
-                <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Cargo / Função</p>
-                <input type="text" id="ipt_cargo" placeholder="Diretora de NOC..." class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
-            </div>
-            <div>
-                <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Como o sistema Argos pode ajudar?</p>
-                <textarea id="ipt_motivo" class="mb-7 bg-[#15293D] border border-white rounded-lg w-full p-2 font-poppins font-medium" placeholder="Monitorar meus Core Switches para..." rows="5"></textarea>
-            </div>
-            <button class="w-full p-2 sm:p-2.5 rounded-[12px] font-bold text-lg sm:text-xl md:text-3xl bg-white text-[#09121B] font-space-grotesk size-fit flex duration-100 ease-in hover:bg-[#09121B] hover:text-white hover:cursor-pointer border-solid border-4 border-white">Enviar mensagem</button>
-        </div>
-        <div class="w-full sm:w-1/2 lg:h-180 mt-5 sm:mt-0 sm:ml-5">
-            <div class="p-px bg-linear-to-b from-[#03C8FF] to-gray-400 rounded-2xl min-h-fit h-auto lg:h-2/3 mb-5 lg:mb-10">
-                <div class="bg-[#0D1924] p-5 rounded-2xl max-h-fit min-h-full">
-                    <p class="font-space-grotesk text-2xl font-bold mb-5">Duvidas Frequentes</p>
-                    <div class="font-poppins">
-                        <div class="flex justify-between border-white border-b border-t p-2.5">
-                            <p onclick="toggleFaq(pergunta1, marcador1)">Quais informações o Argos monitora?</p><span id="marcador1" class="flex-col self-center">+</span>
-                        </div>
-                        <p id="pergunta1" class="hidden bg-white text-[#15293D] font-bold p-2.5">O sistema monitora métricas relacionadas a CPU, memória RAM, armazenamento e recursos de rede de equipamentos Cisco.</p>
-                    </div>
-                    <div class="font-poppins">
-                        <div class="flex justify-between border-white border-b p-2.5">
-                            <p onclick="toggleFaq(pergunta2, marcador2)">Há algum dado sensível e/ou sigiloso que é coletado dos equipamentos?</p><span id="marcador2" class="flex-col self-center">+</span>
-                        </div>
-                        <p id="pergunta2" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não! Os dados coletados pelo sistema Argos são puramente relacionados ao Hardware dos equipamentos e usados somente para compor a dashboard e enviar avisos em casos críticos. Nenhum dado sigiloso é coletado ou armazenado pelo sistema.</p>
-                    </div>
-                    <div class="font-poppins">
-                        <div class="flex justify-between border-white border-b p-2.5">
-                            <p onclick="toggleFaq(pergunta3, marcador3)">Posso consultar dados antigos dos equipamentos?</p><span id="marcador3" class="flex-col self-center">+</span>
-                        </div>
-                        <p id="pergunta3" class="hidden bg-white text-[#15293D] font-bold p-2.5">Sim! As métricas são armazenadas para formar um histórico, permitindo comparar diferentes períodos, identificar tendências e analisar alterações no comportamento dos equipamentos.</p>
-                    </div>
-                    <div class="font-poppins">
-                        <div class="flex justify-between border-white border-b p-2.5">
-                            <p onclick="toggleFaq(pergunta4, marcador4)">O sistema Argos corrige problemas automaticamente?</p><span id="marcador4" class="flex-col self-center">+</span>
-                        </div>
-                        <p id="pergunta4" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não. O sistema é voltado apenas ao monitoramento e identificação de condições que necessitam de atenção. Toda e qualquer a ação ou decisão tomada com base nos dados coletados é responsabilidade do administrador do sistema.</p>
-                    </div>
-                    <div class="font-poppins">
-                        <div class="flex justify-between border-white border-b p-2.5">
-                            <p onclick="toggleFaq(pergunta5, marcador5)">Um alerta significa que o equipamento está com defeito?</p><span id="marcador5" class="flex-col self-center">+</span>
-                        </div>
-                        <p id="pergunta5" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não necessariamente. Fatores como picos de energia podem fazer com que os equipamentos alcancem momentaneamente o nível nescessário para disparar um alertae voltem ao normal depois. A condição deve ser analisada por um profissional especializado, considerando o contexto e o histórico do equipamento.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-px bg-linear-to-tl from-[#03C8FF] to-white rounded-2xl h-auto lg:h-1/3">
-                <div class="bg-[#0D1924] p-5 rounded-2xl h-full">
-                    <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span class="font-bold">+ de 8.000</span> grandes corporações utilizam Cisco.</p>
-                    <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span class="font-bold">+ 6.000 grandes</span> corporações monitoram suas infraestruturas com Argos.</p>
-                    <p class="font-poppins font-light text-xs sm:text-sm md:text-base">Ainda não faz parte dessas empresas e quer entrar em contato? Entre em contato com nosso email: <span class="font-extrabold">contato@argos.com</span></p>
+                    <p class="font-poppins font-light sm:pr-5">Para Routers de nível empresarial como a série ASR 9000,
+                        é indispensável um sistema de monitoramento em tempo real de entrada e saída de pacotes, assim
+                        como também de CPU e memória RAM.</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <!-- Contato -->
+    <div id="contato" class="mx-4 my-10 md:m-30 mt-30 max-w-full lg:max-w-308 justify-self-center md:p-0">
+        <div>
+            <div class="w-full sm:w-1/2 mb-10">
+                <p class="font-space-grotesk font-bold text-2xl sm:text-3xl md:text-4xl">Pensa em implementar o software
+                    Argos?</p>
+                <span class="font-jetbrains font-medium text-sm sm:text-base">Entre em contato conosco!</span>
+            </div>
+        </div>
+        <div class="flex flex-col sm:flex-row sm:items-start">
+            <div
+                class="w-full sm:w-1/2 sm:mr-5 bg-linear-to-b from-[#09121A] to-[#251F48] border border-white rounded-2xl p-5 flex-col content-evenly">
+                <div>
+                    <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Nome</p>
+                    <input type="text" id="ipt_nome" placeholder="Maria José da Silva..."
+                        class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                </div>
+                <div>
+                    <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Email</p>
+                    <input type="text" id="ipt_email" placeholder="maria@assai.com..."
+                        class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                </div>
+                <div>
+                    <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Empresa</p>
+                    <input type="text" id="ipt_empresa" placeholder="Assaí Atacadista..."
+                        class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                </div>
+                <div>
+                    <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Cargo / Função</p>
+                    <input type="text" id="ipt_cargo" placeholder="Diretora de NOC..."
+                        class="mb-5 bg-[#15293D] border border-white rounded-lg h-10 w-full p-2 font-poppins font-medium">
+                </div>
+                <div>
+                    <p class="font-jetbrains font-light text-sm sm:text-base md:text-lg">Como o sistema Argos pode
+                        ajudar?</p>
+                    <textarea id="ipt_motivo"
+                        class="mb-7 bg-[#15293D] border border-white rounded-lg w-full p-2 font-poppins font-medium"
+                        placeholder="Monitorar meus Core Switches para..." rows="5"></textarea>
+                </div>
+                <button
+                    class="w-full p-2 sm:p-2.5 rounded-[12px] font-bold text-lg sm:text-xl md:text-3xl bg-white text-[#09121B] font-space-grotesk size-fit flex duration-100 ease-in hover:bg-[#09121B] hover:text-white hover:cursor-pointer border-solid border-4 border-white">Enviar
+                    mensagem</button>
+            </div>
+            <div class="w-full sm:w-1/2 lg:h-180 mt-5 sm:mt-0 sm:ml-5">
+                <div
+                    class="p-px bg-linear-to-b from-[#03C8FF] to-gray-400 rounded-2xl min-h-fit h-auto lg:h-2/3 mb-5 lg:mb-10">
+                    <div class="bg-[#0D1924] p-5 rounded-2xl max-h-fit min-h-full">
+                        <p class="font-space-grotesk text-2xl font-bold mb-5">Duvidas Frequentes</p>
+                        <div class="font-poppins">
+                            <div class="flex justify-between border-white border-b border-t p-2.5">
+                                <p onclick="toggleFaq(pergunta1, marcador1)">Quais informações o Argos monitora?</p>
+                                <span id="marcador1" class="flex-col self-center">+</span>
+                            </div>
+                            <p id="pergunta1" class="hidden bg-white text-[#15293D] font-bold p-2.5">O sistema monitora
+                                métricas relacionadas a CPU, memória RAM, armazenamento e recursos de rede de
+                                equipamentos Cisco.</p>
+                        </div>
+                        <div class="font-poppins">
+                            <div class="flex justify-between border-white border-b p-2.5">
+                                <p onclick="toggleFaq(pergunta2, marcador2)">Há algum dado sensível e/ou sigiloso que é
+                                    coletado dos equipamentos?</p><span id="marcador2"
+                                    class="flex-col self-center">+</span>
+                            </div>
+                            <p id="pergunta2" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não! Os dados
+                                coletados pelo sistema Argos são puramente relacionados ao Hardware dos equipamentos e
+                                usados somente para compor a dashboard e enviar avisos em casos críticos. Nenhum dado
+                                sigiloso é coletado ou armazenado pelo sistema.</p>
+                        </div>
+                        <div class="font-poppins">
+                            <div class="flex justify-between border-white border-b p-2.5">
+                                <p onclick="toggleFaq(pergunta3, marcador3)">Posso consultar dados antigos dos
+                                    equipamentos?</p><span id="marcador3" class="flex-col self-center">+</span>
+                            </div>
+                            <p id="pergunta3" class="hidden bg-white text-[#15293D] font-bold p-2.5">Sim! As métricas
+                                são armazenadas para formar um histórico, permitindo comparar diferentes períodos,
+                                identificar tendências e analisar alterações no comportamento dos equipamentos.</p>
+                        </div>
+                        <div class="font-poppins">
+                            <div class="flex justify-between border-white border-b p-2.5">
+                                <p onclick="toggleFaq(pergunta4, marcador4)">O sistema Argos corrige problemas
+                                    automaticamente?</p><span id="marcador4" class="flex-col self-center">+</span>
+                            </div>
+                            <p id="pergunta4" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não. O sistema é
+                                voltado apenas ao monitoramento e identificação de condições que necessitam de atenção.
+                                Toda e qualquer a ação ou decisão tomada com base nos dados coletados é responsabilidade
+                                do administrador do sistema.</p>
+                        </div>
+                        <div class="font-poppins">
+                            <div class="flex justify-between border-white border-b p-2.5">
+                                <p onclick="toggleFaq(pergunta5, marcador5)">Um alerta significa que o equipamento está
+                                    com defeito?</p><span id="marcador5" class="flex-col self-center">+</span>
+                            </div>
+                            <p id="pergunta5" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não
+                                necessariamente. Fatores como picos de energia podem fazer com que os equipamentos
+                                alcancem momentaneamente o nível nescessário para disparar um alertae voltem ao normal
+                                depois. A condição deve ser analisada por um profissional especializado, considerando o
+                                contexto e o histórico do equipamento.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-px bg-linear-to-tl from-[#03C8FF] to-white rounded-2xl h-auto lg:h-1/3">
+                    <div class="bg-[#0D1924] p-5 rounded-2xl h-full">
+                        <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span
+                                class="font-bold">+ de 8.000</span> grandes corporações utilizam Cisco.</p>
+                        <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span
+                                class="font-bold">+ 6.000 grandes</span> corporações monitoram suas infraestruturas com
+                            Argos.</p>
+                        <p class="font-poppins font-light text-xs sm:text-sm md:text-base">Ainda não faz parte dessas
+                            empresas e quer entrar em contato? Entre em contato com nosso email: <span
+                                class="font-extrabold">contato@argos.com</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Footer -->
-         <footer class="bg-[#0a0e1a] border-t border-white/10">
-      <div class="max-w-7xl mx-auto px-6 py-10">
-        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
- 
-          <a href="#" class="flex items-center gap-4">
-            <img src="./assets/logos/Argos-logo_branco.png" alt="Argos" class="h-16 w-auto">
-            <span class="font-space-grotesk font-medium text-3xl">Tenha total controle.</span>
-          </a>
+    <footer class="bg-[#0a0e1a] border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-10">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
 
-          <div class="flex flex-col items-end gap-1 font-jetbrains text-sm text-slate-300">
-            <a href="#" class="hover:text-white transition-colors">Home</a>
-            <a href="#" class="hover:text-white transition-colors">Nossos Clientes</a>
-            <a href="#" class="hover:text-white transition-colors">Nosso Serviço</a>
-            <a href="#" class="hover:text-white transition-colors">Contato</a>
-            <a href="#" class="hover:text-white transition-colors">Cadastro</a>
-            <a href="#" class="hover:text-white transition-colors">Log in</a>
- 
-            <div class="w-full border-t border-white/10 mt-2 pt-2 text-right text-xs">
-              <a href="#" class="hover:text-white transition-colors">Termos de Privacidade</a>
-              <span class="mx-1">·</span>
-              <a href="#" class="hover:text-white transition-colors">Políticas</a>
+                <a href="#" class="flex items-center gap-4">
+                    <img src="./assets/logos/Argos-logo_branco.png" alt="Argos" class="h-16 w-auto">
+                    <span class="font-space-grotesk font-medium text-3xl">Tenha total controle.</span>
+                </a>
+
+                <div class="flex flex-col items-end gap-1 font-jetbrains text-sm text-slate-300">
+                    <a href="#" class="hover:text-white transition-colors">Home</a>
+                    <a href="#" class="hover:text-white transition-colors">Nossos Clientes</a>
+                    <a href="#" class="hover:text-white transition-colors">Nosso Serviço</a>
+                    <a href="#" class="hover:text-white transition-colors">Contato</a>
+                    <a href="#" class="hover:text-white transition-colors">Cadastro</a>
+                    <a href="#" class="hover:text-white transition-colors">Log in</a>
+
+                    <div class="w-full border-t border-white/10 mt-2 pt-2 text-right text-xs">
+                        <a href="#" class="hover:text-white transition-colors">Termos de Privacidade</a>
+                        <span class="mx-1">·</span>
+                        <a href="#" class="hover:text-white transition-colors">Políticas</a>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <p class="font-jetbrains text-xs text-slate-400 text-center mt-6 md:-mt-6">Todos os direitos reservados à
+                Argos™</p>
         </div>
- 
-        <p class="font-jetbrains text-xs text-slate-400 text-center mt-6 md:-mt-6">Todos os direitos reservados à Argos™</p>
-      </div>
     </footer>
 </body>
+
 </html>
 <script src="../src/js/script.js"></script>

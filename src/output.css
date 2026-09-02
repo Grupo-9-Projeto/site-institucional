@@ -249,18 +249,6 @@
   .my-10 {
     margin-block: calc(var(--spacing) * 10);
   }
-  .my-12 {
-    margin-block: calc(var(--spacing) * 12);
-  }
-  .my-24 {
-    margin-block: calc(var(--spacing) * 24);
-  }
-  .my-32 {
-    margin-block: calc(var(--spacing) * 32);
-  }
-  .my-64 {
-    margin-block: calc(var(--spacing) * 64);
-  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -296,6 +284,9 @@
   }
   .mb-10 {
     margin-bottom: calc(var(--spacing) * 10);
+  }
+  .mb-12 {
+    margin-bottom: calc(var(--spacing) * 12);
   }
   .mb-15 {
     margin-bottom: calc(var(--spacing) * 15);
@@ -453,6 +444,9 @@
   }
   .items-end {
     align-items: flex-end;
+  }
+  .items-stretch {
+    align-items: stretch;
   }
   .justify-between {
     justify-content: space-between;
@@ -740,9 +734,6 @@
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
-  }
-  .py-8 {
-    padding-block: calc(var(--spacing) * 8);
   }
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
@@ -1138,8 +1129,8 @@
     .md\:p-8 {
       padding: calc(var(--spacing) * 8);
     }
-    .md\:p-30 {
-      padding: calc(var(--spacing) * 30);
+    .md\:p-16 {
+      padding: calc(var(--spacing) * 16);
     }
     .md\:text-right {
       text-align: right;
@@ -1340,10 +1331,10 @@
   }
 }
 @keyframes scroll {
-  0% {
+  from {
     transform: translateX(0);
   }
-  100% {
+  to {
     transform: translateX(-50%);
   }
 }
