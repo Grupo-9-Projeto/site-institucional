@@ -221,6 +221,15 @@
   .top-0 {
     top: 0px;
   }
+  .top-5 {
+    top: calc(var(--spacing) * 5);
+  }
+  .top-12 {
+    top: calc(var(--spacing) * 12);
+  }
+  .top-14 {
+    top: calc(var(--spacing) * 14);
+  }
   .top-20 {
     top: calc(var(--spacing) * 20);
   }
