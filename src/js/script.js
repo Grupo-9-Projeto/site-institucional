@@ -21,7 +21,7 @@ function registerUser() {
         return;
     }
 
-    fetch("/usuarios/cadastrar", {
+    fetch("http://localhost:8080/usuarios/cadastrar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -61,7 +61,7 @@ function authUser() {
         return false;
     }
 
-    fetch("/usuarios/autenticar", {
+    fetch("http://localhost:8080/usuarios/autenticar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -79,7 +79,7 @@ function authUser() {
                 sessionStorage.CARGO = json.cargo;
 
                 setTimeout(() => {
-                    window.location = "./"
+                    window.location = "../html/monitor.html"
                 })
             })
         } else {
