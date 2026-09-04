@@ -80,6 +80,7 @@ function authUser() {
                 sessionStorage.ID = json.id;
                 sessionStorage.CARGO = json.cargo;
                 sessionStorage.EMPRESA_ID = json.empresa_id;
+                sessionStorage.GESTOR_ID = json.gestor_id;
 
                 setTimeout(() => {
                     window.location = "../html/monitor.html"
@@ -155,12 +156,14 @@ function toggleFaq(pergunta, marcador){
 }
 
 function criarUsuario() {
-    let empresaId = document.getElementById("input_empresa_id").value;
+    
     let email = document.getElementById("input_email").value;
     let name = document.getElementById("input_name").value;
-    let token = document.getElementById("input_token").value;
+    let cargo = document.getElementById("input_cargo").value;
+    let gestorId = sessionStorage.getItem("GESTOR_ID");
+    // let token = document.getElementById("input_token").value;
 
-    const verifyFieldParam = { name, email, empresaId, token };
+    const verifyFieldParam = { name, email, empresaId };
 
     try {
         verifyFields(verifyFieldParam)    
@@ -179,16 +182,15 @@ function criarUsuario() {
             nameServer: name,
             emailServer: email,
             empresaIdServer: empresaId,
-            tokenServer: token
+            cargoServer: cargo,
+            gestorIdServer: gestorId
         })
     }).then(response => {
         if (response.ok) {
-            alert("Cadastro realizado com sucesso! Você já pode fazer o login.");
-            setTimeout(() => {
-                window.location = "login.html";
-            }, 2000);
+            alert("Criação de usuário realizado com sucesso! Um email já foi enviado com o token de acesso.");
+
         } else {
-            alert("Houve um erro ao tentar realizar o cadastro. Verifique se o token é válido.");
+            alert("Houve um erro ao tentar realizar a criação de usuário. Verifique se o token é válido.");
         }
     }).catch(error => {
         console.error("Erro na requisição: ", error);
