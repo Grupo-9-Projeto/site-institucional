@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="./output.css">
 
+    <link rel="shortcut icon" href="assets/logos/Argos-logo_fundo_branco.png" type="png">
     <title>Argos - Página Inicial</title>
 </head>
 
@@ -177,33 +178,57 @@
                 <p class="font-space-grotesk font-medium text-4xl md:text-5xl md:text-right leading-tight">Entenda como
                     o <span class="font-bold">Argos</span> funciona.</p>
             </div>
-
-            <div class="md:col-start-1 md:row-start-1 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">1.</span>O sistema
-                    Argos coleta periodicamente informações dos equipamentos monitorados, como utilização de CPU,
-                    memória RAM, armazenamento e recursos de rede. A coleta é realizada por um script de monitoramento,
-                    utilizando Python no processo de obtenção e tratamento das métricas.</p>
+            <div class="relative md:col-start-1 md:row-start-1">
+                <div class="absolute -inset-1 rounded-2xl bg-linear-to-tl from-[#049FD9] via-[#251F48] to-[#251F48] opacity-75 blur-sm">
+                </div>
+                <!-- <div class="absolute -inset-1 rounded-2xl bg-linear-to-br from-transparent via-transparent to-[#251F48] opacity-75 blur-sm">
+                </div> -->
+                <div class="relative bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                    <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">1.</span>O sistema
+                        Argos coleta periodicamente informações dos equipamentos monitorados, como utilização de CPU,
+                        memória RAM, armazenamento e recursos de rede. A coleta é realizada por um script de monitoramento,
+                        utilizando Python no processo de obtenção e tratamento das métricas.</p>
+                </div>
+            </div>
+            
+            <div class="relative md:col-start-2 md:row-start-2 ">
+                <div class="absolute -inset-1 rounded-2xl bg-linear-to-tl from-[#049FD9] via-[#251F48] to-[#251F48] opacity-75 blur-sm">
+                </div>
+                <!-- <div class="absolute -inset-1 rounded-2xl bg-linear-to-br from-transparent via-transparent to-[#251F48] opacity-75 blur-sm">
+                </div> -->
+                <div class="relative bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                    <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">2.</span>Após a
+                        coleta, as métricas são armazenadas em um servidor da AWS, mantendo um histórico das informações.
+                        Isso permite consultar os dados posteriormente e analisar o comportamento dos equipamentos ao longo
+                        do tempo.</p>
+                        <br>
+                </div>
             </div>
 
-            <div class="md:col-start-2 md:row-start-2 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">2.</span>Após a
-                    coleta, as métricas são armazenadas em um servidor da AWS, mantendo um histórico das informações.
-                    Isso permite consultar os dados posteriormente e analisar o comportamento dos equipamentos ao longo
-                    do tempo.</p>
+            <div class="relative md:col-start-1 md:row-start-3 ">
+                <div class="absolute -inset-1 rounded-2xl bg-linear-to-tl from-[#049FD9] via-[#251F48] to-[#251F48] opacity-75 blur-sm">
+                </div>
+                <!-- <div class="absolute -inset-1 rounded-2xl bg-linear-to-br from-transparent via-transparent to-[#251F48] opacity-75 blur-sm">
+                </div> -->
+                <div class="relative bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                    <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">3.</span>Os dados
+                        coletados são apresentados na dashboard por meio de gráficos, indicadores e KPIs. Assim, os
+                        profissionais responsáveis conseguem acompanhar individualmente os equipamentos e ter uma visão
+                        geral da infraestrutura monitorada.</p>
+                </div>
             </div>
 
-            <div class="md:col-start-1 md:row-start-3 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">3.</span>Os dados
-                    coletados são apresentados na dashboard por meio de gráficos, indicadores e KPIs. Assim, os
-                    profissionais responsáveis conseguem acompanhar individualmente os equipamentos e ter uma visão
-                    geral da infraestrutura monitorada.</p>
-            </div>
-
-            <div class="md:col-start-2 md:row-start-4 bg-[#0D1924] border border-white/10 rounded-2xl p-6">
-                <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">4.</span>O sistema
-                    compara as métricas com limiares previamente definidos. Quando uma condição de alerta é
-                    identificada, o evento é registrado, exibido na dashboard, e uma notificação é enviada para o
-                    responsável utilizando Slack para que uma ação possa ser tomada antes que um acidente aconteça.</p>
+            <div class="relative md:col-start-2 md:row-start-4">
+                <div class="absolute -inset-1 rounded-2xl bg-linear-to-tl from-[#049FD9] via-[#251F48] to-[#251F48] opacity-75 blur-sm">
+                </div>
+                <!-- <div class="absolute -inset-1 rounded-2xl bg-linear-to-br from-transparent via-transparent to-[#251F48] opacity-75 blur-sm">
+                </div> -->
+                <div class=" relative bg-[#0D1924] border border-white/10 rounded-2xl p-6">
+                    <p class="font-jet-brains text-sm text-slate-300 leading-relaxed"><span class="mr-1">4.</span>O sistema
+                        compara as métricas com limiares previamente definidos. Quando uma condição de alerta é
+                        identificada, o evento é registrado, exibido na dashboard, e uma notificação é enviada para o
+                        responsável utilizando Slack para que uma ação possa ser tomada antes que um acidente aconteça.</p>
+                </div>
             </div>
 
         </div>
@@ -279,66 +304,63 @@
         </div>
     </div>
     <!-- Contato -->
-    <div id="contato" class="mx-4 my-10 md:m-30 mt-30 max-w-full lg:max-w-308 justify-self-center md:p-0">
+    <div id="contato" class="mx-4 my-10 md:m-30 mt-30 max-w-full lg:max-w-308 max-h-fit min-h-full justify-self-center md:p-0">
         <div>
             <div class="w-full sm:w-1/2 mb-10">
-                <p class="font-space-grotesk font-bold text-5xl sm:text-3xl md:text-4xl">Pensa em implementar o software
-                    Argos?</p>
-                <span class="font-jet-brains font-medium text-sm sm:text-base">Entre em contato conosco!</span>
+                <p class="font-space-grotesk font-bold text-5xl sm:text-3xl md:text-4xl">Quer saber mais?</p>
             </div>
         </div>
-        <div class="flex flex-col sm:flex-row sm:items-start">
-         
-            <div class="w-full sm:w-1/2 lg:h-180 mt-5 sm:mt-0 sm:ml-5">
+        <div class="flex flex-row sm:flex-row sm:items-start min-h-fit">
+            <div class="w-full sm:w-3/5 lg:h-180 mt-5 sm:mt-0">
                 <div
                     class="p-px bg-linear-to-b from-[#03C8FF] to-gray-400 rounded-2xl min-h-fit h-auto lg:h-2/3 mb-5 lg:mb-10">
                     <div class="bg-[#0D1924] p-5 rounded-2xl max-h-fit min-h-full">
                         <p class="font-space-grotesk text-2xl font-bold mb-5">Duvidas Frequentes</p>
-                        <div class="font-poppins">
-                            <div class="flex justify-between border-white border-b border-t p-2.5">
-                                <p onclick="toggleFaq(pergunta1, marcador1)">Quais informações o Argos monitora?</p>
+                        <div class="font-poppins border-white border-b border-t p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta1, marcador1)">
+                            <div class="flex justify-between ">
+                                <p>Quais informações o sistema Argos monitora?</p>
                                 <span id="marcador1" class="flex-col self-center">+</span>
                             </div>
-                            <p id="pergunta1" class="hidden bg-white text-[#15293D] font-bold p-2.5">O sistema monitora
+                            <p id="pergunta1" class="hidden text-gray-300 font-bold mt-2.5">O sistema monitora
                                 métricas relacionadas a CPU, memória RAM, armazenamento e recursos de rede de
                                 equipamentos Cisco.</p>
                         </div>
-                        <div class="font-poppins">
-                            <div class="flex justify-between border-white border-b p-2.5">
-                                <p onclick="toggleFaq(pergunta2, marcador2)">Há algum dado sensível e/ou sigiloso que é
+                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta2, marcador2)">
+                            <div class="flex justify-between ">
+                                <p>Há algum dado sensível e/ou sigiloso que é
                                     coletado dos equipamentos?</p><span id="marcador2"
                                     class="flex-col self-center">+</span>
                             </div>
-                            <p id="pergunta2" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não! Os dados
+                            <p id="pergunta2" class="hidden text-gray-300 font-bold mt-2.5">Não! Os dados
                                 coletados pelo sistema Argos são puramente relacionados ao Hardware dos equipamentos e
                                 usados somente para compor a dashboard e enviar avisos em casos críticos. Nenhum dado
                                 sigiloso é coletado ou armazenado pelo sistema.</p>
                         </div>
-                        <div class="font-poppins">
-                            <div class="flex justify-between border-white border-b p-2.5">
-                                <p onclick="toggleFaq(pergunta3, marcador3)">Posso consultar dados antigos dos
+                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta3, marcador3)">
+                            <div class="flex justify-between">
+                                <p>Posso consultar dados antigos dos
                                     equipamentos?</p><span id="marcador3" class="flex-col self-center">+</span>
                             </div>
-                            <p id="pergunta3" class="hidden bg-white text-[#15293D] font-bold p-2.5">Sim! As métricas
+                            <p id="pergunta3" class="hidden text-gray-300 font-bold mt-2.5">Sim! As métricas
                                 são armazenadas para formar um histórico, permitindo comparar diferentes períodos,
                                 identificar tendências e analisar alterações no comportamento dos equipamentos.</p>
                         </div>
-                        <div class="font-poppins">
-                            <div class="flex justify-between border-white border-b p-2.5">
-                                <p onclick="toggleFaq(pergunta4, marcador4)">O sistema Argos corrige problemas
+                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta4, marcador4)">
+                            <div class="flex justify-between">
+                                <p>O sistema Argos corrige problemas
                                     automaticamente?</p><span id="marcador4" class="flex-col self-center">+</span>
                             </div>
-                            <p id="pergunta4" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não. O sistema é
+                            <p id="pergunta4" class="hidden text-gray-300 font-bold mt-2.5">Não. O sistema é
                                 voltado apenas ao monitoramento e identificação de condições que necessitam de atenção.
                                 Toda e qualquer a ação ou decisão tomada com base nos dados coletados é responsabilidade
                                 do administrador do sistema.</p>
                         </div>
-                        <div class="font-poppins">
-                            <div class="flex justify-between border-white border-b p-2.5">
-                                <p onclick="toggleFaq(pergunta5, marcador5)">Um alerta significa que o equipamento está
+                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta5, marcador5)">
+                            <div class="flex justify-between">
+                                <p>Um alerta significa que o equipamento está
                                     com defeito?</p><span id="marcador5" class="flex-col self-center">+</span>
                             </div>
-                            <p id="pergunta5" class="hidden bg-white text-[#15293D] font-bold p-2.5">Não
+                            <p id="pergunta5" class="hidden text-gray-300 font-bold mt-2.5">Não
                                 necessariamente. Fatores como picos de energia podem fazer com que os equipamentos
                                 alcancem momentaneamente o nível nescessário para disparar um alertae voltem ao normal
                                 depois. A condição deve ser analisada por um profissional especializado, considerando o
@@ -346,16 +368,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="p-px bg-linear-to-tl from-[#03C8FF] to-white rounded-2xl h-auto lg:h-1/3">
-                    <div class="bg-[#0D1924] p-5 rounded-2xl h-full">
-                        <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span
+            </div>
+            <div class="w-full sm:w-2/5 lg:h-180 mt-5 sm:mt-0 sm:ml-5">
+                <div class="p-px bg-linear-to-tl from-[#03C8FF] to-white rounded-2xl min-h-fit max-h-full">
+                    <div class="bg-[#0D1924] p-5 pt-10 pb-10 rounded-2xl h-fit">
+                        <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl mb-2.5"><span
                                 class="font-bold">+ de 8.000</span> grandes corporações utilizam Cisco.</p>
                         <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span
-                                class="font-bold">+ 6.000 grandes</span> corporações monitoram suas infraestruturas com
-                            Argos.</p>
-                        <p class="font-poppins font-light text-xs sm:text-sm md:text-base">Ainda não faz parte dessas
-                            empresas e quer entrar em contato? Entre em contato com nosso email: <span
-                                class="font-extrabold">contato@argos.com</span></p>
+                                class="font-bold">+ 36 modelos</span> compatíveis com monitoramento Argos.</p>
                     </div>
                 </div>
             </div>
