@@ -310,13 +310,13 @@
                 <p class="font-space-grotesk font-bold text-5xl sm:text-3xl md:text-4xl">Quer saber mais?</p>
             </div>
         </div>
-        <div class="flex flex-row sm:flex-row sm:items-start min-h-fit">
+        <div class="sm:flex flex-row sm:flex-row sm:items-start min-h-fit">
             <div class="w-full sm:w-3/5 lg:h-180 mt-5 sm:mt-0">
                 <div
-                    class="p-px bg-linear-to-b from-[#03C8FF] to-gray-400 rounded-2xl min-h-fit h-auto lg:h-2/3 mb-5 lg:mb-10">
+                    class="p-px bg-linear-to-tl from-[#251E47] to-gray-400 rounded-2xl min-h-fit h-auto lg:h-2/3 mb-5 lg:mb-10">
                     <div class="bg-[#0D1924] p-5 rounded-2xl max-h-fit min-h-full">
                         <p class="font-space-grotesk text-2xl font-bold mb-5">Duvidas Frequentes</p>
-                        <div class="font-poppins border-white border-b border-t p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta1, marcador1)">
+                        <div class="font-poppins border-white border-b border-t p-2.5 pt-5 pb-5 hover:cursor-pointer" onclick="toggleFaq(pergunta1, marcador1)">
                             <div class="flex justify-between ">
                                 <p>Quais informações o sistema Argos monitora?</p>
                                 <span id="marcador1" class="flex-col self-center">+</span>
@@ -325,7 +325,7 @@
                                 métricas relacionadas a CPU, memória RAM, armazenamento e recursos de rede de
                                 equipamentos Cisco.</p>
                         </div>
-                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta2, marcador2)">
+                        <div class="font-poppins border-white border-b p-2.5 pt-5 pb-5 hover:cursor-pointer" onclick="toggleFaq(pergunta2, marcador2)">
                             <div class="flex justify-between ">
                                 <p>Há algum dado sensível e/ou sigiloso que é
                                     coletado dos equipamentos?</p><span id="marcador2"
@@ -336,7 +336,7 @@
                                 usados somente para compor a dashboard e enviar avisos em casos críticos. Nenhum dado
                                 sigiloso é coletado ou armazenado pelo sistema.</p>
                         </div>
-                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta3, marcador3)">
+                        <div class="font-poppins border-white border-b p-2.5 pt-5 pb-5 hover:cursor-pointer" onclick="toggleFaq(pergunta3, marcador3)">
                             <div class="flex justify-between">
                                 <p>Posso consultar dados antigos dos
                                     equipamentos?</p><span id="marcador3" class="flex-col self-center">+</span>
@@ -345,7 +345,7 @@
                                 são armazenadas para formar um histórico, permitindo comparar diferentes períodos,
                                 identificar tendências e analisar alterações no comportamento dos equipamentos.</p>
                         </div>
-                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta4, marcador4)">
+                        <div class="font-poppins border-white border-b p-2.5 pt-5 pb-5 hover:cursor-pointer" onclick="toggleFaq(pergunta4, marcador4)">
                             <div class="flex justify-between">
                                 <p>O sistema Argos corrige problemas
                                     automaticamente?</p><span id="marcador4" class="flex-col self-center">+</span>
@@ -355,7 +355,7 @@
                                 Toda e qualquer a ação ou decisão tomada com base nos dados coletados é responsabilidade
                                 do administrador do sistema.</p>
                         </div>
-                        <div class="font-poppins border-white border-b p-2.5 hover:cursor-pointer" onclick="toggleFaq(pergunta5, marcador5)">
+                        <div class="font-poppins border-white border-b p-2.5 pt-5 pb-5 hover:cursor-pointer" onclick="toggleFaq(pergunta5, marcador5)">
                             <div class="flex justify-between">
                                 <p>Um alerta significa que o equipamento está
                                     com defeito?</p><span id="marcador5" class="flex-col self-center">+</span>
@@ -370,12 +370,17 @@
                 </div>
             </div>
             <div class="w-full sm:w-2/5 lg:h-180 mt-5 sm:mt-0 sm:ml-5">
-                <div class="p-px bg-linear-to-tl from-[#03C8FF] to-white rounded-2xl min-h-fit max-h-full">
+                <div class="p-px bg-linear-to-t from-[#251E47] to-gray-400 rounded-2xl min-h-fit max-h-full">
                     <div class="bg-[#0D1924] p-5 pt-10 pb-10 rounded-2xl h-fit">
                         <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl mb-2.5"><span
                                 class="font-bold">+ de 8.000</span> grandes corporações utilizam Cisco.</p>
                         <p class="font-jet-brains font-medium text-sm sm:text-base md:text-lg lg:text-2xl"><span
                                 class="font-bold">+ 36 modelos</span> compatíveis com monitoramento Argos.</p>
+                    </div>
+                </div>
+                <div class="hidden sm:block p-px bg-linear-to-b from-[#251E47] to-grey-400 rounded-2xl min-h-fit max-h-full mt-5">
+                    <div class="flex w-full min-h-fit h-auto rounded-2xl bg-linear-to-t from-[#09121B] to-[#251E47] p-[clamp(16px,4vh,40px)] justify-center">
+                        <img class="h-40 object-contain transition-transform duration-300" src="./assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
                     </div>
                 </div>
             </div>
