@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Argos</title>
+  <link rel="stylesheet" href="../output.css">
+</head>
+<body class="bg-[#09121A] text-white flex h-screen">
+
+
+  <div class="w-40  p-6 border-r flex flex-col">
+    <nav class="flex flex-col gap-6">
+      <a href="#" class="text-gray-300 hover:text-cyan-400 ">Usuários</a>
+      <a href="#" class="text-gray-300 hover:text-white ">Equipamentos</a>
+      <a href="#" class="text-gray-300 hover:text-white ">Componentes</a>
+    </nav>
+</div>
+
+  <div class="flex-1 p-8 flex-col gap-6">
+    <h1 class="font-bold font-medium text-3xl items-center text-center">CADASTRO</h1>
+ 
+    <div class="flex justify-end">
+      <button onclick="abrirbtn()" class="bg-[#F6EDEC] hover:bg-cyan-400 text-black  px-5 py-3 rounded-lg">
+        Adicionar usuário 
+      </button>
+    </div>
+
+    <div class=" w-100 bg-[#F6EDEC] p-10 flex flex-col gap-10 mt-15 text-black rounded-lg">
+      <div class="flex flex-col gap-5">
+        <label class="font-medium text-3xl pb-2">usuarios</label>
+        <div class="w-70 bg-white h-10  flex items-center px-4 text-xl text-black">
+          Joao - <select class="p-2" name="" id="opcoescargo">
+            <option value="analista">analista</option>
+            <option value="gestor">gestor</option>
+            
+          </select>
+          <button class="bg-[#09121A]">salvar</button>
+        </div>
+      
+        <div class="w-70 bg-white h-10 flex items-center px-4 text-xl text-black ">
+          Marcelo - analista
+      </div>
+    </div>
+
+    <div id="modaluser" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+     
+
+      <div class="relative bg-[#09121A] border border-slate-700 p-6 rounded-xl w-full max-w-lg shadow-2xl z-10 flex flex-col gap-6 text-white">
+        
+
+        <div class="bg-[#09121A] w-full flex justify-between items-center border-b border-slate-700 pb-4 p-4 m-0">
+          <h2 class="text-lg font-semibold text-white">CADASTRAR</h2>
+          <button onclick="fecharbtn()" class="text-slate-400 hover:text-white text-xl font-bold p-1">
+            ✕
+          </button>
+        </div>
+
+      
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-2 border-b">
+            <label>NOME</label>
+            <input placeholder="ex: marcelo silva" id="iptnome" type="text" required class="bg-[black] px-4 py-2 text-sm text-white rounded-lg"/>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label>CARGO</label>
+            <!-- <input id="iptcargo" type="text" required class="bg-[black] px-4 py-2 text-sm text-white"/> -->
+             <select class="bg-black p-2 rounded-lg" name="" id="iptcargo">
+                <option value="analista">analista</option>
+                <option value="gestor">gestor</option>
+                <option value="gerente">gerente</option>
+             </select>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label>EMAIL</label>
+            <input placeholder="ex: marcelo@gmail.com" id="iptemail" type="email" required class="bg-[black] px-4 py-2 text-sm text-white rounded-lg"/>
+          </div>
+
+         
+          <div class="flex justify-end"> 
+            <button onclick="salvar()" class="p-2 bg-black rounded-lg">Salvar Usuário</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+  <script>
+    let modal = document.getElementById('modaluser');
+   
+    function abrirbtn() {
+      modal.classList.remove('hidden');
+    }
+
+    function fecharbtn() {
+      modal.classList.add('hidden');
+    }
+
+    function salvar(){
+        let email = iptemail.value
+        let nome = iptnome.value
+        let cargo = iptcargo.value
+        if(email == "" || nome == "" || cargo == ""){
+        alert("erro")
+        return
+            }
+        if(!(email.includes("@"))){
+            alert("erro email")
+        }
+        if(nome.length < 8){
+            alert("erro nome")
+        }
+    }
+  </script>
+
+</body>
+</html>

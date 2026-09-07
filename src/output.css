@@ -8,10 +8,7 @@
       "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-200: oklch(88.5% 0.062 18.334);
-    --color-red-400: oklch(70.4% 0.191 22.216);
     --color-red-600: oklch(57.7% 0.245 27.325);
-    --color-red-900: oklch(39.6% 0.141 25.723);
     --color-cyan-400: oklch(78.9% 0.154 211.53);
     --color-slate-100: oklch(96.8% 0.007 247.896);
     --color-slate-300: oklch(86.9% 0.022 252.894);
@@ -221,10 +218,11 @@
   }
 }
 @layer utilities {
-  .fixed {
-    position: fixed;
   .absolute {
     position: absolute;
+  }
+  .fixed {
+    position: fixed;
   }
   .relative {
     position: relative;
@@ -235,10 +233,11 @@
   .sticky {
     position: sticky;
   }
-  .inset-0 {
-    inset: 0px;
   .-inset-1 {
     inset: calc(var(--spacing) * -1);
+  }
+  .inset-0 {
+    inset: 0px;
   }
   .top-0 {
     top: 0px;
@@ -387,6 +386,7 @@
   }
   .h-55 {
     height: calc(var(--spacing) * 55);
+  }
   .h-150 {
     height: calc(var(--spacing) * 150);
   }
@@ -449,9 +449,6 @@
   }
   .w-100 {
     width: calc(var(--spacing) * 100);
-  }
-  .w-220 {
-    width: calc(var(--spacing) * 220);
   }
   .w-308 {
     width: calc(var(--spacing) * 308);
@@ -841,9 +838,6 @@
   .p-10 {
     padding: calc(var(--spacing) * 10);
   }
-  .p-20 {
-    padding: calc(var(--spacing) * 20);
-  }
   .p-30 {
     padding: calc(var(--spacing) * 30);
   }
@@ -889,14 +883,14 @@
   .pt-12 {
     padding-top: calc(var(--spacing) * 12);
   }
-  .pb-5 {
-    padding-bottom: calc(var(--spacing) * 5);
-  }
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
   }
   .pb-4 {
     padding-bottom: calc(var(--spacing) * 4);
+  }
+  .pb-5 {
+    padding-bottom: calc(var(--spacing) * 5);
   }
   .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
@@ -938,6 +932,10 @@
   .text-base {
     font-size: var(--text-base);
     line-height: var(--tw-leading, var(--text-base--line-height));
+  }
+  .text-lg {
+    font-size: var(--text-lg);
+    line-height: var(--tw-leading, var(--text-lg--line-height));
   }
   .text-sm {
     font-size: var(--text-sm);
@@ -989,9 +987,6 @@
   }
   .text-\[\#09121B\] {
     color: #09121B;
-  }
-  .text-\[\#15293D\] {
-    color: #15293D;
   }
   .text-black {
     color: var(--color-black);
