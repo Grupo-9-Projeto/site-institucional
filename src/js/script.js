@@ -1,4 +1,8 @@
 
+const empresaId = sessionStorage.getItem("EMPRESA_ID")
+const gestorId = sessionStorage.getItem("GESTOR_ID");
+
+
 function registerUser() {
     let name = document.getElementById("input_nome").value;
     let email = document.getElementById("input_email").value;
@@ -21,7 +25,7 @@ function registerUser() {
         return;
     }
 
-    fetch("/usuarios/cadastrar", {
+    fetch("http://localhost:8080/usuarios/cadastrar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -61,7 +65,7 @@ function authUser() {
         return false;
     }
 
-    fetch("/usuarios/autenticar", {
+    fetch("http://localhost:8080/usuarios/autenticar", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -77,9 +81,11 @@ function authUser() {
                 sessionStorage.NAME = json.name;
                 sessionStorage.ID = json.id;
                 sessionStorage.CARGO = json.cargo;
+                sessionStorage.EMPRESA_ID = json.empresa_id;
+                sessionStorage.GESTOR_ID = json.gestor_id;
 
                 setTimeout(() => {
-                    window.location = "./"
+                    window.location = "../html/monitor.html"
                 })
             })
         } else {
@@ -149,4 +155,43 @@ function toggleFaq(pergunta, marcador){
         } else {
             marcador.innerHTML = '+'
         }
+}
+
+function criarUsuario() {
+    
+    let email = document.getElementById("input_email").value;
+    let cargo = document.getElementById("input_cargo").value;
+    // let token = document.getElementById("input_token").value;
+
+    const verifyFieldParam = { name, email, empresaId };
+
+    try {
+        verifyFields(verifyFieldParam)    
+        console.log("Todos os campos estão válidos!");
+    } catch (error) {
+        console.error("Erro de validação:", error);
+        return;
+    }
+
+    fetch("http://localhost:3333/usuarios/criar-usuario", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            cargo: cargo,
+            email: email,
+            gestorId: gestorId,
+            empresaId: empresaId
+        })
+    }).then(response => {
+        if (response.ok) {
+            alert("Criação de usuário realizado com sucesso! Um email já foi enviado com o token de acesso.");
+
+        } else {
+            alert("Houve um erro ao tentar realizar a criação de usuário. Verifique se o token é válido.");
+        }
+    }).catch(error => {
+        console.error("Erro na requisição: ", error);
+    }); 
 }
