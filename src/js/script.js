@@ -1,5 +1,7 @@
 
 const empresaId = sessionStorage.getItem("EMPRESA_ID")
+const gestorId = sessionStorage.getItem("GESTOR_ID");
+
 
 function registerUser() {
     let name = document.getElementById("input_nome").value;
@@ -158,9 +160,7 @@ function toggleFaq(pergunta, marcador){
 function criarUsuario() {
     
     let email = document.getElementById("input_email").value;
-    let name = document.getElementById("input_name").value;
     let cargo = document.getElementById("input_cargo").value;
-    let gestorId = sessionStorage.getItem("GESTOR_ID");
     // let token = document.getElementById("input_token").value;
 
     const verifyFieldParam = { name, email, empresaId };
@@ -179,11 +179,10 @@ function criarUsuario() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            nameServer: name,
-            emailServer: email,
-            empresaIdServer: empresaId,
-            cargoServer: cargo,
-            gestorIdServer: gestorId
+            cargo: cargo,
+            email: email,
+            gestorId: gestorId,
+            empresaId: empresaId
         })
     }).then(response => {
         if (response.ok) {
