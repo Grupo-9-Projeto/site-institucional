@@ -78,14 +78,13 @@ function authUser() {
         if (response.ok) {
             response.json().then(json => {
                 sessionStorage.EMAIL = json.email;
-                sessionStorage.NAME = json.name;
                 sessionStorage.ID = json.id;
                 sessionStorage.CARGO = json.cargo;
-                sessionStorage.EMPRESA_ID = json.empresa_id;
-                sessionStorage.GESTOR_ID = json.gestor_id;
+                sessionStorage.EMPRESA_ID = json.empresaId;
+                sessionStorage.GESTOR_ID = json.gestorId;
 
                 setTimeout(() => {
-                    window.location = "../html/monitor.html"
+                    window.location = "../usuarios.html"
                 })
             })
         } else {
@@ -163,7 +162,7 @@ function criarUsuario() {
     let cargo = document.getElementById("input_cargo").value;
     // let token = document.getElementById("input_token").value;
 
-    const verifyFieldParam = { name, email, empresaId };
+    const verifyFieldParam = { email, cargo };
 
     try {
         verifyFields(verifyFieldParam)    
