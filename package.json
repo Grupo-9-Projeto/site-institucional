@@ -22,6 +22,7 @@
     "picocolors": "^1.1.1",
     "picomatch": "^2.3.2",
     "source-map-js": "^1.2.1",
+    "tailwind": "^4.0.0",
     "tailwindcss": "^4.3.3",
     "tapable": "^2.3.3",
     "to-regex-range": "^5.0.1"
