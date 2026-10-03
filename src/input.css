@@ -36,21 +36,21 @@
 }
 
 @theme {
-  --font-poppins: "Poppins", sans-serif; 
-  --font-space-grotesk: "Space Grotesk", sans-serif; 
+  --font-poppins: "Poppins", sans-serif;
+  --font-space-grotesk: "Space Grotesk", sans-serif;
   --font-jet-brains: "JetBrains Mono", monospace;
 
-  --main-blue: var(--main-blue);
-  --light-blue: var(--light-blue);
-  --main-purple: var(--main-purple);
-  --off-white: var(--off-white)
+  --color-main-blue: #09121B;
+  --color-light-blue: #03C8FF;
+  --color-main-purple: #251E47;
+  --color-off-white: #f6f6f6;
 }
 
 
 @keyframes slide {
     from{
         opacity: 0;
-        transform: translateX(-200);
+        transform: translateX(-200px);
     }
     to{
         opacity: 1;
