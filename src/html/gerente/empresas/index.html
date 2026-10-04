@@ -21,10 +21,10 @@
             <p class="text-lg font-bold">Usuário</p>
         </div>
         <nav class="flex-1 flex flex-col py-4">
-            <a href="#" class="px-6 py-3.5 text-sm text-white/70 border-1-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
-            <a href="#" class="px-6 py-3.5 text-sm font-bold text-light-blue border-1-2 border-light-blue bg-light-blue/5">Empresas</a>
-            <a href="#" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
-            <a href="#" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
+            <a href="../home.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
+            <a href="./index.html" class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Empresas</a>
+            <a href="../chamados/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
+            <a href="../relatorio.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
         </nav>
         <div class="border-t border-white/10 py-4">
             <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
@@ -32,23 +32,23 @@
         </div>
     </aside>
     <main class="flex-1 h-full overflow-y-auto p-9">
-        <div class="max-w-3x1">
+        <div class="max-w-3xl">
             <header class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Empresas</h1>
-                <button id="abrir_modal" class="flex items-center gap-2 px-5 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">
+                <button class="flex items-center gap-2 px-5 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="abrirModal()">
                     <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
                     Adicionar Empresa
                 </button>
             </header>
             <section class="mt-6 flex flex-col gap-3">
                 <!-- Div abaixo se trata do template das empresas cadastradas (for puxando elas do BD)-->
-                <div class="flex items-center justify-between px-6 py-5 rounde-x1 border border-white/10 rounded-md bg-[#0D1924]">
+                <div class="flex items-center justify-between px-6 py-5 rounded-xl border border-white/10 bg-[#0D1924]">
                     <span class="text-sm font-bold">Empresa 1</span>
                     <div class="flex items-center gap-4 text-white/60">
                         <button class="hover:text-light-blue cursor-pointer transition-element">
                             <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6" /><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
                         </button>
-                        <button class="hover:text-red-400 transition-element">
+                        <button class="hover:text-red-400 cursor-pointer transition-element" onclick="abrirModalExcluir()">
                             <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
                         </button>
                     </div>
@@ -57,7 +57,7 @@
         </div>
     </main>
     <div id="modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2x1">
+        <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2xl">
             <div class="flex items-center justify-between">
                 <h2 id="modal_titulo" class="text-xl font-bold">Adicionar Empresa</h2>
                 <button class="text-white/60 hover:text-white text-2xl leading-none transition-element cursor-pointer" onclick="fecharModal()">&times;</button>
@@ -77,7 +77,18 @@
             </form>
         </div>
     </div>
+    <div id="modal_excluir" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2xl">
+            <div class="flex items-center justify-between mb-3">
+                <h2 id="modal_titulo" class="text-base font-bold">Deseja excluir essa empresa?</h2>
+            </div>
+            <div class="flex justify-center gap-3">
+                <button class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Não</button>
+                <button class="px-6 py-2.5 rounded-md bg-red-500 text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Sim</button>
+            </div>
+        </div>
+    </div>
    
 </body>
-</html>
 <script src="script.js"></script>
+</html>
