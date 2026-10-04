@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="png">
     <title>Argos (gerente)- empresas</title>
-
     <link rel="stylesheet" href="../../../output.css">
-    <script src="script.js"></script>
 </head>
 <body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
     <aside class="w-1/5 shrink-0 h-full flex flex-col bg-[#0B141D] border-r border-white/10">
@@ -16,8 +14,10 @@
             <p class="self-center text-xl font-semibold">Argos</p>
         </div>
         <div class="px-6 py-6 border-b border-white/10">
+            <!-- Aqui podemos fazer a foto de perfil do usuário ou só manter a primeira letra do nome provisoriamente -->
             <div class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">U</div>
             <p class="mt-3 text-white/60">Olá,</p>
+            <!-- Aqui tem que alterar para receber nome do usuário da sessão (puxar do session.user?) -->
             <p class="text-lg font-bold">Usuário</p>
         </div>
         <nav class="flex-1 flex flex-col py-4">
@@ -35,12 +35,13 @@
         <div class="max-w-3x1">
             <header class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Empresas</h1>
-                <button class="flex items-center gap-2 px-5 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">
+                <button id="abrir_modal" class="flex items-center gap-2 px-5 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">
                     <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
                     Adicionar Empresa
                 </button>
             </header>
             <section class="mt-6 flex flex-col gap-3">
+                <!-- Div abaixo se trata do template das empresas cadastradas (for puxando elas do BD)-->
                 <div class="flex items-center justify-between px-6 py-5 rounde-x1 border border-white/10 rounded-md bg-[#0D1924]">
                     <span class="text-sm font-bold">Empresa 1</span>
                     <div class="flex items-center gap-4 text-white/60">
@@ -55,7 +56,28 @@
             </section>
         </div>
     </main>
-    
+    <div id="modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2x1">
+            <div class="flex items-center justify-between">
+                <h2 id="modal_titulo" class="text-xl font-bold">Adicionar Empresa</h2>
+                <button class="text-white/60 hover:text-white text-2xl leading-none transition-element cursor-pointer" onclick="fecharModal()">&times;</button>
+            </div>
+            <form class="mt-6 flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
+                    <label for="nome" class="text-sm font-bold text-white/60">Nome</label>
+                    <input id="nome" type="text" placeholder="Nome da empresa" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="cnpj" class="text-sm font-bold text-white/60">CNPJ</label>
+                    <input id="cnpj" type="text" placeholder="00.000.000/0000-00" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                </div>
+                <div class="flex justify-end gap-3">
+                    <button class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
    
 </body>
 </html>
+<script src="script.js"></script>
