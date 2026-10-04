@@ -1,0 +1,56 @@
+[
+    {
+        "empresa": "Bradesco",
+        "equipamento": "Cisco 2900",
+        "data": "2026-09-28",
+        "cpu": 72,
+        "ram": 64,
+        "disco": 58,
+        "rede": 91
+    },
+    {
+        "empresa": "Bradesco",
+        "equipamento": "Cisco 2900",
+        "data": "2026-09-29",
+        "cpu": 68,
+        "ram": 61,
+        "disco": 59,
+        "rede": 88
+    },
+    {
+        "empresa": "Bradesco",
+        "equipamento": "Cisco 2901",
+        "data": "2026-09-29",
+        "cpu": 45,
+        "ram": 52,
+        "disco": 61,
+        "rede": 87
+    },
+    {
+        "empresa": "SPTECH",
+        "equipamento": "Cisco 3900",
+        "data": "2026-09-28",
+        "cpu": 81,
+        "ram": 74,
+        "disco": 66,
+        "rede": 79
+    },
+    {
+        "empresa": "SPTECH",
+        "equipamento": "Cisco 3901",
+        "data": "2026-10-01",
+        "cpu": 39,
+        "ram": 47,
+        "disco": 55,
+        "rede": 93
+    },
+    {
+        "empresa": "VIVO",
+        "equipamento": "Cisco 4300",
+        "data": "2026-09-30",
+        "cpu": 57,
+        "ram": 63,
+        "disco": 75,
+        "rede": 89
+    }
+]
