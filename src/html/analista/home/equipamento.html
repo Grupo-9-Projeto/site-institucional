@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="/src/assets/logos/Argos-logo_branco.png" type="image/png">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <title>Argos - Equipamento</title>
+
+    <script src="mock-data.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body
+    class="w-screen h-screen overflow-hidden bg-[#09121B] text-white"
+    data-page="equipamento"
+>
+
+    <div class="flex w-full h-full">
+
+<div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
+
+    <div class="flex flex-col gap-4">
+
+        <img
+            src="/src/assets/logos/Argos-logo_branco.png"
+            alt="Argos"
+            class="p-2 h-30 w-auto object-contain"
+        >
+
+        <nav class="flex flex-col gap-2 mt-6">
+
+            <a
+                href="/src/html/analista/home.html"
+                class="rounded-lg bg-[#09121B] px-4 py-3 font-semibold"
+            >
+                Home
+            </a>
+
+            <a
+                href="/src/html/analista/alertas.html"
+                class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+            >
+                Alertas
+            </a>
+
+        </nav>
+
+    </div>
+
+
+    <div class="flex flex-col gap-2">
+
+        <a
+            href="#"
+            class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+        >
+            Configurações
+        </a>
+
+        <a
+            href="/src/index.html"
+            class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+        >
+            Sair
+        </a>
+
+    </div>
+
+</div>
+
+        <main class="flex-1 min-w-0 h-full overflow-y-auto">
+
+            <div class="p-8 lg:p-10 max-w-[1500px] mx-auto">
+
+                <div class="flex items-center gap-3 text-sm mb-6">
+
+                    <a
+                        href="home.html"
+                        class="text-[#64748B] hover:text-white transition"
+                    >
+                        Home
+                    </a>
+
+                    <span class="text-[#475569]">
+                        ›
+                    </span>
+
+                    <a
+                        id="empresa-breadcrumb"
+                        href="#"
+                        class="text-[#64748B] hover:text-white transition"
+                    >
+                        Empresa
+                    </a>
+
+                    <span class="text-[#475569]">
+                        ›
+                    </span>
+
+                    <span
+                        id="equipamento-breadcrumb"
+                        class="text-white font-semibold"
+                    >
+                        Equipamento
+                    </span>
+
+                </div>
+
+
+                <div class="flex flex-wrap items-center gap-3 mb-7">
+
+                    <h1
+                        id="equipamento-titulo"
+                        class="text-3xl font-bold"
+                    >
+                        Equipamento
+                    </h1>
+
+                    <span
+                        id="equipamento-status"
+                        class="flex items-center gap-2 text-sm"
+                    >
+                    </span>
+
+                    <span
+                        id="equipamento-categoria"
+                        class="text-sm text-[#64748B]"
+                    >
+                    </span>
+
+                </div>
+
+
+                <section
+                    class="bg-[#141F2D] border border-[#263342] rounded-lg p-5 mb-4"
+                >
+
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+
+                        <div>
+
+                            <h2 class="font-semibold text-sm">
+                                Últimos Registros
+                            </h2>
+
+                            <p
+                                id="periodo-descricao"
+                                class="text-xs text-[#64748B] mt-1"
+                            >
+                                Uso diário de recursos
+                            </p>
+
+                        </div>
+
+
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <button
+                                id="btn-semana"
+                                data-periodo="semana"
+                                class="periodo-btn px-4 py-2 text-xs rounded border border-[#263342] text-[#94A3B8] hover:text-white hover:bg-[#1B2938]"
+                            >
+                                Última semana
+                            </button>
+
+                            <button
+                                id="btn-mes"
+                                data-periodo="mes"
+                                class="periodo-btn px-4 py-2 text-xs rounded border border-[#263342] text-[#94A3B8] hover:text-white hover:bg-[#1B2938]"
+                            >
+                                Último mês
+                            </button>
+
+                            <button
+                                id="btn-personalizado"
+                                data-periodo="personalizado"
+                                class="periodo-btn px-4 py-2 text-xs rounded border border-[#263342] text-[#94A3B8] hover:text-white hover:bg-[#1B2938]"
+                            >
+                                Período personalizado
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="filtro-personalizado"
+                        class="hidden mt-5 pt-5 border-t border-[#263342]"
+                    >
+
+                        <div class="flex flex-wrap items-end gap-4">
+
+                            <div>
+
+                                <label
+                                    for="data-inicio"
+                                    class="block text-xs text-[#64748B] mb-2"
+                                >
+                                    De
+                                </label>
+
+                                <input
+                                    id="data-inicio"
+                                    type="date"
+                                    class="bg-[#0D1924] border border-[#263342] rounded px-3 py-2 text-sm text-white outline-none focus:border-[#38BDF8]"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <label
+                                    for="data-fim"
+                                    class="block text-xs text-[#64748B] mb-2"
+                                >
+                                    Até
+                                </label>
+
+                                <input
+                                    id="data-fim"
+                                    type="date"
+                                    class="bg-[#0D1924] border border-[#263342] rounded px-3 py-2 text-sm text-white outline-none focus:border-[#38BDF8]"
+                                >
+
+                            </div>
+
+
+                            <button
+                                id="btn-aplicar-data"
+                                class="px-5 py-2 rounded bg-[#38BDF8] text-[#07111A] text-sm font-semibold hover:bg-[#60CDFB] transition"
+                            >
+                                Aplicar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <section class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-5">
+
+                        <div class="flex items-center justify-between mb-5">
+
+                            <h3 class="text-sm font-semibold text-[#38BDF8]">
+                                CPU
+                            </h3>
+
+                            <span class="text-[10px] text-[#475569]">
+                                %
+                            </span>
+
+                        </div>
+
+                        <div
+                            id="grafico-cpu"
+                            class="h-[180px] flex items-end gap-[5px] border-b border-[#263342] pb-1"
+                        >
+                        </div>
+
+                    </div>
+
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-5">
+
+                        <div class="flex items-center justify-between mb-5">
+
+                            <h3 class="text-sm font-semibold text-[#F59E0B]">
+                                RAM
+                            </h3>
+
+                            <span class="text-[10px] text-[#475569]">
+                                %
+                            </span>
+
+                        </div>
+
+                        <div
+                            id="grafico-ram"
+                            class="h-[180px] flex items-end gap-[5px] border-b border-[#263342] pb-1"
+                        >
+                        </div>
+
+                    </div>
+
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-5">
+
+                        <div class="flex items-center justify-between mb-5">
+
+                            <h3 class="text-sm font-semibold text-[#A78BFA]">
+                                DISCO
+                            </h3>
+
+                            <span class="text-[10px] text-[#475569]">
+                                %
+                            </span>
+
+                        </div>
+
+                        <div
+                            id="grafico-disco"
+                            class="h-[180px] flex items-end gap-[5px] border-b border-[#263342] pb-1"
+                        >
+                        </div>
+
+                    </div>
+
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-5">
+
+                        <div class="flex items-center justify-between mb-5">
+
+                            <h3 class="text-sm font-semibold text-[#22C55E]">
+                                REDE
+                            </h3>
+
+                            <span class="text-[10px] text-[#475569]">
+                                %
+                            </span>
+
+                        </div>
+
+                        <div
+                            id="grafico-rede"
+                            class="h-[180px] flex items-end gap-[5px] border-b border-[#263342] pb-1"
+                        >
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <section
+                    class="bg-[#101923] border border-[#202D3C] rounded-lg mt-4 overflow-hidden"
+                >
+
+                    <div class="px-5 py-5 border-b border-[#202D3C]">
+
+                        <h2 class="font-semibold text-sm">
+                            Alertas
+                        </h2>
+
+                        <p class="text-xs text-[#64748B] mt-1">
+                            Registros de eventos do dispositivo
+                        </p>
+
+                    </div>
+
+                    <div id="alertas-container">
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
