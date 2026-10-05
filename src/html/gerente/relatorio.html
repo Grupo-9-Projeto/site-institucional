@@ -1,22 +1,378 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../../assets/logos/Argos-logo_branco.png" type="png">
-    <title>Argos (gerente) - Gerar relatorio</title>
 
+    <link rel="shortcut icon" href="../../assets/logos/Argos-logo_branco.png" type="image/png">
     <link rel="stylesheet" href="../../output.css">
-    <script src="script.js"></script>
-</head>
-<body class="w-[100vw] h-[100vh] bg-[#09121B] text-white flex">
-    <div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
-        <div class="flex flex-col gap-4">
-            <img src="../../assets/logos/Argos-logo_branco.png" alt="Argos" class="p-2 h-30 w-auto object-contain">
-        </div>
-    </div>
-   
 
-    
+    <title>Argos (gerente) - Relatórios</title>
+</head>
+
+<body class="w-[100vw] h-[100vh] bg-[#09121B] text-white flex">
+
+    <div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
+
+        <div class="flex flex-col gap-4">
+
+            <img
+                src="../../assets/logos/Argos-logo_branco.png"
+                alt="Argos"
+                class="p-2 h-30 w-auto object-contain"
+            >
+
+            <nav class="flex flex-col gap-2 mt-6">
+
+                <a
+                    href="/src/html/gerente/home.html"
+                    class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="/src/html/gerente/empresas/"
+                    class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+                >
+                    Empresas
+                </a>
+
+                <a
+                    href="/src/html/gerente/funcionarios/index.html"
+                    class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+                >
+                    Funcionários
+                </a>
+
+                <a
+                    href="/src/html/gerente/chamados/index.html"
+                    class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+                >
+                    Histórico de relatório
+                </a>
+
+                <a
+                    href="/src/html/gerente/relatorio.html"
+                    class="rounded-lg bg-[#09121B] px-4 py-3 font-semibold"
+                >
+                    Relatórios
+                </a>
+
+            </nav>
+
+        </div>
+
+        <div class="flex flex-col gap-2">
+
+            <a
+                href="#"
+                class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+            >
+                Configurações
+            </a>
+
+            <a
+                href="/src/index.html"
+                class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+            >
+                Sair
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <main class="w-4/5 h-full overflow-y-auto">
+
+        <div class="p-5 sm:p-7 lg:p-10">
+
+            <section class="mb-8 border-b border-white/10 pb-7">
+
+                <span class="text-sm font-semibold tracking-widest text-[#03C8FF]">
+                    ARGOS
+                </span>
+
+                <h1 class="mt-2 text-3xl font-bold sm:text-4xl">
+                    Gerar Relatório
+                </h1>
+
+                <p class="mt-3 text-white/60">
+                    Configure os parâmetros e exporte os dados de telemetria dos equipamentos.
+                </p>
+
+            </section>
+
+
+            <div class="grid gap-6 xl:grid-cols-[1fr_340px]">
+
+                <div class="flex flex-col gap-6">
+
+                    <!-- PERÍODO -->
+                    <section class="rounded-2xl bg-[#0D1924] p-6">
+
+                        <div class="mb-6 flex items-center gap-4">
+
+                            <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#09121B] font-bold text-[#03C8FF]">
+                                01
+                            </span>
+
+                            <div>
+                                <h2 class="text-xl font-semibold">
+                                    Período
+                                </h2>
+
+                                <p class="text-sm text-white/45">
+                                    Escolha o intervalo dos dados.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div id="abas" class="grid gap-3 sm:grid-cols-3">
+
+                            <button
+                                type="button"
+                                data-valor="Última semana"
+                                class="period-button min-h-12 rounded-xl bg-[#09121B] px-4 text-sm text-white/70 hover:text-white"
+                            >
+                                Última semana
+                            </button>
+
+                            <button
+                                type="button"
+                                data-valor="Último mês"
+                                class="period-button selected min-h-12 rounded-xl border border-[#03C8FF] bg-[#03C8FF]/10 px-4 text-sm font-semibold"
+                            >
+                                Último mês
+                            </button>
+
+                            <button
+                                type="button"
+                                data-valor="Período personalizado"
+                                class="period-button min-h-12 rounded-xl bg-[#09121B] px-4 text-sm text-white/70 hover:text-white"
+                            >
+                                Personalizado
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="datas"
+                            class="mt-5 hidden grid-cols-1 gap-4 md:grid-cols-2"
+                        >
+
+                            <label class="flex flex-col gap-2">
+
+                                <span class="text-sm text-white/70">
+                                    Data inicial
+                                </span>
+
+                                <input
+                                    type="date"
+                                    id="dataInicial"
+                                    class="min-h-12 rounded-xl bg-[#09121B] px-4 outline-none focus:border-[#03C8FF]"
+                                >
+
+                            </label>
+
+                            <label class="flex flex-col gap-2">
+
+                                <span class="text-sm text-white/70">
+                                    Data final
+                                </span>
+
+                                <input
+                                    type="date"
+                                    id="dataFinal"
+                                    class="min-h-12 rounded-xl bg-[#09121B] px-4 outline-none focus:border-[#03C8FF]"
+                                >
+
+                            </label>
+
+                        </div>
+
+                    </section>
+
+
+                    <section class="rounded-2xl bg-[#0D1924] p-6">
+
+                        <div class="mb-6 flex items-center gap-4">
+
+                            <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#09121B] font-bold text-[#03C8FF]">
+                                02
+                            </span>
+
+                            <div>
+                                <h2 class="text-xl font-semibold">
+                                    Empresa
+                                </h2>
+
+                                <p class="text-sm text-white/45">
+                                    Selecione a empresa dos equipamentos.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="empresasContainer"
+                            class="grid gap-3 sm:grid-cols-2"
+                        ></div>
+
+                    </section>
+
+
+                    <section class="rounded-2xl bg-[#0D1924] p-6">
+
+                        <div class="mb-6 flex items-center gap-4">
+
+                            <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#09121B] font-bold text-[#03C8FF]">
+                                03
+                            </span>
+
+                            <div>
+                                <h2 class="text-xl font-semibold">
+                                    Equipamento
+                                </h2>
+
+                                <p class="text-sm text-white/45">
+                                    Escolha o equipamento que deseja analisar.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <select
+                            id="equipamento"
+                            class="min-h-12 w-full rounded-xl bg-[#09121B] px-4 outline-none focus:border-[#03C8FF]"
+                        ></select>
+
+                    </section>
+
+
+                    <section class="rounded-2xl bg-[#0D1924] p-6">
+
+                        <div class="mb-6 flex items-center gap-4">
+
+                            <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#09121B] font-bold text-[#03C8FF]">
+                                04
+                            </span>
+
+                            <div>
+                                <h2 class="text-xl font-semibold">
+                                    Métricas
+                                </h2>
+
+                                <p class="text-sm text-white/45">
+                                    Selecione os dados que deseja exportar.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="grid gap-3 sm:grid-cols-2">
+
+                            <label class="metric-option flex min-h-14 cursor-pointer items-center gap-4 rounded-xl bg-[#09121B] px-5">
+                                <input type="checkbox" value="CPU" checked class="h-5 w-5 accent-[#03C8FF]">
+                                <span>CPU</span>
+                            </label>
+
+                            <label class="metric-option flex min-h-14 cursor-pointer items-center gap-4 rounded-xl bg-[#09121B] px-5">
+                                <input type="checkbox" value="RAM" checked class="h-5 w-5 accent-[#03C8FF]">
+                                <span>RAM</span>
+                            </label>
+
+                            <label class="metric-option flex min-h-14 cursor-pointer items-center gap-4 rounded-xl bg-[#09121B] px-5">
+                                <input type="checkbox" value="Disco" class="h-5 w-5 accent-[#03C8FF]">
+                                <span>Disco</span>
+                            </label>
+
+                            <label class="metric-option flex min-h-14 cursor-pointer items-center gap-4 rounded-xl bg-[#09121B] px-5">
+                                <input type="checkbox" value="Rede" class="h-5 w-5 accent-[#03C8FF]">
+                                <span>Rede</span>
+                            </label>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+                <aside class="h-fit rounded-2xl bg-[#0D1924] p-6 xl:sticky xl:top-8">
+
+                    <span class="text-xs font-semibold tracking-widest text-[#03C8FF]">
+                        PRÉVIA
+                    </span>
+
+                    <h2 class="mt-2 text-2xl font-bold">
+                        Resumo do Relatório
+                    </h2>
+
+                    <p class="mt-2 text-sm text-white/50">
+                        Confira os filtros selecionados antes de gerar o arquivo.
+                    </p>
+
+                    <div class="mt-6">
+
+                        <div class="flex justify-between gap-4 border-b border-white/10 py-5">
+                            <span class="text-sm text-white/50">Período</span>
+                            <strong id="resPeriodo" class="text-right text-sm">
+                                Último mês
+                            </strong>
+                        </div>
+
+                        <div class="flex justify-between gap-4 border-b border-white/10 py-5">
+                            <span class="text-sm text-white/50">Empresa</span>
+                            <strong id="resEmpresa" class="text-right text-sm"></strong>
+                        </div>
+
+                        <div class="flex justify-between gap-4 border-b border-white/10 py-5">
+                            <span class="text-sm text-white/50">Equipamento</span>
+                            <strong id="resEquip" class="text-right text-sm"></strong>
+                        </div>
+
+                        <div class="flex justify-between gap-4 py-5">
+                            <span class="text-sm text-white/50">Métricas</span>
+                            <strong id="resMetricas" class="text-right text-sm"></strong>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3 border-t border-white/10 pt-6">
+
+                        <div class="mb-5 flex items-center gap-3 text-sm text-white/50">
+
+                            <span class="h-2.5 w-2.5 rounded-full bg-[#03C8FF]"></span>
+
+                            <span id="quantidadeRegistros">
+                                0 registros disponíveis
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            id="btnCsv"
+                            class="flex min-h-14 w-full items-center justify-between rounded-xl bg-[#03C8FF] px-5 font-bold text-[#09121B] hover:brightness-105"
+                        >
+                            <span>Gerar CSV</span>
+                        </button>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="/src/html/gerente/script.js"></script>
+
 </body>
 </html>
