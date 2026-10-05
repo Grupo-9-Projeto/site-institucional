@@ -1,78 +1,41 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argos (gerente)- home</title>
+
     <link rel="shortcut icon" href="../../assets/logos/Argos-logo_branco.png" type="image/png">
-    <title>Argos (gerente) - home</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../output.css">
-
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js" defer></script>
 </head>
 
-<body class="w-full min-h-screen bg-[#09121B] text-white flex">
-<button id="btn-hamburguer"
-    class="fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-gray-500 focus:outline-none">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-    </svg>
-</button>
+<body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
 
-<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden"></div>
-
-<aside id="sidebar"
-    class="fixed top-0 left-0 z-40 w-64 min-h-screen bg-[#0D1924] flex flex-col justify-between border-r border-gray-500 font-['Poppins'] transition-transform duration-300 -translate-x-full">
-    
-        <div class="flex flex-col">
-
-            <div class="p-10 pb-6 border-b border-gray-500 h-30 items-center md:h-45">
-                <img src="./../../assets/logos/Argos-logo_branco.png" alt="Argos"
-                    class="p-2 h-20 w-auto ml-13 -mt-5 object-contain md:h-26 md:ml-0 md:mt-0 lg:h-30">
-            </div>
-
-            <div class="px-10 py-6 border-b border-gray-500 flex flex-col items-center md:items-start">
-                <div
-                    class="w-16 h-16 rounded-full bg-[#09121B] border-2 border-blue-500 flex items-center justify-center text-cyan-400 font-bold text-xl shrink-0 mb-3 ml-0 md:-ml-2">
-                    V
-                </div>
-                <p class="text-sm text-gray-300">Olá</p>
-                <p class="font-bold text-white text-base">Vivian</p>
-            </div>
-
-            <nav class="mt-6">
-                <ul class="flex flex-col gap-6 text-left">
-                    <li class="border-l-4 border-blue-500 pl-3 font-bold text-blue-400">
-                        <a href="#" class="block">Home</a>
-                    </li>
-                    <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
-                        <a href="#" class="block">Empresa</a>
-                    </li>
-                    <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
-                        <a href="#" class="block">Funcionários</a>
-                    </li>
-                    <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
-                        <a href="#" class="block">Histórico de Chamados</a>
-                    </li>
-                    <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
-                        <a href="#" class="block">Gerar Relatório</a>
-                    </li>
-                </ul>
-            </nav>
+    <aside class="w-1/5 shrink-0 h-full flex flex-col bg-[#0B141D] border-r border-white/10">
+        <div class="px-6 py-6 border-b border-white/10 flex gap-3 ">
+            <img src="../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos" class="h-8 w-auto object-contain">
+            <p class="self-center text-xl font-semibold">Argos</p>
         </div>
+        <div class="px-6 py-6 border-b border-white/10">
+            <div class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">V</div>
+            <p class="mt-3 text-white/60">Olá,</p>
 
-        <div>
-            <ul class="border-t border-gray-500 flex flex-col gap-6 text-left mb-6  md:mb-8">
-                <li class="mt-5 pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
-                    <a href="#" class="block">Configurações</a>
-                </li>
-                <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
-                    <a href="#" class="block">Sair</a>
-                </li>
-            </ul>
+            <p class="text-lg font-bold">Vivian</p>
+        </div>
+        <nav class="flex-1 flex flex-col py-4">
+            <a href="./home.html" class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Home</a>
+            <a href="../gerente/empresas/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
+            <a href="../gerente/funcionarios/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
+            <a href="../gerente/chamados/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
+            <a href="./relatorio.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
+        </nav>
+        <div class="border-t border-white/10 py-4">
+            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
+            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
     </aside>
 
@@ -81,11 +44,11 @@
             class="text-white text-2xl font-['Poppins'] font-semibold mb-6 -mt-2 ml-2 translate-x-8 md:translate-x-0 md:ml-13 lg:ml-0">
             Home</p>
 
-        <div class="w-full rounded-lg bg-[#0D1924] border border-gray-500 p-6 mb-8">
+        <div class="w-full rounded-lg bg-[#0D1924] border border-white/10 p-6 mb-8 scale-94">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <p class="text-gray-400 font-['Poppins'] font-semibold">Funcionários Ativos no Momento</p>
                 <input type="text" id="input-busca" placeholder="Buscar funcionário..."
-                    class="px-4 py-2 bg-[#09121B] text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-['Poppins'] text-sm w-full md:w-64">
+                    class="px-4 py-2 bg-[#09121B] text-white rounded-lg border border-white/10 focus:border-blue-500 focus:outline-none font-['Poppins'] text-sm w-full md:w-64">
             </div>
 
             <div id="lista-funcionarios"
@@ -94,7 +57,7 @@
             </div>
         </div>
 
-        <div class="w-full p-6 rounded-lg bg-[#0D1924] border border-gray-500 font-['Poppins'] mb-8">
+        <div class="w-full p-6 rounded-lg bg-[#0D1924] border border-white/10 font-['Poppins'] mb-8 scale-94">
             <p class="font-semibold text-white text-[15px]">Filtro de Período — Análise de Chamados</p>
             <p class="text-gray-400 text-[13px] mt-1 mb-4">
                 Compare períodos para identificar se o gargalo de um equipamento é um
@@ -108,11 +71,11 @@
                     Última Semana
                 </button>
                 <button
-                    class="btn-filtro rounded text-[14px] px-4 h-9 border border-gray-400 text-gray-400 font-semibold hover:border-white hover:text-white cursor-pointer transition-colors">
+                    class="btn-filtro rounded text-[14px] px-4 h-9 border border-white/10 text-gray-400 font-semibold hover:border-white hover:text-white cursor-pointer transition-colors">
                     Último Mês
                 </button>
                 <button
-                    class="btn-filtro rounded text-[14px] px-4 h-9 border border-gray-400 text-gray-400 font-semibold hover:border-white hover:text-white cursor-pointer transition-colors">
+                    class="btn-filtro rounded text-[14px] px-4 h-9 border border-white/10 text-gray-400 font-semibold hover:border-white hover:text-white cursor-pointer transition-colors">
                     Período Personalizado
                 </button>
             </div>
@@ -122,22 +85,22 @@
                     <div class="flex flex-row gap-3">
                         <p class="text-gray-400 text-[14px] mt-2 lg:mt-2">De</p>
                         <input type="date" id="data-inicio" name="data-inicio"
-                            class="bg-[#09121B] border border-gray-400 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
+                            class="bg-[#09121B] border border-white/10 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
                     </div>
 
                     <div class="flex flex-row gap-3">
                         <p class="text-gray-400 text-[14px] mt-2 lg:mt-2">Até</p>
                         <input type="date" id="data-fim" name="data-fim"
-                            class="bg-[#09121B] border border-gray-400 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
+                            class="bg-[#09121B] border border-white/10 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="graficos" class="w-full font-['Poppins'] flex flex-col lg:flex-row gap-6">
+        <div id="graficos" class="w-full font-['Poppins'] flex flex-col lg:flex-row gap-6 scale-94">
 
             <div
-                class="flex-1 border border-gray-500 rounded-lg bg-[#0D1924] p-5 flex flex-col justify-between h-48 lg:h-80 lg:w-64">
+                class="flex-1 border border-white/10 rounded-lg bg-[#0D1924] p-5 flex flex-col justify-between h-48 lg:h-80 lg:w-64">
                 <div>
                     <p class="text-[15px] font-semibold text-white">Chamados Abertos por Equipamento</p>
                     <p class="subtitulo-grafico text-xs text-gray-400 mt-1 mb-2">Última Semana</p>
@@ -149,7 +112,7 @@
             </div>
 
             <div
-                class="flex-1 border border-gray-500 rounded-lg bg-[#0D1924] p-5 flex flex-col justify-between h-49 md:h-[500px] lg:h-80 lg:w-64">
+                class="flex-1 border border-white/10 rounded-lg bg-[#0D1924] p-5 flex flex-col justify-between h-49 md:h-[500px] lg:h-80 lg:w-64">
                 <div>
                     <p class="text-[15px] font-semibold text-white">Chamados Resolvidos</p>
                     <p class="subtitulo-grafico text-xs text-gray-400 mt-1 mb-2">Última Semana</p>
@@ -162,7 +125,7 @@
 
         </div>
 
-        <div id="SLAS" class="mt-6 w-full rounded-lg border border-red-900/50 p-5 bg-[#0D1924]">
+        <div id="SLAS" class="mt-6 w-full rounded-lg border border-red-900/40 p-5 bg-[#0D1924] scale-94">
             <div class="flex flex-col mb-4 md:flex-row md:justify-between md:items-center">
                 <p class="font-['Poppins'] font-bold text-[14px] text-red-500 mb-1">
                     Histórico de Últimos SLAs Violados
