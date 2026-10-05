@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="/src/assets/logos/Argos-logo_fundo_branco.png" type="image/png">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <title>Argos - Home</title>
+
+    <script src="mock-data.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body
+    class="w-screen h-screen overflow-hidden bg-[#09121B] text-white"
+    data-page="home"
+>
+
+    <div class="flex w-full h-full">
+
+<div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
+
+    <div class="flex flex-col gap-4">
+
+        <img
+            src="/src/assets/logos/Argos-logo_branco.png"
+            alt="Argos"
+            class="p-2 h-30 w-auto object-contain"
+        >
+
+        <nav class="flex flex-col gap-2 mt-6">
+
+            <a
+                href="/src/html/analista/home.html"
+                class="rounded-lg bg-[#09121B] px-4 py-3 font-semibold"
+            >
+                Home
+            </a>
+
+            <a
+                href="/src/html/analista/alertas.html"
+                class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+            >
+                Alertas
+            </a>
+
+        </nav>
+
+    </div>
+
+
+    <div class="flex flex-col gap-2">
+
+        <a
+            href="#"
+            class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+        >
+            Configurações
+        </a>
+
+        <a
+            href="/src/index.html"
+            class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+        >
+            Sair
+        </a>
+
+    </div>
+
+</div>
+
+        <main class="flex-1 min-w-0 h-full overflow-y-auto">
+
+            <div class="p-8 lg:p-10 max-w-[1500px] mx-auto">
+
+                <div class="mb-8">
+
+                    <h1 class="text-3xl font-bold">
+                        Home
+                    </h1>
+
+                    <p class="text-sm text-[#64748B] mt-2">
+                        Visão geral dos dispositivos monitorados
+                    </p>
+
+                </div>
+
+
+                <section
+                    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8"
+                >
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-6">
+
+                        <p class="text-xs text-[#64748B]">
+                            Equipamentos
+                        </p>
+
+                        <p
+                            id="kpi-total"
+                            class="text-3xl font-bold text-[#38BDF8] mt-2"
+                        >
+                            0
+                        </p>
+
+                        <p class="text-xs text-[#64748B] mt-1">
+                            monitorados
+                        </p>
+
+                    </div>
+
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-6">
+
+                        <p class="text-xs text-[#64748B]">
+                            Online
+                        </p>
+
+                        <p
+                            id="kpi-online"
+                            class="text-3xl font-bold text-[#22C55E] mt-2"
+                        >
+                            0
+                        </p>
+
+                        <p class="text-xs text-[#64748B] mt-1">
+                            de 7
+                        </p>
+
+                    </div>
+
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-6">
+
+                        <p class="text-xs text-[#64748B]">
+                            Offline
+                        </p>
+
+                        <p
+                            id="kpi-offline"
+                            class="text-3xl font-bold text-[#94A3B8] mt-2"
+                        >
+                            0
+                        </p>
+
+                        <p class="text-xs text-[#64748B] mt-1">
+                            sem conexão
+                        </p>
+
+                    </div>
+
+
+                    <div class="bg-[#101923] border border-[#202D3C] rounded-lg p-6">
+
+                        <p class="text-xs text-[#64748B]">
+                            Alertas Críticos
+                        </p>
+
+                        <p
+                            id="kpi-criticos"
+                            class="text-3xl font-bold text-[#EF4444] mt-2"
+                        >
+                            0
+                        </p>
+
+                        <p class="text-xs text-[#64748B] mt-1">
+                            ativos
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <section>
+
+                    <div
+                        id="empresas-container"
+                        class="grid grid-cols-1 lg:grid-cols-3 gap-4"
+                    >
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
