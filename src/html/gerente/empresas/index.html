@@ -33,7 +33,7 @@
         </div>
     </aside>
     <main class="flex-1 h-full overflow-y-auto p-9">
-        <div class="max-w-3xl">
+        <div class="max-w-4xl">
             <header class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Empresas</h1>
                 <button class="flex items-center gap-2 px-5 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="abrirModal()">
@@ -44,7 +44,7 @@
             <section class="mt-6 flex flex-col gap-3">
                 <!-- Div abaixo se trata do template das empresas cadastradas (for puxando elas do BD)-->
                 <div class="flex items-center justify-between px-6 py-5 rounded-xl border border-white/10 bg-[#0D1924]">
-                    <span class="text-sm font-bold">Empresa 1</span>
+                    <span class="text-base font-bold">Empresa 1</span>
                     <div class="flex items-center gap-4 text-white/60">
                         <a href="./editarEmpresa.html" class="hover:text-light-blue cursor-pointer transition-element">
                             <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6" /><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
@@ -84,8 +84,8 @@
                 <h2 id="modal_titulo" class="text-base font-bold">Deseja excluir essa empresa?</h2>
             </div>
             <div class="flex justify-center gap-3">
-                <button class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Não</button>
-                <button class="px-6 py-2.5 rounded-md bg-red-500 text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Sim</button>
+                <button class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="fecharModalExcluir()">Não</button>
+                <button class="px-6 py-2.5 rounded-md bg-red-500 text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="fecharModalExcluir()">Sim</button>
             </div>
         </div>
     </div>
