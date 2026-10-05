@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="/src/assets/logos/Argos-logo_branco.png" type="image/png">
+    <link rel="stylesheet" href="/src/output.css">
+
+    <title>Argos - Empresa</title>
+
+    <script src="mock-data.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body
+    class="w-screen h-screen overflow-hidden bg-[#09121B] text-white"
+    data-page="empresa"
+>
+
+    <div class="flex w-full h-full">
+
+<div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
+
+    <div class="flex flex-col gap-4">
+
+        <img
+            src="/src/assets/logos/Argos-logo_branco.png"
+            alt="Argos"
+            class="p-2 h-30 w-auto object-contain"
+        >
+
+        <nav class="flex flex-col gap-2 mt-6">
+
+            <a
+                href="/src/html/analista/home.html"
+                class="rounded-lg bg-[#09121B] px-4 py-3 font-semibold"
+            >
+                Home
+            </a>
+
+            <a
+                href="/src/html/analista/alertas.html"
+                class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+            >
+                Alertas
+            </a>
+
+        </nav>
+
+    </div>
+
+
+    <div class="flex flex-col gap-2">
+
+        <a
+            href="#"
+            class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+        >
+            Configurações
+        </a>
+
+        <a
+            href="/src/index.html"
+            class="rounded-lg px-4 py-3 text-white/70 hover:bg-[#09121B] hover:text-white"
+        >
+            Sair
+        </a>
+
+    </div>
+
+</div>
+
+
+        <main class="flex-1 min-w-0 h-full overflow-y-auto">
+
+            <div class="p-8 lg:p-10 max-w-[1500px] mx-auto">
+
+                <div class="flex items-center gap-3 text-sm mb-7">
+
+                    <a
+                        href="home.html"
+                        class="text-[#64748B] hover:text-white transition"
+                    >
+                        Home
+                    </a>
+
+                    <span class="text-[#475569]">
+                        ›
+                    </span>
+
+                    <span
+                        id="empresa-nome-breadcrumb"
+                        class="text-white font-semibold"
+                    >
+                        Empresa
+                    </span>
+
+                </div>
+
+
+            
+                <div class="mb-7">
+
+                    <h1
+                        id="empresa-titulo"
+                        class="text-3xl font-bold"
+                    >
+                        Empresa
+                    </h1>
+
+                    <p
+                        id="empresa-subtitulo"
+                        class="text-sm text-[#64748B] mt-2"
+                    >
+                        Equipamentos vinculados
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="bg-[#101923] border border-[#202D3C] rounded-lg overflow-hidden"
+                >
+
+                    <div
+                        class="grid grid-cols-[1.4fr_1fr_0.8fr_0.8fr_1.5fr] px-6 py-4 bg-[#141F2D] border-b border-[#263342] text-[11px] uppercase tracking-wide text-[#64748B] font-semibold"
+                    >
+
+                        <span>Equipamento</span>
+                        <span>Categoria</span>
+                        <span>Status</span>
+                        <span>Conexão</span>
+                        <span>Último alerta</span>
+
+                    </div>
+
+                    <div id="equipamentos-container">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

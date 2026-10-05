@@ -4,17 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="png">
-    <title>Argos (gerente)- editar funcionarios </title>
-
+    <title>Argos (gerente)- Editar Funcionário</title>
     <link rel="stylesheet" href="../../../output.css">
-    <script src="script.js"></script>
 </head>
-<body class="w-[100vw] h-[100vh] bg-[#09121B] text-white flex">
-    <div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
-        <div class="flex flex-col gap-4">
-            <img src="../../../assets/logos/Argos-logo_branco.png" alt="Argos" class="p-2 h-30 w-auto object-contain">
+<body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
+    <aside class="w-1/5 shrink-0 h-full flex flex-col bg-[#0B141D] border-r border-white/10">
+        <div class="px-6 py-6 border-b border-white/10 flex gap-3 ">
+            <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos" class="h-8 w-auto object-contain">
+            <p class="self-center text-xl font-semibold">Argos</p>
         </div>
-    </div>
+        <div class="px-6 py-6 border-b border-white/10">
+            <!-- Aqui podemos fazer a foto de perfil do usuário ou só manter a primeira letra do nome provisoriamente -->
+            <div class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">U</div>
+            <p class="mt-3 text-white/60">Olá,</p>
+            <!-- Aqui tem que alterar para receber nome do usuário da sessão (puxar do session.user?) -->
+            <p class="text-lg font-bold">Usuário</p>
+        </div>
+        <nav class="flex-1 flex flex-col py-4">
+            <a href="../home.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
+            <a href="../empresas/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
+            <a href="../funcionarios/index.html" class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Funcionários</a>
+            <a href="../chamados/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
+            <a href="../relatorio.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
+        </nav>
+        <div class="border-t border-white/10 py-4">
+            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
+            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
+        </div>
+    </aside>
    
 
     
