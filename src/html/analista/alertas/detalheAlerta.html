@@ -6,17 +6,70 @@
     <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="png">
     <title>Argos (analista)- detalhes alerta </title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../output.css">
+
     <link rel="stylesheet" href="../../../output.css">
     <script src="script.js"></script>
 </head>
 <body class="w-[100vw] h-[100vh] bg-[#09121B] text-white flex">
-    <div class="w-1/5 h-full bg-[#0D1924] p-10 flex flex-col justify-between">
-        <div class="flex flex-col gap-4">
-            <img src="../../../assets/logos/Argos-logo_branco.png" alt="Argos" class="p-2 h-30 w-auto object-contain">
-        </div>
-    </div>
-   
+    
+    <button id="btn-hamburguer"
+        class="fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-gray-500 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
 
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden"></div>
+
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 min-h-screen bg-[#0D1924] flex flex-col justify-between border-r border-gray-500 font-['Poppins'] transition-transform duration-300 -translate-x-full">
+
+        <div class="flex flex-col">
+
+            <div class="p-10 pb-6 border-b border-gray-500 h-30 items-center md:h-45">
+                <img src="../../../assets/logos/Argos-logo_branco.png" alt="Argos"
+                    class="p-2 h-20 w-auto ml-13 -mt-5 object-contain md:h-26 md:ml-0 md:mt-0 lg:h-30">
+            </div>
+
+            <div class="px-10 py-6 border-b border-gray-500 flex flex-col items-center md:items-start">
+                <div
+                    class="w-16 h-16 rounded-full bg-[#09121B] border-2 border-blue-500 flex items-center justify-center text-cyan-400 font-bold text-xl shrink-0 mb-3 ml-0 md:-ml-2">
+                    C
+                </div>
+                <p class="text-sm text-gray-300">Olá</p>
+                <p class="font-bold text-white text-base">Claudio</p>
+            </div>
+
+            <nav class="mt-6">
+                <ul class="flex flex-col gap-6 text-left">
+                    <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
+                        <a href="#" class="block">Home</a>
+                    </li>
+                    <li class="border-l-4 border-blue-500 pl-3 font-bold text-blue-400">
+                        <a href="index.html" class="block">Alertas</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div>
+            <ul class="border-t border-gray-500 flex flex-col gap-6 text-left mb-6  md:mb-8">
+                <li class="mt-5 pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
+                    <a href="#" class="block">Configurações</a>
+                </li>
+                <li class="pl-4 hover:font-semibold text-gray-300 hover:text-white cursor-pointer">
+                    <a href="#" class="block">Sair</a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+   
+    <main class="flex-1 p-8 overflow-y-auto">
+    <div id="detalhes-alerta-container">
+    </div>
+</main>
     
 </body>
 </html>
