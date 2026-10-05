@@ -55,16 +55,6 @@ function authUser() {
     let email = document.getElementById("input_email").value;
     let passwordHash = document.getElementById("input_senha").value;
 
-    const verifyFieldParam = { email, passwordHash }
-
-    try {
-        verifyFields(verifyFieldParam)
-        console.log("Todos os campos estão válidos!");
-    } catch (error) {
-        console.error("Erro de validação:", error);
-        return false;
-    }
-
     fetch("http://localhost:8080/usuarios/autenticar", {
         method: "POST",
         headers: {
@@ -77,12 +67,6 @@ function authUser() {
     }).then(response => {
         if (response.ok) {
             response.json().then(json => {
-                sessionStorage.EMAIL = json.email;
-                sessionStorage.ID = json.id;
-                sessionStorage.CARGO = json.cargo;
-                sessionStorage.EMPRESA_ID = json.empresaId;
-                sessionStorage.GESTOR_ID = json.gestorId;
-
                 setTimeout(() => {
                     window.location = "../usuarios.html"
                 })
@@ -159,10 +143,9 @@ function toggleFaq(pergunta, marcador){
 function criarUsuario() {
     
     let email = document.getElementById("input_email").value;
-    let cargo = document.getElementById("input_cargo").value;
     // let token = document.getElementById("input_token").value;
 
-    const verifyFieldParam = { email, cargo };
+    const verifyFieldParam = { email };
 
     try {
         verifyFields(verifyFieldParam)    
@@ -178,10 +161,7 @@ function criarUsuario() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            cargo: cargo,
             email: email,
-            gestorId: gestorId,
-            empresaId: empresaId
         })
     }).then(response => {
         if (response.ok) {
