@@ -1,0 +1,209 @@
+[
+    {
+        "id": "SLA-031",
+        "data": "2026-09-15",
+        "empresa": "Bradesco",
+        "equipamento": "FW-CORE-03",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Em Aberto"
+    },
+    {
+        "id": "SLA-030",
+        "data": "2026-09-15",
+        "empresa": "Itaú",
+        "equipamento": "SW-ACCESS-01",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Em Aberto"
+    },
+    {
+        "id": "SLA-029",
+        "data": "2026-09-14",
+        "empresa": "Santander",
+        "equipamento": "RT-CORE-01",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-028",
+        "data": "2026-09-14",
+        "empresa": "Bradesco",
+        "equipamento": "FW-CORE-02",
+        "violacao": "Resolução",
+        "prioridade": "Médio",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-027",
+        "data": "2026-09-13",
+        "empresa": "Itaú",
+        "equipamento": "FW-EDGE-01",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Em Aberto"
+    },
+    {
+        "id": "SLA-026",
+        "data": "2026-09-12",
+        "empresa": "Bradesco",
+        "equipamento": "FW-CORE-03",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-025",
+        "data": "2026-09-11",
+        "empresa": "Santander",
+        "equipamento": "RT-CORE-02",
+        "violacao": "Resolução",
+        "prioridade": "Médio",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-024",
+        "data": "2026-09-08",
+        "empresa": "Itaú",
+        "equipamento": "RT-CORE-01",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-023",
+        "data": "2026-09-06",
+        "empresa": "Santander",
+        "equipamento": "FW-CORE-03",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-022",
+        "data": "2026-09-05",
+        "empresa": "Bradesco",
+        "equipamento": "SW-ACCESS-01",
+        "violacao": "Resolução",
+        "prioridade": "Médio",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-021",
+        "data": "2026-09-03",
+        "empresa": "Itaú",
+        "equipamento": "FW-EDGE-01",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Em Aberto"
+    },
+    {
+        "id": "SLA-020",
+        "data": "2026-09-02",
+        "empresa": "Santander",
+        "equipamento": "RT-CORE-01",
+        "violacao": "Resolução",
+        "prioridade": "Médio",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-019",
+        "data": "2026-09-01",
+        "empresa": "Bradesco",
+        "equipamento": "FW-CORE-03",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Em Aberto"
+    },
+    {
+        "id": "SLA-018",
+        "data": "2026-08-29",
+        "empresa": "Itaú",
+        "equipamento": "RT-CORE-02",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-017",
+        "data": "2026-08-27",
+        "empresa": "Santander",
+        "equipamento": "FW-CORE-02",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-016",
+        "data": "2026-08-25",
+        "empresa": "Bradesco",
+        "equipamento": "SW-ACCESS-01",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-015",
+        "data": "2026-08-22",
+        "empresa": "Itaú",
+        "equipamento": "RT-CORE-01",
+        "violacao": "Resolução",
+        "prioridade": "Médio",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-014",
+        "data": "2026-08-20",
+        "empresa": "Santander",
+        "equipamento": "FW-EDGE-01",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-013",
+        "data": "2026-08-18",
+        "empresa": "Bradesco",
+        "equipamento": "RT-CORE-02",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-012",
+        "data": "2026-08-14",
+        "empresa": "Itaú",
+        "equipamento": "FW-CORE-03",
+        "violacao": "Resolução",
+        "prioridade": "Médio",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-011",
+        "data": "2026-08-11",
+        "empresa": "Santander",
+        "equipamento": "SW-ACCESS-01",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-010",
+        "data": "2026-08-07",
+        "empresa": "Bradesco",
+        "equipamento": "FW-CORE-02",
+        "violacao": "Tempo de Resposta",
+        "prioridade": "Alto",
+        "status": "Resolvido"
+    },
+    {
+        "id": "SLA-009",
+        "data": "2026-08-04",
+        "empresa": "Itaú",
+        "equipamento": "RT-CORE-01",
+        "violacao": "Disponibilidade",
+        "prioridade": "Crítico",
+        "status": "Resolvido"
+    }
+]
