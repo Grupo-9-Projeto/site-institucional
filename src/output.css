@@ -737,12 +737,6 @@
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
-  .max-w-5xl {
-    max-width: var(--container-5xl);
-  }
-  .max-w-6xl {
-    max-width: var(--container-6xl);
-  }
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
@@ -817,6 +811,9 @@
   .grid-cols-\[1\.4fr_1fr_0\.8fr_0\.8fr_1\.5fr\] {
     grid-template-columns: 1.4fr 1fr 0.8fr 0.8fr 1.5fr;
   }
+  .grid-cols-\[10rem_1fr\] {
+    grid-template-columns: 10rem 1fr;
+  }
   .grid-cols-\[repeat\(auto-fill\,minmax\(96px\,1fr\)\)\] {
     grid-template-columns: repeat(auto-fill,minmax(96px,1fr));
   }
@@ -841,8 +838,14 @@
   .items-end {
     align-items: flex-end;
   }
+  .items-end-safe {
+    align-items: safe flex-end;
+  }
   .items-start {
     align-items: flex-start;
+  }
+  .justify-around {
+    justify-content: space-around;
   }
   .justify-between {
     justify-content: space-between;
@@ -1064,6 +1067,12 @@
   .border-light-blue {
     border-color: var(--color-light-blue);
   }
+  .border-light-blue\/40 {
+    border-color: color-mix(in srgb, #03C8FF 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-light-blue) 40%, transparent);
+    }
+  }
   .border-red-500 {
     border-color: var(--color-red-500);
   }
@@ -1109,14 +1118,8 @@
   .bg-\[\#0B141D\] {
     background-color: #0B141D;
   }
-  .bg-\[\#0B\] {
-    background-color: #0B;
-  }
   .bg-\[\#0D1924\] {
     background-color: #0D1924;
-  }
-  .bg-\[\#0D\] {
-    background-color: #0D;
   }
   .bg-\[\#0a0e1a\] {
     background-color: #0a0e1a;
@@ -1159,9 +1162,6 @@
   }
   .bg-\[\#183044\] {
     background-color: #183044;
-  }
-  .bg-\[\#\] {
-    background-color: #;
   }
   .bg-amber-500 {
     background-color: var(--color-amber-500);
@@ -1236,6 +1236,12 @@
     background-color: color-mix(in srgb, #03C8FF 5%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-light-blue) 5%, transparent);
+    }
+  }
+  .bg-light-blue\/10 {
+    background-color: color-mix(in srgb, #03C8FF 10%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-light-blue) 10%, transparent);
     }
   }
   .bg-main-blue {
@@ -1564,9 +1570,6 @@
   }
   .text-right {
     text-align: right;
-  }
-  .align-middle {
-    vertical-align: middle;
   }
   .font-\[\'Poppins\'\] {
     font-family: 'Poppins';
@@ -2001,9 +2004,6 @@
       .hover\:border-white\/30:hover {
         border-color: color-mix(in oklab, var(--color-white) 30%, transparent);
       }
-    }
-    .hover\:bg-\[\#\#111d28\]:hover {
-      background-color: ##111d28;
     }
     .hover\:bg-\[\#0D1924\]:hover {
       background-color: #0D1924;
