@@ -45,6 +45,7 @@
                     </div>
                     <span class="text-sm text-white/50">00/00/2000</span>
                 </header>
+                <!-- Deixei os valores no dd de exemplo mas tem que tirar para receber os valores do equipamento atual -->
                 <dl class="mt-6">
                     <div class="grid grid-cols-[10rem_1fr] py-4 border-b border-white/10">
                         <dt class="text-sm text-white/60">Categoria</dt>
@@ -69,13 +70,23 @@
                 </dl>
                 <div class="mt-6 flex justify-end gap-5">
                     <a href="editarEquipamento.html" class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Editar Equipamento</a>
-                    <a href="../informacoesEmpresa.html" class="px-6 py-2.5 rounded-md bg-red-500 text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Excluir Equipamento</a>
+                    <button class="px-6 py-2.5 rounded-md bg-red-500 text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="abrirModalExcluir()">Excluir Equipamento</button>
                 </div>
             </section>
             <a href="../informacoesEmpresa.html" class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-white/20 text-sm font-bold hover:bg-white/10 transition-element">Voltar</a>
         </div>
-
+        <div id="modal_excluir" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2xl">
+            <div class="flex items-center justify-between mb-3">
+                <h2 id="modal_titulo" class="text-base font-bold">Deseja excluir esse equipamento?</h2>
+            </div>
+            <div class="flex justify-center gap-3">
+                <button class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="fecharModalExcluir()">Não</button>
+                <button class="px-6 py-2.5 rounded-md bg-red-500 text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer" onclick="fecharModalExcluir()">Sim</button>
+            </div>
+        </div>
+    </div>
     </main>
-    
 </body>
+<script src="./script.js"></script>
 </html>
