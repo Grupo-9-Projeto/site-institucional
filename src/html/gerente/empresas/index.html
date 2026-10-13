@@ -126,14 +126,16 @@
 
                 <p class="text-light-blue font-bold">Contrato de SLA</p>
 
-                <div class="flex gap-2">
+                <div class="flex flex-col md:flex-row gap-4">
+                    
                     <div class="flex flex-col flex-1 gap-2">
-                        <label for="Sla" class="text-sm font-bold text-white/60">Nível do SLA</label>
-                        <select id="SLA" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
-                            <option value="selecione">Selecione</option>
-                            <option value="bronze">Bronze</option>
-                            <option value="prata">Prata</option>
-                            <option value="ouro">Ouro</option>
+                        <label for="SLA" class="text-sm font-bold text-white/60">Nível do SLA</label>
+                        <select id="SLA"
+                            class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm text-white focus:border-light-blue focus:outline-none transition-element cursor-pointer">
+                            <option value="selecione" class="bg-main-blue">Selecione</option>
+                            <option value="bronze" class="bg-main-blue">Bronze</option>
+                            <option value="prata" class="bg-main-blue">Prata</option>
+                            <option value="ouro" class="bg-main-blue">Ouro</option>
                         </select>
                     </div>
 
@@ -145,17 +147,20 @@
                 </div>
 
                 <div class="flex flex-col flex-1 gap-2">
-                        <label for="status" class="text-sm font-bold text-white/60">Status do SLA</label>
-                        <select id="status" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
-                            <option value="bronze">Ativo</option>
-                            <option value="prata">Inativo</option>
-                            <option value="ouro">Suspenso</option>
-                        </select>
+                    <label for="status" class="text-sm font-bold text-white/60">Status do SLA</label>
+                    <select id="status"
+                        class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <option value="bronze">Ativo</option>
+                        <option value="prata">Inativo</option>
+                        <option value="ouro">Suspenso</option>
+                    </select>
                 </div>
 
                 <div class="flex justify-end gap-3">
-                    <button class="px-6 py-2.5 rounded-md text-white/90 text-sm font-bold hover:brightness-110 transition-element cursor-pointer border border-white/15">Cancelar</button>
-                    <button class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Salvar</button>
+                    <button
+                        class="px-6 py-2.5 rounded-md text-white/90 text-sm font-bold hover:brightness-110 transition-element cursor-pointer border border-white/15">Cancelar</button>
+                    <button
+                        class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Salvar</button>
                 </div>
             </form>
         </div>
