@@ -599,7 +599,6 @@ function criarGraficoBarraHorizontal(idCanvas, rotulo, corBarra, dadosIniciais) 
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
-            // resizeDelay removido para redimensionar instantaneamente
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: true }
@@ -641,7 +640,6 @@ function criarGraficoBarraVertical(idCanvas, rotulo, corBarra, labelsIniciais, d
             indexAxis: 'x',
             responsive: true,
             maintainAspectRatio: false,
-            // resizeDelay: 100 foi removido daqui
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: true }
@@ -662,7 +660,6 @@ function criarGraficoBarraVertical(idCanvas, rotulo, corBarra, labelsIniciais, d
 }
 
 function renderizarGraficos() {
-    // Destrói instâncias existentes caso a função seja chamada novamente
     if (graficoAbertos) graficoAbertos.destroy();
     if (graficoResolvidos) graficoResolvidos.destroy();
 
@@ -672,7 +669,6 @@ function renderizarGraficos() {
     graficoResolvidos = criarGraficoBarraVertical('graficoChamadosResolvidos', 'Chamados Resolvidos', '#22C55E', dadosJsonResolvidos.semana.labels, dadosJsonResolvidos.semana.valores);
 }
 
-// Evento que garante o redimensionamento instantâneo ao usar zoom (Ctrl +/-) ou alterar tamanho do navegador
 window.addEventListener('resize', () => {
     if (graficoAbertos) graficoAbertos.resize();
     if (graficoResolvidos) graficoResolvidos.resize();
