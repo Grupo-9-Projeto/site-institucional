@@ -31,6 +31,61 @@
             <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
             <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
-    </div> 
+    </aside>
+    <main class="flex-1 h-full overflow-y-auto p-9">
+        <a href="./index.html" class="flex w-fit items-center gap-2 mb-4 text-sm font-bold text-white/60 hover:text-light-blue transition-element">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            Voltar para Funcionários
+        </a>
+        <section class="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-[#0D1924] p-9">
+            <p class="text-xs font-bold text-white/60">Modificar Funcionário</p>
+            <div class="mt-5 flex items-center gap-6">
+                <div class="size-20 shrink-0 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-3xl font-bold">F</div>
+                <h1 class="text-3xl font-bold">Funcionário 1</h1>
+            </div>
+            <form class="mt-8 flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
+                    <label for="email" class="text-sm font-bold text-white/60">E-Mail</label>
+                    <input id="email" name="email" type="email" value="funcionario1@argos.com" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <span class="text-sm font-bold text-white/60">Empresas</span>
+                    <ul class="rounded-md border border-white/15 bg-white/5 overflow-hidden">
+                        <li class=" flex items-center justify-between px-4 py-3.5 text-sm border-b border-white/10">Empresa 1
+                            <button class="text-white/40 hover:text-red-400 cursor-pointer transition-element">
+                                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                            </button>
+                        </li>
+                    </ul>
+                    <button type="button" onclick="abrirModal()" class="w-fit mt-1 px-4 py-2 rounded-md border border-white/20 text-xs font-bold text-white/60 hover:bg-white/10 hover:text-white cursor-pointer transition-element">Adicionar Empresa</button>
+                </div>
+                <div class="mt-2 flex items-center justify-end">
+                    <a href="index.html" class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 cursor-pointer transition-element">Salvar</a>
+                </div>
+            </form>
+        </section>
+    </main>
+    <div id="modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2xl">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold">Adicionar Empresa</h2>
+                <button type="button" class="text-white/60 hover:text-white text-2xl leading-none transition-element cursor-pointer" onclick="fecharModal()">&times;</button>
+            </div>
+            <div class="mt-6 flex flex-col gap-2">
+                <label for="empresa" class="text-sm font-bold text-white/60">Empresa</label>
+                <select id="empresa" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm focus:border-light-blue focus:outline-none transition-element cursor-pointer scheme-dark">
+                    <option value="" selected disabled>Selecione uma empresa</option>
+                    <option>Empresa 1</option>
+                    <option>Empresa 2</option>
+                    <option>Empresa 3</option>
+                </select>
+            </div>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="fecharModal()" class="px-5 py-2.5 rounded-md border border-white/20 text-sm font-bold hover:bg-white/10 transition-element cursor-pointer">Cancelar</button>
+                <button type="button" onclick="fecharModal()" class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Adicionar</button>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="script.js"></script>
 </html>
