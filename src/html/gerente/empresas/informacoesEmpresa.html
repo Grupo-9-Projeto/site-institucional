@@ -1,60 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="png">
-    <title>Argos (gerente)- empresas</title>
+    <title>Argos (gerente) - Informações da Empresa</title>
+
+    <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="image/png">
     <link rel="stylesheet" href="../../../output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
 </head>
+
 <body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
-    <aside class="w-1/5 shrink-0 h-full flex flex-col bg-[#0B141D] border-r border-white/10">
-        <div class="px-6 py-6 border-b border-white/10 flex gap-3 ">
-            <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos" class="h-8 w-auto object-contain">
+
+    <button id="btn-hamburguer"
+        class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-gray-500 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-full flex flex-col overflow-y-auto">
+
+        <div class="px-6 py-6 border-b border-white/10 flex gap-3 shrink-0">
+            <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos"
+                class="h-8 w-auto object-contain">
             <p class="self-center text-xl font-semibold">Argos</p>
         </div>
-        <div class="px-6 py-6 border-b border-white/10">
-            <!-- Aqui podemos fazer a foto de perfil do usuário ou só manter a primeira letra do nome provisoriamente -->
-            <div class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">U</div>
+
+        <div class="px-6 py-6 border-b border-white/10 shrink-0">
+            <div
+                class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
+                V
+            </div>
             <p class="mt-3 text-white/60">Olá,</p>
-            <!-- Aqui tem que alterar para receber nome do usuário da sessão (puxar do session.user?) -->
-            <p class="text-lg font-bold">Usuário</p>
+            <p class="text-lg font-bold">Vivian</p>
         </div>
+
         <nav class="flex-1 flex flex-col py-4">
-            <a href="../home.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
-            <a href="./index.html" class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Empresas</a>
-            <a href="../funcionarios/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
-            <a href="../chamados/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
-            <a href="../relatorio.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
+            <a href="../home.html"
+                class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
+            <a href="./index.html"
+                class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Empresas</a>
+            <a href="../funcionarios/index.html"
+                class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
+            <a href="../chamados/index.html"
+                class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico
+                de Chamados</a>
+            <a href="../relatorio.html"
+                class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar
+                Relatório</a>
         </nav>
-        <div class="border-t border-white/10 py-4">
-            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
+
+        <div class="border-t border-white/10 py-4 shrink-0">
+            <a href="#"
+                class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
             <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
     </aside>
-    <main class="flex-1 h-full overflow-y-auto p-9">
-        <div class="max-w-3xl mx-auto">
-            <section class="rounded-2xl border border-white/10 bg-[#0D1924] p-8">
-                <header class="flex items-start justify-between">
+
+    <main class="flex-1 h-full overflow-y-auto p-4 pt-12 md:p-8 md:pt-8 lg:pt-8">
+        <div class="max-w-4xl mx-auto w-full">
+            
+            <a href="index.html"
+                class="flex w-fit items-center gap-2 mb-6 mt-6 lg:mt-0 text-sm text-white/60 hover:text-light-blue transition-element">
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                Voltar para Empresas
+            </a>
+
+            <section class="w-full rounded-xl border border-white/10 bg-[#0D1924] p-6 md:p-8">
+
+                <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
                     <div>
-                        <p class="text-xs font-bold text-white/60">Informações</p>
+                        <p class="text-sm text-white/60">Informações</p>
                         <h1 class="mt-1 text-2xl font-bold">Empresa 1</h1>
-                        <p class="mt-1 text-sm text-white/50">00.000.000/0000-00</p>
+                        <p class="mt-1 text-base text-white/50">00.000.000/0000-00</p>
                     </div>
-                    <span class="text-sm text-white/50">00/00/2000</span>
+                    <span class="text-sm text-white/50">Cadastrado em: 00/00/2000</span>
                 </header>
+
+                <div class="mt-6 flex flex-col gap-4">
+                    <h2 class="text-base font-bold text-light-blue">Contrato de SLA</h2>
+
+                    <div class="flex flex-col gap-4 md:flex-row">
+
+                        <div class="w-full h-18 border border-white/10 rounded-[5px] bg-[#09121B] md:w-1/3">
+                            <div class="ml-4 mt-3">
+                                <p class="text-gray-500 text-xs mb-1">Nível do SLA</p>
+                                <p class="font-medium">Ouro</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-18 border border-white/10 rounded-[5px] bg-[#09121B] md:w-1/3">
+                            <div class="ml-4 mt-3">
+                                <p class="text-gray-500 text-xs mb-1">Limite de resposta</p>
+                                <p class="font-medium">2 horas</p>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-18 border border-white/10 rounded-[5px] bg-[#09121B] md:w-1/3">
+                            <div class="ml-4 mt-3">
+                                <p class="text-gray-500 font-extrabold text-xs mb-1">Status</p>
+                                <p class="font-medium text-green-500">Ativo</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
                 <hr class="my-6 border-white/10">
+
                 <div class="flex items-center justify-between">
                     <h2 class="text-base font-bold text-light-blue">Equipamentos</h2>
-                    <a href="./equipamentos/novoEquipamento.html" class="text-white/60 hover:text-light-blue cursor-pointer transition-element">
-                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+                    <a href="./equipamentos/novoEquipamento.html"
+                        class="text-white/60 hover:text-light-blue cursor-pointer transition-element">
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
                     </a>
                 </div>
                 <div class="mt-4 flex flex-col gap-2.5">
-                    <div class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element">
+                    <div
+                        class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element">
                         <div class="flex items-center gap-3">
                             <span class="size-2.5 rounded-full bg-green-500"></span>
-                            <a href="./equipamentos/verEquipamento.html" class="text-sm font-bold after:absolute after:inset-0">Equipamento 1</a>
+                            <a href="./equipamentos/verEquipamento.html"
+                                class="text-sm font-medium after:absolute after:inset-0">Equipamento 1</a>
                         </div>
                         <div class="flex items-center gap-4">
                             <span class="text-xs font-bold text-green-500">Online</span>
@@ -62,8 +141,9 @@
                     </div>
                 </div>
             </section>
-            <a href="index.html" class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-white/20 text-sm font-bold hover:bg-white/10 transition-element">Voltar</a>
+
         </div>
     </main>
 </body>
+
 </html>
