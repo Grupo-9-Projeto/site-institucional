@@ -411,30 +411,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('sidebar-overlay');
 
     function toggleMenu() {
+        if (!sidebar || !overlay) return;
+        
         sidebar.classList.toggle('-translate-x-full');
         overlay.classList.toggle('hidden');
     }
 
-    function ajustarComZoom() {
-        if (window.innerWidth >= 1024) {
-            btnHamburguer.classList.add('hidden');
-            sidebar.classList.remove('-translate-x-full');
-            sidebar.classList.remove('fixed');
-            sidebar.classList.add('relative');
-            overlay.classList.add('hidden');
-        } else {
-            btnHamburguer.classList.remove('hidden');
-            sidebar.classList.add('-translate-x-full');
-            sidebar.classList.remove('relative');
-            sidebar.classList.add('fixed');
-        }
-    }
-
-    if (btnHamburguer && sidebar && overlay) {
+    if (btnHamburguer && overlay) {
         btnHamburguer.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
-        window.addEventListener('resize', ajustarComZoom);
-        ajustarComZoom();
     }
 });
 
@@ -614,6 +599,7 @@ function criarGraficoBarraHorizontal(idCanvas, rotulo, corBarra, dadosIniciais) 
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
+            // resizeDelay removido para redimensionar instantaneamente
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: true }
@@ -655,7 +641,7 @@ function criarGraficoBarraVertical(idCanvas, rotulo, corBarra, labelsIniciais, d
             indexAxis: 'x',
             responsive: true,
             maintainAspectRatio: false,
-            resizeDelay: 100,
+            // resizeDelay: 100 foi removido daqui
             plugins: {
                 legend: { display: false },
                 tooltip: { enabled: true }
@@ -676,11 +662,21 @@ function criarGraficoBarraVertical(idCanvas, rotulo, corBarra, labelsIniciais, d
 }
 
 function renderizarGraficos() {
+    // Destrói instâncias existentes caso a função seja chamada novamente
+    if (graficoAbertos) graficoAbertos.destroy();
+    if (graficoResolvidos) graficoResolvidos.destroy();
+
     const valoresAbertosIniciais = extrairValoresPorChave(dadosJsonAbertos, "chamados_semana");
 
     graficoAbertos = criarGraficoBarraHorizontal('graficoChamadosAbertos', 'Chamados Abertos', '#D9383A', valoresAbertosIniciais);
     graficoResolvidos = criarGraficoBarraVertical('graficoChamadosResolvidos', 'Chamados Resolvidos', '#22C55E', dadosJsonResolvidos.semana.labels, dadosJsonResolvidos.semana.valores);
 }
+
+// Evento que garante o redimensionamento instantâneo ao usar zoom (Ctrl +/-) ou alterar tamanho do navegador
+window.addEventListener('resize', () => {
+    if (graficoAbertos) graficoAbertos.resize();
+    if (graficoResolvidos) graficoResolvidos.resize();
+});
 
 function atualizarGrafico(instanciaGrafico, novosValores, novasLabels) {
     if (!instanciaGrafico) return;
