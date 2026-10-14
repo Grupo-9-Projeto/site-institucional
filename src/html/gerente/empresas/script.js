@@ -27,8 +27,16 @@ const dadosEmpresas = [
         limiteResposta: "2 horas",
         status: "Ativo",
         equipamentos: [
-            { nome: "Servidor Principal - Rack A", status: "Online" },
-            { nome: "Switch Core 24 Portas", status: "Online" }
+            {
+                id: 1,
+                nome: "FW-CORE-02",
+                status: "Ativo"
+            },
+            {
+                id: 2,
+                nome: "Switch Core 24 Portas",
+                status: "Ativo"
+            }
         ]
     },
     {
@@ -40,7 +48,11 @@ const dadosEmpresas = [
         limiteResposta: "4 horas",
         status: "Ativo",
         equipamentos: [
-            { nome: "Firewall de Borda", status: "Online" }
+            {
+                id: 1,
+                nome: "Firewall de Borda",
+                status: "Ativo"
+            }
         ]
     },
     {
@@ -52,7 +64,11 @@ const dadosEmpresas = [
         limiteResposta: "8 horas",
         status: "Inativo",
         equipamentos: [
-            { nome: "Terminal de Consulta 01", status: "Offline" }
+            {
+                id: 1,
+                nome: "Terminal de Consulta 01",
+                status: "Offline"
+            }
         ]
     },
     {
@@ -64,8 +80,16 @@ const dadosEmpresas = [
         limiteResposta: "1 hora",
         status: "Ativo",
         equipamentos: [
-            { nome: "Workstation CAD Principal", status: "Online" },
-            { nome: "No-break Torre 3kVA", status: "Online" }
+            {
+                id: 1,
+                nome: "Workstation CAD Principal",
+                status: "Ativo"
+            },
+            {
+                id: 2,
+                nome: "No-break Torre 3kVA",
+                status: "Ativo"
+            }
         ]
     },
     {
@@ -77,7 +101,11 @@ const dadosEmpresas = [
         limiteResposta: "4 horas",
         status: "Ativo",
         equipamentos: [
-            { nome: "Roteador Wi-Fi Corporativo", status: "Online" }
+            {
+                id: 1,
+                nome: "Roteador Wi-Fi Corporativo",
+                status: "Ativo"
+            }
         ]
     }
 ];
@@ -137,9 +165,9 @@ function inicializarPaginaEmpresas() {
         if (eqContainer) {
             eqContainer.innerHTML = '';
             empresa.equipamentos.forEach((eq, index) => {
-                const isOnline = eq.status === 'Online';
+                const isOnline = eq.status === 'Ativo' || eq.status === 'Online';
                 eqContainer.innerHTML += `
-                    <a href="./equipamentos/editarEquipamento.html?empresaId=${empresa.id}&eqId=${index}" class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element cursor-pointer">
+                    <a href="./equipamentos/informacoesEquipamento.html?empresaId=${empresa.id}&eqId=${index}" class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element cursor-pointer">
                         <div class="flex items-center gap-3">
                             <span class="size-2.5 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}"></span>
                             <span class="text-sm font-medium">${eq.nome}</span>

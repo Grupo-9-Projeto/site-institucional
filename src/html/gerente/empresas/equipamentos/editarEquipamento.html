@@ -68,9 +68,10 @@
 
     <main class="flex-1 h-full overflow-y-auto p-9">
         <section class="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-[#0D1924] p-8">
-            <header class="flex items-start justify-between">
+
+            <header class="flex items-start justify-between mb-10">
                 <div>
-                    <p class="text-xs font-bold text-white/60">Editar informações</p>
+                    <p class="text-xs font-medium text-white/60">Editar informações</p>
                     <div class="mt-1 flex items-center gap-3">
                         
                         <h1 id="edit-eq-nome" class="text-2xl font-bold">Equipamento 1</h1>
@@ -81,12 +82,14 @@
                 </div>
                 <span  class="text-sm text-white/50">00/00/2000</span>
             </header>
+
             <form class="mt-6 flex flex-col gap-5">
+
                 <div class="flex flex-col gap-2">
-                    <label for="categoria" class="text-sm font-bold text-white/60">Categoria</label>
-                    <input id="categoria" name="categoria" type="text" value="Firewall"
-                        class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                    <label for="status" class="text-sm font-bold text-white/60">Status</label>
+                    <input id="edit-eq-status-input" name="status" type="text" value="Ativo" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
                 </div>
+
                 <div class="flex flex-col gap-2">
                     <label for="modelo" class="text-sm font-bold text-white/60">Modelo</label>
                     <input id="modelo" name="modelo" type="text" value="Cisco ASA 5505"
