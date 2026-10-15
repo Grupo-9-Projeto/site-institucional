@@ -19,8 +19,28 @@ const dadosEmpresas = [
                 status: "Ativo",
                 cadastradoEm: "15/03/2024",
                 componentes: [
-                    { id: 1, nome: "CPU Principal", tipo: "CPU", unidadeMedida: "%", status: "Ativo" },
-                    { id: 2, nome: "Memória RAM", tipo: "Memória", unidadeMedida: "%", status: "Ativo" }
+                    {
+                        id: 1,
+                        nome: "CPU Principal",
+                        tipo: "CPU",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "70",
+                        limiarAlto: "85",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    },
+                    {
+                        id: 2,
+                        nome: "Memória RAM",
+                        tipo: "Memória",
+                        unidadeMedida: "%",
+                        capacidade: "16 GB",
+                        limiarAtencao: "75",
+                        limiarAlto: "85",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    }
                 ]
             },
             {
@@ -34,7 +54,17 @@ const dadosEmpresas = [
                 status: "Ativo",
                 cadastradoEm: "15/03/2024",
                 componentes: [
-                    { id: 1, nome: "Uso de Banda (Porta 1)", tipo: "Rede", unidadeMedida: "Mbps", status: "Ativo" }
+                    {
+                        id: 1,
+                        nome: "Uso de Banda (Porta 1)",
+                        tipo: "Rede",
+                        unidadeMedida: "Mbps",
+                        capacidade: "1000",
+                        limiarAtencao: "600",
+                        limiarAlto: "800",
+                        limiarCritico: "950",
+                        status: "Ativo"
+                    }
                 ]
             }
         ]
@@ -58,7 +88,30 @@ const dadosEmpresas = [
                 serie: "FG60FTK21000",
                 status: "Ativo",
                 cadastradoEm: "20/05/2024",
-                componentes: []
+                componentes: [
+                    {
+                        id: 1,
+                        nome: "CPU Firewall",
+                        tipo: "CPU",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "70",
+                        limiarAlto: "85",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    },
+                    {
+                        id: 2,
+                        nome: "Disco SSD Principal",
+                        tipo: "Disco",
+                        unidadeMedida: "GB",
+                        capacidade: "128",
+                        limiarAtencao: "80",
+                        limiarAlto: "90",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    }
+                ]
             }
         ]
     },
@@ -81,7 +134,19 @@ const dadosEmpresas = [
                 serie: "DL-OPT-3080",
                 status: "Offline",
                 cadastradoEm: "10/01/2025",
-                componentes: []
+                componentes: [
+                    {
+                        id: 1,
+                        nome: "Processador Terminal",
+                        tipo: "CPU",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "75",
+                        limiarAlto: "90",
+                        limiarCritico: "98",
+                        status: "Inativo"
+                    }
+                ]
             }
         ]
     },
@@ -104,7 +169,41 @@ const dadosEmpresas = [
                 serie: "HP-Z4-2025",
                 status: "Ativo",
                 cadastradoEm: "05/08/2025",
-                componentes: []
+                componentes: [
+                    {
+                        id: 1,
+                        nome: "CPU Xeon Workstation",
+                        tipo: "CPU",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "70",
+                        limiarAlto: "85",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    },
+                    {
+                        id: 2,
+                        nome: "Memória RAM ECC",
+                        tipo: "Memória",
+                        unidadeMedida: "%",
+                        capacidade: "64 GB",
+                        limiarAtencao: "80",
+                        limiarAlto: "90",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    },
+                    {
+                        id: 3,
+                        nome: "NVMe 1TB (Sistema)",
+                        tipo: "Disco",
+                        unidadeMedida: "%",
+                        capacidade: "1000",
+                        limiarAtencao: "80",
+                        limiarAlto: "90",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    }
+                ]
             },
             {
                 id: 2,
@@ -116,7 +215,19 @@ const dadosEmpresas = [
                 serie: "APC-3KVA-01",
                 status: "Ativo",
                 cadastradoEm: "05/08/2025",
-                componentes: []
+                componentes: [
+                    {
+                        id: 1,
+                        nome: "Carga de Bateria",
+                        tipo: "Bateria",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "40",
+                        limiarAlto: "25",
+                        limiarCritico: "15",
+                        status: "Ativo"
+                    }
+                ]
             }
         ]
     },
@@ -139,7 +250,19 @@ const dadosEmpresas = [
                 serie: "UNI-U6-PRO",
                 status: "Ativo",
                 cadastradoEm: "12/11/2025",
-                componentes: []
+                componentes: [
+                    {
+                        id: 1,
+                        nome: "Uso de Banda Wireless",
+                        tipo: "Rede",
+                        unidadeMedida: "Mbps",
+                        capacidade: "1200",
+                        limiarAtencao: "800",
+                        limiarAlto: "1000",
+                        limiarCritico: "1150",
+                        status: "Ativo"
+                    }
+                ]
             }
         ]
     }
@@ -174,95 +297,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (equipamento) {
-        const inputCategoria = document.getElementById('categoria');
-        if (inputCategoria) {
-            inputCategoria.value = equipamento.categoria || '';
-        }
-
         const editEqNome = document.getElementById('edit-eq-nome');
         if (editEqNome) editEqNome.textContent = equipamento.nome;
 
         const badgeStatus = document.getElementById('edit-eq-status-badge');
         if (badgeStatus) badgeStatus.textContent = equipamento.status;
 
-        const inputModelo = document.getElementById('modelo');
-        if (inputModelo) {
-            inputModelo.value = equipamento.modelo || '';
-            
-            const inputIp = document.getElementById('ip');
-            if (inputIp) inputIp.value = equipamento.ip || '';
+        const dataEl = document.getElementById('edit-eq-data');
+        if (dataEl) dataEl.textContent = equipamento.cadastradoEm || '--/--/----';
 
-            const inputMac = document.getElementById('mac');
-            if (inputMac) inputMac.value = equipamento.mac || '';
+        const catEl = document.getElementById('edit-eq-categoria');
+        if (catEl) catEl.textContent = equipamento.categoria || '---';
 
-            const inputSerie = document.getElementById('serie');
-            if (inputSerie) inputSerie.value = equipamento.serie || '';
+        const modEl = document.getElementById('edit-eq-modelo');
+        if (modEl) modEl.textContent = equipamento.modelo || '---';
 
-            const inputStatus = document.getElementById('status');
-            if (inputStatus) inputStatus.value = equipamento.status || '';
+        const ipEl = document.getElementById('edit-eq-ip');
+        if (ipEl) ipEl.textContent = equipamento.ip || '---';
 
-            const inputStatusAlt = document.getElementById('edit-eq-status-input');
-            if (inputStatusAlt) inputStatusAlt.value = equipamento.status || '';
-        } else {
-            const dataEl = document.getElementById('edit-eq-data');
-            if (dataEl) dataEl.textContent = equipamento.cadastradoEm || '--/--/----';
+        const macEl = document.getElementById('edit-eq-mac');
+        if (macEl) macEl.textContent = equipamento.mac || '---';
 
-            const catEl = document.getElementById('edit-eq-categoria');
-            if (catEl) catEl.textContent = equipamento.categoria || '---';
+        const serieEl = document.getElementById('edit-eq-serie');
+        if (serieEl) serieEl.textContent = equipamento.serie || '---';
 
-            const modEl = document.getElementById('edit-eq-modelo');
-            if (modEl) modEl.textContent = equipamento.modelo || '---';
+        const statusEl = document.getElementById('edit-eq-status');
+        if (statusEl) {
+            statusEl.textContent = equipamento.status || '---';
+            const isAtivo = equipamento.status === 'Ativo' || equipamento.status === 'Online';
+            statusEl.className = `text-sm font-medium ${isAtivo ? 'text-green-500' : 'text-red-500'}`;
+        }
 
-            const ipEl = document.getElementById('edit-eq-ip');
-            if (ipEl) ipEl.textContent = equipamento.ip || '---';
+        const compContainer = document.getElementById('lista-componentes-container');
+        const compContador = document.getElementById('componentes-contador');
 
-            const macEl = document.getElementById('edit-eq-mac');
-            if (macEl) macEl.textContent = equipamento.mac || '---';
+        if (compContainer && equipamento.componentes) {
+            if (compContador) compContador.textContent = `${equipamento.componentes.length} componente(s) cadastrado(s)`;
+            compContainer.innerHTML = '';
 
-            const serieEl = document.getElementById('edit-eq-serie');
-            if (serieEl) serieEl.textContent = equipamento.serie || '---';
-
-            const statusEl = document.getElementById('edit-eq-status');
-            if (statusEl) {
-                statusEl.textContent = equipamento.status || '---';
-                const isAtivo = equipamento.status === 'Ativo' || equipamento.status === 'Online';
-                statusEl.className = `text-sm font-medium ${isAtivo ? 'text-green-500' : 'text-red-500'}`;
-            }
-
-            const compContainer = document.getElementById('lista-componentes-container');
-            const compContador = document.getElementById('componentes-contador');
-
-            if (compContainer && equipamento.componentes) {
-                if (compContador) compContador.textContent = `${equipamento.componentes.length} componente(s) cadastrado(s)`;
-                compContainer.innerHTML = '';
-
-                equipamento.componentes.forEach((comp, compIndex) => {
-                    const isActive = comp.status === 'Ativo';
-                    compContainer.innerHTML += `
-                        <div class="w-full h-16 border border-white/10 flex items-center px-5 rounded-[7px] bg-[#09121B] justify-between hover:border-light-blue/40 transition-element">
-                            <div class="flex items-center gap-4">
-                                <span class="size-2.5 rounded-full ${isActive ? 'bg-green-500' : 'bg-red-500'}"></span>
-                                <div class="flex flex-col">
-                                    <span class="text-sm font-medium text-white">${comp.nome}</span>
-                                    <span class="text-gray-500 text-[11px]">${comp.tipo} - ${comp.unidadeMedida || ''}</span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-3 text-white/60">
-                                <a href="./detalhesComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="hover:text-light-blue cursor-pointer transition-element p-1">
-                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                </a>
-                                <a href="./editarComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="hover:text-light-blue cursor-pointer transition-element p-1">
-                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                </a>
-                                <button type="button" class="hover:text-red-400 cursor-pointer transition-element p-1" onclick="event.stopPropagation(); abrirModalExcluir(${comp.id});">
-                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
-                                </button>
+            equipamento.componentes.forEach((comp, compIndex) => {
+                const isActive = comp.status === 'Ativo';
+                compContainer.innerHTML += `
+                    <div class="w-full h-16 border border-white/10 flex items-center px-5 rounded-[7px] bg-[#09121B] justify-between hover:border-light-blue/40 transition-element">
+                        <div class="flex items-center gap-4">
+                            <span class="size-2.5 rounded-full ${isActive ? 'bg-green-500' : 'bg-red-500'}"></span>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-white">${comp.nome}</span>
+                                <span class="text-gray-500 text-[11px]">${comp.tipo} - ${comp.unidadeMedida || ''}</span>
                             </div>
                         </div>
-                    `;
-                });
-            }
+
+                        <div class="flex items-center gap-3 text-white/60">
+                            <a href="./detalhesComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="hover:text-light-blue cursor-pointer transition-element p-1">
+                                <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </a>
+                            <a href="./editarComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="hover:text-light-blue cursor-pointer transition-element p-1">
+                                <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </a>
+                            <button type="button" class="hover:text-red-400 cursor-pointer transition-element p-1" onclick="event.stopPropagation(); abrirModalExcluir(${comp.id});">
+                                <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
         }
     }
 });

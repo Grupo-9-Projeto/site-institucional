@@ -56,7 +56,7 @@
     </aside>
 
     <main class="flex-1 h-full overflow-y-auto p-4 pt-12 md:p-8 md:pt-8 lg:pt-8">
-        <div class="max-w-4xl mx-auto w-full">
+        <div class="max-w-5xl mx-auto w-full">
 
             <a id="link-voltar" href="../informacoesEmpresa.html"
                 class="flex w-fit items-center gap-2 mb-6 mt-6 lg:mt-0 text-sm text-white/60 hover:text-light-blue transition-element">
@@ -65,45 +65,51 @@
             </a>
 
             <section class="w-full rounded-xl border border-white/10 bg-[#0D1924] p-6 md:p-8">
-                <header>
+                <header class="mb-6">
                     <p class="text-xs font-bold text-white/60">Informações</p>
                     <h1 class="mt-1 text-2xl font-bold">Novo Equipamento</h1>
                 </header>
 
                 <form id="form-novo-equipamento" class="mt-6 flex flex-col gap-5">
+                    
                     <div class="flex flex-col gap-2">
                         <label for="nome" class="text-sm font-bold text-white/60">Nome</label>
-                        <input id="nome" name="nome" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <input id="nome" name="nome" type="text" placeholder="Digite o nome do equipamento" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="categoria" class="text-sm font-bold text-white/60">Categoria</label>
-                        <input id="categoria" name="categoria" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <select id="categoria" name="categoria" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm text-white focus:border-light-blue focus:outline-none transition-element">
+                            <option value="" disabled selected class="text-white/40">Selecione uma categoria</option>
+                            <option value="Firewall" class="bg-main-blue text-white">Firewall</option>
+                            <option value="Switch" class="bg-main-blue text-white">Switch</option>
+                            <option value="Router" class="bg-main-blue text-white">Router</option>
+                        </select>
                     </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="modelo" class="text-sm font-bold text-white/60">Modelo</label>
-                        <input id="modelo" name="modelo" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <input id="modelo" name="modelo" type="text" placeholder="Ex: Cisco ASA 5505" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="ip" class="text-sm font-bold text-white/60">IP</label>
-                        <input id="ip" name="ip" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <input id="ip" name="ip" type="text" placeholder="Ex: 192.168.1.2" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="mac" class="text-sm font-bold text-white/60">Endereço Mac</label>
-                        <input id="mac" name="mac" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <input id="mac" name="mac" type="text" placeholder="Ex: AA:BB:CC:DD:EE:02" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="serie" class="text-sm font-bold text-white/60">Número de série</label>
-                        <input id="serie" name="serie" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                        <input id="serie" name="serie" type="text" placeholder="Ex: SN-0002-FW" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="status" class="text-sm font-bold text-white/60">Status</label>
-                        <input id="status" name="status" type="text" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element" placeholder="Ativo ou Inativo">
+                        <input id="status" name="status" type="text" placeholder="Ativo ou Inativo" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
                     <div class="flex justify-end gap-3 mt-4">
