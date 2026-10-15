@@ -273,24 +273,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const empresaId = parseInt(urlParams.get('empresaId')) || 1;
     const eqId = parseInt(urlParams.get('eqId')) || 0;
 
+    const empresa = dadosEmpresas.find(e => e.id === empresaId) || dadosEmpresas[0];
+    const equipamento = empresa.equipamentos[eqId] || empresa.equipamentos[0];
+
     const linkVoltar = document.getElementById('link-voltar');
     if (linkVoltar) {
         linkVoltar.href = `../informacoesEmpresa.html?id=${empresaId}`;
     }
 
-    const empresa = dadosEmpresas.find(e => e.id === empresaId) || dadosEmpresas[0];
-    const equipamento = empresa.equipamentos[eqId] || empresa.equipamentos[0];
-
     const editEqNome = document.getElementById('edit-eq-nome');
     if (editEqNome) {
         editEqNome.textContent = equipamento.nome;
-        document.getElementById('edit-eq-status-badge').textContent = equipamento.status;
-        document.getElementById('edit-eq-data').textContent = equipamento.cadastradoEm;
-        document.getElementById('edit-eq-categoria').textContent = equipamento.categoria;
-        document.getElementById('edit-eq-modelo').textContent = equipamento.modelo;
-        document.getElementById('edit-eq-ip').textContent = equipamento.ip;
-        document.getElementById('edit-eq-mac').textContent = equipamento.mac;
-        document.getElementById('edit-eq-serie').textContent = equipamento.serie;
+        
+        const badgeStatus = document.getElementById('edit-eq-status-badge');
+        if (badgeStatus) badgeStatus.textContent = equipamento.status;
+
+        const dataEl = document.getElementById('edit-eq-data');
+        if (dataEl) dataEl.textContent = equipamento.cadastradoEm;
+
+        const catEl = document.getElementById('edit-eq-categoria');
+        if (catEl) catEl.textContent = equipamento.categoria;
+
+        const modEl = document.getElementById('edit-eq-modelo');
+        if (modEl) modEl.textContent = equipamento.modelo;
+
+        const ipEl = document.getElementById('edit-eq-ip');
+        if (ipEl) ipEl.textContent = equipamento.ip;
+
+        const macEl = document.getElementById('edit-eq-mac');
+        if (macEl) macEl.textContent = equipamento.mac;
+
+        const serieEl = document.getElementById('edit-eq-serie');
+        if (serieEl) serieEl.textContent = equipamento.serie;
 
         const statusEl = document.getElementById('edit-eq-status');
         if (statusEl) {
@@ -324,11 +338,25 @@ document.addEventListener('DOMContentLoaded', () => {
                             <a href="./editarComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${index}" class="hover:text-light-blue cursor-pointer transition-element p-1">
                                 <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                             </a>
+                            <button type="button" class="hover:text-red-400 cursor-pointer transition-element p-1" onclick="event.stopPropagation(); abrirModalExcluir(${comp.id});">
+                                <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
+                            </button>
                         </div>
                     </div>
                 `;
             });
         }
+    }
+
+    const inputNome = document.getElementById('nome');
+    if (inputNome) {
+        inputNome.value = equipamento.nome || '';
+        document.getElementById('categoria').value = equipamento.categoria || '';
+        document.getElementById('modelo').value = equipamento.modelo || '';
+        document.getElementById('ip').value = equipamento.ip || '';
+        document.getElementById('mac').value = equipamento.mac || '';
+        document.getElementById('serie').value = equipamento.serie || '';
+        document.getElementById('status').value = equipamento.status || '';
     }
 });
 

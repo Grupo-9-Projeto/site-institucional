@@ -112,7 +112,7 @@ const dadosEmpresas = [
 
 function inicializarPaginaEmpresas() {
     const urlParams = new URLSearchParams(window.location.search);
-    const empresaId = parseInt(urlParams.get('id')) || 1;
+    const empresaId = parseInt(urlParams.get('id')) || 1; // Se não houver ID na URL, assume o 1 por padrão
 
     const listaContainer = document.getElementById('lista-empresas-container');
     if (listaContainer) {
@@ -121,7 +121,7 @@ function inicializarPaginaEmpresas() {
             const card = document.createElement('div');
             card.className = "flex items-center justify-between px-6 py-5 rounded-lg border border-white/10 bg-[#0D1924] w-full hover:border-light-blue/50 transition-element cursor-pointer";
             card.onclick = () => window.location.href = `informacoesEmpresa.html?id=${empresaItem.id}`;
-            
+
             card.innerHTML = `
                 <span class="text-base font-medium">${empresaItem.nome}</span>
                 <div class="flex items-center gap-4 text-white/60">
@@ -140,7 +140,7 @@ function inicializarPaginaEmpresas() {
     const infoNome = document.getElementById('info-nome');
     if (infoNome) {
         const empresa = dadosEmpresas.find(e => e.id === empresaId) || dadosEmpresas[0];
-        
+
         infoNome.textContent = empresa.nome;
 
         const elCnpj = document.getElementById('info-cnpj');
@@ -154,7 +154,7 @@ function inicializarPaginaEmpresas() {
 
         const elLimite = document.getElementById('info-limite');
         if (elLimite) elLimite.textContent = empresa.limiteResposta;
-        
+
         const statusEl = document.getElementById('info-status');
         if (statusEl) {
             statusEl.textContent = empresa.status;
@@ -167,13 +167,25 @@ function inicializarPaginaEmpresas() {
             empresa.equipamentos.forEach((eq, index) => {
                 const isOnline = eq.status === 'Ativo' || eq.status === 'Online';
                 eqContainer.innerHTML += `
-                    <a href="./equipamentos/informacoesEquipamento.html?empresaId=${empresa.id}&eqId=${index}" class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element cursor-pointer">
+                    <div class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element cursor-pointer" onclick="window.location.href='./equipamentos/informacoesEquipamento.html?empresaId=${empresa.id}&eqId=${index}'">
                         <div class="flex items-center gap-3">
                             <span class="size-2.5 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}"></span>
                             <span class="text-sm font-medium">${eq.nome}</span>
                         </div>
-                        <span class="text-xs font-bold ${isOnline ? 'text-green-500' : 'text-red-500'}">${eq.status}</span>
-                    </a>
+
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs font-bold ${isOnline ? 'text-green-500' : 'text-red-500'}">${eq.status}</span>
+                            
+                            <div class="flex items-center gap-2 text-white/60">
+                                <a href="./equipamentos/editarEquipamento.html?empresaId=${empresa.id}&eqId=${index}" class="hover:text-light-blue cursor-pointer transition-element p-1" onclick="event.stopPropagation()">
+                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                </a>
+                                <button type="button" class="hover:text-red-400 cursor-pointer transition-element p-1" onclick="event.stopPropagation(); abrirModalExcluirEquipamento(${index});">
+                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 `;
             });
         }
@@ -182,7 +194,7 @@ function inicializarPaginaEmpresas() {
     const inputNome = document.getElementById('nome');
     if (inputNome) {
         const empresa = dadosEmpresas.find(e => e.id === empresaId) || dadosEmpresas[0];
-        
+
         const editNome = document.getElementById('edit-titulo-nome');
         if (editNome) editNome.textContent = empresa.nome;
 
@@ -191,7 +203,7 @@ function inicializarPaginaEmpresas() {
 
         const editData = document.getElementById('edit-data');
         if (editData) editData.textContent = `Cadastrado em: ${empresa.cadastradoEm}`;
-        
+
         inputNome.value = empresa.nome;
         const inputCnpj = document.getElementById('cnpj');
         if (inputCnpj) inputCnpj.value = empresa.cnpj;
@@ -206,10 +218,15 @@ function abrirModal() {
 }
 
 function abrirModalExcluir(id) {
-    if (modal_excluir) { 
-        modal_excluir.classList.remove('hidden'); 
+    if (modal_excluir) {
+        modal_excluir.classList.remove('hidden');
         modal_excluir.classList.add('flex');
     }
+}
+
+function abrirModalExcluirEquipamento(index) {
+    // Função pronta caso queira tratar a exclusão do equipamento pelo ID/Index
+    console.log("Excluir equipamento index:", index);
 }
 
 function fecharModal() {
@@ -222,6 +239,6 @@ function fecharModalExcluir() {
 
 if (modal) modal.addEventListener('click', e => { if (e.target === modal) fecharModal(); });
 if (modal_excluir) modal_excluir.addEventListener('click', e => { if (e.target === modal_excluir) fecharModalExcluir(); });
-document.addEventListener('keydown', e => { 
-    if (e.key === 'Escape') { fecharModal(); fecharModalExcluir(); } 
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { fecharModal(); fecharModalExcluir(); }
 });
