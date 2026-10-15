@@ -370,10 +370,10 @@ function abrirModalExcluir(id) {
 }
 
 function fecharModalExcluir() {
+    indiceEquipamentoParaExcluir = null;
     if (modal_excluir) {
         modal_excluir.classList.add('hidden');
         modal_excluir.classList.remove('flex');
-        window.location.href = "../informacoesEmpresa.html";
     }
 }
 

@@ -112,7 +112,7 @@ const dadosEmpresas = [
 
 function inicializarPaginaEmpresas() {
     const urlParams = new URLSearchParams(window.location.search);
-    const empresaId = parseInt(urlParams.get('id')) || 1; // Se não houver ID na URL, assume o 1 por padrão
+    const empresaId = parseInt(urlParams.get('id')) || 1; 
 
     const listaContainer = document.getElementById('lista-empresas-container');
     if (listaContainer) {
@@ -166,27 +166,38 @@ function inicializarPaginaEmpresas() {
             eqContainer.innerHTML = '';
             empresa.equipamentos.forEach((eq, index) => {
                 const isOnline = eq.status === 'Ativo' || eq.status === 'Online';
-                eqContainer.innerHTML += `
-                    <div class="relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element cursor-pointer" onclick="window.location.href='./equipamentos/informacoesEquipamento.html?empresaId=${empresa.id}&eqId=${index}'">
-                        <div class="flex items-center gap-3">
-                            <span class="size-2.5 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}"></span>
-                            <span class="text-sm font-medium">${eq.nome}</span>
-                        </div>
+                
+                const eqCard = document.createElement('div');
+                eqCard.className = "relative flex items-center justify-between px-4 py-3.5 rounded-lg border border-white/10 bg-[#0B141D] hover:bg-white/5 transition-element cursor-pointer";
+                eqCard.onclick = () => window.location.href = `./equipamentos/informacoesEquipamento.html?empresaId=${empresa.id}&eqId=${index}`;
+                
+                eqCard.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="size-2.5 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}"></span>
+                        <span class="text-sm font-medium">${eq.nome}</span>
+                    </div>
 
-                        <div class="flex items-center gap-4">
-                            <span class="text-xs font-bold ${isOnline ? 'text-green-500' : 'text-red-500'}">${eq.status}</span>
-                            
-                            <div class="flex items-center gap-2 text-white/60">
-                                <a href="./equipamentos/editarEquipamento.html?empresaId=${empresa.id}&eqId=${index}" class="hover:text-light-blue cursor-pointer transition-element p-1" onclick="event.stopPropagation()">
-                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                </a>
-                                <button type="button" class="hover:text-red-400 cursor-pointer transition-element p-1" onclick="event.stopPropagation(); abrirModalExcluirEquipamento(${index});">
-                                    <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
-                                </button>
-                            </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold ${isOnline ? 'text-green-500' : 'text-red-500'}">${eq.status}</span>
+                        
+                        <div class="flex items-center gap-2 text-white/60">
+                            <a href="./equipamentos/editarEquipamento.html?empresaId=${empresa.id}&eqId=${index}" class="hover:text-light-blue cursor-pointer transition-element p-1" onclick="event.stopPropagation()">
+                                <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </a>
+                            <button type="button" class="btn-lixeira-eq hover:text-red-400 cursor-pointer transition-element p-1">
+                                <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
+                            </button>
                         </div>
                     </div>
                 `;
+
+                const btnLixeira = eqCard.querySelector('.btn-lixeira-eq');
+                btnLixeira.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    abrirModalExcluirEquipamento(index);
+                });
+
+                eqContainer.appendChild(eqCard);
             });
         }
     }
@@ -212,6 +223,7 @@ function inicializarPaginaEmpresas() {
 
 let modal = document.getElementById('modal');
 let modal_excluir = document.getElementById('modal_excluir');
+let indiceEquipamentoParaExcluir = null;
 
 function abrirModal() {
     if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
@@ -225,8 +237,11 @@ function abrirModalExcluir(id) {
 }
 
 function abrirModalExcluirEquipamento(index) {
-    // Função pronta caso queira tratar a exclusão do equipamento pelo ID/Index
-    console.log("Excluir equipamento index:", index);
+    indiceEquipamentoParaExcluir = index; 
+    if (modal_excluir) {
+        modal_excluir.classList.remove('hidden');
+        modal_excluir.classList.add('flex');
+    }
 }
 
 function fecharModal() {
@@ -234,8 +249,33 @@ function fecharModal() {
 }
 
 function fecharModalExcluir() {
-    if (modal_excluir) { modal_excluir.classList.add('hidden'); modal_excluir.classList.remove('flex'); }
+    indiceEquipamentoParaExcluir = null;
+    if (modal_excluir) { 
+        modal_excluir.classList.add('hidden'); 
+        modal_excluir.classList.remove('flex'); 
+    }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnConfirmarExclusao = document.getElementById('btn-confirmar-exclusao');
+    if (btnConfirmarExclusao) {
+        btnConfirmarExclusao.addEventListener('click', () => {
+            if (indiceEquipamentoParaExcluir !== null) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const empresaId = parseInt(urlParams.get('id')) || 1;
+                const empresa = dadosEmpresas.find(e => e.id === empresaId);
+
+                if (empresa && empresa.equipamentos) {
+
+                    empresa.equipamentos.splice(indiceEquipamentoParaExcluir, 1);
+
+                    inicializarPaginaEmpresas();
+                }
+            }
+            fecharModalExcluir();
+        });
+    }
+});
 
 if (modal) modal.addEventListener('click', e => { if (e.target === modal) fecharModal(); });
 if (modal_excluir) modal_excluir.addEventListener('click', e => { if (e.target === modal_excluir) fecharModalExcluir(); });
