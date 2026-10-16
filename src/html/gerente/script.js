@@ -424,28 +424,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const funcionarios = [
-    { id: 1, nome: "Junin Vilentino", status: "ativo" },
-    { id: 2, nome: "Isa Cardoso", status: "ativo" },
-    { id: 3, nome: "Pedro Alves", status: "ativo" },
-    { id: 4, nome: "Lara da Silva", status: "ativo" },
-    { id: 5, nome: "Gabrielly Souza", status: "ativo" },
+    { id: 1, nome: "Junin da Silva", status: "ativo" },
+    { id: 2, nome: "Isabella Albuquerque", status: "ativo" },
+    { id: 3, nome: "Pedro", status: "ativo" },
+    { id: 4, nome: "Lara Pereira", status: "ativo" },
+    { id: 5, nome: "Cláudio Lopes", status: "ativo" },
     { id: 6, nome: "Lucas Silva", status: "inativo" },
     { id: 7, nome: "Mariana Costa", status: "ativo" },
     { id: 8, nome: "Carlos Eduardo", status: "inativo" },
     { id: 9, nome: "Beatriz Oliveira", status: "ativo" },
     { id: 10, nome: "Gabriel Santos", status: "ativo" },
     { id: 11, nome: "Fernanda Lima", status: "inativo" },
-    { id: 12, nome: "Rafael Alves", status: "ativo" },
-    { id: 13, nome: "Camila Rocha", status: "ativo" },
-    { id: 14, nome: "Thiago Martins", status: "inativo" },
-    { id: 15, nome: "Amanda Ribeiro", status: "ativo" },
-    { id: 16, nome: "Bruno Souza", status: "inativo" },
-    { id: 17, nome: "Larissa Pereira", status: "ativo" },
-    { id: 18, nome: "Rodrigo Carvalho", status: "ativo" },
-    { id: 19, nome: "Juliana Mendes", status: "inativo" },
-    { id: 20, nome: "Diego Ferreira", status: "ativo" },
-    { id: 21, nome: "Sofia Ramos", status: "inativo" },
-    { id: 22, nome: "Mateus Barbosa", status: "ativo" }
+    { id: 12, nome: "Rafael Alves", status: "ativo" }
 ];
 
 const container = document.getElementById("lista-funcionarios");
@@ -884,7 +874,15 @@ const dadosJsonSlas = {
       "gravidade": "urgente"
     },
     {
-      "id_sla": "SLA-030",
+      "id_sla": "SLA-032",
+      "equipamento": "FW-CORE-02",
+      "cliente": "Bradesco",
+      "tipo_sla": "Resolução",
+      "tempo_excedido": "+2h 05m",
+      "gravidade": "urgente"
+    },
+    {
+      "id_sla": "SLA-033",
       "equipamento": "SW-ACCESS-01",
       "cliente": "Itaú",
       "tipo_sla": "Tempo de Resposta",
@@ -892,129 +890,9 @@ const dadosJsonSlas = {
       "gravidade": "medio"
     },
     {
-      "id_sla": "SLA-029",
+      "id_sla": "SLA-034",
       "equipamento": "RT-CORE-01",
       "cliente": "Santander",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "0m",
-      "gravidade": "estavel"
-    },
-    {
-      "id_sla": "SLA-028",
-      "equipamento": "FW-EDGE-02",
-      "cliente": "Nubank",
-      "tipo_sla": "Perda de Pacotes",
-      "tempo_excedido": "+2h 05m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-027",
-      "equipamento": "FW-EDGE-01",
-      "cliente": "Itaú",
-      "tipo_sla": "Tempo de Resposta",
-      "tempo_excedido": "+5m",
-      "gravidade": "medio"
-    },
-    {
-      "id_sla": "SLA-026",
-      "equipamento": "SW-CORE-01",
-      "cliente": "Banco do Brasil",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "0m",
-      "gravidade": "estavel"
-    },
-    {
-      "id_sla": "SLA-025",
-      "equipamento": "RT-EDGE-03",
-      "cliente": "Caixa",
-      "tipo_sla": "Latência",
-      "tempo_excedido": "+3h 40m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-024",
-      "equipamento": "SW-ACCESS-04",
-      "cliente": "Bradesco",
-      "tipo_sla": "Tempo de Resposta",
-      "tempo_excedido": "+18m",
-      "gravidade": "medio"
-    },
-    {
-      "id_sla": "SLA-023",
-      "equipamento": "FW-CORE-01",
-      "cliente": "BTG Pactual",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "0m",
-      "gravidade": "estavel"
-    },
-    {
-      "id_sla": "SLA-022",
-      "equipamento": "RT-CORE-02",
-      "cliente": "Safra",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "+4h 10m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-021",
-      "equipamento": "SW-ACCESS-02",
-      "cliente": "Santander",
-      "tipo_sla": "Tempo de Resposta",
-      "tempo_excedido": "+25m",
-      "gravidade": "medio"
-    },
-    {
-      "id_sla": "SLA-020",
-      "equipamento": "FW-EDGE-03",
-      "cliente": "XP Investimentos",
-      "tipo_sla": "Latência",
-      "tempo_excedido": "0m",
-      "gravidade": "estavel"
-    },
-    {
-      "id_sla": "SLA-019",
-      "equipamento": "RT-EDGE-01",
-      "cliente": "Inter",
-      "tipo_sla": "Perda de Pacotes",
-      "tempo_excedido": "+1h 50m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-018",
-      "equipamento": "SW-CORE-02",
-      "cliente": "Nubank",
-      "tipo_sla": "Tempo de Resposta",
-      "tempo_excedido": "+12m",
-      "gravidade": "medio"
-    },
-    {
-      "id_sla": "SLA-017",
-      "equipamento": "FW-CORE-04",
-      "cliente": "Itaú",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "0m",
-      "gravidade": "estavel"
-    },
-    {
-      "id_sla": "SLA-016",
-      "equipamento": "SW-ACCESS-03",
-      "cliente": "C6 Bank",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "+2h 30m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-015",
-      "equipamento": "RT-CORE-04",
-      "cliente": "Bradesco",
-      "tipo_sla": "Latência",
-      "tempo_excedido": "+30m",
-      "gravidade": "medio"
-    },
-    {
-      "id_sla": "SLA-014",
-      "equipamento": "FW-EDGE-04",
-      "cliente": "BTG Pactual",
       "tipo_sla": "Disponibilidade",
       "tempo_excedido": "0m",
       "gravidade": "estavel"

@@ -20,92 +20,43 @@ document.addEventListener('DOMContentLoaded', () => {
 const dadosEmpresas = [
     {
         id: 1,
-        nome: "Tech Solutions Ltda",
-        cnpj: "12.345.678/0001-90",
+        nome: "Bradesco",
+        cnpj: "60.746.948/0001-12",
         cadastradoEm: "15/03/2024",
-        sla: "Ouro",
-        limiteResposta: "2 horas",
-        status: "Ativo",
-        equipamentos: [
-            {
-                id: 1,
-                nome: "FW-CORE-02",
-                status: "Ativo"
-            },
-            {
-                id: 2,
-                nome: "Switch Core 24 Portas",
-                status: "Ativo"
-            }
-        ]
-    },
-    {
-        id: 2,
-        nome: "Inovação & Sistemas S.A.",
-        cnpj: "98.765.432/0001-12",
-        cadastradoEm: "20/05/2024",
-        sla: "Prata",
-        limiteResposta: "4 horas",
-        status: "Ativo",
-        equipamentos: [
-            {
-                id: 1,
-                nome: "Firewall de Borda",
-                status: "Ativo"
-            }
-        ]
-    },
-    {
-        id: 3,
-        nome: "Logística Global Express",
-        cnpj: "45.678.123/0001-55",
-        cadastradoEm: "10/01/2025",
-        sla: "Bronze",
-        limiteResposta: "8 horas",
-        status: "Inativo",
-        equipamentos: [
-            {
-                id: 1,
-                nome: "Terminal de Consulta 01",
-                status: "Offline"
-            }
-        ]
-    },
-    {
-        id: 4,
-        nome: "Alpha Engenharia e Consultoria",
-        cnpj: "11.222.333/0001-44",
-        cadastradoEm: "05/08/2025",
         sla: "Ouro",
         limiteResposta: "1 hora",
         status: "Ativo",
         equipamentos: [
-            {
-                id: 1,
-                nome: "Workstation CAD Principal",
-                status: "Ativo"
-            },
-            {
-                id: 2,
-                nome: "No-break Torre 3kVA",
-                status: "Ativo"
-            }
+            { id: 1, nome: "FW-CORE-03", status: "Ativo" },
+            { id: 2, nome: "FW-CORE-02", status: "Ativo" },
+            { id: 3, nome: "FW-EDGE-01", status: "Ativo" }
         ]
     },
     {
-        id: 5,
-        nome: "Nexus Digital Hub",
-        cnpj: "77.889.900/0001-21",
-        cadastradoEm: "12/11/2025",
+        id: 2,
+        nome: "Itaú",
+        cnpj: "60.701.190/0001-04",
+        cadastradoEm: "20/05/2024",
+        sla: "Ouro",
+        limiteResposta: "1 hora",
+        status: "Ativo",
+        equipamentos: [
+            { id: 1, nome: "SW-ACCESS-01", status: "Ativo" },
+            { id: 2, nome: "SW-CORE-01", status: "Ativo" }
+        ]
+    },
+    {
+        id: 3,
+        nome: "Santander",
+        cnpj: "90.400.888/0001-42",
+        cadastradoEm: "10/01/2025",
         sla: "Prata",
         limiteResposta: "4 horas",
         status: "Ativo",
         equipamentos: [
-            {
-                id: 1,
-                nome: "Roteador Wi-Fi Corporativo",
-                status: "Ativo"
-            }
+            { id: 1, nome: "RT-CORE-01", status: "Ativo" },
+            { id: 2, nome: "RT-EDGE-02", status: "Ativo" },
+            { id: 3, nome: "SRV-DB-01", status: "Ativo" }
         ]
     }
 ];

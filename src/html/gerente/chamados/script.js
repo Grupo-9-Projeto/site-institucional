@@ -58,43 +58,6 @@ const dadosChamados = [
         "chamado_vinculado": "ARG-145",
         "responsavel": "Isabella Albuquerque",
         "descricao": "Interface WAN principal inoperante. Tráfego redirecionado automaticamente para o link de contingência (Backup)."
-    },
-    {
-        "id": "SLA-036",
-        "data": "2026-09-28",
-        "empresa": "Itaú",
-        "equipamento": "SW-CORE-01",
-        "tipo_sla": "Tempo de Resposta",
-        "prioridade": "Alto",
-        "status": "Resolvido",
-        "tipo_sla_detalhe": "Desempenho",
-        "chamado_vinculado": "ARG-144",
-        "responsavel": "Pedro",
-        "descricao": "Latência acima do limite contratual detectada no switch central devido a broadcast storm. Isolamento da porta efetuado com sucesso."
-    },
-    {
-        "id": "SLA-037",
-        "data": "2026-10-10",
-        "empresa": "Bradesco",
-        "equipamento": "FW-EDGE-01",
-        "tipo_sla": "Segurança",
-        "prioridade": "Crítico",
-        "status": "Em atendimento",
-        "chamado_vinculado": "ARG-150",
-        "responsavel": "Cláudio Lopes",
-        "descricao": "Detectado alto volume de requisições maliciosas direcionadas ao portal de transações. Regras de mitigação ativadas no firewall de borda."
-    },
-    {
-        "id": "SLA-038",
-        "data": "2026-09-20",
-        "empresa": "Santander",
-        "equipamento": "SRV-DB-01",
-        "tipo_sla": "Capacidade",
-        "prioridade": "Médio",
-        "status": "Resolvido",
-        "chamado_vinculado": "ARG-138",
-        "responsavel": "Lara Pereira",
-        "descricao": "Partição de logs atingiu 90% de ocupação. Limpeza de logs antigos realizada e rotatividade de backup ajustada."
     }
 ];
 

@@ -1,15 +1,39 @@
 const dadosEmpresas = [
     {
         id: 1,
-        nome: "Tech Solutions Ltda",
-        cnpj: "12.345.678/0001-90",
+        nome: "Bradesco",
+        cnpj: "60.746.948/0001-12",
         cadastradoEm: "15/03/2024",
         sla: "Ouro",
-        limiteResposta: "2 horas",
+        limiteResposta: "1 hora",
         status: "Ativo",
         equipamentos: [
             {
                 id: 1,
+                nome: "FW-CORE-03",
+                categoria: "Firewall",
+                modelo: "Cisco ASA 5585",
+                ip: "192.168.1.3",
+                mac: "AA:BB:CC:DD:EE:03",
+                serie: "SN-0003-FW",
+                status: "Ativo",
+                cadastradoEm: "15/03/2024",
+                componentes: [
+                    {
+                        id: 1,
+                        nome: "CPU Principal",
+                        tipo: "CPU",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "70",
+                        limiarAlto: "85",
+                        limiarCritico: "95",
+                        status: "Ativo"
+                    }
+                ]
+            },
+            {
+                id: 2,
                 nome: "FW-CORE-02",
                 categoria: "Firewall",
                 modelo: "Cisco ASA 5505",
@@ -29,41 +53,6 @@ const dadosEmpresas = [
                         limiarAlto: "85",
                         limiarCritico: "95",
                         status: "Ativo"
-                    },
-                    {
-                        id: 2,
-                        nome: "Memória RAM",
-                        tipo: "Memória",
-                        unidadeMedida: "%",
-                        capacidade: "16 GB",
-                        limiarAtencao: "75",
-                        limiarAlto: "85",
-                        limiarCritico: "95",
-                        status: "Ativo"
-                    }
-                ]
-            },
-            {
-                id: 2,
-                nome: "Switch Core 24 Portas",
-                categoria: "Switch",
-                modelo: "Catalyst 2960",
-                ip: "192.168.1.10",
-                mac: "11:22:33:44:55:66",
-                serie: "SN-SW-9988",
-                status: "Ativo",
-                cadastradoEm: "15/03/2024",
-                componentes: [
-                    {
-                        id: 1,
-                        nome: "Uso de Banda (Porta 1)",
-                        tipo: "Rede",
-                        unidadeMedida: "Mbps",
-                        capacidade: "1000",
-                        limiarAtencao: "600",
-                        limiarAlto: "800",
-                        limiarCritico: "950",
-                        status: "Ativo"
                     }
                 ]
             }
@@ -71,44 +60,33 @@ const dadosEmpresas = [
     },
     {
         id: 2,
-        nome: "Inovação & Sistemas S.A.",
-        cnpj: "98.765.432/0001-12",
+        nome: "Itaú",
+        cnpj: "60.701.190/0001-04",
         cadastradoEm: "20/05/2024",
-        sla: "Prata",
-        limiteResposta: "4 horas",
+        sla: "Ouro",
+        limiteResposta: "1 hora",
         status: "Ativo",
         equipamentos: [
             {
                 id: 1,
-                nome: "Firewall de Borda",
-                categoria: "Firewall",
-                modelo: "Fortinet FortiGate 60F",
-                ip: "10.0.0.1",
-                mac: "DE:AD:BE:EF:12:34",
-                serie: "FG60FTK21000",
+                nome: "SW-ACCESS-01",
+                categoria: "Switch",
+                modelo: "Catalyst 2960",
+                ip: "192.168.2.10",
+                mac: "11:22:33:44:55:01",
+                serie: "SN-SW-01",
                 status: "Ativo",
                 cadastradoEm: "20/05/2024",
                 componentes: [
                     {
                         id: 1,
-                        nome: "CPU Firewall",
-                        tipo: "CPU",
+                        nome: "Uso de Memória",
+                        tipo: "Memória",
                         unidadeMedida: "%",
-                        capacidade: "100",
+                        capacidade: "16 GB",
                         limiarAtencao: "70",
-                        limiarAlto: "85",
-                        limiarCritico: "95",
-                        status: "Ativo"
-                    },
-                    {
-                        id: 2,
-                        nome: "Disco SSD Principal",
-                        tipo: "Disco",
-                        unidadeMedida: "GB",
-                        capacidade: "128",
-                        limiarAtencao: "80",
-                        limiarAlto: "90",
-                        limiarCritico: "95",
+                        limiarAlto: "80",
+                        limiarCritico: "90",
                         status: "Ativo"
                     }
                 ]
@@ -117,149 +95,33 @@ const dadosEmpresas = [
     },
     {
         id: 3,
-        nome: "Logística Global Express",
-        cnpj: "45.678.123/0001-55",
+        nome: "Santander",
+        cnpj: "90.400.888/0001-42",
         cadastradoEm: "10/01/2025",
-        sla: "Bronze",
-        limiteResposta: "8 horas",
-        status: "Inativo",
-        equipamentos: [
-            {
-                id: 1,
-                nome: "Terminal de Consulta 01",
-                categoria: "Totem",
-                modelo: "Dell OptiPlex 3080",
-                ip: "172.16.0.50",
-                mac: "55:44:33:22:11:00",
-                serie: "DL-OPT-3080",
-                status: "Offline",
-                cadastradoEm: "10/01/2025",
-                componentes: [
-                    {
-                        id: 1,
-                        nome: "Processador Terminal",
-                        tipo: "CPU",
-                        unidadeMedida: "%",
-                        capacidade: "100",
-                        limiarAtencao: "75",
-                        limiarAlto: "90",
-                        limiarCritico: "98",
-                        status: "Inativo"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: 4,
-        nome: "Alpha Engenharia e Consultoria",
-        cnpj: "11.222.333/0001-44",
-        cadastradoEm: "05/08/2025",
-        sla: "Ouro",
-        limiteResposta: "1 hora",
-        status: "Ativo",
-        equipamentos: [
-            {
-                id: 1,
-                nome: "Workstation CAD Principal",
-                categoria: "Servidor",
-                modelo: "HP Z Workstation",
-                ip: "192.168.10.15",
-                mac: "77:88:99:AA:BB:CC",
-                serie: "HP-Z4-2025",
-                status: "Ativo",
-                cadastradoEm: "05/08/2025",
-                componentes: [
-                    {
-                        id: 1,
-                        nome: "CPU Xeon Workstation",
-                        tipo: "CPU",
-                        unidadeMedida: "%",
-                        capacidade: "100",
-                        limiarAtencao: "70",
-                        limiarAlto: "85",
-                        limiarCritico: "95",
-                        status: "Ativo"
-                    },
-                    {
-                        id: 2,
-                        nome: "Memória RAM ECC",
-                        tipo: "Memória",
-                        unidadeMedida: "%",
-                        capacidade: "64 GB",
-                        limiarAtencao: "80",
-                        limiarAlto: "90",
-                        limiarCritico: "95",
-                        status: "Ativo"
-                    },
-                    {
-                        id: 3,
-                        nome: "NVMe 1TB (Sistema)",
-                        tipo: "Disco",
-                        unidadeMedida: "%",
-                        capacidade: "1000",
-                        limiarAtencao: "80",
-                        limiarAlto: "90",
-                        limiarCritico: "95",
-                        status: "Ativo"
-                    }
-                ]
-            },
-            {
-                id: 2,
-                nome: "No-break Torre 3kVA",
-                categoria: "Energia",
-                modelo: "APC Smart-UPS",
-                ip: "192.168.10.20",
-                mac: "CC:BB:AA:99:88:77",
-                serie: "APC-3KVA-01",
-                status: "Ativo",
-                cadastradoEm: "05/08/2025",
-                componentes: [
-                    {
-                        id: 1,
-                        nome: "Carga de Bateria",
-                        tipo: "Bateria",
-                        unidadeMedida: "%",
-                        capacidade: "100",
-                        limiarAtencao: "40",
-                        limiarAlto: "25",
-                        limiarCritico: "15",
-                        status: "Ativo"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        id: 5,
-        nome: "Nexus Digital Hub",
-        cnpj: "77.889.900/0001-21",
-        cadastradoEm: "12/11/2025",
         sla: "Prata",
         limiteResposta: "4 horas",
         status: "Ativo",
         equipamentos: [
             {
                 id: 1,
-                nome: "Roteador Wi-Fi Corporativo",
+                nome: "RT-CORE-01",
                 categoria: "Roteador",
-                modelo: "Ubiquiti UniFi 6",
-                ip: "192.168.100.1",
-                mac: "FC:EC:DA:12:34:56",
-                serie: "UNI-U6-PRO",
+                modelo: "Cisco ISR 4331",
+                ip: "172.16.1.1",
+                mac: "CC:DD:EE:FF:00:01",
+                serie: "SN-RT-01",
                 status: "Ativo",
-                cadastradoEm: "12/11/2025",
+                cadastradoEm: "10/01/2025",
                 componentes: [
                     {
                         id: 1,
-                        nome: "Uso de Banda Wireless",
-                        tipo: "Rede",
-                        unidadeMedida: "Mbps",
-                        capacidade: "1200",
-                        limiarAtencao: "800",
-                        limiarAlto: "1000",
-                        limiarCritico: "1150",
+                        nome: "CPU Roteador",
+                        tipo: "CPU",
+                        unidadeMedida: "%",
+                        capacidade: "100",
+                        limiarAtencao: "75",
+                        limiarAlto: "85",
+                        limiarCritico: "95",
                         status: "Ativo"
                     }
                 ]
