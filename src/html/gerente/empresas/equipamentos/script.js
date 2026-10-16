@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             equipamento.componentes.forEach((comp, compIndex) => {
                 const isActive = comp.status === 'Ativo';
                 compContainer.innerHTML += `
-                    <div class="w-full h-16 border border-white/10 flex items-center px-5 rounded-[7px] bg-[#09121B] justify-between hover:border-light-blue/40 transition-element">
+                    <div onclick="window.location.href='./componentes/detalhesComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}'" class="w-full h-16 border border-white/10 flex items-center px-5 rounded-[7px] bg-[#09121B] justify-between hover:bg-white/5 outline-none focus:outline-none focus:ring-0 cursor-pointer transition-element">
                         <div class="flex items-center gap-4">
                             <span class="size-2.5 rounded-full ${isActive ? 'bg-green-500' : 'bg-red-500'}"></span>
                             <div class="flex flex-col">
@@ -347,14 +347,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3 text-white/60">
-                            <a href="./detalhesComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="hover:text-light-blue cursor-pointer transition-element p-1">
+                        <div class="flex items-center gap-2 text-white/60" onclick="event.stopPropagation()">
+                            <a href="./detalhesComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="w-9 h-9 rounded-md flex items-center justify-center hover:text-light-blue outline-none focus:outline-none focus:ring-0 cursor-pointer transition-element">
                                 <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                             </a>
-                            <a href="./editarComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="hover:text-light-blue cursor-pointer transition-element p-1">
+                            <a href="./editarComponente.html?empresaId=${empresa.id}&eqId=${eqId}&compId=${compIndex}" class="w-9 h-9 rounded-md flex items-center justify-center hover:text-light-blue outline-none focus:outline-none focus:ring-0 cursor-pointer transition-element">
                                 <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-6"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                             </a>
-                            <button type="button" class="hover:text-red-400 cursor-pointer transition-element p-1" onclick="event.stopPropagation(); abrirModalExcluir(${comp.id});">
+                            <button type="button" class="w-9 h-9 rounded-md flex items-center justify-center hover:text-red-400 outline-none focus:outline-none focus:ring-0 cursor-pointer transition-element" onclick="abrirModalExcluir(${comp.id});">
                                 <svg class="size-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></svg>
                             </button>
                         </div>
