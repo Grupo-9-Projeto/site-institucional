@@ -751,6 +751,48 @@ function atualizarTextoSubtitulos(texto) {
     }
 }
 
+for (let i = 0; i < botoesFiltros.length; i++) {
+    const botao = botoesFiltros[i];
+    const indice = i;
+
+    botao.addEventListener("click", function () {
+        for (let j = 0; j < botoesFiltros.length; j++) {
+            botoesFiltros[j].classList.remove("bg-light-blue", "text-main-blue", "border-transparent", "font-bold");
+            botoesFiltros[j].classList.add("border-white/15", "text-white/70", "hover:border-white", "hover:text-white");
+        }
+
+        this.classList.remove("border-white/15", "text-white/70", "hover:border-white", "hover:text-white");
+        this.classList.add("bg-light-blue", "text-main-blue", "border-transparent", "font-bold");
+
+        if (indice === 0) {
+            atualizarTextoSubtitulos("Última Semana");
+            if (painelPersonalizado) {
+                painelPersonalizado.classList.remove("max-h-30", "max-h-24", "md:max-h-24", "opacity-100", "border-gray-700");
+                painelPersonalizado.classList.add("max-h-0", "opacity-0", "border-gray-700/0");
+            }
+            atualizarGrafico(graficoAbertos, extrairValoresPorChave(dadosJsonAbertos, "chamados_semana"));
+            atualizarGrafico(graficoResolvidos, dadosJsonResolvidos.semana.valores, dadosJsonResolvidos.semana.labels);
+
+        } else if (indice === 1) {
+            atualizarTextoSubtitulos("Último Mês");
+            if (painelPersonalizado) {
+                painelPersonalizado.classList.remove("max-h-30", "max-h-24", "md:max-h-24", "opacity-100", "border-gray-700");
+                painelPersonalizado.classList.add("max-h-0", "opacity-0", "border-gray-700/0");
+            }
+            atualizarGrafico(graficoAbertos, extrairValoresPorChave(dadosJsonAbertos, "chamados_setembro"));
+            atualizarGrafico(graficoResolvidos, dadosJsonResolvidos.mes.valores, dadosJsonResolvidos.mes.labels);
+
+        } else if (indice === 2) {
+            atualizarTextoSubtitulos("Período Personalizado");
+            if (painelPersonalizado) {
+                painelPersonalizado.classList.remove("max-h-0", "md:max-h-0", "opacity-0", "border-gray-700/0");
+                painelPersonalizado.classList.add("max-h-30", "md:max-h-24", "opacity-100", "border-gray-700");
+            }
+            aplicarFiltroDatasPersonalizadas();
+        }
+    });
+}
+
 function aplicarFiltroDatasPersonalizadas() {
     const inputDataInicio = document.getElementById("data-inicio");
     const inputDataFim = document.getElementById("data-fim");
