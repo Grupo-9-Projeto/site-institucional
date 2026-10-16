@@ -2,195 +2,74 @@ let dados = [];
 let empresaSelecionada = "";
 let equipamentoSelecionado = "";
 
-
-async function carregarDados() {
-
-    const resposta = await fetch("./dados.json");
-
-    dados = await resposta.json();
+async function carregarDadosRelatorio() {
+    try {
+        const resposta = await fetch("./dados.json");
+        dados = await resposta.json();
+    } catch (erro) {
+        dados = [
+            { "empresa": "Bradesco", "equipamento": "FW-CORE-03", "data": "2026-09-15", "cpu": "95.5", "ram": "82.1", "disco": "64.0", "rede": "450.2" },
+            { "empresa": "Bradesco", "equipamento": "FW-CORE-03", "data": "2026-09-16", "cpu": "91.2", "ram": "80.5", "disco": "64.1", "rede": "420.0" },
+            { "empresa": "Bradesco", "equipamento": "FW-CORE-02", "data": "2026-09-18", "cpu": "88.0", "ram": "79.4", "disco": "55.2", "rede": "310.8" },
+            { "empresa": "Bradesco", "equipamento": "FW-CORE-02", "data": "2026-10-02", "cpu": "92.4", "ram": "83.0", "disco": "55.5", "rede": "395.4" },
+            { "empresa": "Bradesco", "equipamento": "FW-EDGE-01", "data": "2026-09-22", "cpu": "72.3", "ram": "65.0", "disco": "40.1", "rede": "180.5" },
+            { "empresa": "Bradesco", "equipamento": "FW-EDGE-01", "data": "2026-10-10", "cpu": "89.9", "ram": "88.2", "disco": "41.0", "rede": "512.0" },
+            { "empresa": "Itaú", "equipamento": "SW-ACCESS-01", "data": "2026-09-15", "cpu": "60.4", "ram": "78.0", "disco": "50.0", "rede": "820.0" },
+            { "empresa": "Itaú", "equipamento": "SW-ACCESS-01", "data": "2026-09-20", "cpu": "65.1", "ram": "79.2", "disco": "50.0", "rede": "845.3" },
+            { "empresa": "Itaú", "equipamento": "SW-CORE-01", "data": "2026-09-20", "cpu": "76.9", "ram": "84.2", "disco": "70.5", "rede": "950.4" },
+            { "empresa": "Itaú", "equipamento": "SW-CORE-01", "data": "2026-09-28", "cpu": "84.0", "ram": "89.5", "disco": "71.0", "rede": "1020.6" },
+            { "empresa": "Santander", "equipamento": "RT-CORE-01", "data": "2026-09-15", "cpu": "54.2", "ram": "48.6", "disco": "30.0", "rede": "120.0" },
+            { "empresa": "Santander", "equipamento": "RT-CORE-01", "data": "2026-09-25", "cpu": "58.9", "ram": "51.2", "disco": "30.0", "rede": "145.2" },
+            { "empresa": "Santander", "equipamento": "RT-EDGE-02", "data": "2026-09-25", "cpu": "81.0", "ram": "75.3", "disco": "58.9", "rede": "340.1" },
+            { "empresa": "Santander", "equipamento": "RT-EDGE-02", "data": "2026-10-05", "cpu": "94.8", "ram": "90.1", "disco": "60.0", "rede": "480.9" },
+            { "empresa": "Santander", "equipamento": "SRV-DB-01", "data": "2026-09-20", "cpu": "85.0", "ram": "88.9", "disco": "85.2", "rede": "610.0" },
+            { "empresa": "Santander", "equipamento": "SRV-DB-01", "data": "2026-09-28", "cpu": "91.2", "ram": "92.4", "disco": "89.5", "rede": "670.3" }
+        ];
+    }
 
     mostrarEmpresas();
     mostrarEquipamentos();
-    configurarEventos();
+    configurarEventosRelatorio();
     atualizarResumo();
 }
 
-
 function mostrarEmpresas() {
-
     const empresas = [...new Set(dados.map(item => item.empresa))];
-
     const container = document.getElementById("empresasContainer");
+    if (!container) return;
 
     container.innerHTML = "";
 
     empresas.forEach(empresa => {
-
         container.innerHTML += `
             <button
                 type="button"
-                class="empresa-button min-h-14 rounded-xl bg-[#09121B] px-5 text-left"
+                class="empresa-button min-h-14 rounded-xl bg-[#09121B] border border-white/15 px-5 text-left text-sm font-medium hover:border-white cursor-pointer transition-element"
                 data-empresa="${empresa}"
             >
                 ${empresa}
             </button>
         `;
-
     });
-
 }
 
-
 function mostrarEquipamentos() {
-
     const select = document.getElementById("equipamento");
+    if (!select) return;
 
-    select.innerHTML = `
-        <option value="">Todos os equipamentos</option>
-    `;
-
+    select.innerHTML = `<option value="">Todos os equipamentos</option>`;
     const equipamentos = [...new Set(dados.map(item => item.equipamento))];
 
     equipamentos.forEach(equipamento => {
-
-        select.innerHTML += `
-            <option value="${equipamento}">
-                ${equipamento}
-            </option>
-        `;
-
+        select.innerHTML += `<option value="${equipamento}">${equipamento}</option>`;
     });
-
 }
-
-
-function configurarEventos() {
-
-    document.querySelectorAll(".empresa-button").forEach(botao => {
-
-        botao.addEventListener("click", function () {
-
-            empresaSelecionada = botao.dataset.empresa;
-
-            document.querySelectorAll(".empresa-button").forEach(item => {
-                item.classList.remove(
-                    "border-[#03C8FF]",
-                    "bg-[#03C8FF]/10"
-                );
-            });
-
-            botao.classList.add(
-                "border-[#03C8FF]",
-                "bg-[#03C8FF]/10"
-            );
-
-            mostrarEquipamentosDaEmpresa();
-
-            atualizarResumo();
-        });
-
-    });
-
-
-    document.getElementById("equipamento").addEventListener("change", function () {
-
-        equipamentoSelecionado = this.value;
-
-        atualizarResumo();
-
-    });
-
-
-    document.querySelectorAll(".period-button").forEach(botao => {
-
-        botao.addEventListener("click", function () {
-
-            document.querySelectorAll(".period-button").forEach(item => {
-
-                item.classList.remove(
-                    "selected",
-                    "border-[#03C8FF]",
-                    "bg-[#03C8FF]/10",
-                    "font-semibold"
-                );
-
-                item.classList.add(
-                    "border-white/10",
-                    "bg-[#09121B]"
-                );
-
-            });
-
-
-            botao.classList.remove(
-                "border-white/10",
-                "bg-[#09121B]"
-            );
-
-            botao.classList.add(
-                "selected",
-                "border-[#03C8FF]",
-                "bg-[#03C8FF]/10",
-                "font-semibold"
-            );
-
-
-            const datas = document.getElementById("datas");
-
-            if (botao.dataset.valor === "Período personalizado") {
-
-                datas.classList.remove("hidden");
-
-            } else {
-
-                datas.classList.add("hidden");
-
-                document.getElementById("dataInicial").value = "";
-                document.getElementById("dataFinal").value = "";
-
-            }
-
-            atualizarResumo();
-
-        });
-
-    });
-
-
-    document.getElementById("dataInicial").addEventListener(
-        "change",
-        atualizarResumo
-    );
-
-    document.getElementById("dataFinal").addEventListener(
-        "change",
-        atualizarResumo
-    );
-
-
-    document.querySelectorAll(".metric-option input").forEach(input => {
-
-        input.addEventListener("change", atualizarResumo);
-
-    });
-
-
-    document.getElementById("btnCsv").addEventListener(
-        "click",
-        gerarCsv
-    );
-
-}
-
 
 function mostrarEquipamentosDaEmpresa() {
-
     const select = document.getElementById("equipamento");
+    if (!select) return;
 
-    select.innerHTML = `
-        <option value="">Todos os equipamentos</option>
-    `;
-
+    select.innerHTML = `<option value="">Todos os equipamentos</option>`;
     const equipamentos = [
         ...new Set(
             dados
@@ -200,210 +79,182 @@ function mostrarEquipamentosDaEmpresa() {
     ];
 
     equipamentos.forEach(equipamento => {
-
-        select.innerHTML += `
-            <option value="${equipamento}">
-                ${equipamento}
-            </option>
-        `;
-
+        select.innerHTML += `<option value="${equipamento}">${equipamento}</option>`;
     });
 
     equipamentoSelecionado = "";
 }
 
+function configurarEventosRelatorio() {
+    document.querySelectorAll(".empresa-button").forEach(botao => {
+        botao.addEventListener("click", function () {
+            empresaSelecionada = botao.dataset.empresa;
+
+            document.querySelectorAll(".empresa-button").forEach(item => {
+                item.classList.remove("border-light-blue", "bg-light-blue/10", "font-semibold");
+                item.classList.add("border-white/15");
+            });
+
+            botao.classList.remove("border-white/15");
+            botao.classList.add("border-light-blue", "bg-light-blue/10", "font-semibold");
+
+            mostrarEquipamentosDaEmpresa();
+            atualizarResumo();
+        });
+    });
+
+    const selectEquip = document.getElementById("equipamento");
+    if (selectEquip) {
+        selectEquip.addEventListener("change", function () {
+            equipamentoSelecionado = this.value;
+            atualizarResumo();
+        });
+    }
+
+    document.querySelectorAll(".period-button").forEach(botao => {
+        botao.addEventListener("click", function () {
+            document.querySelectorAll(".period-button").forEach(item => {
+                item.classList.remove("selected", "border-light-blue", "bg-light-blue/10", "font-semibold", "text-white");
+                item.classList.add("border-white/15", "bg-main-blue", "text-white/70");
+            });
+
+            botao.classList.remove("border-white/15", "bg-main-blue", "text-white/70");
+            botao.classList.add("selected", "border-light-blue", "bg-light-blue/10", "font-semibold", "text-white");
+
+            const datas = document.getElementById("datas");
+            if (botao.dataset.valor === "Período personalizado") {
+                if (datas) datas.classList.remove("hidden");
+            } else {
+                if (datas) datas.classList.add("hidden");
+                const dIni = document.getElementById("dataInicial");
+                const dFim = document.getElementById("dataFinal");
+                if (dIni) dIni.value = "";
+                if (dFim) dFim.value = "";
+            }
+
+            atualizarResumo();
+        });
+    });
+
+    const dIni = document.getElementById("dataInicial");
+    const dFim = document.getElementById("dataFinal");
+    if (dIni) dIni.addEventListener("change", atualizarResumo);
+    if (dFim) dFim.addEventListener("change", atualizarResumo);
+
+    document.querySelectorAll(".metric-option input").forEach(input => {
+        input.addEventListener("change", atualizarResumo);
+    });
+
+    const btnCsv = document.getElementById("btnCsv");
+    if (btnCsv) {
+        btnCsv.addEventListener("click", gerarCsv);
+    }
+}
 
 function filtrarDados() {
-
-    const dataInicial = document.getElementById("dataInicial").value;
-    const dataFinal = document.getElementById("dataFinal").value;
+    const periodoAtivo = document.querySelector(".period-button.selected")?.dataset.valor || "Último mês";
+    const dataInicialInput = document.getElementById("dataInicial")?.value || "";
+    const dataFinalInput = document.getElementById("dataFinal")?.value || "";
 
     return dados.filter(item => {
+        if (empresaSelecionada && item.empresa !== empresaSelecionada) return false;
+        if (equipamentoSelecionado && item.equipamento !== equipamentoSelecionado) return false;
 
-        if (
-            empresaSelecionada &&
-            item.empresa !== empresaSelecionada
-        ) {
-            return false;
-        }
+        const dataItem = new Date(item.data + "T00:00:00");
+        const hoje = new Date("2026-10-16T00:00:00");
 
-        if (
-            equipamentoSelecionado &&
-            item.equipamento !== equipamentoSelecionado
-        ) {
-            return false;
-        }
-
-        if (
-            dataInicial &&
-            item.data < dataInicial
-        ) {
-            return false;
-        }
-
-        if (
-            dataFinal &&
-            item.data > dataFinal
-        ) {
-            return false;
+        if (periodoAtivo === "Última semana") {
+            const umaSemanaAtras = new Date(hoje);
+            umaSemanaAtras.setDate(hoje.getDate() - 7);
+            if (dataItem < umaSemanaAtras || dataItem > hoje) return false;
+        } else if (periodoAtivo === "Último mês") {
+            const umMesAtras = new Date(hoje);
+            umMesAtras.setMonth(hoje.getMonth() - 1);
+            if (dataItem < umMesAtras || dataItem > hoje) return false;
+        } else if (periodoAtivo === "Período personalizado") {
+            if (dataInicialInput && item.data < dataInicialInput) return false;
+            if (dataFinalInput && item.data > dataFinalInput) return false;
         }
 
         return true;
     });
-
 }
-
 
 function atualizarResumo() {
-
     const dadosFiltrados = filtrarDados();
 
-    document.getElementById("quantidadeRegistros").innerText =
-        dadosFiltrados.length + " registros disponíveis";
+    const regEl = document.getElementById("quantidadeRegistros");
+    if (regEl) regEl.innerText = dadosFiltrados.length + " registros disponíveis";
 
+    const resEmp = document.getElementById("resEmpresa");
+    if (resEmp) resEmp.innerText = empresaSelecionada || "Todas";
 
-    document.getElementById("resEmpresa").innerText =
-        empresaSelecionada || "Todas";
+    const resEq = document.getElementById("resEquip");
+    if (resEq) resEq.innerText = equipamentoSelecionado || "Todos";
 
+    const periodoAtivo = document.querySelector(".period-button.selected");
+    const dataInicial = document.getElementById("dataInicial")?.value;
+    const dataFinal = document.getElementById("dataFinal")?.value;
+    const resPer = document.getElementById("resPeriodo");
 
-    document.getElementById("resEquip").innerText =
-        equipamentoSelecionado || "Todos";
-
-
-    const periodo = document.querySelector(".period-button.selected");
-
-    const dataInicial = document.getElementById("dataInicial").value;
-    const dataFinal = document.getElementById("dataFinal").value;
-
-
-    if (periodo.dataset.valor === "Período personalizado") {
-
-        if (dataInicial || dataFinal) {
-
-            document.getElementById("resPeriodo").innerText =
-                (dataInicial || "...") +
-                " até " +
-                (dataFinal || "...");
-
+    if (resPer && periodoAtivo) {
+        if (periodoAtivo.dataset.valor === "Período personalizado") {
+            if (dataInicial || dataFinal) {
+                resPer.innerText = (dataInicial || "...") + " até " + (dataFinal || "...");
+            } else {
+                resPer.innerText = "Personalizado";
+            }
         } else {
-
-            document.getElementById("resPeriodo").innerText =
-                "Personalizado";
-
+            resPer.innerText = periodoAtivo.dataset.valor;
         }
-
-    } else {
-
-        document.getElementById("resPeriodo").innerText =
-            periodo.dataset.valor;
-
     }
 
-
-    const metricas = document.querySelectorAll(
-        ".metric-option input:checked"
-    );
-
-
+    const metricas = document.querySelectorAll(".metric-option input:checked");
     const nomes = [...metricas].map(input => input.value);
-
-
-    document.getElementById("resMetricas").innerText =
-        nomes.length > 0
-            ? nomes.join(", ")
-            : "Nenhuma";
-
+    const resMet = document.getElementById("resMetricas");
+    if (resMet) {
+        resMet.innerText = nomes.length > 0 ? nomes.join(", ") : "Nenhuma";
+    }
 }
 
-
 function gerarCsv() {
-
     const dadosFiltrados = filtrarDados();
 
     if (dadosFiltrados.length === 0) {
-
-        alert("Nenhum dado encontrado.");
-
+        alert("Nenhum dado encontrado para gerar o relatório.");
         return;
     }
 
-
-    const metricas = document.querySelectorAll(
-        ".metric-option input:checked"
-    );
-
-
+    const metricas = document.querySelectorAll(".metric-option input:checked");
     const nomes = [...metricas].map(input => input.value);
-
 
     let csv = "empresa,equipamento,data";
 
-
-    if (nomes.includes("CPU")) {
-        csv += ",cpu";
-    }
-
-    if (nomes.includes("RAM")) {
-        csv += ",ram";
-    }
-
-    if (nomes.includes("Disco")) {
-        csv += ",disco";
-    }
-
-    if (nomes.includes("Rede")) {
-        csv += ",rede";
-    }
-
+    if (nomes.includes("CPU")) csv += ",cpu";
+    if (nomes.includes("RAM")) csv += ",ram";
+    if (nomes.includes("Disco")) csv += ",disco";
+    if (nomes.includes("Rede")) csv += ",rede";
 
     dadosFiltrados.forEach(item => {
+        let linha = `${item.empresa},${item.equipamento},${item.data}`;
 
-        let linha =
-            item.empresa + "," +
-            item.equipamento + "," +
-            item.data;
-
-
-        if (nomes.includes("CPU")) {
-            linha += "," + item.cpu;
-        }
-
-        if (nomes.includes("RAM")) {
-            linha += "," + item.ram;
-        }
-
-        if (nomes.includes("Disco")) {
-            linha += "," + item.disco;
-        }
-
-        if (nomes.includes("Rede")) {
-            linha += "," + item.rede;
-        }
-
+        if (nomes.includes("CPU")) linha += `,${item.cpu || ""}`;
+        if (nomes.includes("RAM")) linha += `,${item.ram || ""}`;
+        if (nomes.includes("Disco")) linha += `,${item.disco || ""}`;
+        if (nomes.includes("Rede")) linha += `,${item.rede || ""}`;
 
         csv += "\n" + linha;
-
     });
 
-
-    const arquivo = new Blob(
-        [csv],
-        { type: "text/csv" }
-    );
-
-
+    const arquivo = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(arquivo);
-
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = "relatorio-argos.csv";
-    link.click()
+    link.download = "relatorio-telemetria-argos.csv";
+    link.click();
     URL.revokeObjectURL(url);
-
 }
-
-carregarDados();
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnHamburguer = document.getElementById('btn-hamburguer');
@@ -412,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function toggleMenu() {
         if (!sidebar || !overlay) return;
-        
         sidebar.classList.toggle('-translate-x-full');
         overlay.classList.toggle('hidden');
     }
@@ -421,6 +271,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btnHamburguer.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
     }
+
+    carregarDadosRelatorio();
+    mostrarFuncionarios();
+    renderizarGraficos();
+    renderizarSLAs();
 });
 
 const funcionarios = [
@@ -438,7 +293,7 @@ const funcionarios = [
     { id: 12, nome: "Rafael Alves", status: "ativo" }
 ];
 
-const container = document.getElementById("lista-funcionarios");
+const containerFuncionarios = document.getElementById("lista-funcionarios");
 const inputBusca = document.getElementById("input-busca");
 
 function ordenarFuncionarios(lista) {
@@ -453,9 +308,9 @@ function ordenarFuncionarios(lista) {
 
 function mostrarFuncionarios(termo) {
     if (termo === undefined) termo = "";
-    if (!container) return;
+    if (!containerFuncionarios) return;
 
-    container.innerHTML = "";
+    containerFuncionarios.innerHTML = "";
     const listaOrdenada = ordenarFuncionarios(funcionarios);
     const listaFiltrada = [];
 
@@ -467,7 +322,7 @@ function mostrarFuncionarios(termo) {
     }
 
     if (listaFiltrada.length === 0) {
-        container.innerHTML = `<p class="text-gray-400 font-['Poppins'] text-sm col-span-full py-4 text-center">Nenhum funcionário encontrado.</p>`;
+        containerFuncionarios.innerHTML = `<p class="text-gray-400 font-['Poppins'] text-sm col-span-full py-4 text-center">Nenhum funcionário encontrado.</p>`;
     } else {
         for (let i = 0; i < listaFiltrada.length; i++) {
             const empregado = listaFiltrada[i];
@@ -483,14 +338,14 @@ function mostrarFuncionarios(termo) {
                 </div>
                 <span class="text-sm font-medium text-gray-300 mt-2 w-full truncate font-['Poppins']" title="${empregado.nome}">${empregado.nome}</span>
             `;
-            container.appendChild(card);
+            containerFuncionarios.appendChild(card);
         }
     }
 
     if (termo.trim() !== "") {
-        container.style.maxHeight = container.scrollHeight + "px";
+        containerFuncionarios.style.maxHeight = containerFuncionarios.scrollHeight + "px";
     } else {
-        container.style.maxHeight = "110px";
+        containerFuncionarios.style.maxHeight = "110px";
     }
 }
 
@@ -499,8 +354,6 @@ if (inputBusca) {
         mostrarFuncionarios(evento.target.value);
     });
 }
-
-mostrarFuncionarios();
 
 const dadosJsonAbertos = {
   "resumo_por_equipamento": [
@@ -811,48 +664,6 @@ function aplicarFiltroDatasPersonalizadas() {
 
     atualizarGrafico(graficoAbertos, abertosFiltrados);
     atualizarGrafico(graficoResolvidos, [resolvidosFiltrados], ["Período Selecionado"]);
-}
-
-for (let i = 0; i < botoesFiltros.length; i++) {
-    const botao = botoesFiltros[i];
-    const indice = i;
-
-    botao.addEventListener("click", function () {
-        for (let j = 0; j < botoesFiltros.length; j++) {
-            botoesFiltros[j].classList.remove("bg-blue-500", "text-[#09121B]", "border-transparent");
-            botoesFiltros[j].classList.add("border-gray-400", "text-gray-400", "hover:border-white", "hover:text-white");
-        }
-
-        this.classList.remove("border-gray-400", "text-gray-400", "hover:border-white", "hover:text-white");
-        this.classList.add("bg-blue-500", "text-[#09121B]", "border-transparent");
-
-        if (indice === 0) {
-            atualizarTextoSubtitulos("Última Semana");
-            if (painelPersonalizado) {
-                painelPersonalizado.classList.remove("max-h-30", "max-h-24", "md:max-h-24", "opacity-100", "border-gray-700");
-                painelPersonalizado.classList.add("max-h-0", "opacity-0", "border-gray-700/0");
-            }
-            atualizarGrafico(graficoAbertos, extrairValoresPorChave(dadosJsonAbertos, "chamados_semana"));
-            atualizarGrafico(graficoResolvidos, dadosJsonResolvidos.semana.valores, dadosJsonResolvidos.semana.labels);
-
-        } else if (indice === 1) {
-            atualizarTextoSubtitulos("Último Mês");
-            if (painelPersonalizado) {
-                painelPersonalizado.classList.remove("max-h-30", "max-h-24", "md:max-h-24", "opacity-100", "border-gray-700");
-                painelPersonalizado.classList.add("max-h-0", "opacity-0", "border-gray-700/0");
-            }
-            atualizarGrafico(graficoAbertos, extrairValoresPorChave(dadosJsonAbertos, "chamados_setembro"));
-            atualizarGrafico(graficoResolvidos, dadosJsonResolvidos.mes.valores, dadosJsonResolvidos.mes.labels);
-
-        } else if (indice === 2) {
-            atualizarTextoSubtitulos("Período Personalizado");
-            if (painelPersonalizado) {
-                painelPersonalizado.classList.remove("max-h-0", "md:max-h-0", "opacity-0", "border-gray-700/0");
-                painelPersonalizado.classList.add("max-h-30", "md:max-h-24", "opacity-100", "border-gray-700");
-            }
-            aplicarFiltroDatasPersonalizadas();
-        }
-    });
 }
 
 document.addEventListener("change", function (e) {
