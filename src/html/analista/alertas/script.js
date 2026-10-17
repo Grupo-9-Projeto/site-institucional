@@ -187,9 +187,9 @@ function renderizarTabelaAlertas(alertas) {
     }
 
     const statusClasses = {
-        'Aberto': 'bg-red-900/50 text-red-300',
-        'Em atendimento': 'bg-amber-900/50 text-amber-300',
-        'Resolvido': 'bg-emerald-900/50 text-emerald-300'
+        'Aberto': 'bg-red-900/50 text-red-300 rounded-md px-2.5 py-1',
+        'Em atendimento': 'bg-amber-900/50 text-amber-300 rounded-md px-2.5 py-1',
+        'Resolvido': 'bg-emerald-900/50 text-emerald-300 rounded-md px-2.5 py-1'
     };
 
     tbody.innerHTML = alertas.map(alerta => {
@@ -220,7 +220,7 @@ function renderizarTabelaAlertas(alertas) {
                     ${alerta.sla.tempo_excedido ? `<span class="block text-xs text-red-400 mt-1">${alerta.sla.tempo_excedido}</span>` : ''}
                 </td>
                 <td class="py-3 px-4">
-                    <span class="px-2.5 py-1 text-xs font-medium rounded-full ${badgeStatusClass}">
+                    <span class="px-2.5 py-1 text-xs font-medium rounded-md ${badgeStatusClass}">
                         ${alerta.status}
                     </span>
                 </td>
@@ -252,13 +252,13 @@ function carregarDetalhesAlerta() {
     const isCritico = alerta.severidade === 'Crítico';
     const isSlaViolado = alerta.sla.status === 'SLA Violado';
 
-    const corSeveridade = isCritico 
-        ? 'bg-red-900/30 text-red-400 border-red-800' 
-        : 'bg-amber-500/20 text-amber-400 border-amber-500/40';
+    const badgeSeveridadeClass = isCritico 
+        ? 'border border-red-500/50 text-red-400 bg-red-950/20' 
+        : 'border border-amber-500/50 text-amber-400 bg-amber-950/20';
 
     const badgeSlaClass = isSlaViolado 
-        ? 'bg-red-900/50 text-red-400 border-red-800' 
-        : 'bg-emerald-900/50 text-emerald-400 border-emerald-800';
+        ? 'border border-red-500/50 text-red-400 bg-red-950/30' 
+        : 'border border-emerald-500/50 text-emerald-400 bg-emerald-950/30';
 
     let badgeStatusClass = 'bg-gray-800 text-gray-300';
     if (alerta.status === 'Aberto') badgeStatusClass = 'bg-red-900/50 text-red-300';
@@ -294,14 +294,14 @@ function carregarDetalhesAlerta() {
             <p class="text-xs text-gray-400">${alerta.dispositivo} — ${alerta.cliente}</p>
         </div>
 
-        <div class="flex flex-wrap gap-2 mb-6 font-['Poppins']">
-            <span class="px-3 py-1 text-xs font-semibold rounded font-[${corSeveridade}] bg-[#0D1924]">
-                ● ${alerta.severidade}
-            </span>
-            <span class="px-3 py-1 text-xs font-semibold rounded-full ${badgeStatusClass}">
+        <div class="flex flex-wrap gap-2.5 mb-6 font-['Poppins']">
+            <span class="px-3 py-1 text-xs font-semibold rounded-md ${badgeStatusClass}">
                 ${alerta.status}
             </span>
-            <span class="px-3 py-1 text-xs font-semibold rounded border ${badgeSlaClass}">
+            <span class="px-3 py-1 text-xs font-semibold rounded-md ${badgeSeveridadeClass}">
+                ● ${alerta.severidade}
+            </span>
+            <span class="px-3 py-1 text-xs font-semibold rounded-md ${badgeSlaClass}">
                 ${alerta.sla.status} ${alerta.sla.tempo_excedido ? alerta.sla.tempo_excedido : ''}
             </span>
         </div>
