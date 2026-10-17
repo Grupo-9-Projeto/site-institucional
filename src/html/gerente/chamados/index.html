@@ -72,11 +72,11 @@
             <header class="flex flex-col justify-between items-center md:flex-row mb-6 mt-1">
                 <div class="flex flex-col w-full md:w-auto">
                     <h1 class="text-white text-2xl font-semibold mb-1">Histórico de Chamados</h1>
-                    <p class="text-gray-500 text-[12px]">Central de controle — histórico completo de violações de nível
+                    <p class="text-white/60 text-[12px]">Central de controle — histórico completo de violações de nível
                         de serviço</p>
                 </div>
 
-                <div id="filtro-status" class="flex flex-wrap gap-2">
+                <div id="filtro-status" class="flex flex-wrap gap-2 mt-3 md:mt-0">
                     <button type="button" data-status="todos"
                         class="btn-status px-4 py-2 rounded-md text-xs font-bold bg-light-blue text-main-blue cursor-pointer transition-element">
                         Todos
@@ -98,20 +98,22 @@
 
             <div id="personalizados" class="transition-all duration-500 ease-in-out font-['Poppins'] mb-6">
                 <div class="pt-4 mt-2 flex flex-col items-start gap-4 md:flex-row md:items-center">
-                    <div class="flex flex-row items-center gap-3">
-                        <p class="text-gray-400 text-[14px]">De</p>
-                        <input type="date" id="data-inicial"
-                            class="bg-[#09121B] border border-gray-400 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
-                    </div>
+                    <div class="pt-2 flex flex-col items-start gap-4 md:flex-row md:items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-white/60">De</span>
+                            <input type="date" id="data-inicio"
+                                class="h-9 px-3 rounded-md border border-white/15 bg-main-blue text-xs text-white scheme-dark focus:border-light-blue focus:outline-none cursor-pointer">
+                        </div>
 
-                    <div class="flex flex-row items-center gap-3">
-                        <p class="text-gray-400 text-[14px]">Até</p>
-                        <input type="date" id="data-final"
-                            class="bg-[#09121B] border border-gray-400 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-white/60">Até</span>
+                            <input type="date" id="data-fim"
+                                class="h-9 px-3 rounded-md border border-white/15 bg-main-blue text-xs text-white scheme-dark focus:border-light-blue focus:outline-none cursor-pointer">
+                        </div>
                     </div>
 
                     <select id="filtro-equipamento"
-                        class="bg-[#09121B] border border-gray-400 text-gray-300 px-3 text-[14px] rounded h-9 focus:border-blue-500 focus:outline-none cursor-pointer">
+                        class="h-9 px-3 rounded-md border border-white/15 bg-main-blue text-xs text-white scheme-dark focus:border-light-blue focus:outline-none cursor-pointer">
                         <option value="">Equipamento: Todos</option>
                     </select>
                 </div>

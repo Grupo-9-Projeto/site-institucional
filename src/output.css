@@ -35,6 +35,7 @@
     --color-cyan-400: oklch(78.9% 0.154 211.53);
     --color-blue-400: oklch(70.7% 0.165 254.624);
     --color-blue-500: oklch(62.3% 0.214 259.815);
+    --color-purple-400: oklch(71.4% 0.203 305.504);
     --color-slate-100: oklch(96.8% 0.007 247.896);
     --color-slate-300: oklch(86.9% 0.022 252.894);
     --color-slate-400: oklch(70.4% 0.04 256.788);
@@ -469,8 +470,23 @@
   .-ml-9 {
     margin-left: calc(var(--spacing) * -9);
   }
+  .-ml-10 {
+    margin-left: calc(var(--spacing) * -10);
+  }
   .-ml-12 {
     margin-left: calc(var(--spacing) * -12);
+  }
+  .-ml-20 {
+    margin-left: calc(var(--spacing) * -20);
+  }
+  .-ml-25 {
+    margin-left: calc(var(--spacing) * -25);
+  }
+  .-ml-30 {
+    margin-left: calc(var(--spacing) * -30);
+  }
+  .-ml-40 {
+    margin-left: calc(var(--spacing) * -40);
   }
   .ml-0 {
     margin-left: 0px;
@@ -480,6 +496,9 @@
   }
   .ml-5 {
     margin-left: calc(var(--spacing) * 5);
+  }
+  .ml-10 {
+    margin-left: calc(var(--spacing) * 10);
   }
   .ml-13 {
     margin-left: calc(var(--spacing) * 13);
@@ -1444,6 +1463,9 @@
       background-color: color-mix(in oklab, var(--color-blue-500) 10%, transparent);
     }
   }
+  .bg-emerald-500 {
+    background-color: var(--color-emerald-500);
+  }
   .bg-emerald-900 {
     background-color: var(--color-emerald-900);
   }
@@ -1470,6 +1492,9 @@
   }
   .bg-gray-400 {
     background-color: var(--color-gray-400);
+  }
+  .bg-gray-500 {
+    background-color: var(--color-gray-500);
   }
   .bg-gray-800 {
     background-color: var(--color-gray-800);
@@ -2107,6 +2132,9 @@
   .text-orange-500 {
     color: var(--color-orange-500);
   }
+  .text-purple-400 {
+    color: var(--color-purple-400);
+  }
   .text-red-300 {
     color: var(--color-red-300);
   }
@@ -2373,6 +2401,9 @@
     }
     .hover\:border-\[\#38BDF8\]:hover {
       border-color: #38BDF8;
+    }
+    .hover\:border-light-blue:hover {
+      border-color: var(--color-light-blue);
     }
     .hover\:border-light-blue\/40:hover {
       border-color: color-mix(in srgb, #03C8FF 40%, transparent);
