@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="image/png">
+    <title>Argos - Configurações</title>
+
+    <link rel="stylesheet" href="../../../output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+
+<body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
+    
+    <button id="btn-hamburguer"
+        class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-gray-500 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-screen flex flex-col justify-between overflow-hidden">
+
+        <div>
+            <div class="px-6 py-6 border-b border-white/10 flex gap-3 shrink-0">
+                <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos"
+                    class="h-8 w-auto object-contain">
+                <p class="self-center text-xl font-semibold">Argos</p>
+            </div>
+
+            <div class="px-6 py-6 border-b border-white/10 shrink-0">
+                <div
+                    class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
+                    C
+                </div>
+                <p class="mt-3 text-white/60">Olá,</p>
+                <p class="text-lg font-bold">Cláudio</p>
+            </div>
+
+            <nav class="flex flex-col py-4">
+                <a href="../home/home.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
+                <a href="../alertas/index.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Alertas</a>
+            </nav>
+        </div>
+
+        <div class="border-t border-white/10 py-4 shrink-0">
+            <a href="./index.html"
+                class="block px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-element">Configurações</a>
+            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
+        </div>
+
+    </aside>
+
+    <main class="flex-1 h-full overflow-y-auto p-4 pt-16 md:p-8 md:pt-8">
+        <div class="max-w-4xl mx-auto w-full">
+            <h1 class="text-2xl font-semibold mb-6">Configurações</h1>
+
+            <section class="mt-8 rounded-xl border border-white/10 bg-[#0D1924] overflow-hidden">
+                <h2 class="flex h-[62px] items-center border-b border-white/10 bg-white/[0.02] px-7 text-sm font-bold text-white/85">
+                    Foto de Perfil
+                </h2>
+                <div class="flex flex-wrap items-center gap-7 px-7 py-[34px]">
+                    <div class="relative size-[100px] shrink-0">
+                        <div class="size-full overflow-hidden rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-5xl font-bold">
+                            <span data-avatar-letra>C</span>
+                            <img data-avatar-foto src="" alt="Foto de perfil" class="hidden size-full object-cover">
+                        </div>
+                        <button type="button" id="icone-editar-foto" aria-label="Alterar foto"
+                            class="absolute bottom-0 right-0 grid size-[30px] place-items-center rounded-full bg-light-blue text-main-blue border-2 border-[#0D1924] cursor-pointer hover:brightness-110 transition-element">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                                class="size-3.5">
+                                <path d="M12 20h9" />
+                                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div>
+                        <p id="nome-card" class="text-xl font-bold">Cláudio Lopes</p>
+                        <p id="email-card" class="mt-1 text-sm text-gray-400">claudio@gmail.com</p>
+                        <button type="button" id="botao-foto"
+                            class="mt-3 rounded-md border border-white/15 bg-[#09121B] px-5 py-2.5 text-[13px] font-semibold text-white/80 cursor-pointer hover:border-white/30 hover:text-white transition-element">Alterar
+                            Foto</button>
+                        <p id="erro-foto" class="hidden mt-2 text-xs text-red-500"></p>
+                        <input type="file" id="arquivo-foto" accept="image/*" class="hidden">
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-5 rounded-xl border border-white/10 bg-[#0D1924] overflow-hidden">
+                <h2 class="flex h-[62px] items-center border-b border-white/10 bg-white/[0.02] px-7 text-sm font-bold text-white/85">
+                    Informações Pessoais
+                </h2>
+                <div class="px-7 py-7">
+                    <label for="input-nome" class="block text-[13px] font-semibold text-white/50">Nome completo</label>
+                    <div class="mt-2.5 flex gap-3.5">
+                        <input type="text" id="input-nome" value="Cláudio Lopes" readonly
+                            class="h-[63px] min-w-0 flex-1 rounded-lg border border-white/15 bg-[#09121B] px-[18px] text-[15px] text-white focus:outline-none">
+                        <button type="button" id="botao-alterar-nome"
+                            class="h-[63px] w-[118px] shrink-0 rounded-lg border border-white/15 bg-[#09121B] px-4 text-center text-[13px] font-semibold leading-snug text-white/80 cursor-pointer hover:border-white/30 hover:text-white transition-element">Alterar
+                            nome</button>
+                    </div>
+
+                    <label for="input-email" class="mt-5 block text-[13px] font-semibold text-white/50">E-mail</label>
+                    <input type="email" id="input-email" value="claudio@gmail.com" readonly
+                        class="mt-2.5 h-[49px] w-full rounded-lg border border-white/15 bg-[#09121B] px-[18px] text-[15px] text-white focus:outline-none">
+                </div>
+            </section>
+
+            <section class="mt-5 rounded-xl border border-white/10 bg-[#0D1924] overflow-hidden">
+                <h2 class="flex h-[62px] items-center border-b border-white/10 bg-white/[0.02] px-7 text-sm font-bold text-white/85">
+                    Segurança
+                </h2>
+                <div class="flex flex-wrap items-center justify-between gap-4 px-7 py-7">
+                    <div>
+                        <p class="text-[15px] font-medium">Senha</p>
+                        <p class="mt-1 text-[10px] tracking-widest text-gray-400" aria-label="Senha oculta">••••••••••••</p>
+                    </div>
+                    <button type="button" id="botao-alterar-senha"
+                        class="rounded-md border border-white/15 bg-[#09121B] px-5 py-2.5 text-[13px] font-semibold text-white/80 cursor-pointer hover:border-white/30 hover:text-white transition-element">Alterar
+                        senha</button>
+                </div>
+            </section>
+
+            <section class="mt-5 rounded-xl border border-white/10 bg-[#0D1924] overflow-hidden">
+                <h2 class="flex h-[62px] items-center border-b border-white/10 bg-white/[0.02] px-7 text-sm font-bold text-white/85">
+                    Notificações
+                </h2>
+                <div class="px-7 py-[18px]">
+                    <div class="flex h-11 items-center justify-between gap-4">
+                        <span class="text-[15px] text-white/80">Alertas críticos por e-mail</span>
+                        <button type="button" role="switch" aria-checked="true" aria-label="Alertas críticos por e-mail"
+                            data-notificacao="alertasCriticos"
+                            class="group relative h-[26px] w-[50px] shrink-0 rounded-full bg-[#2a3440] cursor-pointer transition-element aria-checked:bg-light-blue">
+                            <span class="absolute left-[3px] top-[3px] size-5 rounded-full bg-gray-400 transition-element group-aria-checked:translate-x-6 group-aria-checked:bg-main-blue"></span>
+                        </button>
+                    </div>
+                    <div class="flex h-11 items-center justify-between gap-4">
+                        <span class="text-[15px] text-white/80">Violações de SLA</span>
+                        <button type="button" role="switch" aria-checked="true" aria-label="Violações de SLA"
+                            data-notificacao="violacoesSla"
+                            class="group relative h-[26px] w-[50px] shrink-0 rounded-full bg-[#2a3440] cursor-pointer transition-element aria-checked:bg-light-blue">
+                            <span class="absolute left-[3px] top-[3px] size-5 rounded-full bg-gray-400 transition-element group-aria-checked:translate-x-6 group-aria-checked:bg-main-blue"></span>
+                        </button>
+                    </div>
+                    <div class="flex h-11 items-center justify-between gap-4">
+                        <span class="text-[15px] text-white/80">Resumo diário</span>
+                        <button type="button" role="switch" aria-checked="false" aria-label="Resumo diário"
+                            data-notificacao="resumoDiario"
+                            class="group relative h-[26px] w-[50px] shrink-0 rounded-full bg-[#2a3440] cursor-pointer transition-element aria-checked:bg-light-blue">
+                            <span class="absolute left-[3px] top-[3px] size-5 rounded-full bg-gray-400 transition-element group-aria-checked:translate-x-6 group-aria-checked:bg-main-blue"></span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-5 mb-8 rounded-xl border border-red-500/30 bg-[#161a20] px-7 py-7">
+                <h2 class="text-sm font-bold text-red-500">Zona de Risco</h2>
+                <div class="mt-3 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <p class="text-[15px] font-medium">Desativar conta</p>
+                        <p class="mt-1 text-[13px] text-gray-400">Esta ação não pode ser desfeita.</p>
+                    </div>
+                    <button type="button" id="botao-desativar"
+                        class="h-10 rounded-md bg-red-500/10 text-red-500 border border-red-500/30 px-6 text-[13px] font-bold cursor-pointer hover:bg-red-500/20 transition-element">Desativar</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <dialog id="modal-nome"
+        class="m-auto w-[min(92vw,420px)] rounded-xl border border-white/10 bg-[#0D1924] p-6 text-white backdrop:bg-black/60">
+        <form id="form-nome" novalidate>
+            <h3 class="text-base font-bold">Alterar nome</h3>
+            <label for="novo-nome" class="mt-4 block text-[13px] font-semibold text-white/50">Nome completo</label>
+            <input type="text" id="novo-nome" maxlength="60" autocomplete="name"
+                class="mt-2 h-11 w-full rounded-lg border border-white/15 bg-[#09121B] px-4 text-[15px] text-white focus:border-light-blue focus:outline-none">
+            <p id="erro-nome" class="hidden mt-2 text-xs text-red-500"></p>
+            <div class="mt-6 flex justify-end gap-2">
+                <button type="button" data-fechar
+                    class="h-10 rounded-md border border-white/15 bg-[#09121B] px-5 text-[13px] font-semibold text-white/80 cursor-pointer hover:text-white transition-element">Cancelar</button>
+                <button type="submit"
+                    class="h-10 rounded-md bg-light-blue px-5 text-[13px] font-bold text-main-blue cursor-pointer hover:brightness-110 transition-element">Salvar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="modal-senha"
+        class="m-auto w-[min(92vw,420px)] rounded-xl border border-white/10 bg-[#0D1924] p-6 text-white backdrop:bg-black/60">
+        <form id="form-senha" novalidate>
+            <h3 class="text-base font-bold">Alterar senha</h3>
+
+            <label for="senha-atual" class="mt-4 block text-[13px] font-semibold text-white/50">Senha atual</label>
+            <input type="password" id="senha-atual" autocomplete="current-password"
+                class="mt-2 h-11 w-full rounded-lg border border-white/15 bg-[#09121B] px-4 text-[15px] text-white focus:border-light-blue focus:outline-none">
+
+            <label for="senha-nova" class="mt-4 block text-[13px] font-semibold text-white/50">Nova senha</label>
+            <input type="password" id="senha-nova" autocomplete="new-password"
+                class="mt-2 h-11 w-full rounded-lg border border-white/15 bg-[#09121B] px-4 text-[15px] text-white focus:border-light-blue focus:outline-none">
+
+            <label for="senha-confirmacao" class="mt-4 block text-[13px] font-semibold text-white/50">Confirmar nova senha</label>
+            <input type="password" id="senha-confirmacao" autocomplete="new-password"
+                class="mt-2 h-11 w-full rounded-lg border border-white/15 bg-[#09121B] px-4 text-[15px] text-white focus:border-light-blue focus:outline-none">
+
+            <label class="mt-4 flex items-center gap-2 text-[13px] text-white/70 cursor-pointer">
+                <input type="checkbox" id="mostrar-senhas" class="size-4 accent-[#03C8FF]"> Mostrar senhas
+            </label>
+
+            <p id="erro-senha" class="hidden mt-3 text-xs text-red-500"></p>
+            <p id="aviso-senha"
+                class="hidden mt-3 rounded-md border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-xs text-yellow-400">
+            </p>
+
+            <div class="mt-6 flex justify-end gap-2">
+                <button type="button" data-fechar
+                    class="h-10 rounded-md border border-white/15 bg-[#09121B] px-5 text-[13px] font-semibold text-white/80 cursor-pointer hover:text-white transition-element">Cancelar</button>
+                <button type="submit"
+                    class="h-10 rounded-md bg-light-blue px-5 text-[13px] font-bold text-main-blue cursor-pointer hover:brightness-110 transition-element">Alterar senha</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="modal-desativar"
+        class="m-auto w-[min(92vw,420px)] rounded-xl border border-red-500/30 bg-[#161a20] p-6 text-white backdrop:bg-black/60">
+        <h3 class="text-base font-bold text-red-500">Desativar conta</h3>
+        <p class="mt-3 text-sm text-white/80">Tem certeza de que deseja desativar sua conta? Esta ação não pode ser desfeita.</p>
+        <p id="aviso-desativar"
+            class="hidden mt-3 rounded-md border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-xs text-yellow-400">
+        </p>
+        <div class="mt-6 flex justify-end gap-2">
+            <button type="button" data-fechar
+                class="h-10 rounded-md border border-white/15 bg-[#09121B] px-5 text-[13px] font-semibold text-white/80 cursor-pointer hover:text-white transition-element">Cancelar</button>
+            <button type="button" id="confirmar-desativar"
+                class="h-10 rounded-md bg-red-500/10 text-red-500 border border-red-500/30 px-5 text-[13px] font-bold cursor-pointer hover:bg-red-500/20 transition-element">Desativar conta</button>
+        </div>
+    </dialog>
+
+</body>
+
+</html>

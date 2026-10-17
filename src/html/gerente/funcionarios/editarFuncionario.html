@@ -1,91 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="png">
-    <title>Argos (gerente)- Editar Funcionário</title>
+    <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="image/png">
+    <title>Argos (gerente) - Editar Funcionário</title>
     <link rel="stylesheet" href="../../../output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
 </head>
+
 <body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
-    <aside class="w-1/5 shrink-0 h-full flex flex-col bg-[#0B141D] border-r border-white/10">
-        <div class="px-6 py-6 border-b border-white/10 flex gap-3 ">
-            <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos" class="h-8 w-auto object-contain">
-            <p class="self-center text-xl font-semibold">Argos</p>
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-screen flex flex-col justify-between overflow-hidden">
+
+        <div>
+            <div class="px-6 py-6 border-b border-white/10 flex gap-3 shrink-0">
+                <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos"
+                    class="h-8 w-auto object-contain">
+                <p class="self-center text-xl font-semibold">Argos</p>
+            </div>
+
+            <div class="px-6 py-6 border-b border-white/10 shrink-0">
+                <div
+                    class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
+                    V
+                </div>
+                <p class="mt-3 text-white/60">Olá,</p>
+                <p class="text-lg font-bold">Vivian</p>
+            </div>
+
+            <nav class="flex flex-col py-4">
+                <a href="../home.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
+                <a href="../empresas/index.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
+                <a href="./index.html"
+                    class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Funcionários</a>
+                <a href="../chamados/index.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico
+                    de Chamados</a>
+                <a href="../relatorio.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar
+                    Relatório</a>
+            </nav>
         </div>
-        <div class="px-6 py-6 border-b border-white/10">
-            <!-- Aqui podemos fazer a foto de perfil do usuário ou só manter a primeira letra do nome provisoriamente -->
-            <div class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">U</div>
-            <p class="mt-3 text-white/60">Olá,</p>
-            <!-- Aqui tem que alterar para receber nome do usuário da sessão (puxar do session.user?) -->
-            <p class="text-lg font-bold">Usuário</p>
-        </div>
-        <nav class="flex-1 flex flex-col py-4">
-            <a href="../home.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
-            <a href="../empresas/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
-            <a href="../funcionarios/index.html" class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Funcionários</a>
-            <a href="../chamados/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
-            <a href="../relatorio.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
-        </nav>
-        <div class="border-t border-white/10 py-4">
-            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
+
+        <div class="border-t border-white/10 py-4 shrink-0">
+            <a href="../configuracoes/index.html"
+                class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
             <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
+
     </aside>
-    <main class="flex-1 h-full overflow-y-auto p-9">
-        <a href="./index.html" class="flex w-fit items-center gap-2 mb-4 text-sm font-bold text-white/60 hover:text-light-blue transition-element">
-            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-            Voltar para Funcionários
-        </a>
-        <section class="max-w-3xl mx-auto rounded-2xl border border-white/10 bg-[#0D1924] p-9">
-            <p class="text-xs font-bold text-white/60">Modificar Funcionário</p>
-            <div class="mt-5 flex items-center gap-6">
-                <div class="size-20 shrink-0 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-3xl font-bold">F</div>
-                <h1 class="text-3xl font-bold">Funcionário 1</h1>
-            </div>
-            <form class="mt-8 flex flex-col gap-5">
-                <div class="flex flex-col gap-2">
-                    <label for="email" class="text-sm font-bold text-white/60">E-Mail</label>
-                    <input id="email" name="email" type="email" value="funcionario1@argos.com" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+
+    <main class="flex-1 h-full overflow-y-auto p-4 pt-16 md:p-8 md:pt-8">
+        <div class="max-w-3xl mx-auto w-full">
+            <a href="./index.html"
+                class="flex w-fit items-center gap-2 mb-6 text-sm text-white/60 hover:text-light-blue transition-element">
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Voltar para Funcionários
+            </a>
+            
+            <section class="rounded-2xl border border-white/10 bg-[#0D1924] p-9">
+                <p class="text-sm text-white/60">Modificar Funcionário</p>
+                <div class="mt-5 flex items-center gap-6">
+                    <div id="avatar-inicial"
+                        class="size-20 shrink-0 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-3xl font-bold">
+                        F</div>
+                    <h1 id="nome-funcionario" class="text-3xl font-bold">Funcionário</h1>
                 </div>
-                <div class="flex flex-col gap-2">
-                    <span class="text-sm font-bold text-white/60">Empresas</span>
-                    <ul class="rounded-md border border-white/15 bg-white/5 overflow-hidden">
-                        <li class=" flex items-center justify-between px-4 py-3.5 text-sm border-b border-white/10">Empresa 1
-                            <button class="text-white/40 hover:text-red-400 cursor-pointer transition-element">
-                                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                            </button>
-                        </li>
-                    </ul>
-                    <button type="button" onclick="abrirModal()" class="w-fit mt-1 px-4 py-2 rounded-md border border-white/20 text-xs font-bold text-white/60 hover:bg-white/10 hover:text-white cursor-pointer transition-element">Adicionar Empresa</button>
-                </div>
-                <div class="mt-2 flex items-center justify-end">
-                    <a href="index.html" class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 cursor-pointer transition-element">Salvar</a>
-                </div>
-            </form>
-        </section>
+                <form class="mt-8 flex flex-col gap-5" onsubmit="event.preventDefault();">
+                    <div class="flex flex-col gap-2">
+                        <label for="email" class="text-sm font-bold text-white/60">E-Mail</label>
+                        <input id="email" name="email" type="email"
+                            class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="text-sm font-bold text-white/60">Empresas</span>
+                        <ul id="lista-empresas-vinculadas" class="rounded-md border border-white/15 bg-white/5 overflow-hidden">
+                        </ul>
+                        <button type="button" onclick="abrirModal()" class="w-fit mt-1 px-4 py-2 rounded-md border border-white/20 text-xs font-bold text-white/60 hover:bg-white/10 hover:text-white cursor-pointer transition-element">Adicionar Empresa</button>
+                    </div>
+                    <div class="mt-2 flex items-center justify-between">
+                        <button type="button" onclick="desativarFuncionario()" class="px-6 py-2.5 rounded-md bg-red-500/10 text-red-500 border border-red-500/30 text-sm font-bold hover:bg-red-500/20 cursor-pointer transition-element">Desativar Usuário</button>
+                        <button type="button" onclick="salvarAlteracoes()" class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 cursor-pointer transition-element">Salvar</button>
+                    </div>
+                </form>
+            </section>
+        </div>
     </main>
+
     <div id="modal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         <div class="w-full max-w-md rounded-2xl border border-white/10 bg-[#0D1924] p-8 shadow-2xl">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold">Adicionar Empresa</h2>
-                <button type="button" class="text-white/60 hover:text-white text-2xl leading-none transition-element cursor-pointer" onclick="fecharModal()">&times;</button>
+                <button type="button"
+                    class="text-white/60 hover:text-white text-2xl leading-none transition-element cursor-pointer"
+                    onclick="fecharModal()">&times;</button>
             </div>
             <div class="mt-6 flex flex-col gap-2">
-                <label for="empresa" class="text-sm font-bold text-white/60">Empresa</label>
-                <select id="empresa" class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm focus:border-light-blue focus:outline-none transition-element cursor-pointer scheme-dark">
-                    <option value="" selected disabled>Selecione uma empresa</option>
-                    <option>Empresa 1</option>
-                    <option>Empresa 2</option>
-                    <option>Empresa 3</option>
-                </select>
+                <label for="input-nova-empresa" class="text-sm font-bold text-white/60">Nome da Empresa</label>
+                <input id="input-nova-empresa" type="text" placeholder="Digite o nome da empresa"
+                    class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
             </div>
             <div class="mt-6 flex justify-end gap-3">
-                <button type="button" onclick="fecharModal()" class="px-5 py-2.5 rounded-md border border-white/20 text-sm font-bold hover:bg-white/10 transition-element cursor-pointer">Cancelar</button>
-                <button type="button" onclick="fecharModal()" class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Adicionar</button>
+                <button type="button" onclick="fecharModal()"
+                    class="px-5 py-2.5 rounded-md border border-white/20 text-sm font-bold hover:bg-white/10 transition-element cursor-pointer">Cancelar</button>
+                <button type="button" onclick="adicionarEmpresa()"
+                    class="px-6 py-2.5 rounded-md bg-light-blue text-main-blue text-sm font-bold hover:brightness-110 transition-element cursor-pointer">Adicionar</button>
             </div>
         </div>
     </div>
 </body>
-<script src="script.js"></script>
+
 </html>

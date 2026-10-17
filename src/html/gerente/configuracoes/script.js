@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const btnHamburguer = document.getElementById('btn-hamburguer');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    function toggleMenu() {
+        if (!sidebar || !overlay) return;
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+    }
+
+    if (btnHamburguer && overlay) {
+        btnHamburguer.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+    }
+
+    carregarDadosRelatorio();
+    mostrarFuncionarios();
+    renderizarGraficos();
+    renderizarSLAs();
+});
+
 const CHAVE_PERFIL = "argos-gerente-perfil";
 const CHAVE_NOTIFICACOES = "argos-gerente-notificacoes";
 const TAMANHO_MAXIMO_FOTO = 5 * 1024 * 1024; // 5 MB
