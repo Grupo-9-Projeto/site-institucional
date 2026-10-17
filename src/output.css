@@ -844,6 +844,9 @@
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
+  .max-w-11 {
+    max-width: calc(var(--spacing) * 11);
+  }
   .max-w-308 {
     max-width: calc(var(--spacing) * 308);
   }
@@ -2563,6 +2566,9 @@
     .sm\:w-\[33\%\] {
       width: 33%;
     }
+    .sm\:max-w-14 {
+      max-width: calc(var(--spacing) * 14);
+    }
     .sm\:max-w-\[56px\] {
       max-width: 56px;
     }
@@ -2705,6 +2711,9 @@
     }
     .md\:w-auto {
       width: auto;
+    }
+    .md\:max-w-20 {
+      max-width: calc(var(--spacing) * 20);
     }
     .md\:max-w-\[80px\] {
       max-width: 80px;
@@ -2893,6 +2902,17 @@
     .lg\:border-white {
       border-color: var(--color-white);
     }
+    .lg\:bg-linear-to-b {
+      --tw-gradient-position: to bottom;
+    }
+    @supports (background-image: linear-gradient(in lab, red, red)) {
+      .lg\:bg-linear-to-b {
+        --tw-gradient-position: to bottom in oklab;
+      }
+    }
+    .lg\:bg-linear-to-b {
+      background-image: linear-gradient(var(--tw-gradient-stops));
+    }
     .lg\:bg-gradient-to-b {
       --tw-gradient-position: to bottom in oklab;
       background-image: linear-gradient(var(--tw-gradient-stops));
@@ -2901,8 +2921,16 @@
       --tw-gradient-from: #09121B;
       --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
     }
+    .lg\:from-main-blue {
+      --tw-gradient-from: var(--color-main-blue);
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
     .lg\:to-\[\#251E47\] {
       --tw-gradient-to: #251E47;
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
+    .lg\:to-main-purple {
+      --tw-gradient-to: var(--color-main-purple);
       --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
     }
     .lg\:p-8 {

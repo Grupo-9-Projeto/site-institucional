@@ -11,16 +11,16 @@
 </head>
 
 <body class="font-space-grotesk select-none">
-    <div class="min-h-screen lg:h-screen w-full bg-[#09121B] flex flex-col lg:flex-row lg:gap-4 lg:p-8 text-white lg:overflow-hidden">
-        <div class="w-full gradient-border lg:w-[65%] lg:min-w-0 flex lg:border lg:border-white bg-transparent lg:bg-gradient-to-b lg:from-[#09121B] lg:to-[#251E47] lg:gradient-border p-4 sm:p-6 lg:p-[clamp(16px,4vh,40px)] lg:overflow-hidden">
+    <div class="min-h-screen lg:h-screen w-full bg-main-blue flex flex-col lg:flex-row lg:gap-4 lg:p-8 text-white lg:overflow-hidden">
+        <div class="w-full gradient-border lg:w-[65%] lg:min-w-0 flex lg:border lg:border-white bg-transparent lg:bg-linear-to-b lg:from-main-blue lg:to-main-purple lg:gradient-border p-4 sm:p-6 lg:p-[clamp(16px,4vh,40px)] lg:overflow-hidden">
             <div class="flex lg:flex-col w-full">   
                 <div class="text-2xl md:text-3xl lg:text-[clamp(24px,5.5vh,60px)] shrink-0">
                     <button onclick="history.back()" class="transition-transform duration-300 hover:scale-110">
                         ←
                     </button>
                 </div>
-                <div class="hidden lg:flex lg:mt-auto flex justify-center shrink-0">
-                    <img class="max-w-[44px] sm:max-w-[56px] md:max-w-[80px] lg:max-w-[288px] max-h-[8vh] lg:max-h-[26vh] w-auto h-auto object-contain transition-transform duration-300" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
+                <div class="flex lg:flex lg:mt-auto justify-center shrink-0">
+                    <img class="max-w-11 sm:max-w-14 md:max-w-20 lg:max-w-[288px] max-h-[8vh] lg:max-h-[26vh] w-auto h-auto object-contain transition-transform duration-300" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
                 </div>
                 <div class="hidden lg:block lg:mt-auto lg:flex-none min-w-0">
                     <h3 class="font-medium text-xs sm:text-sm md:text-base lg:text-[clamp(20px,4.4vh,48px)] leading-tight truncate lg:whitespace-normal">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <div class="w-full flex-1 lg:w-[35%] lg:min-w-0  flex flex-col justify-center gradient-border bg-gradient-to-b from-[#09121B] to-[#251E47] p-5 sm:p-6 md:p-8 lg:p-[clamp(16px,4vh,40px)]  lg:overflow-hidden">
+        <div class="w-full flex-1 lg:w-[35%] lg:min-w-0  flex flex-col justify-center gradient-border bg-linear-to-b from-main-blue to-main-purple p-5 sm:p-6 md:p-8 lg:p-[clamp(16px,4vh,40px)]  lg:overflow-hidden">
             <div>
                 <div class="flex items-center justify-center">
                     <h1 class="font-bold text-xl sm:text-2xl lg:text-3xl mb-6 lg:mb-8 transition-transform duration-300">
@@ -61,6 +61,7 @@
             </div>
         </div>
     </div>
+    <script src="../js/api.js"></script>
     <script src="../js/script.js"></script>
 </body>
 </html>
