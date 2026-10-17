@@ -187,9 +187,9 @@ function renderizarTabelaAlertas(alertas) {
     }
 
     const statusClasses = {
-        'Aberto': 'bg-red-900/50 text-red-300 rounded-md px-2.5 py-1',
-        'Em atendimento': 'bg-amber-900/50 text-amber-300 rounded-md px-2.5 py-1',
-        'Resolvido': 'bg-emerald-900/50 text-emerald-300 rounded-md px-2.5 py-1'
+        'Aberto': 'bg-red-900/50 text-red-300',
+        'Em atendimento': 'bg-amber-900/50 text-amber-300',
+        'Resolvido': 'bg-emerald-900/50 text-emerald-300'
     };
 
     tbody.innerHTML = alertas.map(alerta => {
@@ -197,34 +197,34 @@ function renderizarTabelaAlertas(alertas) {
         const isSlaViolado = alerta.sla.status === 'SLA Violado';
 
         const corSeveridade = isCritico ? 'text-red-500' : 'text-amber-500';
-        const badgeSlaClass = isSlaViolado ? 'bg-red-900/40 text-red-400' : 'bg-emerald-900/40 text-emerald-400';
+        const badgeSlaClass = isSlaViolado ? 'bg-red-900/40 text-red-400 border border-red-800/50' : 'bg-emerald-900/40 text-emerald-400 border border-emerald-800/50';
         const badgeStatusClass = statusClasses[alerta.status] || 'bg-gray-800 text-gray-300';
 
         return `
-            <tr class="border-b border-gray-800 hover:bg-[#132230] transition-colors cursor-pointer"
+            <tr class="border-b border-white/10 hover:bg-white/[0.03] transition-colors cursor-pointer"
                 onclick="window.location.href='detalheAlerta.html?id=${encodeURIComponent(alerta.id)}'">
-                <td class="py-3 px-4">
+                <td class="py-3 px-3.5 whitespace-nowrap">
                     <div class="font-bold text-gray-100">${alerta.dispositivo}</div>
                     <div class="text-xs text-gray-400">${alerta.cliente}</div>
                 </td>
-                <td class="py-3 px-4 text-gray-300">${alerta.tipo}</td>
-                <td class="py-3 px-4 text-gray-300">${alerta.data}</td>
-                <td class="py-3 px-4 font-medium ${corSeveridade}">
+                <td class="py-3 px-3.5 whitespace-nowrap text-gray-300">${alerta.tipo}</td>
+                <td class="py-3 px-3.5 whitespace-nowrap text-gray-300">${alerta.data}</td>
+                <td class="py-3 px-3.5 whitespace-nowrap font-medium ${corSeveridade}">
                     <span class="inline-block w-2 h-2 rounded-full mr-1.5 ${isCritico ? 'bg-red-500' : 'bg-amber-500'}"></span>
                     ${alerta.severidade}
                 </td>
-                <td class="py-3 px-4">
-                    <span class="px-2 py-1 text-xs font-semibold rounded ${badgeSlaClass}">
+                <td class="py-3 px-3.5 whitespace-nowrap">
+                    <span class="px-2.5 py-1 text-xs font-semibold rounded-md ${badgeSlaClass}">
                         ${alerta.sla.status}
                     </span>
                     ${alerta.sla.tempo_excedido ? `<span class="block text-xs text-red-400 mt-1">${alerta.sla.tempo_excedido}</span>` : ''}
                 </td>
-                <td class="py-3 px-4">
+                <td class="py-3 px-3.5 whitespace-nowrap">
                     <span class="px-2.5 py-1 text-xs font-medium rounded-md ${badgeStatusClass}">
                         ${alerta.status}
                     </span>
                 </td>
-                <td class="py-3 px-4 text-gray-300">${alerta.analista || '—'}</td>
+                <td class="py-3 px-3.5 whitespace-nowrap text-gray-300">${alerta.analista || '—'}</td>
             </tr>`;
     }).join('');
 }
@@ -245,7 +245,7 @@ function carregarDetalhesAlerta() {
     }
 
     if (!alerta) {
-        containerDetalhes.innerHTML = `<p class="text-center text-gray-400 py-10 font-['Poppins']">Alerta não encontrado.</p>`;
+        containerDetalhes.innerHTML = `<p class="text-center text-gray-400 py-10 font-poppins">Alerta não encontrado.</p>`;
         return;
     }
 
@@ -253,8 +253,8 @@ function carregarDetalhesAlerta() {
     const isSlaViolado = alerta.sla.status === 'SLA Violado';
 
     const badgeSeveridadeClass = isCritico 
-        ? 'border border-red-500/50 text-red-400 bg-red-950/20' 
-        : 'border border-amber-500/50 text-amber-400 bg-amber-950/20';
+        ? 'border border-red-500/50 text-red-400 bg-red-950/30' 
+        : 'border border-amber-500/50 text-amber-400 bg-amber-950/30';
 
     const badgeSlaClass = isSlaViolado 
         ? 'border border-red-500/50 text-red-400 bg-red-950/30' 
@@ -279,14 +279,14 @@ function carregarDetalhesAlerta() {
     let tabelaHtml = '';
     camposDetalhe.forEach(campo => {
         tabelaHtml += `
-            <div class="flex justify-between items-center py-3 px-4 border-b border-gray-800 text-sm font-['Poppins']">
-                <span class="text-gray-400 font-medium">${campo.rotulo}</span>
+            <div class="flex justify-between items-center py-3.5 px-4 border-b border-white/10 text-sm font-poppins whitespace-nowrap min-w-[320px]">
+                <span class="text-gray-400 font-medium mr-6">${campo.rotulo}</span>
                 <span class="text-gray-200 font-semibold">${campo.valor}</span>
             </div>`;
     });
 
     containerDetalhes.innerHTML = `
-        <div class="mb-6 font-['Poppins']">
+        <div class="mb-6 font-poppins">
             <p class="text-xs text-gray-400 mb-1">
                 <a href="index.html" class="hover:text-white transition-colors cursor-pointer">Alertas</a> &gt; <span class="text-gray-200 font-semibold">${alerta.id}</span>
             </p>
@@ -294,7 +294,7 @@ function carregarDetalhesAlerta() {
             <p class="text-xs text-gray-400">${alerta.dispositivo} — ${alerta.cliente}</p>
         </div>
 
-        <div class="flex flex-wrap gap-2.5 mb-6 font-['Poppins']">
+        <div class="flex flex-wrap gap-2.5 mb-6 font-poppins">
             <span class="px-3 py-1 text-xs font-semibold rounded-md ${badgeStatusClass}">
                 ${alerta.status}
             </span>
@@ -306,11 +306,13 @@ function carregarDetalhesAlerta() {
             </span>
         </div>
 
-        <div class="bg-[#0D1924] rounded-lg border border-gray-800 overflow-hidden mb-6">
-            ${tabelaHtml}
+        <div class="bg-[#0D1924] rounded-2xl border border-white/10 overflow-hidden mb-6">
+            <div class="w-full overflow-x-auto">
+                ${tabelaHtml}
+            </div>
         </div>
 
-        <div class="bg-[#0D1924] p-4 rounded-lg border border-gray-800 font-['Poppins']">
+        <div class="bg-[#0D1924] p-5 rounded-2xl border border-white/10 font-poppins">
             <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Descrição</h3>
             <p class="text-sm text-gray-300">
                 ${alerta.descricao}

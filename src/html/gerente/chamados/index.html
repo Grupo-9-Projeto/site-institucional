@@ -118,23 +118,24 @@
             </div>
 
             <section class="w-full rounded-2xl border border-white/10 bg-[#0D1924] overflow-hidden">
-                    <div class="w-full">
-                        <table class="w-full text-left text-sm font-poppins">
-                            <thead>
-                                <tr class="h-12 border-b border-white/10 bg-white/[0.02] text-xs font-bold uppercase tracking-wider text-white/60">
-                                    <th class="py-3 px-3.5 whitespace-nowrap">ID</th>
-                                    <th class="py-3 px-3.5 whitespace-nowrap">Data</th>
-                                    <th class="py-3 px-3.5 whitespace-nowrap">Empresa</th>
-                                    <th class="py-3 px-3.5 whitespace-nowrap">Equipamento</th>
-                                    <th class="py-3 px-3.5 whitespace-nowrap">Tipo de SLA</th>
-                                    <th class="py-3 px-3.5 whitespace-nowrap">Prioridade</th>
-                                    <th class="py-3 px-3.5 whitespace-nowrap">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela-violacoes"></tbody>
-                        </table>
-                    </div>
-                </section>
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full text-left text-sm font-poppins min-w-[700px]">
+                        <thead>
+                            <tr
+                                class="h-12 border-b border-white/10 bg-white/[0.02] text-xs font-bold uppercase tracking-wider text-white/60">
+                                <th class="py-3 px-3.5 whitespace-nowrap">ID</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Data</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Empresa</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Equipamento</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Tipo de SLA</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Prioridade</th>
+                                <th class="py-3 px-3.5 whitespace-nowrap">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-violacoes"></tbody>
+                    </table>
+                </div>
+            </section>
 
         </div>
     </main>
