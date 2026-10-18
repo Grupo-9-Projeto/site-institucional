@@ -55,7 +55,7 @@ function authUser() {
     let email = document.getElementById("input_email").value;
     let passwordHash = document.getElementById("input_senha").value;
 
-    fetch("${API_URL}/usuarios/autenticar", {
+    fetch(`${API_URL}/usuarios/autenticar`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
