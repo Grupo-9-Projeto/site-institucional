@@ -1,5 +1,6 @@
 let funcionarioAtual = null;
 let funcionarioParaExcluir = null;
+let empresasDoFuncionario = [];
 
 function mensagemDoBack(dados, padrao) {
     if (typeof dados === "string") return dados;
@@ -261,6 +262,144 @@ async function desativarFuncionario() {
         } else {
             alert(mensagemDoBack(dados, "Não foi possível desativar o funcionário."));
         }
+    } catch (erro) {
+        tratarErroDeRede(erro);
+    }
+}
+
+// ---------- TELA DE EDIÇÃO: empresas do funcionário ----------
+// POST /funcionarios/listar_empresas_funcionario
+
+async function carregarEmpresasDoFuncionario() {
+    if (!funcionarioAtual) return;
+ 
+    try {
+        const { ok, dados } = await apiFetch("/funcionarios/listar_empresas_funcionario", {
+            method: "POST",
+            body: JSON.stringify({ id: funcionarioAtual.id })
+        });
+ 
+        if (!ok) {
+            alert(mensagemDoBack(dados, "Não foi possível carregar as empresas do funcionário."));
+        }
+ 
+        empresasDoFuncionario = (ok && dados && dados.empresas) ? dados.empresas : [];
+        renderizarEmpresasEdicao();
+    } catch (erro) {
+        tratarErroDeRede(erro);
+    }
+}
+
+function renderizarEmpresasEdicao() {
+    const listaContainer = document.getElementById("lista-empresas-vinculadas");
+    if (!listaContainer) return;
+ 
+    listaContainer.innerHTML = "";
+ 
+    if (empresasDoFuncionario.length === 0) {
+        listaContainer.innerHTML = `<li class="px-4 py-3.5 text-sm text-white/40 text-center">Nenhuma empresa vinculada</li>`;
+        return;
+    }
+ 
+    empresasDoFuncionario.forEach((empresa) => {
+        const li = document.createElement("li");
+        li.className = "flex items-center justify-between px-4 py-3.5 text-sm border-b border-white/10 last:border-b-0";
+        li.innerHTML = `
+            <span data-campo="nome"></span>
+            <button type="button" onclick="removerEmpresa(${Number(empresa.id_empresa)})" class="text-white/40 hover:text-red-400 cursor-pointer transition-element">
+                <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </button>
+        `;
+        li.querySelector('[data-campo="nome"]').textContent = empresa.nome_empresa;
+ 
+        listaContainer.appendChild(li);
+    });
+}
+
+
+// GET /empresa/listar_empresas
+
+async function abrirModalEmpresa() {
+    if (!funcionarioAtual) return;
+ 
+    try {
+        const { ok, status, dados } = await apiFetch("/empresa/listar_empresas");
+ 
+        // 404 = o gerente não tem empresas cadastradas
+        if (!ok && status !== 404) {
+            alert(mensagemDoBack(dados, "Não foi possível carregar as empresas."));
+            return;
+        }
+ 
+        const empresasDoGerente = ok ? dados : [];
+        const jaVinculadas = new Set(empresasDoFuncionario.map((e) => e.id_empresa));
+        const disponiveis = empresasDoGerente.filter((e) => !jaVinculadas.has(e.id_empresa));
+ 
+        if (disponiveis.length === 0) {
+            alert("Não há outras empresas disponíveis para vincular a este funcionário.");
+            return;
+        }
+ 
+        const select = document.getElementById("select-nova-empresa");
+        select.innerHTML = "";
+        disponiveis.forEach((empresa) => {
+            const opcao = document.createElement("option");
+            opcao.value = empresa.id_empresa;
+            opcao.textContent = empresa.nome_empresa;
+            select.appendChild(opcao);
+        });
+ 
+        abrirModal();
+    } catch (erro) {
+        tratarErroDeRede(erro);
+    }
+}
+
+
+// POST /funcionarios/adicionar_empresa_funcionario
+
+async function adicionarEmpresa() {
+    const select = document.getElementById("select-nova-empresa");
+    const empresaId = select ? parseInt(select.value) : NaN;
+ 
+    if (!funcionarioAtual || !empresaId) return;
+ 
+    try {
+        const { ok, dados } = await apiFetch("/funcionarios/adicionar_empresa_funcionario", {
+            method: "POST",
+            body: JSON.stringify({ id: funcionarioAtual.id, empresa_id: empresaId })
+        });
+ 
+        if (!ok) {
+            alert(mensagemDoBack(dados, "Não foi possível vincular a empresa."));
+            return;
+        }
+ 
+        fecharModal();
+        await carregarEmpresasDoFuncionario();
+    } catch (erro) {
+        tratarErroDeRede(erro);
+    }
+}
+
+// DELETE /funcionarios/remover_empresa_funcionario
+async function removerEmpresa(empresaId) {
+    if (!funcionarioAtual) return;
+ 
+    if (!confirm("Remover o acesso do funcionário a esta empresa?")) return;
+ 
+    try {
+        const { ok, dados } = await apiFetch("/funcionarios/remover_empresa_funcionario", {
+            method: "DELETE",
+            body: JSON.stringify({ id: funcionarioAtual.id, empresa_id: empresaId })
+        });
+ 
+        if (!ok) {
+            alert(mensagemDoBack(dados, "Não foi possível remover a empresa."));
+            return;
+        }
+ 
+        await carregarEmpresasDoFuncionario();
     } catch (erro) {
         tratarErroDeRede(erro);
     }
