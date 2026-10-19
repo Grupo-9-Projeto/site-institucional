@@ -167,7 +167,7 @@ function criarUsuario() {
         return;
     }
 
-    fetch("http://localhost:3333/usuarios/criar-usuario", {
+apiFetch("/usuarios/cadastrar_gerente", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

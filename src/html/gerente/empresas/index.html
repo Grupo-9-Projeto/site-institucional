@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../../js/api.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 
@@ -97,15 +98,15 @@
                 <button class="text-white/60 hover:text-white text-2xl leading-none transition-element cursor-pointer"
                     onclick="fecharModal()">&times;</button>
             </div>
-            <form class="mt-6 flex flex-col gap-5" onsubmit="event.preventDefault();">
+            <form class="mt-6 flex flex-col gap-5" onsubmit="criarEmpresa(event)">
                 <div class="flex flex-col gap-2">
                     <label for="nome" class="text-sm font-bold text-white/60">Nome</label>
-                    <input id="nome" type="text" placeholder="Nome da empresa"
+                    <input id="nome" type="text" maxlength="100" placeholder="Nome da empresa"
                         class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="cnpj" class="text-sm font-bold text-white/60">CNPJ</label>
-                    <input id="cnpj" type="text" placeholder="00.000.000/0000-00"
+                    <input id="cnpj" type="text" maxlength="18" placeholder="00.000.000/0000-00"
                         class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
                 </div>
 
@@ -128,7 +129,7 @@
 
                     <div class="flex flex-col flex-1 gap-2">
                         <label for="limite" class="text-sm font-bold text-white/60">Limite de resposta</label>
-                        <input id="limite" type="text" placeholder="Ex: 2 horas"
+                        <input id="limite" type="text" maxlength="45" placeholder="Ex: 2 horas"
                             class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
                     </div>
                 </div>
