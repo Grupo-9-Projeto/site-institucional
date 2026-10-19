@@ -10,6 +10,9 @@ const BASE_JS = document.currentScript.src;
 const LOGIN_URL = new URL("../html/login.html", BASE_JS).href;
 
 function paginaIniciadlDoCargo(cargo) {
+    if(cargo === "super"){
+        return new URL("../usuarios.html", BASE_JS).href
+    }
     if (cargo === "gerente") {
         return new URL("../html/gerente/home.html", BASE_JS).href
     }
