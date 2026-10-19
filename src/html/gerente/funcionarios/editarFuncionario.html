@@ -8,6 +8,7 @@
     <title>Argos (gerente) - Editar Funcionário</title>
     <link rel="stylesheet" href="../../../output.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="../../../js/api.js" defer></script>
     <script src="script.js" defer></script>
 </head>
 
@@ -50,7 +51,7 @@
         <div class="border-t border-white/10 py-4 shrink-0">
             <a href="../configuracoes/index.html"
                 class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
-            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
+            <a href="#" onclick="sair(); return false;" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
 
     </aside>
@@ -84,7 +85,7 @@
                         <span class="text-sm font-bold text-white/60">Empresas</span>
                         <ul id="lista-empresas-vinculadas" class="rounded-md border border-white/15 bg-white/5 overflow-hidden">
                         </ul>
-                        <button type="button" onclick="abrirModal()" class="w-fit mt-1 px-4 py-2 rounded-md border border-white/20 text-xs font-bold text-white/60 hover:bg-white/10 hover:text-white cursor-pointer transition-element">Adicionar Empresa</button>
+                        <button type="button" onclick="abrirModalEmpresa()" class="w-fit mt-1 px-4 py-2 rounded-md border border-white/20 text-xs font-bold text-white/60 hover:bg-white/10 hover:text-white cursor-pointer transition-element">Adicionar Empresa</button>
                     </div>
                     <div class="mt-2 flex items-center justify-between">
                         <button type="button" onclick="desativarFuncionario()" class="px-6 py-2.5 rounded-md bg-red-500/10 text-red-500 border border-red-500/30 text-sm font-bold hover:bg-red-500/20 cursor-pointer transition-element">Desativar Usuário</button>
@@ -104,9 +105,9 @@
                     onclick="fecharModal()">&times;</button>
             </div>
             <div class="mt-6 flex flex-col gap-2">
-                <label for="input-nova-empresa" class="text-sm font-bold text-white/60">Nome da Empresa</label>
-                <input id="input-nova-empresa" type="text" placeholder="Digite o nome da empresa"
-                    class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/40 focus:border-light-blue focus:outline-none transition-element">
+                <label for="select-nova-empresa" class="text-sm font-bold text-white/60">Empresa</label>
+                <select id="select-nova-empresa"
+                    class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm focus:border-light-blue focus:outline-none transition-element"></select>
             </div>
             <div class="mt-6 flex justify-end gap-3">
                 <button type="button" onclick="fecharModal()"

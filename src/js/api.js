@@ -7,7 +7,7 @@ const API_URL = "http://localhost:8080"
 
 
 const BASE_JS = document.currentScript.src;
-const LOGIN_URL = new URL("..html/login.html", BASE_JS).href;
+const LOGIN_URL = new URL("../html/login.html", BASE_JS).href;
 
 function paginaIniciadlDoCargo(cargo) {
     if (cargo === "gerente") {

@@ -55,7 +55,7 @@ function authUser() {
     let email = document.getElementById("input_email").value;
     let passwordHash = document.getElementById("input_senha").value;
 
-    fetch("http://localhost:8080/usuarios/autenticar", {
+    fetch(`${API_URL}/usuarios/autenticar`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -64,18 +64,30 @@ function authUser() {
             emailServer: email,
             passwordHashServer: passwordHash
         })
-    }).then(response => {
-        if (response.ok) {
-            response.json().then(json => {
-                setTimeout(() => {
-                    window.location = "../usuarios.html"
-                })
-            })
-        } else {
-            console.error("Houve um erro ao tentar realizar o login!, Erro: ", error);
+    }).then(async response => {
+        const dados = await response.json().catch(() => null);
+
+        if (!response.ok) {
+            let mensagem;
+            if (typeof dados === "string") {
+            mensagem = dados;
+            } else if (dados && dados.res) {
+            mensagem = dados.res;
+            } else {
+            mensagem = undefined;
+            }
+
+            alert(mensagem || "Não foi possível fazer login. Verifique e-mail e senha.");
+            return;
         }
+
+        salvarToken(dados.token);
+
+        const infoToken = lerToken();
+        window.location = paginaIniciadlDoCargo(infoToken && infoToken.role);
     }).catch(function (erro) {
         console.error(erro);
+        alert("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");
     })
 
     return false;
