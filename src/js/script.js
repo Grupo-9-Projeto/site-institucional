@@ -170,7 +170,8 @@ function criarUsuario() {
     fetch("http://localhost:8080/usuarios/cadastrar_gerente", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${obterToken()}`
         },
         body: JSON.stringify({
             email: email,
