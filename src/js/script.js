@@ -172,7 +172,6 @@ function criarUsuario() {
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${obterToken()}`
-
         },
         body: JSON.stringify({
             email: email,
