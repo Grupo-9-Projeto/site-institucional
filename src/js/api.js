@@ -10,7 +10,7 @@ const BASE_JS = document.currentScript.src;
 const LOGIN_URL = new URL("../html/login.html", BASE_JS).href;
 
 function paginaIniciadlDoCargo(cargo) {
-    if(cargo === "super"){
+    if (cargo === "super") {
         return new URL("../usuarios.html", BASE_JS).href
     }
     if (cargo === "gerente") {
@@ -39,7 +39,7 @@ function sair() {
 function lerToken() {
     const token = obterToken();
     if (!token) return null;
- 
+
     try {
         const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
         return JSON.parse(atob(base64));
@@ -52,7 +52,7 @@ function lerToken() {
 function exigirGerente() {
     const infoToken = lerToken();
     const expirado = infoToken && infoToken.exp && infoToken.exp * 1000 < Date.now();
- 
+
     if (!infoToken || infoToken.role !== "gerente" || expirado) {
         sair();
         return false;
@@ -62,12 +62,12 @@ function exigirGerente() {
 
 async function apiFetch(caminho, opcoes = {}) {
     const token = obterToken();
- 
+
     if (!token) {
         sair();
         throw semSessao();
     }
- 
+
     const resposta = await fetch(API_URL + caminho, {
         ...opcoes,
         headers: {
@@ -76,23 +76,23 @@ async function apiFetch(caminho, opcoes = {}) {
             ...(opcoes.headers || {})
         }
     });
- 
+
     // 401 = token ausente, inválido ou expirado: a sessão acabou, volta ao login
-    if (resposta.status === 401) {
+    if(resposta.status === 401) {
         sair();
         throw semSessao();
     }
- 
+
     let dados = null;
     try {
         dados = await resposta.json();
     } catch (erro) {
 
     }
- 
+
     return { ok: resposta.ok, status: resposta.status, dados: dados };
 }
- 
+
 function semSessao() {
     const erro = new Error("Sessão expirada");
     erro.sessaoExpirada = true;
