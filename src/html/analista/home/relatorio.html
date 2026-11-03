@@ -58,7 +58,7 @@
         </div>
 
     </aside>
-    <main class="flex-1 h-full min-h-0 overflow-hidden p-4 md:p-5">
+    <main class="flex-1 h-full min-h-0 min-w-0 overflow-y-auto overflow-x-hidden p-4 md:p-5">
         <div class="max-w-[1500px] mx-auto w-full">
             <!-- Breadcrumb das rotas -->
             <div class="flex items-center gap-2 text-xs text-white/60 mb-3">
@@ -66,44 +66,45 @@
                 <span>›</span>
                 <a id="empresa-breadcrumb" href="empresa.html" class="hover:text-white transition-colors">Empresa</a>
                 <span>›</span>
-                <span id="equipamento-breadcrumb" class="hover:text-white transition-colors">Equipamento</span>
+                <a id="equipamento-breadcrumb" href="#" class="hover:text-white transition-colors">Equipamento</a>
                 <span>›</span>
                 <span id="alerta-breadcrumb" class="text-white font-semibold">Alerta</span>
             </div>
 
             <!-- Card principal - Diagnóstico do alerta -->
-            <div class="flex bg-[#0c1721] border border-[#E53E5E]/20 border-l-6 border-l-[#E53E5E] rounded-lg p-0 overflow-hidden">
+            <div id="alerta-card" class="flex flex-col md:flex-row bg-[#0c1721] border border-white/10 border-l-6 border-l-red-500 rounded-lg p-0 overflow-hidden">
 
-                <div class="flex-[3] flex flex-col p-4 ml-5">
-                    <span class="bg-[#e53e3e]/20 text-[#e53e3e] w-fit px-1 rounded-full text-xs font-bold">CRÍTICO</span>
-
+                <div class="flex-1 md:flex-[3] flex flex-col p-4">
+                    <span id="alerta-severidade" class="w-fit px-1 rounded-full text-xs font-bold border">
+                        -
+                    </span>
                     <div class="flex-1 flex flex-col justify-center">
-                        <h1 class="text-3xl font-bold">
+                        <h1 id="alerta-titulo" class="text-3xl font-bold">
                             Perda de pacotes no dispositivo
                         </h1>
 
-                        <span class="text-white/50">
+                        <span id="alerta-descricao" class="text-white/50">
                             Taxa de perda de pacotes > 15% na interface WAN
                         </span>
                     </div>
                     
                 </div>
 
-                <div class="flex-[1] flex bg-[#111d28] flex flex-col justify-center gap-2 p-4">
+                <div class="flex-1 md:flex-[1] flex bg-[#111d28] flex-col justify-center gap-2 p-4">
 
                     <h3 class="font-bold text-sm text-white/50">
                         DATA E HORÁRIO
                     </h3>
 
-                    <span class="font-semibold">15/09/2026 às 13:10</span>
+                    <span id="alerta-data" class="font-semibold">15/09/2026 às 13:10</span>
 
                     <h3 class="font-bold text-sm text-white/50">
                         EQUIPAMENTO
                     </h3>
 
-                    <span class="font-semibold">FW-CORE-02</span>
+                    <span id="alerta-equipamento" class="font-semibold">FW-CORE-02</span>
 
-                    <span class="text-white/50">Firewall Cisco ASA 5510</span>
+                    <span id="alerta-modelo" class="text-white/50">Firewall Cisco ASA 5510</span>
 
                 </div>
 
@@ -139,7 +140,7 @@
                                 </p>
                             </div>
 
-                            <span class="text-4xl font-bold text-red-500">
+                            <span id="alerta-cpu" class="text-4xl font-bold text-red-500">
                                 90%
                             </span>
 
@@ -150,7 +151,7 @@
                             <div class="flex justify-between text-[10px] mb-2">
                                 <span>0%</span>
 
-                                <span class="text-red-500 font-semibold">
+                                <span id="limite-cpu" class="text-red-500 font-semibold">
                                     Limite excedido: 85%
                                 </span>
 
@@ -158,7 +159,7 @@
                             </div>
 
                             <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full w-[90%] bg-red-500 rounded-full"></div>
+                                <div  id="barra-cpu" class="h-full w-[90%] bg-red-500 rounded-full"></div>
                             </div>
 
                         </div>
@@ -180,7 +181,7 @@
                                 </p>
                             </div>
 
-                            <span class="text-4xl font-bold text-amber-400">
+                            <span id="alerta-ram" class="text-4xl font-bold text-amber-400">
                                 75%
                             </span>
 
@@ -191,7 +192,7 @@
                             <div class="flex justify-between text-[10px] mb-2">
                                 <span>0%</span>
 
-                                <span class="text-amber-400 font-semibold">
+                                <span id="limite-ram" class="text-amber-400 font-semibold">
                                     Limite excedido: 70%
                                 </span>
 
@@ -199,7 +200,7 @@
                             </div>
 
                             <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                                <div class="h-full w-[70%] bg-amber-400 rounded-full"></div>
+                                <div id="barra-ram" class="h-full w-[70%] bg-amber-400 rounded-full"></div>
                             </div>
 
                         </div>
@@ -242,17 +243,17 @@
                         </div>
 
                         <div class="mt-5">
-                            <p class="text-xs text-white/60">
-                                Processo A
+                            <p id="processo-maior-cpu" class="text-xs text-white/60">
+                                -
                             </p>
 
-                            <span class="text-3xl font-bold">
-                                38%
+                            <span id="valor-processo-cpu" class="text-3xl font-bold">
+                                N/D
                             </span>
                         </div>
 
                         <div class="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full w-[38%] bg-cyan-400 rounded-full"></div>
+                            <div id="barra-processo-cpu" class="h-full w-0 bg-cyan-400 rounded-full"></div>
                         </div>
 
                     </div>
@@ -273,17 +274,17 @@
                         </div>
 
                         <div class="mt-5">
-                            <p class="text-xs text-white/60">
-                                Processo B
+                            <p id="processo-maior-ram" class="text-xs text-white/60">
+                                -
                             </p>
 
-                            <span class="text-3xl font-bold">
-                                42%
+                            <span id="valor-processo-ram" class="text-3xl font-bold">
+                                N/D
                             </span>
                         </div>
 
                         <div class="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full w-[42%] bg-cyan-400 rounded-full"></div>
+                            <div id="barra-processo-ram" class="h-full w-0 bg-cyan-400 rounded-full"></div>
                         </div>
 
                     </div>
@@ -304,8 +305,8 @@
                         </div>
 
                         <div class="mt-5">
-                            <span class="text-4xl font-bold">
-                                68
+                            <span id="total-processos" class="text-4xl font-bold">
+                                N/D
                             </span>
 
                             <p class="text-xs text-white/60 mt-1">
