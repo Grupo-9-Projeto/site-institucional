@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTpx-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-elementF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="image/png">
+    <title>Argos (Analista) - Relatório Alerta</title>
+
+    <link rel="stylesheet" href="../../../output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+
+<body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden" data-page="relatorio">
+
+    <button id="btn-hamburguer"
+        class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-white/15 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-screen flex flex-col justify-between overflow-hidden">
+
+        <div>
+            <div class="px-6 py-6 border-b border-white/10 flex gap-3 shrink-0">
+                <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos"
+                    class="h-8 w-auto object-contain">
+                <p class="self-center text-xl font-semibold">Argos</p>
+            </div>
+
+            <div class="px-6 py-6 border-b border-white/10 shrink-0">
+                <div
+                    class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
+                    C
+                </div>
+                <p class="mt-3 text-white/60">Olá,</p>
+                <p class="text-lg font-bold">Claudio</p>
+            </div>
+
+            <nav class="flex flex-col py-4">
+                <a href="../home/home.html"
+                    class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-element">Home</a>
+                <a href="../alertas/index.html"
+                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Alertas</a>
+            </nav>
+        </div>
+
+        <div class="border-t border-white/10 py-4 shrink-0">
+            <a href="../configuracao/index.html"
+                class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
+            <a href="#"
+                class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
+        </div>
+
+    </aside>
+    <main class="flex-1 h-full min-h-0 min-w-0 overflow-y-auto overflow-x-hidden p-4 md:p-5">
+        <div class="max-w-[1500px] mx-auto w-full">
+            <!-- Breadcrumb das rotas -->
+            <div class="flex items-center gap-2 text-xs text-white/60 mb-3">
+                <a href="home.html" class="hover:text-white transition-colors">Home</a>
+                <span>›</span>
+                <a id="empresa-breadcrumb" href="empresa.html" class="hover:text-white transition-colors">Empresa</a>
+                <span>›</span>
+                <a id="equipamento-breadcrumb" href="#" class="hover:text-white transition-colors">Equipamento</a>
+                <span>›</span>
+                <span id="alerta-breadcrumb" class="text-white font-semibold">Alerta</span>
+            </div>
+
+            <!-- Card principal - Diagnóstico do alerta -->
+            <div id="alerta-card" class="flex flex-col md:flex-row bg-[#0c1721] border border-white/10 border-l-6 border-l-red-500 rounded-lg p-0 overflow-hidden">
+
+                <div class="flex-1 md:flex-[3] flex flex-col p-4">
+                    <span id="alerta-severidade" class="w-fit px-1 rounded-full text-xs font-bold border">
+                        -
+                    </span>
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h1 id="alerta-titulo" class="text-3xl font-bold">
+                            Perda de pacotes no dispositivo
+                        </h1>
+
+                        <span id="alerta-descricao" class="text-white/50">
+                            Taxa de perda de pacotes > 15% na interface WAN
+                        </span>
+                    </div>
+                    
+                </div>
+
+                <div class="flex-1 md:flex-[1] flex bg-[#111d28] flex-col justify-center gap-2 p-4">
+
+                    <h3 class="font-bold text-sm text-white/50">
+                        DATA E HORÁRIO
+                    </h3>
+
+                    <span id="alerta-data" class="font-semibold">15/09/2026 às 13:10</span>
+
+                    <h3 class="font-bold text-sm text-white/50">
+                        EQUIPAMENTO
+                    </h3>
+
+                    <span id="alerta-equipamento" class="font-semibold">FW-CORE-02</span>
+
+                    <span id="alerta-modelo" class="text-white/50">Firewall Cisco ASA 5510</span>
+
+                </div>
+
+            </div>
+
+            <!-- Seção: Métricas cpu e ram no momento do alerta -->
+            <section class="mb-4 mt-2">
+
+                <div class="mb-2">
+                    <h2 class="text-sm font-semibold">
+                        Métricas no momento do alerta
+                    </h2>
+
+                    <p class="text-xs text-white/60 mt-1">
+                        Captura dos recursos durante o incidente
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    <!-- Card cpu -->
+                    <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
+
+                        <div class="flex items-start justify-between">
+
+                            <div>
+                                <h3 class="text-sm font-semibold">
+                                    Uso de CPU
+                                </h3>
+
+                                <p class="text-xs text-white/60 mt-1">
+                                    No momento do alerta
+                                </p>
+                            </div>
+
+                            <span id="alerta-cpu" class="text-4xl font-bold text-red-500">
+                                90%
+                            </span>
+
+                        </div>
+
+                        <div class="mt-8">
+
+                            <div class="flex justify-between text-[10px] mb-2">
+                                <span>0%</span>
+
+                                <span id="limite-cpu" class="text-red-500 font-semibold">
+                                    Limite excedido: 85%
+                                </span>
+
+                                <span>100%</span>
+                            </div>
+
+                            <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div  id="barra-cpu" class="h-full w-[90%] bg-red-500 rounded-full"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Card ram -->
+                    <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4">
+
+                        <div class="flex items-start justify-between">
+
+                            <div>
+                                <h3 class="text-sm font-semibold">
+                                    Uso de memória RAM
+                                </h3>
+
+                                <p class="text-xs text-white/60 mt-1">
+                                    No momento do alerta
+                                </p>
+                            </div>
+
+                            <span id="alerta-ram" class="text-4xl font-bold text-amber-400">
+                                75%
+                            </span>
+
+                        </div>
+
+                        <div class="mt-8">
+
+                            <div class="flex justify-between text-[10px] mb-2">
+                                <span>0%</span>
+
+                                <span id="limite-ram" class="text-amber-400 font-semibold">
+                                    Limite excedido: 70%
+                                </span>
+
+                                <span>100%</span>
+                            </div>
+
+                            <div class="h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div id="barra-ram" class="h-full w-[70%] bg-amber-400 rounded-full"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Seção: processos no momento do alerta -->
+            <section class="mb-4">
+
+                <div class="mb-2">
+                    <h2 class="text-sm font-semibold">
+                        Análise de processos
+                    </h2>
+
+                    <p class="text-xs text-white/60 mt-1">
+                        Resumo dos processos registrados na mesma captura
+                    </p>
+                </div>
+
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+                    <!-- Card: processos cpu -->
+                    <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="size-10 rounded-lg bg-cyan-500/10 grid place-items-center shrink-0">
+                                <span class="text-cyan-400 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu preview-icon"><path d="M12 20v2"/><path d="M12 2v2"/><path d="M17 20v2"/><path d="M17 2v2"/><path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/><path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/><path d="M7 20v2"/><path d="M7 2v2"/><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></span>
+                            </div>
+
+                            <h3 class="text-sm font-semibold">
+                                Maior consumo de CPU
+                            </h3>
+
+                        </div>
+
+                        <div class="mt-5">
+                            <p id="processo-maior-cpu" class="text-xs text-white/60">
+                                -
+                            </p>
+
+                            <span id="valor-processo-cpu" class="text-3xl font-bold">
+                                N/D
+                            </span>
+                        </div>
+
+                        <div class="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div id="barra-processo-cpu" class="h-full w-0 bg-cyan-400 rounded-full"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Card: processos ram -->
+                    <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="size-10 rounded-lg bg-cyan-500/10 grid place-items-center shrink-0">
+                                <span class="text-cyan-400 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu preview-icon"><path d="M12 20v2"/><path d="M12 2v2"/><path d="M17 20v2"/><path d="M17 2v2"/><path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/><path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/><path d="M7 20v2"/><path d="M7 2v2"/><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></span>
+                            </div>
+
+                            <h3 class="text-sm font-semibold">
+                                Maior consumo de RAM
+                            </h3>
+
+                        </div>
+
+                        <div class="mt-5">
+                            <p id="processo-maior-ram" class="text-xs text-white/60">
+                                -
+                            </p>
+
+                            <span id="valor-processo-ram" class="text-3xl font-bold">
+                                N/D
+                            </span>
+                        </div>
+
+                        <div class="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div id="barra-processo-ram" class="h-full w-0 bg-cyan-400 rounded-full"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Processos: quantidade -->
+                    <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4">
+
+                        <div class="flex items-center gap-3">
+
+                            <div class="size-10 rounded-lg bg-cyan-500/10 grid place-items-center shrink-0">
+                                <span class="text-cyan-400 text-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers preview-icon"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg></span>
+                            </div>
+
+                            <h3 class="text-sm font-semibold">
+                                Total de processos
+                            </h3>
+
+                        </div>
+
+                        <div class="mt-5">
+                            <span id="total-processos" class="text-4xl font-bold">
+                                N/D
+                            </span>
+
+                            <p class="text-xs text-white/60 mt-1">
+                                Registrados na captura
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+    </main>
+
+</body>
+

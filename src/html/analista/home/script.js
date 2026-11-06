@@ -1,4 +1,19 @@
 const ARGOS_DATA = {
+    limitesPorSeveridade: {
+            "Crítico": {
+                cpu: 85,
+                ram: 70
+            },
+            "Alto": {
+                cpu: 80,
+                ram: 65
+            },
+            "Atenção": {
+                cpu: 75,
+                ram: 60
+            }
+        },
+
     empresas: [
         {
             id: "bradesco",
@@ -75,6 +90,28 @@ const ARGOS_DATA = {
                     hora: "12:20",
                     id: "EVT-004"
                 }
+            ],
+
+            capturasProcessos: [
+                {
+                    data: "15/09/2026",
+                    hora: "13:10",
+                    usoCpu: 90,
+                    usoRam: 75,
+                    total: 68,
+
+                    maiorCpu: {
+                        nome: "snmpd",
+                        pid: 1240,
+                        uso: 38
+                    },
+
+                    maiorRam: {
+                        nome: "firewall-engine",
+                        pid: 2180,
+                        uso: 42
+                    }
+                }
             ]
         },
 
@@ -121,6 +158,28 @@ const ARGOS_DATA = {
                     data: "15/09/2026",
                     hora: "10:15",
                     id: "EVT-008"
+                }
+            ],
+
+            capturasProcessos: [
+                {
+                    data: "15/09/2026",
+                    hora: "10:15",
+                    usoCpu: 97,
+                    usoRam: 90,
+                    total: 68,
+
+                    maiorCpu: {
+                        nome: "packet-inspection",
+                        pid: 2250,
+                        uso: 76
+                    },
+
+                    maiorRam: {
+                        nome: "firewall-engine",
+                        pid: 2180,
+                        uso: 48
+                    }
                 }
             ]
         },
@@ -169,6 +228,28 @@ const ARGOS_DATA = {
                     hora: "16:30",
                     id: "EVT-009"
                 }
+            ],
+
+            capturasProcessos: [
+                {
+                    data: "14/09/2026",
+                    hora: "16:30",
+                    usoCpu: 48,
+                    usoRam: 54,
+                    total: 59,
+
+                    maiorCpu: {
+                        nome: "routing-service",
+                        pid: 1450,
+                        uso: 28
+                    },
+
+                    maiorRam: {
+                        nome: "connection-manager",
+                        pid: 1870,
+                        uso: 31
+                    }
+                }
             ]
         },
 
@@ -215,6 +296,28 @@ const ARGOS_DATA = {
                     data: "19/09/2026",
                     hora: "14:20",
                     id: "EVT-015"
+                }
+            ],
+
+            capturasProcessos: [
+                {
+                    data: "19/09/2026",
+                    hora: "14:20",
+                    usoCpu: 72,
+                    usoRam: 78,
+                    total: 82,
+
+                    maiorCpu: {
+                        nome: "stp-process",
+                        pid: 3100,
+                        uso: 25
+                    },
+
+                    maiorRam: {
+                        nome: "mac-address-table",
+                        pid: 3150,
+                        uso: 58
+                    }
                 }
             ]
         },
@@ -263,7 +366,9 @@ const ARGOS_DATA = {
                     hora: "22:00",
                     id: "EVT-022"
                 }
-            ]
+            ],
+
+            capturasProcessos: []
         },
 
         {
@@ -310,6 +415,28 @@ const ARGOS_DATA = {
                     hora: "11:35",
                     id: "EVT-025"
                 }
+            ],
+
+            capturasProcessos: [
+                {
+                    data: "18/09/2026",
+                    hora: "11:35",
+                    usoCpu: 63,
+                    usoRam: 66,
+                    total: 63,
+
+                    maiorCpu: {
+                        nome: "routing-service",
+                        pid: 1450,
+                        uso: 31
+                    },
+
+                    maiorRam: {
+                        nome: "routing-table",
+                        pid: 1600,
+                        uso: 29
+                    }
+                }
             ]
         },
 
@@ -348,7 +475,9 @@ const ARGOS_DATA = {
                 49, 55, 61, 67, 72, 68, 63, 58, 53, 48
             ],
 
-            alertas: []
+            alertas: [],
+
+            capturasProcessos: []
         }
     ]
 };
@@ -381,6 +510,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (pagina === "equipamento") {
         carregarEquipamento();
+    }
+    if (pagina === "relatorio") {
+    carregarRelatorioAlerta();
     }
 });
 
@@ -540,7 +672,7 @@ function carregarEquipamento() {
     const empresa = obterEmpresaPorId(empresaId);
     const equipamento = obterEquipamentoPorId(equipamentoId);
 
-    if (!empresa || !equipamento) {
+    if (!empresa || !equipamento || equipamento.empresa !== empresa.id) {
         window.location.href = "home.html";
         return;
     }
@@ -572,6 +704,298 @@ function carregarEquipamento() {
 
     configurarFiltrosDePeriodo(equipamento);
     renderizarAlertas(equipamento);
+}
+
+function carregarRelatorioAlerta() {
+
+    const parametros = new URLSearchParams(window.location.search);
+
+    const empresaId = parametros.get("empresa");
+    const equipamentoId = parametros.get("equipamento");
+    const alertaId = parametros.get("alerta");
+
+
+    const empresa = obterEmpresaPorId(empresaId);
+    const equipamento = obterEquipamentoPorId(equipamentoId);
+
+    const alerta = equipamento?.alertas.find(alerta => alerta.id === alertaId);
+    const limites = ARGOS_DATA.limitesPorSeveridade;
+
+    if (!empresa || !equipamento || equipamento.empresa !== empresa.id || !alerta) {
+        window.location.href = "home.html";
+        return;
+    }
+
+    const breadcrumbEmpEl = document.querySelector("#empresa-breadcrumb");
+    const breadcrumbEqEl = document.querySelector("#equipamento-breadcrumb");
+
+    if (breadcrumbEmpEl) {
+        breadcrumbEmpEl.textContent = empresa.nome;
+        breadcrumbEmpEl.href = `empresa.html?empresa=${empresa.id}`;
+    }
+
+    if (breadcrumbEqEl) {
+        breadcrumbEqEl.textContent = equipamento.id;
+        breadcrumbEqEl.href = `equipamento.html?empresa=${empresa.id}&equipamento=${equipamento.id}`;
+    }
+
+    const tituloEl = document.querySelector("#alerta-titulo");
+    const descricaoEl = document.querySelector("#alerta-descricao");
+    const severidadeEl = document.querySelector("#alerta-severidade");
+
+    const dataEl = document.querySelector("#alerta-data");
+    const equipamentoEl = document.querySelector("#alerta-equipamento");
+    const modeloEl = document.querySelector("#alerta-modelo");
+    const alertaCard = document.querySelector("#alerta-card");
+
+
+    if (tituloEl) {
+        tituloEl.textContent = alerta.titulo;
+    }
+
+    if (descricaoEl) {
+        descricaoEl.textContent = alerta.descricao;
+    }
+
+    if (severidadeEl) {
+        severidadeEl.textContent = alerta.severidade;
+         aplicarEstiloSeveridade(severidadeEl, alerta.severidade);
+    }
+
+    if (dataEl) {
+        dataEl.textContent = `${alerta.data} às ${alerta.hora}`;
+    }
+
+    if (equipamentoEl) {
+        equipamentoEl.textContent = equipamento.id;
+    }
+
+    if (modeloEl) {
+        modeloEl.textContent = `${equipamento.categoria} ${equipamento.modelo}`;
+    }
+
+    if (alertaCard) {
+        aplicarBordaSeveridade(alertaCard, alerta.severidade);
+    }
+
+    const captura = equipamento.capturasProcessos?.find(
+        captura => captura.data === alerta.data &&
+                captura.hora === alerta.hora
+    );
+
+    preencherMetrica(
+        "#alerta-cpu",
+        "#barra-cpu",
+        "#limite-cpu",
+        captura?.usoCpu,
+        limites,
+        "cpu"
+    );
+
+    preencherMetrica(
+        "#alerta-ram",
+        "#barra-ram",
+        "#limite-ram",
+        captura?.usoRam,
+        limites,
+        "ram"
+    );
+
+    renderizarProcessos(captura);
+}
+
+function renderizarProcessos(captura) {
+    const processoCpu = document.getElementById("processo-maior-cpu");
+    const valorCpu = document.getElementById("valor-processo-cpu");
+    const barraCpu = document.getElementById("barra-processo-cpu");
+
+    const processoRam = document.getElementById("processo-maior-ram");
+    const valorRam = document.getElementById("valor-processo-ram");
+    const barraRam = document.getElementById("barra-processo-ram");
+
+    const totalProcessos = document.getElementById("total-processos");
+
+    function preencherProcesso(processo, elementoNome, elementoValor, elementoBarra) {
+        if (!processo || processo.uso == null) {
+            elementoNome.textContent = "Sem dados disponíveis";
+            elementoValor.textContent = "N/D";
+            elementoBarra.style.width = "0%";
+            return;
+        }
+
+        elementoNome.textContent = processo.nome
+            ? `${processo.nome} (PID: ${processo.pid ?? "N/D"})`
+            : "Sem dados disponíveis";
+
+        elementoValor.textContent = `${processo.uso}%`;
+        elementoBarra.style.width =
+            `${Math.min(Math.max(processo.uso, 0), 100)}%`;
+    }
+
+    preencherProcesso(
+        captura?.maiorCpu,
+        processoCpu,
+        valorCpu,
+        barraCpu
+    );
+
+    preencherProcesso(
+        captura?.maiorRam,
+        processoRam,
+        valorRam,
+        barraRam
+    );
+
+    totalProcessos.textContent = captura?.total ?? "N/D";
+}
+
+
+function aplicarEstiloSeveridade(elemento, severidade) {
+    const estilos = {
+        "Crítico": {
+            texto: "text-red-500",
+            fundo: "bg-red-500/10",
+            borda: "border-red-500/30"
+        },
+
+        "Alto": {
+            texto: "text-orange-500",
+            fundo: "bg-orange-500/10",
+            borda: "border-orange-500/30"
+        },
+
+        "Atenção": {
+            texto: "text-amber-400",
+            fundo: "bg-amber-400/10",
+            borda: "border-amber-400/30"
+        }
+    };
+
+    const estilo = estilos[severidade] || estilos.Info;
+
+    elemento.classList.remove(
+        "text-red-500",
+        "text-amber-400",
+        "text-light-blue",
+        "bg-red-500/10",
+        "bg-amber-400/10",
+        "bg-light-blue/10",
+        "border-red-500/30",
+        "border-amber-400/30",
+        "border-light-blue/30"
+    );
+
+    elemento.classList.add(
+        estilo.texto,
+        estilo.fundo,
+        estilo.borda
+    );
+}
+
+function aplicarBordaSeveridade(elemento, severidade) {
+    const estilos = {
+        "Crítico": "border-l-red-500",
+        "Alto": "border-l-orange-500",
+        "Atenção": "border-l-amber-400"
+    };
+
+    elemento.classList.remove(
+        "border-l-red-500",
+        "border-l-amber-400",
+        "border-l-light-blue"
+    );
+
+    elemento.classList.add(estilos[severidade] || estilos.Info);
+}
+
+
+function preencherMetrica(seletorValor, seletorBarra, seletorLimite, valor, limites, tipo) {
+    const elementoValor = document.querySelector(seletorValor);
+    const elementoBarra = document.querySelector(seletorBarra);
+    const elementoLimite = document.querySelector(seletorLimite);
+
+    if (!elementoValor || !elementoBarra || !elementoLimite) return;
+
+    const faixa = obterFaixaMetrica(valor, limites, tipo);
+    console.log({
+        valor,
+        tipo,
+        limites,
+        faixa
+    });
+
+    elementoValor.textContent = valor != null ? `${valor}%` : "N/D";
+    elementoBarra.style.width = `${Math.min(Math.max(valor ?? 0, 0), 100)}%`;
+
+    elementoLimite.textContent = faixa.limite != null
+        ? `Limite excedido: ${faixa.limite}%`
+        : "Limite excedido: N/D";
+
+    const estilos = {
+        "red-500": {
+            texto: "text-red-500",
+            fundo: "bg-red-500"
+        },
+        "orange-500": {
+            texto: "text-orange-500",
+            fundo: "bg-orange-500"
+        },
+        "amber-400": {
+            texto: "text-amber-400",
+            fundo: "bg-amber-400"
+        },
+        "light-blue": {
+            texto: "text-light-blue",
+            fundo: "bg-light-blue"
+        }
+    };
+
+    const classesTexto = [
+        "text-red-500",
+        "text-orange-500",
+        "text-amber-400",
+        "text-light-blue"
+    ];
+
+    const classesFundo = [
+        "bg-red-500",
+        "bg-orange-500",
+        "bg-amber-400",
+        "bg-light-blue"
+    ];
+
+    const estilo = estilos[faixa.cor];
+
+    elementoValor.classList.remove(...classesTexto);
+    elementoLimite.classList.remove(...classesTexto);
+    elementoBarra.classList.remove(...classesFundo);
+
+    elementoValor.classList.add(estilo.texto);
+    elementoLimite.classList.add(estilo.texto);
+    elementoBarra.classList.add(estilo.fundo);
+}
+
+function obterFaixaMetrica(valor, limites, tipo) {
+    if (valor == null || !limites) {
+        return {
+            cor: "light-blue",
+            limite: null
+        };
+    }
+
+    if (valor > limites["Crítico"][tipo]) {
+        return { cor: "red-500", limite: limites["Crítico"][tipo] };
+    }
+
+    if (valor > limites["Alto"][tipo]) {
+        return { cor: "orange-500", limite: limites["Alto"][tipo] };
+    }
+
+    if (valor > limites["Atenção"][tipo]) {
+        return { cor: "amber-400", limite: limites["Atenção"][tipo] };
+    }
+
+    return { cor: "light-blue", limite: null };
 }
 
 function configurarFiltrosDePeriodo(equipamento) {
@@ -716,39 +1140,87 @@ function renderizarGrafico(seletor, valores, cor) {
 
 function renderizarAlertas(equipamento) {
     const container = document.querySelector("#alertas-container");
+
     if (!container) return;
 
-    if (!equipamento.alertas.length) {
+    // Verificar se existem alertas
+    if (!equipamento.alertas || equipamento.alertas.length === 0) {
         container.innerHTML = `
             <div class="px-5 py-8 text-center">
-                <p class="text-sm text-emerald-400">Nenhum alerta registrado</p>
+                <p class="text-sm text-emerald-400">
+                    Nenhum alerta registrado
+                </p>
             </div>
         `;
+
         return;
     }
 
+    // Renderizar os alertas
     container.innerHTML = equipamento.alertas.map(alerta => {
+
         let cor = "#38BDF8";
-        if (alerta.severidade === "Crítico") cor = "#EF4444";
-        if (alerta.severidade === "Atenção") cor = "#F59E0B";
+
+        if (alerta.severidade === "Crítico") {
+            cor = "#EF4444";
+        }
+
+        if (alerta.severidade === "Atenção") {
+            cor = "#F59E0B";
+        }
+
+        // Montar a URL do relatório
+        const urlRelatorio =
+            `relatorio.html?empresa=${encodeURIComponent(equipamento.empresa)}` +
+            `&equipamento=${encodeURIComponent(equipamento.id)}` +
+            `&alerta=${encodeURIComponent(alerta.id)}`;
 
         return `
-            <div class="px-5 py-5 border-b border-white/10 last:border-b-0">
+            <a
+                href="${urlRelatorio}"
+                class="block px-5 py-5 border-b border-white/10 last:border-b-0 hover:bg-white/[0.03] transition-colors"
+            >
                 <div class="flex gap-4">
-                    <span class="w-2 h-2 rounded-full mt-2 shrink-0" style="background-color: ${cor};"></span>
-                    <div class="flex-1">
+
+                    <span
+                        class="w-2 h-2 rounded-full mt-2 shrink-0"
+                        style="background-color: ${cor};"
+                    ></span>
+
+                    <div class="flex-1 min-w-0">
+
                         <div class="flex flex-wrap items-center gap-3">
-                            <span class="px-2 py-1 rounded text-[10px] font-semibold" style="color: ${cor}; background-color: ${cor}22;">
+
+                            <span
+                                class="px-2 py-1 rounded text-[10px] font-semibold"
+                                style="color: ${cor}; background-color: ${cor}22;"
+                            >
                                 ${alerta.severidade}
                             </span>
-                            <span class="text-sm font-semibold">${alerta.titulo}</span>
+
+                            <span class="text-sm font-semibold">
+                                ${alerta.titulo}
+                            </span>
+
                         </div>
-                        <p class="text-xs text-white/60 mt-2">${alerta.descricao}</p>
-                        <p class="text-[10px] text-white/40 mt-2">${alerta.data} às ${alerta.hora}</p>
+
+                        <p class="text-xs text-white/60 mt-2">
+                            ${alerta.descricao}
+                        </p>
+
+                        <p class="text-[10px] text-white/40 mt-2">
+                            ${alerta.data} às ${alerta.hora}
+                        </p>
+
                     </div>
-                    <span class="text-xs text-light-blue">${alerta.id}</span>
+
+                    <span class="text-xs text-light-blue shrink-0">
+                        ${alerta.id}
+                    </span>
+
                 </div>
-            </div>
+            </a>
         `;
+
     }).join("");
 }
