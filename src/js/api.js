@@ -3,7 +3,7 @@
 // =====================================================
 
 // Endereço do back. Para trocar de ambiente (ex.: servidor na nuvem), altere só esta linha.
-const API_URL = "http://localhost:8080"
+const API_URL = `http://argos-api:8080`
 
 
 const BASE_JS = document.currentScript.src;
