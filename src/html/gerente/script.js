@@ -1,23 +1,24 @@
-function abrirModal(idModal = 'modal') {
-    const el = document.getElementById(idModal);
-    if (el) {
-        el.classList.remove('hidden');
-        el.style.display = 'flex';
-    } else {
-        console.error(`Modal com id "${idModal}" não foi encontrado no HTML!`);
-    }
+const btnHamburguer = document.getElementById('btn-hamburguer');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+
+function abrirSidebar() {
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
 }
 
-function fecharModal(idModal = 'modal') {
-    const el = document.getElementById(idModal);
-    if (el) {
-        el.style.display = 'none';
-        el.classList.add('hidden');
-    }
+function fecharSidebar() {
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
 }
 
-window.abrirModal = abrirModal;
-window.fecharModal = fecharModal;
+if (btnHamburguer && sidebar && overlay) {
+    btnHamburguer.addEventListener('click', () => {
+        const fechada = sidebar.classList.contains('-translate-x-full');
+        fechada ? abrirSidebar() : fecharSidebar();
+    });
+    overlay.addEventListener('click', fecharSidebar);
+}
 
 let dados = [];
 let empresaSelecionada = "";
