@@ -32,6 +32,7 @@ function obterToken() {
 
 function sair() {
     sessionStorage.removeItem("TOKEN");
+    console.log("aaaa")
     window.location.href = LOGIN_URL;
 }
 

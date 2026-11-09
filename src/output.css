@@ -241,7 +241,7 @@
   :-moz-ui-invalid {
     box-shadow: none;
   }
-  button, input:where([type="button"], [type="reset"], [type="submit"],[type="salvar"]), ::file-selector-button {
+  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
     appearance: button;
   }
   ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
@@ -2022,14 +2022,6 @@
     }
     .hover\:border-light-blue:hover {
       border-color: var(--color-light-blue);
-    }
-    .hover\:border-light-blue\/40:hover {
-      border-color: color-mix(in srgb, #03C8FF 40%, transparent);
-    }
-    @supports (color: color-mix(in lab, red, red)) {
-      .hover\:border-light-blue\/40:hover {
-        border-color: color-mix(in oklab, var(--color-light-blue) 40%, transparent);
-      }
     }
     .hover\:border-light-blue\/50:hover {
       border-color: color-mix(in srgb, #03C8FF 50%, transparent);
