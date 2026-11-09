@@ -1118,6 +1118,34 @@ function renderizarGraficos(dados) {
     renderizarGrafico("#grafico-rede", dados.rede, "#22C55E");
 }
 
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
+        }
+        return { ok: false, status: 0, dados: null };
+    }
+}
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    console.log(resposta.dados[0])
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
+document.addEventListener('DOMContentLoaded', () => {
+   carregarInformacoesUsuario();
+});
+
 function renderizarGrafico(seletor, valores, cor) {
     const container = document.querySelector(seletor);
     if (!container) return;

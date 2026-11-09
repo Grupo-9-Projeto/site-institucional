@@ -189,6 +189,24 @@ async function criarNovoEquipamento() {
     const linkVoltar = document.getElementById("link-voltar");
 }
 
+function voltarTela(){
+    const { empresaId } = pegarIdsDaUrl();
+    window.location.href = `../informacoesEmpresa.html?id=${empresaId}`;
+}
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    console.log(resposta.dados[0])
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
+document.addEventListener('DOMContentLoaded', () => {
+   carregarInformacoesUsuario();
+});
 
 async function carregarComponentes() {
     const container = document.getElementById("lista-componentes-container");

@@ -189,6 +189,43 @@ function renderizarNotificacoes() {
     });
 }
 
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
+        }
+        return { ok: false, status: 0, dados: null };
+    }
+}
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+    let nome_card = document.getElementById("nome-card");
+    let email_card = document.getElementById("email-card");
+    let input_nome = document.getElementById("input-nome");
+    let input_email = document.getElementById("input-email");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0];
+    nome_card.textContent = resposta.dados[0].nome 
+    email_card.textContent = resposta.dados[0].email;
+    input_nome.value = resposta.dados[0].nome;
+    input_email.value = resposta.dados[0].email;
+}
+document.addEventListener('DOMContentLoaded', () => {
+   carregarInformacoesUsuario();
+});
+
+
 function alternarNotificacao(botao) {
     const chave = botao.dataset.notificacao;
     notificacoes[chave] = !notificacoes[chave];
