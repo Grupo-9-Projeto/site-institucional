@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Argos (gerente) - Home</title>
-
     <link rel="shortcut icon" href="../../assets/logos/Argos-logo_branco.png" type="image/png">
-    <link rel="stylesheet" href="../../output.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <title>Argos (Gerente) - Home</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
@@ -47,7 +45,7 @@
 
             <nav class="flex flex-col py-4">
                 <a href="./home.html"
-                    class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5">Home</a>
+                    class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-element">Home</a>
                 <a href="./empresas/index.html"
                     class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
                 <a href="./funcionarios/index.html"
@@ -64,9 +62,7 @@
         <div class="border-t border-white/10 py-4 shrink-0">
             <a href="./configuracoes/index.html"
                 class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
-
-            <button type="button" id="btn-sair" onclick="abrirModal()"
-                class="w-full text-left px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element cursor-pointer">Sair</button>
+            <a href="#" class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
 
     </aside>
@@ -75,26 +71,37 @@
 
         <div class="max-w-4xl mx-auto w-full">
 
-            <p class="text-white text-2xl font-semibold mb-6">Home</p>
+            <p class="text-white text-2xl font-semibold mb-6 md:mt-9 lg:mt-0">Home</p>
 
             <div id="kpis" class="flex flex-col md:flex-row justify-between mb-6 w-full gap-4">
-                <div class="h-35 flex-1 rounded-xl border border-white/10 bg-[#0D1924] flex flex-col items-start p-6">
-                    <p class="text-gray-400 text-[13px]">Chamados abertos na semana</p>
-                    <p class="text-white font-bold text-[32px] mt-2">29</p>
-                    <p class="text-yellow-500 text-[12px]">+4 em relação à semana anterior</p>
+
+                <div
+                    class="flex-1 min-w-0 min-h-[148px] rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4.5 lg:p-6">
+                    <div>
+                        <p class="text-gray-400 text-[13px]">Chamados abertos na semana</p>
+                        <p class="text-white font-bold text-[32px] mt-1">29</p>
+                    </div>
+                    <p class="text-yellow-500 text-[12px] leading-snug mt-2">+4 em relação à semana anterior</p>
                 </div>
 
-                <div class="h-35 flex-1 rounded-xl border border-white/10 bg-[#0D1924] flex flex-col items-start p-6">
-                    <p class="text-gray-400 text-[13px]">SLA cumprido</p>
-                    <p class="text-white font-bold text-[32px] mt-2">87%</p>
-                    <p class="text-green-500 text-[12px]">+2 pontos nas últimas 24 horas</p>
+                <div
+                    class="flex-1 min-w-0 min-h-[148px] rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4.5 lg:p-6">
+                    <div>
+                        <p class="text-gray-400 text-[13px]">SLA cumprido</p>
+                        <p class="text-white font-bold text-[32px] mt-1">87%</p>
+                    </div>
+                    <p class="text-green-500 text-[12px] leading-snug mt-2">+2 pontos nas últimas 24 horas</p>
                 </div>
 
-                <div class="h-35 flex-1 rounded-xl border border-white/10 bg-[#0D1924] flex flex-col items-start p-6">
-                    <p class="text-gray-400 text-[13px]">Tempo médio de resolução</p>
-                    <p class="text-white font-bold text-[32px] mt-2">1d 2h</p>
-                    <p class="text-green-500 text-[12px]">−3h em relação ao mês anterior</p>
+                <div
+                    class="flex-1 min-w-0 min-h-[148px] rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4.5 lg:p-6">
+                    <div>
+                        <p class="text-gray-400 text-[13px]">Tempo médio de resolução</p>
+                        <p class="text-white font-bold text-[32px] mt-1">1d 2h</p>
+                    </div>
+                    <p class="text-green-500 text-[12px] leading-snug mt-2">−3h em relação ao mês anterior</p>
                 </div>
+
             </div>
 
             <div id="SLAS" class="flex-1 rounded-xl border border-white/10 p-6 bg-[#0D1924] mb-8">

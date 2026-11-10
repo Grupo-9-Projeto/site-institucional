@@ -423,7 +423,6 @@ function atualizarGraficoCriticidade(novosDados) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicialização dos elementos do modal
     modal = document.getElementById('modal');
     modal_excluir = document.getElementById('modal_excluir');
 
