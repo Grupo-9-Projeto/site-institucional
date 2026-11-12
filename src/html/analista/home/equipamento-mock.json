@@ -1,0 +1,159 @@
+
+{
+  "_aviso": "DADOS DE EXEMPLO. 'diasAtras' representa quantos dias antes de hoje. No backend, será substituído por uma data no formato AAAA-MM-DD.",
+  "dispositivo": {
+    "id": 1,
+    "nome": "FW-EDGE-01",
+    "ip": "10.0.1.10",
+    "idEmpresa": 1,
+    "empresa": "Bradesco",
+    "categoria": "Firewall",
+    "modelo": "FortiGate 100F",
+    "online": true
+  },
+  "atual": {
+    "hora": "10:33:10",
+    "cpuGhz": 3.2,
+    "ramGb": 6.8,
+    "discoGb": 240,
+    "pacotes": 28750
+  },
+  "metricaDominante": "CPU",
+  "historico": [
+    {"diasAtras": 44, "cpu": 22.5, "ram": 45.2, "disco": 52.0, "pacotes": 3.2},
+    {"diasAtras": 43, "cpu": 35.8, "ram": 48.7, "disco": 52.1, "pacotes": 8.5},
+    {"diasAtras": 42, "cpu": 41.2, "ram": 51.3, "disco": 52.3, "pacotes": 12.4},
+    {"diasAtras": 41, "cpu": 68.4, "ram": 59.8, "disco": 52.5, "pacotes": 5.7},
+    {"diasAtras": 40, "cpu": 74.9, "ram": 63.1, "disco": 52.6, "pacotes": 18.2},
+    {"diasAtras": 39, "cpu": 29.3, "ram": 54.6, "disco": 52.8, "pacotes": 4.1},
+    {"diasAtras": 38, "cpu": 31.7, "ram": 49.2, "disco": 53.0, "pacotes": 2.8},
+    {"diasAtras": 37, "cpu": 45.6, "ram": 58.4, "disco": 53.1, "pacotes": 9.6},
+    {"diasAtras": 36, "cpu": 82.3, "ram": 72.5, "disco": 53.3, "pacotes": 15.7},
+    {"diasAtras": 35, "cpu": 88.7, "ram": 79.1, "disco": 53.5, "pacotes": 24.8},
+    {"diasAtras": 34, "cpu": 52.1, "ram": 61.8, "disco": 53.6, "pacotes": 6.3},
+    {"diasAtras": 33, "cpu": 38.4, "ram": 55.2, "disco": 53.8, "pacotes": 3.5},
+    {"diasAtras": 32, "cpu": 26.9, "ram": 47.6, "disco": 54.0, "pacotes": 7.2},
+    {"diasAtras": 31, "cpu": 33.5, "ram": 52.9, "disco": 54.1, "pacotes": 11.3},
+    {"diasAtras": 30, "cpu": 57.8, "ram": 66.4, "disco": 54.3, "pacotes": 35.6},
+    {"diasAtras": 29, "cpu": 63.2, "ram": 71.8, "disco": 54.5, "pacotes": 8.9},
+    {"diasAtras": 28, "cpu": 49.6, "ram": 62.3, "disco": 54.6, "pacotes": 5.4},
+    {"diasAtras": 27, "cpu": 37.1, "ram": 58.7, "disco": 54.8, "pacotes": 4.6},
+    {"diasAtras": 26, "cpu": 43.8, "ram": 64.2, "disco": 55.0, "pacotes": 13.2},
+    {"diasAtras": 25, "cpu": 71.5, "ram": 76.9, "disco": 55.1, "pacotes": 19.7},
+    {"diasAtras": 24, "cpu": 91.2, "ram": 86.4, "disco": 55.3, "pacotes": 42.8},
+    {"diasAtras": 23, "cpu": 84.6, "ram": 82.1, "disco": 55.5, "pacotes": 31.5},
+    {"diasAtras": 22, "cpu": 59.3, "ram": 69.5, "disco": 55.6, "pacotes": 7.8},
+    {"diasAtras": 21, "cpu": 46.7, "ram": 61.4, "disco": 55.8, "pacotes": 5.2},
+    {"diasAtras": 20, "cpu": 32.8, "ram": 56.3, "disco": 56.0, "pacotes": 3.9},
+    {"diasAtras": 19, "cpu": 28.5, "ram": 49.8, "disco": 56.1, "pacotes": 6.7},
+    {"diasAtras": 18, "cpu": 54.2, "ram": 63.7, "disco": 56.3, "pacotes": 16.4},
+    {"diasAtras": 17, "cpu": 67.9, "ram": 73.2, "disco": 56.5, "pacotes": 22.1},
+    {"diasAtras": 16, "cpu": 78.4, "ram": 81.7, "disco": 56.6, "pacotes": 38.5},
+    {"diasAtras": 15, "cpu": 48.1, "ram": 68.3, "disco": 56.8, "pacotes": 9.4},
+    {"diasAtras": 14, "cpu": 36.7, "ram": 59.6, "disco": 57.0, "pacotes": 5.8},
+    {"diasAtras": 13, "cpu": 42.9, "ram": 64.8, "disco": 57.1, "pacotes": 12.6},
+    {"diasAtras": 12, "cpu": 73.6, "ram": 78.5, "disco": 57.3, "pacotes": 28.9},
+    {"diasAtras": 11, "cpu": 86.5, "ram": 89.2, "disco": 57.5, "pacotes": 47.3},
+    {"diasAtras": 10, "cpu": 61.4, "ram": 75.6, "disco": 57.6, "pacotes": 18.7},
+    {"diasAtras": 9, "cpu": 44.3, "ram": 66.1, "disco": 57.8, "pacotes": 7.1},
+    {"diasAtras": 8, "cpu": 33.6, "ram": 57.9, "disco": 58.0, "pacotes": 4.3},
+    {"diasAtras": 7, "cpu": 58.7, "ram": 70.4, "disco": 58.1, "pacotes": 15.9},
+    {"diasAtras": 6, "cpu": 76.8, "ram": 83.5, "disco": 58.3, "pacotes": 32.6},
+    {"diasAtras": 5, "cpu": 94.1, "ram": 91.3, "disco": 58.5, "pacotes": 56.2},
+    {"diasAtras": 4, "cpu": 81.6, "ram": 85.7, "disco": 58.6, "pacotes": 29.4},
+    {"diasAtras": 3, "cpu": 65.2, "ram": 77.8, "disco": 58.8, "pacotes": 13.5},
+    {"diasAtras": 2, "cpu": 72.9, "ram": 80.6, "disco": 59.0, "pacotes": 21.8},
+    {"diasAtras": 1, "cpu": 89.5, "ram": 88.4, "disco": 59.1, "pacotes": 43.7},
+    {"diasAtras": 0, "cpu": 92.7, "ram": 87.6, "disco": 59.3, "pacotes": 51.2}
+  ],
+  "alertas": [
+    {
+      "id": 15,
+      "nivel": "Crítico",
+      "tipo": "CPU",
+      "limite": 90,
+      "diasAtras": 0,
+      "hora": "10:33:00"
+    },
+    {
+      "id": 14,
+      "nivel": "Atenção",
+      "tipo": "RAM",
+      "limite": 85,
+      "diasAtras": 1,
+      "hora": "14:25:00"
+    },
+    {
+      "id": 13,
+      "nivel": "Crítico",
+      "tipo": "RAM",
+      "limite": 90,
+      "diasAtras": 5,
+      "hora": "16:40:00"
+    },
+    {
+      "id": 12,
+      "nivel": "Atenção",
+      "tipo": "CPU",
+      "limite": 80,
+      "diasAtras": 6,
+      "hora": "11:18:00"
+    },
+    {
+      "id": 11,
+      "nivel": "Atenção",
+      "tipo": "Rede",
+      "limite": 30,
+      "diasAtras": 7,
+      "hora": "22:05:00"
+    },
+    {
+      "id": 10,
+      "nivel": "Crítico",
+      "tipo": "CPU",
+      "limite": 90,
+      "diasAtras": 11,
+      "hora": "09:45:00"
+    },
+    {
+      "id": 9,
+      "nivel": "Atenção",
+      "tipo": "RAM",
+      "limite": 80,
+      "diasAtras": 12,
+      "hora": "08:02:00"
+    },
+    {
+      "id": 8,
+      "nivel": "Crítico",
+      "tipo": "CPU",
+      "limite": 90,
+      "diasAtras": 24,
+      "hora": "13:18:00"
+    },
+    {
+      "id": 7,
+      "nivel": "Atenção",
+      "tipo": "Rede",
+      "limite": 35,
+      "diasAtras": 30,
+      "hora": "18:12:00"
+    },
+    {
+      "id": 6,
+      "nivel": "Atenção",
+      "tipo": "CPU",
+      "limite": 75,
+      "diasAtras": 35,
+      "hora": "07:30:00"
+    },
+    {
+      "id": 5,
+      "nivel": "Crítico",
+      "tipo": "CPU",
+      "limite": 85,
+      "diasAtras": 36,
+      "hora": "15:50:00"
+    }
+  ]
+}
