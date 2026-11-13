@@ -1,770 +1,663 @@
+
+const btnHamburguer = document.getElementById('btn-hamburguer');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+
+function abrirSidebar() {
+    if (!sidebar || !overlay) return;
+
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+}
+
+function fecharSidebar() {
+    if (!sidebar || !overlay) return;
+
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+}
+
+if (btnHamburguer && sidebar && overlay) {
+    btnHamburguer.addEventListener('click', () => {
+        const fechada = sidebar.classList.contains('-translate-x-full');
+
+        fechada ? abrirSidebar() : fecharSidebar();
+    });
+
+    overlay.addEventListener('click', fecharSidebar);
+}
+
+
+// ==========================================
+// MODAL
+// ==========================================
+
+const modal = document.getElementById('modal');
+
+function abrirModal() {
+    if (!modal) return;
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function fecharModal() {
+    if (!modal) return;
+
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
+
+// ==========================================
+// CLIENTES
+// ==========================================
+
+const dadosClientes = [
+    { nome: "Bradesco", status: "Critico", texto_violados: "2 SLAs violados" },
+    { nome: "Itaú", status: "Atencao", texto_violados: "1 SLA violado" },
+    { nome: "Santander", status: "Estavel", texto_violados: "0 SLAs violados" },
+    { nome: "Banco do Brasil", status: "Atencao", texto_violados: "1 SLA violado" },
+    { nome: "Nubank", status: "Estavel", texto_violados: "0 SLAs violados" }
+];
+
+function chamadosCliente(termoBusca = "") {
+    const clientes = document.getElementById("container_clientes");
+
+    if (!clientes) return;
+
+    clientes.innerHTML = "";
+
+    const filtrados = dadosClientes.filter(cliente =>
+        cliente.nome.toLowerCase().includes(termoBusca.toLowerCase())
+    );
+
+    if (filtrados.length === 0) {
+        clientes.innerHTML = `
+            <p class="text-gray-400 text-xs text-center py-4">
+                Nenhum cliente encontrado.
+            </p>
+        `;
+        return;
+    }
+
+    filtrados.forEach(cliente => {
+        const corBadgeBg = cliente.status === "Critico"
+            ? "bg-red-400/20 text-red-300 border-red-400/20"
+            : cliente.status === "Atencao"
+                ? "bg-amber-400/20 text-amber-300 border-amber-400/20"
+                : "bg-green-400/20 text-green-300 border-green-400/20";
+
+        const card = document.createElement("div");
+
+        card.className = "flex items-center justify-between p-3.5 bg-[#09121B] rounded-xl border border-white/5 font-['Poppins']";
+
+        card.innerHTML = `
+            <div class="flex flex-col gap-1">
+                <span class="text-white font-bold text-sm">${cliente.nome}</span>
+                <span class="text-gray-400 text-xs">${cliente.texto_violados}</span>
+            </div>
+
+            <div class="px-3 py-1 rounded-full text-xs font-semibold border ${corBadgeBg}">
+                ${cliente.status === "Atencao"
+                    ? "Atenção"
+                    : cliente.status === "Critico"
+                        ? "Crítico"
+                        : "Estável"}
+            </div>
+        `;
+
+        clientes.appendChild(card);
+    });
+}
+
+
+// ==========================================
+// RELATÓRIO
+// ==========================================
+
 let dados = [];
 let empresaSelecionada = "";
 let equipamentoSelecionado = "";
+let periodoSelecionado = "Último mês";
+
 
 async function carregarDadosRelatorio() {
     try {
         const resposta = await fetch("./dados.json");
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao carregar JSON");
+        }
+
         dados = await resposta.json();
+
     } catch (erro) {
+        console.error("Erro ao carregar dados do relatório:", erro);
+
         dados = [
-            { "empresa": "Bradesco", "equipamento": "FW-CORE-03", "data": "2026-09-15", "cpu": "95.5", "ram": "82.1", "disco": "64.0", "rede": "450.2" },
-            { "empresa": "Bradesco", "equipamento": "FW-CORE-03", "data": "2026-09-16", "cpu": "91.2", "ram": "80.5", "disco": "64.1", "rede": "420.0" },
-            { "empresa": "Bradesco", "equipamento": "FW-CORE-02", "data": "2026-09-18", "cpu": "88.0", "ram": "79.4", "disco": "55.2", "rede": "310.8" },
-            { "empresa": "Bradesco", "equipamento": "FW-CORE-02", "data": "2026-10-02", "cpu": "92.4", "ram": "83.0", "disco": "55.5", "rede": "395.4" },
-            { "empresa": "Bradesco", "equipamento": "FW-EDGE-01", "data": "2026-09-22", "cpu": "72.3", "ram": "65.0", "disco": "40.1", "rede": "180.5" },
-            { "empresa": "Bradesco", "equipamento": "FW-EDGE-01", "data": "2026-10-10", "cpu": "89.9", "ram": "88.2", "disco": "41.0", "rede": "512.0" },
-            { "empresa": "Itaú", "equipamento": "SW-ACCESS-01", "data": "2026-09-15", "cpu": "60.4", "ram": "78.0", "disco": "50.0", "rede": "820.0" },
-            { "empresa": "Itaú", "equipamento": "SW-ACCESS-01", "data": "2026-09-20", "cpu": "65.1", "ram": "79.2", "disco": "50.0", "rede": "845.3" },
-            { "empresa": "Itaú", "equipamento": "SW-CORE-01", "data": "2026-09-20", "cpu": "76.9", "ram": "84.2", "disco": "70.5", "rede": "950.4" },
-            { "empresa": "Itaú", "equipamento": "SW-CORE-01", "data": "2026-09-28", "cpu": "84.0", "ram": "89.5", "disco": "71.0", "rede": "1020.6" },
-            { "empresa": "Santander", "equipamento": "RT-CORE-01", "data": "2026-09-15", "cpu": "54.2", "ram": "48.6", "disco": "30.0", "rede": "120.0" },
-            { "empresa": "Santander", "equipamento": "RT-CORE-01", "data": "2026-09-25", "cpu": "58.9", "ram": "51.2", "disco": "30.0", "rede": "145.2" },
-            { "empresa": "Santander", "equipamento": "RT-EDGE-02", "data": "2026-09-25", "cpu": "81.0", "ram": "75.3", "disco": "58.9", "rede": "340.1" },
-            { "empresa": "Santander", "equipamento": "RT-EDGE-02", "data": "2026-10-05", "cpu": "94.8", "ram": "90.1", "disco": "60.0", "rede": "480.9" },
-            { "empresa": "Santander", "equipamento": "SRV-DB-01", "data": "2026-09-20", "cpu": "85.0", "ram": "88.9", "disco": "85.2", "rede": "610.0" },
-            { "empresa": "Santander", "equipamento": "SRV-DB-01", "data": "2026-09-28", "cpu": "91.2", "ram": "92.4", "disco": "89.5", "rede": "670.3" }
+            {
+                empresa: "Bradesco",
+                equipamento: "FW-CORE-03",
+                data: "2026-09-15",
+                cpu: "95.5",
+                ram: "82.1",
+                disco: "64.0",
+                rede: "450.2"
+            },
+            {
+                empresa: "Bradesco",
+                equipamento: "FW-CORE-02",
+                data: "2026-09-18",
+                cpu: "88.0",
+                ram: "79.4",
+                disco: "55.2",
+                rede: "310.8"
+            },
+            {
+                empresa: "Itaú",
+                equipamento: "SW-ACCESS-01",
+                data: "2026-09-15",
+                cpu: "60.4",
+                ram: "78.0",
+                disco: "50.0",
+                rede: "820.0"
+            },
+            {
+                empresa: "Santander",
+                equipamento: "RT-CORE-01",
+                data: "2026-09-15",
+                cpu: "54.2",
+                ram: "48.6",
+                disco: "30.0",
+                rede: "120.0"
+            }
         ];
     }
-
-    mostrarEmpresas();
-    mostrarEquipamentos();
-    configurarEventosRelatorio();
-    atualizarResumo();
 }
 
-function mostrarEmpresas() {
-    const empresas = [...new Set(dados.map(item => item.empresa))];
-    const container = document.getElementById("empresasContainer");
-    if (!container) return;
 
-    container.innerHTML = "";
-
-    empresas.forEach(empresa => {
-        container.innerHTML += `
-            <button
-                type="button"
-                class="empresa-button min-h-14 rounded-xl bg-[#09121B] border border-white/15 px-5 text-left text-sm font-medium hover:border-white cursor-pointer transition-element"
-                data-empresa="${empresa}"
-            >
-                ${empresa}
-            </button>
-        `;
-    });
+function obterMetricasSelecionadas() {
+    return Array.from(
+        document.querySelectorAll('.metric-option input[type="checkbox"]:checked')
+    ).map(cb => cb.value);
 }
 
-function mostrarEquipamentos() {
-    const select = document.getElementById("equipamento");
-    if (!select) return;
 
-    select.innerHTML = `<option value="">Todos os equipamentos</option>`;
-    const equipamentos = [...new Set(dados.map(item => item.equipamento))];
+function filtrarDadosRelatorio() {
+    const dataInicialInput = document.getElementById("dataInicial");
+    const dataFinalInput = document.getElementById("dataFinal");
 
-    equipamentos.forEach(equipamento => {
-        select.innerHTML += `<option value="${equipamento}">${equipamento}</option>`;
-    });
-}
+    if (dados.length === 0) return [];
 
-function mostrarEquipamentosDaEmpresa() {
-    const select = document.getElementById("equipamento");
-    if (!select) return;
+    const datasDisponiveis = dados.map(d =>
+        new Date(d.data + "T00:00:00").getTime()
+    );
 
-    select.innerHTML = `<option value="">Todos os equipamentos</option>`;
-    const equipamentos = [
-        ...new Set(
-            dados
-                .filter(item => item.empresa === empresaSelecionada)
-                .map(item => item.equipamento)
-        )
-    ];
-
-    equipamentos.forEach(equipamento => {
-        select.innerHTML += `<option value="${equipamento}">${equipamento}</option>`;
-    });
-
-    equipamentoSelecionado = "";
-}
-
-function configurarEventosRelatorio() {
-    document.querySelectorAll(".empresa-button").forEach(botao => {
-        botao.addEventListener("click", function () {
-            empresaSelecionada = botao.dataset.empresa;
-
-            document.querySelectorAll(".empresa-button").forEach(item => {
-                item.classList.remove("border-light-blue", "bg-light-blue/10", "font-semibold");
-                item.classList.add("border-white/15");
-            });
-
-            botao.classList.remove("border-white/15");
-            botao.classList.add("border-light-blue", "bg-light-blue/10", "font-semibold");
-
-            mostrarEquipamentosDaEmpresa();
-            atualizarResumo();
-        });
-    });
-
-    const selectEquip = document.getElementById("equipamento");
-    if (selectEquip) {
-        selectEquip.addEventListener("change", function () {
-            equipamentoSelecionado = this.value;
-            atualizarResumo();
-        });
-    }
-
-    document.querySelectorAll(".period-button").forEach(botao => {
-        botao.addEventListener("click", function () {
-            document.querySelectorAll(".period-button").forEach(item => {
-                item.classList.remove("selected", "border-light-blue", "bg-light-blue/10", "font-semibold", "text-white");
-                item.classList.add("border-white/15", "bg-main-blue", "text-white/70");
-            });
-
-            botao.classList.remove("border-white/15", "bg-main-blue", "text-white/70");
-            botao.classList.add("selected", "border-light-blue", "bg-light-blue/10", "font-semibold", "text-white");
-
-            const datas = document.getElementById("datas");
-            if (botao.dataset.valor === "Período personalizado") {
-                if (datas) datas.classList.remove("hidden");
-            } else {
-                if (datas) datas.classList.add("hidden");
-                const dIni = document.getElementById("dataInicial");
-                const dFim = document.getElementById("dataFinal");
-                if (dIni) dIni.value = "";
-                if (dFim) dFim.value = "";
-            }
-
-            atualizarResumo();
-        });
-    });
-
-    const dIni = document.getElementById("dataInicial");
-    const dFim = document.getElementById("dataFinal");
-    if (dIni) dIni.addEventListener("change", atualizarResumo);
-    if (dFim) dFim.addEventListener("change", atualizarResumo);
-
-    document.querySelectorAll(".metric-option input").forEach(input => {
-        input.addEventListener("change", atualizarResumo);
-    });
-
-    const btnCsv = document.getElementById("btnCsv");
-    if (btnCsv) {
-        btnCsv.addEventListener("click", gerarCsv);
-    }
-}
-
-function filtrarDados() {
-    const periodoAtivo = document.querySelector(".period-button.selected")?.dataset.valor || "Último mês";
-    const dataInicialInput = document.getElementById("dataInicial")?.value || "";
-    const dataFinalInput = document.getElementById("dataFinal")?.value || "";
+    const dataReferencia = new Date(Math.max(...datasDisponiveis));
 
     return dados.filter(item => {
-        if (empresaSelecionada && item.empresa !== empresaSelecionada) return false;
-        if (equipamentoSelecionado && item.equipamento !== equipamentoSelecionado) return false;
+
+        if (empresaSelecionada && item.empresa !== empresaSelecionada) {
+            return false;
+        }
+
+        if (equipamentoSelecionado && item.equipamento !== equipamentoSelecionado) {
+            return false;
+        }
 
         const dataItem = new Date(item.data + "T00:00:00");
-        const hoje = new Date("2026-10-16T00:00:00");
 
-        if (periodoAtivo === "Última semana") {
-            const umaSemanaAtras = new Date(hoje);
-            umaSemanaAtras.setDate(hoje.getDate() - 7);
-            if (dataItem < umaSemanaAtras || dataItem > hoje) return false;
-        } else if (periodoAtivo === "Último mês") {
-            const umMesAtras = new Date(hoje);
-            umMesAtras.setMonth(hoje.getMonth() - 1);
-            if (dataItem < umMesAtras || dataItem > hoje) return false;
-        } else if (periodoAtivo === "Período personalizado") {
-            if (dataInicialInput && item.data < dataInicialInput) return false;
-            if (dataFinalInput && item.data > dataFinalInput) return false;
+        if (periodoSelecionado === "Última semana") {
+            const limite = new Date(dataReferencia);
+            limite.setDate(limite.getDate() - 7);
+
+            return dataItem >= limite && dataItem <= dataReferencia;
+        }
+
+        if (periodoSelecionado === "Último mês") {
+            const limite = new Date(dataReferencia);
+            limite.setMonth(limite.getMonth() - 1);
+
+            return dataItem >= limite && dataItem <= dataReferencia;
+        }
+
+        if (periodoSelecionado === "Período personalizado") {
+            const inicio = dataInicialInput?.value
+                ? new Date(dataInicialInput.value + "T00:00:00")
+                : null;
+
+            const fim = dataFinalInput?.value
+                ? new Date(dataFinalInput.value + "T23:59:59")
+                : null;
+
+            if (inicio && dataItem < inicio) return false;
+            if (fim && dataItem > fim) return false;
         }
 
         return true;
     });
 }
 
-function atualizarResumo() {
-    const dadosFiltrados = filtrarDados();
 
-    const regEl = document.getElementById("quantidadeRegistros");
-    if (regEl) regEl.innerText = dadosFiltrados.length + " registros disponíveis";
+// ==========================================
+// RESUMO DO RELATÓRIO
+// ==========================================
 
-    const resEmp = document.getElementById("resEmpresa");
-    if (resEmp) resEmp.innerText = empresaSelecionada || "Todas";
+function atualizarResumoRelatorio() {
+    const resPeriodo = document.getElementById("resPeriodo");
+    const resEmpresa = document.getElementById("resEmpresa");
+    const resEquip = document.getElementById("resEquip");
+    const resMetricas = document.getElementById("resMetricas");
+    const qtdRegistros = document.getElementById("quantidadeRegistros");
 
-    const resEq = document.getElementById("resEquip");
-    if (resEq) resEq.innerText = equipamentoSelecionado || "Todos";
+    if (!resPeriodo) return;
 
-    const periodoAtivo = document.querySelector(".period-button.selected");
-    const dataInicial = document.getElementById("dataInicial")?.value;
-    const dataFinal = document.getElementById("dataFinal")?.value;
-    const resPer = document.getElementById("resPeriodo");
+    if (periodoSelecionado === "Período personalizado") {
+        const inicio = document.getElementById("dataInicial")?.value;
+        const fim = document.getElementById("dataFinal")?.value;
 
-    if (resPer && periodoAtivo) {
-        if (periodoAtivo.dataset.valor === "Período personalizado") {
-            if (dataInicial || dataFinal) {
-                resPer.innerText = (dataInicial || "...") + " até " + (dataFinal || "...");
-            } else {
-                resPer.innerText = "Personalizado";
-            }
-        } else {
-            resPer.innerText = periodoAtivo.dataset.valor;
-        }
+        resPeriodo.textContent = (inicio && fim)
+            ? `${inicio} até ${fim}`
+            : "Personalizado";
+
+    } else {
+        resPeriodo.textContent = periodoSelecionado;
     }
 
-    const metricas = document.querySelectorAll(".metric-option input:checked");
-    const nomes = [...metricas].map(input => input.value);
-    const resMet = document.getElementById("resMetricas");
-    if (resMet) {
-        resMet.innerText = nomes.length > 0 ? nomes.join(", ") : "Nenhuma";
+    if (resEmpresa) {
+        resEmpresa.textContent = empresaSelecionada || "-";
+    }
+
+    if (resEquip) {
+        resEquip.textContent = equipamentoSelecionado || "-";
+    }
+
+    const metricas = obterMetricasSelecionadas();
+
+    if (resMetricas) {
+        resMetricas.textContent = metricas.length > 0
+            ? metricas.join(", ")
+            : "Nenhuma";
+    }
+
+    const filtrados = filtrarDadosRelatorio();
+
+    if (qtdRegistros) {
+        qtdRegistros.textContent = `${filtrados.length} ${
+            filtrados.length === 1
+                ? "registro disponível"
+                : "registros disponíveis"
+        }`;
     }
 }
 
-function gerarCsv() {
-    const dadosFiltrados = filtrarDados();
 
-    if (dadosFiltrados.length === 0) {
-        alert("Nenhum dado encontrado para gerar o relatório.");
+// ==========================================
+// RENDERIZAÇÃO DOS EQUIPAMENTOS
+// ==========================================
+
+function renderizarEquipamentos() {
+    const selectEquip = document.getElementById("equipamento");
+
+    if (!selectEquip) return;
+
+    const equipamentos = [...new Set(
+        dados
+            .filter(d => d.empresa === empresaSelecionada)
+            .map(d => d.equipamento)
+    )];
+
+    selectEquip.innerHTML = "";
+
+    equipamentos.forEach(eq => {
+        const option = document.createElement("option");
+
+        option.value = eq;
+        option.textContent = eq;
+
+        selectEquip.appendChild(option);
+    });
+
+    equipamentoSelecionado = equipamentos[0] || "";
+
+    selectEquip.value = equipamentoSelecionado;
+
+    atualizarResumoRelatorio();
+}
+
+
+// ==========================================
+// RENDERIZAÇÃO DAS EMPRESAS
+// ==========================================
+
+function renderizarEmpresas() {
+    const container = document.getElementById("empresasContainer");
+
+    if (!container) return;
+
+    const empresas = [...new Set(dados.map(d => d.empresa))];
+
+    if (!empresaSelecionada && empresas.length > 0) {
+        empresaSelecionada = empresas[0];
+    }
+
+    container.innerHTML = "";
+
+    empresas.forEach(empresa => {
+        const btn = document.createElement("button");
+
+        btn.type = "button";
+
+        const selecionada = empresa === empresaSelecionada;
+
+        btn.className = selecionada
+            ? "min-h-11 rounded-lg border border-light-blue bg-light-blue/10 px-4 text-sm font-semibold text-white cursor-pointer transition-element text-left"
+            : "min-h-11 rounded-lg bg-main-blue border border-white/15 px-4 text-sm text-white/70 hover:text-white cursor-pointer transition-element text-left";
+
+        btn.textContent = empresa;
+
+        btn.addEventListener("click", () => {
+            empresaSelecionada = empresa;
+
+            renderizarEmpresas();
+            renderizarEquipamentos();
+        });
+
+        container.appendChild(btn);
+    });
+}
+
+
+// ==========================================
+// EXPORTAÇÃO CSV
+// ==========================================
+
+function gerarCsvRelatorio() {
+    const registros = filtrarDadosRelatorio();
+    const metricas = obterMetricasSelecionadas();
+
+    if (registros.length === 0) {
+        alert("Não há registros disponíveis para os filtros selecionados.");
         return;
     }
 
-    const metricas = document.querySelectorAll(".metric-option input:checked");
-    const nomes = [...metricas].map(input => input.value);
+    if (metricas.length === 0) {
+        alert("Selecione pelo menos uma métrica para exportar.");
+        return;
+    }
 
-    let csv = "empresa,equipamento,data";
+    const cabecalho = ["Empresa", "Equipamento", "Data", ...metricas];
 
-    if (nomes.includes("CPU")) csv += ",cpu";
-    if (nomes.includes("RAM")) csv += ",ram";
-    if (nomes.includes("Disco")) csv += ",disco";
-    if (nomes.includes("Rede")) csv += ",rede";
+    const linhas = registros.map(item => [
+        item.empresa,
+        item.equipamento,
+        item.data,
+        ...metricas.map(m => item[m.toLowerCase()] ?? "")
+    ]);
 
-    dadosFiltrados.forEach(item => {
-        let linha = `${item.empresa},${item.equipamento},${item.data}`;
+    const csvConteudo = [cabecalho, ...linhas]
+        .map(linha => linha.join(";"))
+        .join("\n");
 
-        if (nomes.includes("CPU")) linha += `,${item.cpu || ""}`;
-        if (nomes.includes("RAM")) linha += `,${item.ram || ""}`;
-        if (nomes.includes("Disco")) linha += `,${item.disco || ""}`;
-        if (nomes.includes("Rede")) linha += `,${item.rede || ""}`;
+    const blob = new Blob(
+        ["\uFEFF" + csvConteudo],
+        { type: "text/csv;charset=utf-8;" }
+    );
 
-        csv += "\n" + linha;
-    });
+    const url = URL.createObjectURL(blob);
 
-    const arquivo = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(arquivo);
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = "relatorio-telemetria-argos.csv";
+    link.download = `relatorio_${empresaSelecionada || "argos"}_${equipamentoSelecionado || "dados"}.csv`;
+
     link.click();
+
     URL.revokeObjectURL(url);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const btnHamburguer = document.getElementById('btn-hamburguer');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
 
-    function toggleMenu() {
-        if (!sidebar || !overlay) return;
-        sidebar.classList.toggle('-translate-x-full');
-        overlay.classList.toggle('hidden');
-    }
+// ==========================================
+// INICIALIZAÇÃO DO RELATÓRIO
+// ==========================================
 
-    if (btnHamburguer && overlay) {
-        btnHamburguer.addEventListener('click', toggleMenu);
-        overlay.addEventListener('click', toggleMenu);
-    }
+async function inicializarRelatorio() {
+    const empresasContainer = document.getElementById("empresasContainer");
 
-    carregarDadosRelatorio();
-    mostrarFuncionarios();
-    renderizarGraficos();
-    renderizarSLAs();
-});
+    if (!empresasContainer) return;
 
-const funcionarios = [
-    { id: 1, nome: "Junin da Silva", status: "ativo" },
-    { id: 2, nome: "Isabella Albuquerque", status: "ativo" },
-    { id: 3, nome: "Pedro", status: "ativo" },
-    { id: 4, nome: "Lara Pereira", status: "ativo" },
-    { id: 5, nome: "Cláudio Lopes", status: "ativo" },
-    { id: 6, nome: "Lucas Silva", status: "inativo" },
-    { id: 7, nome: "Mariana Costa", status: "ativo" },
-    { id: 8, nome: "Carlos Eduardo", status: "inativo" },
-    { id: 9, nome: "Beatriz Oliveira", status: "ativo" },
-    { id: 10, nome: "Gabriel Santos", status: "ativo" },
-    { id: 11, nome: "Fernanda Lima", status: "inativo" },
-    { id: 12, nome: "Rafael Alves", status: "ativo" }
-];
+    await carregarDadosRelatorio();
 
-const containerFuncionarios = document.getElementById("lista-funcionarios");
-const inputBusca = document.getElementById("input-busca");
+    renderizarEmpresas();
+    renderizarEquipamentos();
 
-function ordenarFuncionarios(lista) {
-    const listaCopia = [...lista];
-    listaCopia.sort(function (a, b) {
-        if (a.status === "ativo" && b.status !== "ativo") return -1;
-        if (a.status !== "ativo" && b.status === "ativo") return 1;
-        return a.nome.localeCompare(b.nome);
-    });
-    return listaCopia;
-}
+    const botoesPeriodo = document.querySelectorAll(".period-button");
+    const containerDatas = document.getElementById("datas");
 
-function mostrarFuncionarios(termo) {
-    if (termo === undefined) termo = "";
-    if (!containerFuncionarios) return;
+    botoesPeriodo.forEach(btn => {
+        btn.addEventListener("click", () => {
 
-    containerFuncionarios.innerHTML = "";
-    const listaOrdenada = ordenarFuncionarios(funcionarios);
-    const listaFiltrada = [];
+            botoesPeriodo.forEach(b => {
+                b.className = "period-button min-h-11 rounded-lg bg-main-blue border border-white/15 px-4 text-sm text-white/70 hover:text-white cursor-pointer transition-element";
+            });
 
-    for (let i = 0; i < listaOrdenada.length; i++) {
-        const empregado = listaOrdenada[i];
-        if (empregado.nome.toLowerCase().includes(termo.toLowerCase())) {
-            listaFiltrada.push(empregado);
-        }
-    }
+            btn.className = "period-button selected min-h-11 rounded-lg border border-light-blue bg-light-blue/10 px-4 text-sm font-semibold cursor-pointer transition-element";
 
-    if (listaFiltrada.length === 0) {
-        containerFuncionarios.innerHTML = `<p class="text-gray-400 font-['Poppins'] text-sm col-span-full py-4 text-center">Nenhum funcionário encontrado.</p>`;
-    } else {
-        for (let i = 0; i < listaFiltrada.length; i++) {
-            const empregado = listaFiltrada[i];
-            const inicial = empregado.nome.charAt(0).toUpperCase();
-            let corStatus = empregado.status === "ativo" ? "bg-green-500" : "bg-orange-500";
+            periodoSelecionado = btn.dataset.valor;
 
-            const card = document.createElement("div");
-            card.className = "flex flex-col items-center justify-start w-24 text-center";
-            card.innerHTML = `
-                <div class="relative w-16 h-16 rounded-full bg-[#09121B] border-2 border-blue-500 flex items-center justify-center text-cyan-400 font-bold text-xl shrink-0">
-                    ${inicial}
-                    <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-[#09121B] ${corStatus}"></span>
-                </div>
-                <span class="text-sm font-medium text-gray-300 mt-2 w-full truncate font-['Poppins']" title="${empregado.nome}">${empregado.nome}</span>
-            `;
-            containerFuncionarios.appendChild(card);
-        }
-    }
-
-    if (termo.trim() !== "") {
-        containerFuncionarios.style.maxHeight = containerFuncionarios.scrollHeight + "px";
-    } else {
-        containerFuncionarios.style.maxHeight = "110px";
-    }
-}
-
-if (inputBusca) {
-    inputBusca.addEventListener("input", function (evento) {
-        mostrarFuncionarios(evento.target.value);
-    });
-}
-
-const dadosJsonAbertos = {
-  "resumo_por_equipamento": [
-    {
-      "id_equipamento": "FW-CORE-02",
-      "chamados_semana": 4,
-      "chamados_setembro": 9,
-      "historico_chamados": [
-        { "data": "2026-09-02", "data_fechamento": "2026-09-03" },
-        { "data": "2026-09-05", "data_fechamento": "2026-09-06" },
-        { "data": "2026-09-12", "data_fechamento": "2026-09-14" },
-        { "data": "2026-09-18", "data_fechamento": "2026-09-19" },
-        { "data": "2026-09-22", "data_fechamento": "2026-09-23" },
-        { "data": "2026-09-25", "data_fechamento": "2026-09-26" },
-        { "data": "2026-09-28", "data_fechamento": "2026-09-28" },
-        { "data": "2026-09-29", "data_fechamento": "2026-09-30" },
-        { "data": "2026-09-30", "data_fechamento": "2026-10-01" }
-      ]
-    },
-    {
-      "id_equipamento": "FW-CORE-03",
-      "chamados_semana": 9,
-      "chamados_setembro": 22,
-      "historico_chamados": Array(22).fill({ "data": "2026-09-15", "data_fechamento": "2026-09-16" })
-    },
-    {
-      "id_equipamento": "SW-ACCESS-01",
-      "chamados_semana": 6,
-      "chamados_setembro": 15,
-      "historico_chamados": Array(15).fill({ "data": "2026-09-20", "data_fechamento": "2026-09-21" })
-    },
-    {
-      "id_equipamento": "RT-CORE-01",
-      "chamados_semana": 3,
-      "chamados_setembro": 8,
-      "historico_chamados": Array(8).fill({ "data": "2026-09-15", "data_fechamento": "2026-09-17" })
-    },
-    {
-      "id_equipamento": "FW-EDGE-01",
-      "chamados_semana": 7,
-      "chamados_setembro": 17,
-      "historico_chamados": Array(17).fill({ "data": "2026-09-10", "data_fechamento": "2026-09-12" })
-    }
-  ]
-};
-
-const dadosJsonResolvidos = {
-  "semana": {
-    "labels": ["Seg", "Ter", "Qua", "Qui", "Sex"],
-    "valores": [3, 7, 5, 2, 5]
-  },
-  "mes": {
-    "labels": ["Sem 1", "Sem 2", "Sem 3", "Sem 4"],
-    "valores": [18, 24, 21, 19]
-  }
-};
-
-let graficoAbertos = null;
-let graficoResolvidos = null;
-
-function criarGraficoBarraHorizontal(idCanvas, rotulo, corBarra, dadosIniciais) {
-    const canvas = document.getElementById(idCanvas);
-    if (!canvas) return null;
-
-    const equipamentos = dadosJsonAbertos.resumo_por_equipamento;
-    const labels = [];
-    for (let i = 0; i < equipamentos.length; i++) {
-        labels.push(equipamentos[i].id_equipamento);
-    }
-
-    return new Chart(canvas.getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: rotulo,
-                data: dadosIniciais,
-                backgroundColor: corBarra,
-                borderWidth: 0,
-                borderRadius: 2,
-                barPercentage: 0.75,
-                categoryPercentage: 0.85
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: { color: '#9CA3AF', font: { family: 'Poppins', size: 11 } },
-                    grid: { color: 'rgba(255, 255, 255, 0.08)', drawBorder: false }
-                },
-                y: {
-                    ticks: { color: '#9CA3AF', font: { family: 'Poppins', size: 11 } },
-                    grid: { display: false }
+            if (containerDatas) {
+                if (periodoSelecionado === "Período personalizado") {
+                    containerDatas.classList.remove("hidden");
+                    containerDatas.classList.add("grid");
+                } else {
+                    containerDatas.classList.add("hidden");
+                    containerDatas.classList.remove("grid");
                 }
             }
-        }
+
+            atualizarResumoRelatorio();
+        });
     });
-}
 
-function criarGraficoBarraVertical(idCanvas, rotulo, corBarra, labelsIniciais, dadosIniciais) {
-    const canvas = document.getElementById(idCanvas);
-    if (!canvas) return null;
+    // Eventos das datas
+    document.getElementById("dataInicial")?.addEventListener(
+        "change",
+        atualizarResumoRelatorio
+    );
 
-    return new Chart(canvas.getContext('2d'), {
-        type: 'bar',
-        data: {
-            labels: labelsIniciais,
-            datasets: [{
-                label: rotulo,
-                data: dadosIniciais,
-                backgroundColor: corBarra,
-                borderWidth: 0,
-                borderRadius: 4,
-                barPercentage: 0.5,
-                categoryPercentage: 0.8
-            }]
-        },
-        options: {
-            indexAxis: 'x',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                x: {
-                    ticks: { color: '#9CA3AF', font: { family: 'Poppins', size: 11 } },
-                    grid: { display: false }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: { color: '#9CA3AF', font: { family: 'Poppins', size: 11 } },
-                    grid: { color: 'rgba(255, 255, 255, 0.08)', drawBorder: false }
-                }
-            }
-        }
+    document.getElementById("dataFinal")?.addEventListener(
+        "change",
+        atualizarResumoRelatorio
+    );
+
+    // Evento do equipamento
+    document.getElementById("equipamento")?.addEventListener("change", (e) => {
+        equipamentoSelecionado = e.target.value;
+        atualizarResumoRelatorio();
     });
-}
 
-function renderizarGraficos() {
-    if (graficoAbertos) graficoAbertos.destroy();
-    if (graficoResolvidos) graficoResolvidos.destroy();
-
-    const valoresAbertosIniciais = extrairValoresPorChave(dadosJsonAbertos, "chamados_semana");
-
-    graficoAbertos = criarGraficoBarraHorizontal('graficoChamadosAbertos', 'Chamados Abertos', '#D9383A', valoresAbertosIniciais);
-    graficoResolvidos = criarGraficoBarraVertical('graficoChamadosResolvidos', 'Chamados Resolvidos', '#22C55E', dadosJsonResolvidos.semana.labels, dadosJsonResolvidos.semana.valores);
-}
-
-window.addEventListener('resize', () => {
-    if (graficoAbertos) graficoAbertos.resize();
-    if (graficoResolvidos) graficoResolvidos.resize();
-});
-
-function atualizarGrafico(instanciaGrafico, novosValores, novasLabels) {
-    if (!instanciaGrafico) return;
-
-    if (novasLabels) {
-        instanciaGrafico.data.labels = novasLabels;
-    }
-    
-    instanciaGrafico.data.datasets[0].data = novosValores;
-    
-    if (instanciaGrafico.options.scales.x && instanciaGrafico.options.scales.x.max) {
-        delete instanciaGrafico.options.scales.x.max;
-    }
-    
-    instanciaGrafico.update();
-}
-
-function extrairValoresPorChave(jsonFonte, chave) {
-    const equipamentos = jsonFonte.resumo_por_equipamento;
-    const valores = [];
-    for (let i = 0; i < equipamentos.length; i++) {
-        valores.push(equipamentos[i][chave]);
-    }
-    return valores;
-}
-
-function extrairValoresPorData(jsonFonte, dataInicio, dataFim) {
-    const equipamentos = jsonFonte.resumo_por_equipamento;
-    const valores = [];
-
-    for (let i = 0; i < equipamentos.length; i++) {
-        const equip = equipamentos[i];
-        let contagem = 0;
-
-        if (equip.historico_chamados) {
-            for (let j = 0; j < equip.historico_chamados.length; j++) {
-                const dataItem = new Date(equip.historico_chamados[j].data + "T12:00:00");
-                if (dataItem >= dataInicio && dataItem <= dataFim) {
-                    contagem++;
-                }
-            }
-        }
-        valores.push(contagem);
-    }
-    return valores;
-}
-
-function extrairResolvidosPorData(jsonFonte, dataInicio, dataFim) {
-    const equipamentos = jsonFonte.resumo_por_equipamento;
-    let totalFechados = 0;
-
-    for (let i = 0; i < equipamentos.length; i++) {
-        const equip = equipamentos[i];
-        if (equip.historico_chamados) {
-            for (let j = 0; j < equip.historico_chamados.length; j++) {
-                const item = equip.historico_chamados[j];
-                if (item.data_fechamento) {
-                    const dataFechamento = new Date(item.data_fechamento + "T12:00:00");
-                    if (dataFechamento >= dataInicio && dataFechamento <= dataFim) {
-                        totalFechados++;
-                    }
-                }
-            }
-        }
-    }
-    return totalFechados;
-}
-
-const botoesFiltros = document.querySelectorAll(".btn-filtro");
-const painelPersonalizado = document.getElementById("personalizados");
-const subtitulos = document.querySelectorAll(".subtitulo-grafico");
-
-function atualizarTextoSubtitulos(texto) {
-    for (let i = 0; i < subtitulos.length; i++) {
-        subtitulos[i].textContent = texto;
-    }
-}
-
-for (let i = 0; i < botoesFiltros.length; i++) {
-    const botao = botoesFiltros[i];
-    const indice = i;
-
-    botao.addEventListener("click", function () {
-        for (let j = 0; j < botoesFiltros.length; j++) {
-            botoesFiltros[j].classList.remove("bg-light-blue", "text-main-blue", "border-transparent", "font-bold");
-            botoesFiltros[j].classList.add("border-white/15", "text-white/70", "hover:border-white", "hover:text-white");
-        }
-
-        this.classList.remove("border-white/15", "text-white/70", "hover:border-white", "hover:text-white");
-        this.classList.add("bg-light-blue", "text-main-blue", "border-transparent", "font-bold");
-
-        if (indice === 0) {
-            atualizarTextoSubtitulos("Última Semana");
-            if (painelPersonalizado) {
-                painelPersonalizado.classList.remove("max-h-30", "max-h-24", "md:max-h-24", "opacity-100", "border-gray-700");
-                painelPersonalizado.classList.add("max-h-0", "opacity-0", "border-gray-700/0");
-            }
-            atualizarGrafico(graficoAbertos, extrairValoresPorChave(dadosJsonAbertos, "chamados_semana"));
-            atualizarGrafico(graficoResolvidos, dadosJsonResolvidos.semana.valores, dadosJsonResolvidos.semana.labels);
-
-        } else if (indice === 1) {
-            atualizarTextoSubtitulos("Último Mês");
-            if (painelPersonalizado) {
-                painelPersonalizado.classList.remove("max-h-30", "max-h-24", "md:max-h-24", "opacity-100", "border-gray-700");
-                painelPersonalizado.classList.add("max-h-0", "opacity-0", "border-gray-700/0");
-            }
-            atualizarGrafico(graficoAbertos, extrairValoresPorChave(dadosJsonAbertos, "chamados_setembro"));
-            atualizarGrafico(graficoResolvidos, dadosJsonResolvidos.mes.valores, dadosJsonResolvidos.mes.labels);
-
-        } else if (indice === 2) {
-            atualizarTextoSubtitulos("Período Personalizado");
-            if (painelPersonalizado) {
-                painelPersonalizado.classList.remove("max-h-0", "md:max-h-0", "opacity-0", "border-gray-700/0");
-                painelPersonalizado.classList.add("max-h-30", "md:max-h-24", "opacity-100", "border-gray-700");
-            }
-            aplicarFiltroDatasPersonalizadas();
-        }
+    // Eventos das métricas
+    document.querySelectorAll('.metric-option input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener("change", atualizarResumoRelatorio);
     });
+
+    // Botão CSV
+    document.getElementById("btnCsv")?.addEventListener(
+        "click",
+        gerarCsvRelatorio
+    );
+
+    atualizarResumoRelatorio();
 }
 
-function aplicarFiltroDatasPersonalizadas() {
-    const inputDataInicio = document.getElementById("data-inicio");
-    const inputDataFim = document.getElementById("data-fim");
 
-    if (!inputDataInicio || !inputDataFim) return;
+// ==========================================
+// API
+// ==========================================
 
-    const dataInicioStr = inputDataInicio.value;
-    const dataFimStr = inputDataFim.value;
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
 
-    if (!dataInicioStr || !dataFimStr) return;
+    } catch (erro) {
 
-    const dataInicio = new Date(dataInicioStr + "T00:00:00");
-    const dataFim = new Date(dataFimStr + "T23:59:59");
+        if (erro && erro.sessaoExpirada) {
+            return {
+                ok: false,
+                status: 401,
+                dados: null
+            };
+        }
 
-    if (dataFim < dataInicio) {
-        alert("A data final não pode ser anterior à data inicial.");
+        console.error("Erro ao chamar API:", erro);
+
+        return {
+            ok: false,
+            status: 0,
+            dados: null
+        };
+    }
+}
+
+
+// ==========================================
+// INFORMAÇÕES DO USUÁRIO
+// ==========================================
+
+async function carregarInformacoesUsuario() {
+    const nome_title = document.getElementById("nome_title");
+    const foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi(
+        "/usuarios/informacoes_usuario",
+        "GET"
+    );
+
+    if (!resposta.ok || !resposta.dados || !resposta.dados[0]) {
+        console.error("Não foi possível carregar as informações do usuário.");
         return;
     }
 
-    const abertosFiltrados = extrairValoresPorData(dadosJsonAbertos, dataInicio, dataFim);
-    const resolvidosFiltrados = extrairResolvidosPorData(dadosJsonAbertos, dataInicio, dataFim);
+    const usuario = resposta.dados[0];
 
-    const dtInicioFmt = dataInicioStr.split('-').reverse().join('/');
-    const dtFimFmt = dataFimStr.split('-').reverse().join('/');
-    atualizarTextoSubtitulos(`Período: ${dtInicioFmt} a ${dtFimFmt}`);
+    if (nome_title) {
+        nome_title.textContent = usuario.nome;
+    }
 
-    atualizarGrafico(graficoAbertos, abertosFiltrados);
-    atualizarGrafico(graficoResolvidos, [resolvidosFiltrados], ["Período Selecionado"]);
+    if (foto) {
+        foto.textContent = usuario.nome?.[0] || "";
+    }
 }
 
-document.addEventListener("change", function (e) {
-    if (e.target && (e.target.id === "data-inicio" || e.target.id === "data-fim")) {
-        aplicarFiltroDatasPersonalizadas();
-    }
-});
 
-document.addEventListener('DOMContentLoaded', renderizarGraficos);
+// ==========================================
+// SLAS
+// ==========================================
 
 const dadosJsonSlas = {
-  "historico_slas_violados": [
-    {
-      "id_sla": "SLA-031",
-      "equipamento": "FW-CORE-03",
-      "cliente": "Bradesco",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "+1h 22m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-032",
-      "equipamento": "FW-CORE-02",
-      "cliente": "Bradesco",
-      "tipo_sla": "Resolução",
-      "tempo_excedido": "+2h 05m",
-      "gravidade": "urgente"
-    },
-    {
-      "id_sla": "SLA-033",
-      "equipamento": "SW-ACCESS-01",
-      "cliente": "Itaú",
-      "tipo_sla": "Tempo de Resposta",
-      "tempo_excedido": "+45m",
-      "gravidade": "medio"
-    },
-    {
-      "id_sla": "SLA-034",
-      "equipamento": "RT-CORE-01",
-      "cliente": "Santander",
-      "tipo_sla": "Disponibilidade",
-      "tempo_excedido": "0m",
-      "gravidade": "estavel"
-    }
-  ]
+    historico_slas_violados: [
+        {
+            id_sla: "SLA-031",
+            equipamento: "FW-CORE-03",
+            cliente: "Bradesco",
+            tipo_sla: "Disponibilidade",
+            tempo_excedido: "+1h 22m",
+            gravidade: "urgente"
+        },
+        {
+            id_sla: "SLA-032",
+            equipamento: "FW-CORE-02",
+            cliente: "Bradesco",
+            tipo_sla: "Resolução",
+            tempo_excedido: "+2h 05m",
+            gravidade: "urgente"
+        },
+        {
+            id_sla: "SLA-033",
+            equipamento: "SW-ACCESS-01",
+            cliente: "Itaú",
+            tipo_sla: "Tempo de Resposta",
+            tempo_excedido: "+45m",
+            gravidade: "medio"
+        },
+        {
+            id_sla: "SLA-034",
+            equipamento: "RT-CORE-01",
+            cliente: "Santander",
+            tipo_sla: "Disponibilidade",
+            tempo_excedido: "0m",
+            gravidade: "estavel"
+        }
+    ]
 };
+
 
 function ordenarSLAs(dados) {
     const listaSLAs = dados.historico_slas_violados || dados;
+
     const listaCopiaSLAs = [...listaSLAs];
 
     const prioridade = {
-        "urgente": 1,
-        "medio": 2,
-        "estavel": 3
+        urgente: 1,
+        medio: 2,
+        estavel: 3
     };
 
-    listaCopiaSLAs.sort(function (a, b) {
-        const pesoA = prioridade[a.gravidade] || 99;
-        const pesoB = prioridade[b.gravidade] || 99;
-
-        if (pesoA !== pesoB) {
-            return pesoA - pesoB;
-        }
-
-        return a.cliente.localeCompare(b.cliente);
-    });
-
-    return listaCopiaSLAs.slice(0, 3);
-}
-
-function renderizarSLAs() {
-    const containerSLAs = document.getElementById("lista-slas-container");
-    if (!containerSLAs) return;
-
-    const top3 = ordenarSLAs(dadosJsonSlas);
-    containerSLAs.innerHTML = "";
-
-    top3.forEach(item => {
-        let corBorda = "border-red-500";
-        if (item.gravidade === "medio") corBorda = "border-amber-500";
-        if (item.gravidade === "estavel") corBorda = "border-blue-500";
-
-        const card = document.createElement("div");
-        card.className = `flex items-center justify-between p-3.5 bg-[#09121B] rounded border-l-4 ${corBorda} font-['Poppins'] text-sm`;
-        
-        card.innerHTML = `
-        <div class="flex flex-col items-start gap-2 w-full md:flex-row md:items-center md:justify-between">
-            <div class="flex flex-col gap-1 md:flex-row md:items-center md:gap-4">
-                <span class="text-cyan-400 font-semibold text-[13px]">${item.id_sla}</span>
-                <span class="text-gray-300 text-[12px]">${item.equipamento} — ${item.cliente}</span>
-            </div>
-            <div class="flex flex-row items-center gap-4 md:ml-auto">
-                <span class="text-gray-400 text-[12px]">${item.tipo_sla}</span>
-                <span class="font-bold text-red-500 text-[12px]">${item.tempo_excedido}</span>
-            </div>
-        </div>
-`;
-
-        containerSLAs.appendChild(card);
+    return listaCopiaSLAs.sort((a, b) => {
+        return (prioridade[a.gravidade] || 99) -
+            (prioridade[b.gravidade] || 99);
     });
 }
 
-document.addEventListener('DOMContentLoaded', renderizarSLAs);
+
+// ==========================================
+// EVENTOS GERAIS
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Informações do usuário
+    carregarInformacoesUsuario();
+
+    // Botão sair e modal
+    const btnSair = document.getElementById("btn-sair");
+
+    if (btnSair) {
+        btnSair.addEventListener("click", (e) => {
+            e.preventDefault();
+            abrirModal();
+        });
+    }
+
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+    }
+
+    // Clientes
+    chamadosCliente();
+
+    const inputBuscaCliente = document.getElementById("input-busca-cliente");
+
+    if (inputBuscaCliente) {
+        inputBuscaCliente.addEventListener("input", (e) => {
+            chamadosCliente(e.target.value);
+        });
+    }
+
+    // Relatório
+    inicializarRelatorio();
+
+    // Gráficos, caso a função exista em outro script
+    if (typeof renderizarGraficos === "function") {
+        renderizarGraficos();
+    }
+
+});

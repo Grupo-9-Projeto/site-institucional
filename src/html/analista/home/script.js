@@ -1118,6 +1118,22 @@ function renderizarGraficos(dados) {
     renderizarGrafico("#grafico-rede", dados.rede, "#22C55E");
 }
 
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
+        }
+        return { ok: false, status: 0, dados: null };
+    }
+}
+
+
+
 function renderizarGrafico(seletor, valores, cor) {
     const container = document.querySelector(seletor);
     if (!container) return;
