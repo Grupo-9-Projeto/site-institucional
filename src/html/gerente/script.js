@@ -295,9 +295,106 @@ async function inicializarRelatorio() {
                 }
             }
 
-            atualizarResumoRelatorio();
+    if (dataFim < dataInicio) {
+        alert("A data final não pode ser anterior à data inicial.");
+        return;
+    }
+
+    const abertosFiltrados = extrairValoresPorData(dadosJsonAbertos, dataInicio, dataFim);
+    const resolvidosFiltrados = extrairResolvidosPorData(dadosJsonAbertos, dataInicio, dataFim);
+
+    const dtInicioFmt = dataInicioStr.split('-').reverse().join('/');
+    const dtFimFmt = dataFimStr.split('-').reverse().join('/');
+    atualizarTextoSubtitulos(`Período: ${dtInicioFmt} a ${dtFimFmt}`);
+
+    atualizarGrafico(graficoAbertos, abertosFiltrados);
+    atualizarGrafico(graficoResolvidos, [resolvidosFiltrados], ["Período Selecionado"]);
+}
+
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
         });
-    });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
+        }
+        return { ok: false, status: 0, dados: null };
+    }
+}
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    console.log(resposta.dados[0])
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
+document.addEventListener('DOMContentLoaded', () => {
+   carregarInformacoesUsuario();
+});
+
+
+
+document.addEventListener("change", function (e) {
+    if (e.target && (e.target.id === "data-inicio" || e.target.id === "data-fim")) {
+        aplicarFiltroDatasPersonalizadas();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', renderizarGraficos);
+
+const dadosJsonSlas = {
+  "historico_slas_violados": [
+    {
+      "id_sla": "SLA-031",
+      "equipamento": "FW-CORE-03",
+      "cliente": "Bradesco",
+      "tipo_sla": "Disponibilidade",
+      "tempo_excedido": "+1h 22m",
+      "gravidade": "urgente"
+    },
+    {
+      "id_sla": "SLA-032",
+      "equipamento": "FW-CORE-02",
+      "cliente": "Bradesco",
+      "tipo_sla": "Resolução",
+      "tempo_excedido": "+2h 05m",
+      "gravidade": "urgente"
+    },
+    {
+      "id_sla": "SLA-033",
+      "equipamento": "SW-ACCESS-01",
+      "cliente": "Itaú",
+      "tipo_sla": "Tempo de Resposta",
+      "tempo_excedido": "+45m",
+      "gravidade": "medio"
+    },
+    {
+      "id_sla": "SLA-034",
+      "equipamento": "RT-CORE-01",
+      "cliente": "Santander",
+      "tipo_sla": "Disponibilidade",
+      "tempo_excedido": "0m",
+      "gravidade": "estavel"
+    }
+  ]
+};
+
+function ordenarSLAs(dados) {
+    const listaSLAs = dados.historico_slas_violados || dados;
+    const listaCopiaSLAs = [...listaSLAs];
+
+    const prioridade = {
+        "urgente": 1,
+        "medio": 2,
+        "estavel": 3
+    };
 
     document.getElementById("dataInicial")?.addEventListener("change", atualizarResumoRelatorio);
     document.getElementById("dataFinal")?.addEventListener("change", atualizarResumoRelatorio);

@@ -74,18 +74,17 @@ async function carregarInformacoes() {
         empresa_id: empresaId,
         componente_id: dispositivoId
     });;
-    console.log(resposta.dados, "askljdkljsdakjladskljsad")
+
     const respostaDispositivo = await chamarApi("/dispositivos/listar_informacoes_dispositivo", "POST", {
         dispositivo_id: equipamentoId,
         id_empresa: empresaId
     })
-    console.log(respostaDispositivo.dados, "lkasdkjlasdkljskjlad")
+
+
     const tipoComponentes = resposta.dados[1][0];
     const informacoesComponente = resposta.dados[0];
     let nomeComponente = tipoComponentes.nome;
     let unidadeComponente = tipoComponentes.unidade_medida;
-
-    
 
     compEqNome.textContent = respostaDispositivo.dados[0].numero_serie
     compTipo.textContent = nomeComponente;
@@ -115,13 +114,15 @@ async function carregarInformacoesParaEditar() {
         idDispositivo: equipamentoId,
         empresa_id: empresaId,
         componente_id: dispositivoId
-    });;
+    });
+    const respostaTiposComponentes = await chamarApi("/componentes/listar_todos_tipos_componentes", "GET")
 
     const tipoComponentes = resposta.dados[1];
     const informacoesComponente = resposta.dados[0];
-    let unidadeComponente;
+    
 
-    tipoComponentes.forEach(element => {
+    
+    respostaTiposComponentes.dados.forEach(element => {
 
         const opcao = document.createElement("option");
 
@@ -130,12 +131,9 @@ async function carregarInformacoesParaEditar() {
         opcao.className = "bg-main-blue text-white";
 
         tipo.appendChild(opcao);
-        if (element.id_tipo == informacoesComponente[0].id_componente) {
-            unidadeComponente = element.unidade_medida;
-        }
     });
 
-    unidade.value = unidadeComponente;
+    unidade.value = tipoComponentes[0].unidade_medida;
     nome.value = informacoesComponente[0].nome_identificador;
 
     capacidadeTotal.value = informacoesComponente[0].capacidade;
@@ -158,6 +156,21 @@ async function carregarInformacoesParaEditar() {
     status.value = valorStatus;
     tipo.value = valorStatus;
 }
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    console.log(resposta.dados[0])
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
+document.addEventListener('DOMContentLoaded', () => {
+   carregarInformacoesUsuario();
+});
+
 
 function voltarPagina() {
     const { empresaId, equipamentoId, dispositivoId } = pegarIdsDaUrl();

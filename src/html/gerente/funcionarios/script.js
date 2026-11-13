@@ -2,6 +2,20 @@ let funcionarioAtual = null;
 let funcionarioParaExcluir = null;
 let empresasDoFuncionario = [];
 
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
+        }
+        return { ok: false, status: 0, dados: null };
+    }
+}
+
 function mensagemDoBack(dados, padrao) {
     if (typeof dados === "string") return dados;
     if (dados && typeof dados.res === "string") return dados.res;
@@ -430,6 +444,17 @@ if (modal) {
 if (modal_excluir) {
     modal_excluir.addEventListener('click', e => { if (e.target === modal_excluir) fecharModalExcluir(); });
 }
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    console.log(resposta.dados[0])
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
  
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
@@ -437,6 +462,7 @@ document.addEventListener('keydown', e => {
         fecharModalExcluir();
     }
 });
+
 
 // ---------- inicialização ----------
 
@@ -461,4 +487,5 @@ document.addEventListener('DOMContentLoaded', () => {
         btnHamburguer.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
     }
+    carregarInformacoesUsuario();
 });

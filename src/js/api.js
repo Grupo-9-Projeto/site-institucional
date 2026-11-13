@@ -16,7 +16,7 @@ function paginaIniciadlDoCargo(cargo) {
     if (cargo === "gerente") {
         return new URL("../html/gerente/home.html", BASE_JS).href
     }
-    return new URL("../html/analista/home/home.html", BASE_JS).href;
+    return new URL("../html/analista/home/individualJoao/home.html", BASE_JS).href;
 }
 
 // ---------- Token (JWT) ----------
@@ -32,6 +32,7 @@ function obterToken() {
 
 function sair() {
     sessionStorage.removeItem("TOKEN");
+    console.log("aaaa")
     window.location.href = LOGIN_URL;
 }
 
