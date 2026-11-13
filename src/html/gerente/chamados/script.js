@@ -1,3 +1,31 @@
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
+        }
+        return { ok: false, status: 0, dados: null };
+    }
+}
+
+async function carregarInformacoesUsuario(){
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    console.log(resposta.dados[0])
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
+document.addEventListener('DOMContentLoaded', () => {
+   carregarInformacoesUsuario();
+});
+
 const dadosChamados = [
     {
         "id": "SLA-031",
@@ -114,36 +142,61 @@ function popularEquipamentos() {
     });
 }
 
-function filtrarChamados() {
+function filtrarChamados(ignorarStatus = false) {
     return dadosChamados.filter(item => {
         if (dataInicial && item.data < dataInicial) return false;
         if (dataFinal && item.data > dataFinal) return false;
         if (equipamentoSelecionado && item.equipamento !== equipamentoSelecionado) return false;
-        if (statusSelecionado !== "todos" && item.status !== statusSelecionado) return false;
+        if (!ignorarStatus && statusSelecionado !== "todos" && item.status !== statusSelecionado) return false;
         return true;
     });
 }
 
-function configurarFiltros() {
+const CLASSE_BTN_STATUS = "btn-status px-4 py-2 rounded-md text-xs font-semibold border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-element";
+const CLASSE_BTN_STATUS_ATIVO = "btn-status px-4 py-2 rounded-md text-xs font-bold bg-light-blue text-main-blue cursor-pointer transition-element";
+
+function selecionarStatus(status) {
+    statusSelecionado = status;
+
     document.querySelectorAll(".btn-status").forEach(botao => {
-        botao.addEventListener("click", () => {
-            statusSelecionado = botao.dataset.status;
-
-            document.querySelectorAll(".btn-status").forEach(b => {
-                b.className = "btn-status px-4 py-2 rounded-md text-xs font-semibold border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-element";
-            });
-            botao.className = "btn-status px-4 py-2 rounded-md text-xs font-bold bg-light-blue text-main-blue cursor-pointer transition-element";
-
-            atualizarTabela();
-        });
+        botao.className = botao.dataset.status === status ? CLASSE_BTN_STATUS_ATIVO : CLASSE_BTN_STATUS;
     });
 
-    document.getElementById("data-inicial")?.addEventListener("change", function () {
+    atualizarTabela();
+}
+
+function limparFiltros() {
+    dataInicial = "";
+    dataFinal = "";
+    equipamentoSelecionado = "";
+
+    const inicio = document.getElementById("data-inicio");
+    const fim = document.getElementById("data-fim");
+    const equipamento = document.getElementById("filtro-equipamento");
+    if (inicio) inicio.value = "";
+    if (fim) fim.value = "";
+    if (equipamento) equipamento.value = "";
+
+    selecionarStatus("todos");
+}
+
+function configurarFiltros() {
+    document.querySelectorAll(".btn-status").forEach(botao => {
+        botao.addEventListener("click", () => selecionarStatus(botao.dataset.status));
+    });
+
+    document.querySelectorAll(".kpi-status").forEach(card => {
+        card.addEventListener("click", () => selecionarStatus(card.dataset.kpiStatus));
+    });
+
+    document.getElementById("btn-limpar-filtros")?.addEventListener("click", limparFiltros);
+
+    document.getElementById("data-inicio")?.addEventListener("change", function () {
         dataInicial = this.value;
         atualizarTabela();
     });
 
-    document.getElementById("data-final")?.addEventListener("change", function () {
+    document.getElementById("data-fim")?.addEventListener("change", function () {
         dataFinal = this.value;
         atualizarTabela();
     });
@@ -155,7 +208,91 @@ function configurarFiltros() {
 }
 
 function atualizarTabela() {
-    renderizarTabela(filtrarChamados());
+    const base = filtrarChamados(true);
+    const lista = filtrarChamados()
+        .sort((a, b) => b.data.localeCompare(a.data) || b.id.localeCompare(a.id));
+
+    renderizarKpis(base);
+    renderizarTabela(lista);
+    atualizarContador(lista.length);
+    destacarKpiAtivo();
+}
+
+function atualizarContador(quantidade) {
+    const el = document.getElementById("contador-chamados");
+    if (!el) return;
+    el.textContent = `Exibindo ${quantidade} de ${dadosChamados.length} ${dadosChamados.length === 1 ? "chamado" : "chamados"}`;
+}
+
+function destacarKpiAtivo() {
+    document.querySelectorAll(".kpi-status").forEach(card => {
+        const ativo = card.dataset.kpiStatus === statusSelecionado;
+        card.classList.toggle("border-light-blue", ativo);
+        card.classList.toggle("border-white/10", !ativo);
+    });
+}
+
+const PRIORIDADES_KPI = [
+    { nome: "Crítico", barra: "bg-red-500", texto: "text-red-500" },
+    { nome: "Alto", barra: "bg-orange-500", texto: "text-orange-500" },
+    { nome: "Médio", barra: "bg-yellow-400", texto: "text-yellow-400" }
+];
+
+function percentual(parte, total) {
+    return total === 0 ? 0 : Math.round((parte / total) * 100);
+}
+
+function definirTexto(id, valor) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = valor;
+}
+
+function renderizarKpis(lista) {
+    const total = lista.length;
+    const aberto = lista.filter(i => i.status === "Em Aberto").length;
+    const atendimento = lista.filter(i => i.status === "Em atendimento").length;
+    const resolvido = lista.filter(i => i.status === "Resolvido").length;
+
+    definirTexto("kpi-total", total);
+    definirTexto("kpi-aberto", aberto);
+    definirTexto("kpi-atendimento", atendimento);
+    definirTexto("kpi-resolvido", resolvido);
+    definirTexto("kpi-aberto-pct", `${percentual(aberto, total)}% do total`);
+    definirTexto("kpi-atendimento-pct", `${percentual(atendimento, total)}% do total`);
+    definirTexto("kpi-resolvido-pct", `${percentual(resolvido, total)}% do total`);
+
+    const containerPrioridades = document.getElementById("kpi-prioridades");
+    if (containerPrioridades) {
+        containerPrioridades.innerHTML = PRIORIDADES_KPI.map(p => {
+            const qtd = lista.filter(i => i.prioridade === p.nome).length;
+            const pct = percentual(qtd, total);
+            return `
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="flex items-center gap-1.5 text-xs font-semibold ${p.texto}">
+                            <span class="w-2 h-2 rounded-full ${p.barra}"></span>${p.nome}
+                        </span>
+                        <span class="text-xs text-white/60"><span class="font-bold text-white">${qtd}</span> · ${pct}%</span>
+                    </div>
+                    <div class="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
+                        <div class="h-full rounded-full ${p.barra} transition-all duration-500" style="width: ${pct}%"></div>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    const criticosPendentes = lista.filter(i => i.prioridade === "Crítico" && i.status !== "Resolvido").length;
+    const taxa = percentual(resolvido, total);
+    definirTexto("kpi-criticos", criticosPendentes);
+    definirTexto("kpi-taxa", `${taxa}%`);
+    const barraTaxa = document.getElementById("kpi-taxa-barra");
+    if (barraTaxa) barraTaxa.style.width = `${taxa}%`;
+
+    const porEquipamento = {};
+    lista.forEach(i => { porEquipamento[i.equipamento] = (porEquipamento[i.equipamento] || 0) + 1; });
+    const maisAfetado = Object.entries(porEquipamento).sort((a, b) => b[1] - a[1])[0];
+    definirTexto("kpi-equipamento", maisAfetado ? `${maisAfetado[0]} (${maisAfetado[1]})` : "—");
 }
 
 const PRIORIDADES = {
