@@ -1,0 +1,1666 @@
+{
+    "_aviso": "DADOS SIMULADOS. Mesmo formato do Jira (criado, resolvido, responsável). 'dataReferencia' é o 'agora' da simulação; remova este campo quando usar dados reais e a página usará a data de hoje.",
+    "contratos": [
+        {
+            "empresa": "Itaú",
+            "prazoResolucaoHoras": 4
+        },
+        {
+            "empresa": "Bradesco",
+            "prazoResolucaoHoras": 6
+        },
+        {
+            "empresa": "Santander",
+            "prazoResolucaoHoras": 8
+        },
+        {
+            "empresa": "Banco do Brasil",
+            "prazoResolucaoHoras": 4
+        }
+    ],
+    "chamados": [
+        {
+            "id": "ARG-1",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-09-14T07:11:00",
+            "concluido_em": "2026-09-14T10:27:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-2",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-14T09:38:00",
+            "concluido_em": "2026-09-14T11:07:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-3",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-14T12:08:00",
+            "concluido_em": "2026-09-14T15:14:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-4",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-09-14T12:38:00",
+            "concluido_em": "2026-09-14T15:54:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-5",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-09-14T19:35:00",
+            "concluido_em": "2026-09-14T22:20:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-6",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-09-15T20:30:00",
+            "concluido_em": "2026-09-16T00:50:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-7",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-16T08:04:00",
+            "concluido_em": "2026-09-16T12:02:48",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-8",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-16T10:01:00",
+            "concluido_em": "2026-09-16T11:15:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-9",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-16T15:28:00",
+            "concluido_em": "2026-09-16T19:10:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-10",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-09-16T20:17:00",
+            "concluido_em": "2026-09-16T23:27:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-11",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-09-17T08:53:00",
+            "concluido_em": "2026-09-17T12:47:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-12",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-17T10:23:00",
+            "concluido_em": "2026-09-17T15:24:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-13",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-17T16:09:00",
+            "concluido_em": "2026-09-17T18:30:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-14",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-17T17:06:00",
+            "concluido_em": "2026-09-17T21:00:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-15",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-18T11:11:00",
+            "concluido_em": "2026-09-18T16:14:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-16",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-09-18T13:49:00",
+            "concluido_em": "2026-09-18T16:17:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-17",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-09-18T14:24:00",
+            "concluido_em": "2026-09-18T18:11:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-18",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-09-18T18:31:00",
+            "concluido_em": "2026-09-18T21:10:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-19",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-09-20T01:25:00",
+            "concluido_em": "2026-09-20T03:13:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-20",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-09-20T19:41:00",
+            "concluido_em": "2026-09-21T00:52:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-21",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-09-21T08:17:00",
+            "concluido_em": "2026-09-21T12:06:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-22",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-09-21T10:15:00",
+            "concluido_em": "2026-09-21T12:31:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-23",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-21T13:03:00",
+            "concluido_em": "2026-09-21T14:49:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-24",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-09-21T21:07:00",
+            "concluido_em": "2026-09-22T01:21:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-25",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-21T22:02:00",
+            "concluido_em": "2026-09-21T23:54:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-26",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-22T09:46:00",
+            "concluido_em": "2026-09-22T12:10:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-27",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-09-22T13:05:00",
+            "concluido_em": "2026-09-22T19:26:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-28",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-22T23:38:00",
+            "concluido_em": "2026-09-23T00:02:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-29",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-09-23T01:50:00",
+            "concluido_em": "2026-09-23T03:42:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-30",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-09-23T07:50:00",
+            "concluido_em": "2026-09-23T10:41:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-31",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-09-24T03:24:00",
+            "concluido_em": "2026-09-24T07:30:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-32",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-24T11:42:00",
+            "concluido_em": "2026-09-24T13:10:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-33",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-24T12:30:00",
+            "concluido_em": "2026-09-24T14:46:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-34",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-09-24T14:42:00",
+            "concluido_em": "2026-09-24T17:09:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-35",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-24T23:46:00",
+            "concluido_em": "2026-09-25T02:04:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-36",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-25T09:24:00",
+            "concluido_em": "2026-09-25T10:43:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-37",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-25T12:04:00",
+            "concluido_em": "2026-09-25T15:41:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-38",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-25T17:37:00",
+            "concluido_em": "2026-09-25T18:34:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-39",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-09-26T09:31:00",
+            "concluido_em": "2026-09-26T14:07:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-40",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-09-26T13:59:00",
+            "concluido_em": "2026-09-26T17:35:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-41",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-09-26T19:28:00",
+            "concluido_em": "2026-09-26T22:48:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-42",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-09-27T11:16:00",
+            "concluido_em": "2026-09-27T13:00:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-43",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-09-28T10:53:00",
+            "concluido_em": "2026-09-28T13:19:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-44",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-09-28T16:13:00",
+            "concluido_em": "2026-09-28T18:34:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-45",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-09-28T17:49:00",
+            "concluido_em": "2026-09-28T21:41:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-46",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-09-28T20:43:00",
+            "concluido_em": "2026-09-28T23:09:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-47",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-09-29T10:34:00",
+            "concluido_em": "2026-09-29T13:57:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-48",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-29T11:24:00",
+            "concluido_em": "2026-09-29T15:12:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-49",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-29T13:30:00",
+            "concluido_em": "2026-09-29T14:43:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-50",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-09-29T13:45:00",
+            "concluido_em": "2026-09-29T15:00:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-51",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-09-29T20:24:00",
+            "concluido_em": "2026-09-30T00:22:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-52",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-09-29T22:16:00",
+            "concluido_em": "2026-09-30T00:41:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-53",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-09-30T18:04:00",
+            "concluido_em": "2026-09-30T21:34:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-54",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-09-30T23:08:00",
+            "concluido_em": "2026-10-01T03:06:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-55",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-01T00:27:00",
+            "concluido_em": "2026-10-01T03:07:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-56",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-01T17:25:00",
+            "concluido_em": "2026-10-01T20:21:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-57",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-02T01:25:00",
+            "concluido_em": "2026-10-02T05:40:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-58",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-02T12:02:00",
+            "concluido_em": "2026-10-02T15:09:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-59",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-02T14:41:00",
+            "concluido_em": "2026-10-02T15:59:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-60",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-02T18:42:00",
+            "concluido_em": "2026-10-02T22:27:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-61",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-02T19:37:00",
+            "concluido_em": "2026-10-02T21:38:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-62",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-02T21:19:00",
+            "concluido_em": "2026-10-03T00:34:00",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-63",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-02T23:20:00",
+            "concluido_em": "2026-10-03T02:01:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-64",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-05T02:20:00",
+            "concluido_em": "2026-10-05T05:34:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-65",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-05T05:04:00",
+            "concluido_em": "2026-10-05T06:35:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-66",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-05T07:06:00",
+            "concluido_em": "2026-10-05T12:56:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-67",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-05T15:09:00",
+            "concluido_em": "2026-10-05T18:20:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-68",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-06T08:37:00",
+            "concluido_em": "2026-10-06T11:45:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-69",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-06T12:54:00",
+            "concluido_em": "2026-10-06T16:03:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-70",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-06T15:46:00",
+            "concluido_em": "2026-10-06T21:18:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-71",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-06T18:08:00",
+            "concluido_em": "2026-10-06T21:39:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-72",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-07T12:33:00",
+            "concluido_em": "2026-10-07T12:51:00",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-73",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-07T13:34:00",
+            "concluido_em": "2026-10-07T15:28:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-74",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-07T14:25:00",
+            "concluido_em": "2026-10-07T16:22:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-75",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-07T23:17:00",
+            "concluido_em": "2026-10-08T01:14:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-76",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-08T08:32:00",
+            "concluido_em": "2026-10-08T11:05:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-77",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-08T13:20:00",
+            "concluido_em": "2026-10-08T18:35:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-78",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-08T17:14:00",
+            "concluido_em": "2026-10-08T18:33:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-79",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-10-09T08:06:00",
+            "concluido_em": "2026-10-09T10:28:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-80",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-09T08:08:00",
+            "concluido_em": "2026-10-09T10:01:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-81",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-09T12:47:00",
+            "concluido_em": "2026-10-09T15:59:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-82",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-09T12:51:00",
+            "concluido_em": "2026-10-09T15:52:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-83",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-09T19:01:00",
+            "concluido_em": "2026-10-09T22:47:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-84",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-09T22:07:00",
+            "concluido_em": "2026-10-10T00:50:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-85",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-09T23:36:00",
+            "concluido_em": "2026-10-10T01:49:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-86",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-10T12:20:00",
+            "concluido_em": "2026-10-10T16:22:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-87",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-10T23:33:00",
+            "concluido_em": "2026-10-11T02:21:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-88",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-11T16:30:00",
+            "concluido_em": "2026-10-11T18:39:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-89",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-12T10:21:00",
+            "concluido_em": "2026-10-12T13:07:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-90",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-12T10:35:00",
+            "concluido_em": "2026-10-12T16:23:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-91",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-12T12:07:00",
+            "concluido_em": "2026-10-12T17:07:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-92",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-12T12:23:00",
+            "concluido_em": "2026-10-12T16:53:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-93",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-12T19:07:00",
+            "concluido_em": "2026-10-12T20:53:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-94",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-10-13T01:26:00",
+            "concluido_em": "2026-10-13T04:59:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-95",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-10-13T14:17:00",
+            "concluido_em": "2026-10-13T17:17:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-96",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-13T15:09:00",
+            "concluido_em": "2026-10-13T18:00:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-97",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-13T19:23:00",
+            "concluido_em": "2026-10-13T21:56:00",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-98",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-13T21:57:00",
+            "concluido_em": "2026-10-14T00:00:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-99",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-14T08:24:00",
+            "concluido_em": "2026-10-14T12:46:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-100",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-14T09:46:00",
+            "concluido_em": "2026-10-14T12:26:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-101",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-14T10:42:00",
+            "concluido_em": "2026-10-14T14:04:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-102",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-14T12:40:00",
+            "concluido_em": "2026-10-14T16:57:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-103",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-14T14:23:00",
+            "concluido_em": "2026-10-14T20:09:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-104",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-14T23:03:00",
+            "concluido_em": "2026-10-15T03:54:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-105",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-14T23:34:00",
+            "concluido_em": "2026-10-15T06:34:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-106",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-10-15T17:56:00",
+            "concluido_em": "2026-10-15T23:33:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-107",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-15T22:46:00",
+            "concluido_em": "2026-10-16T00:35:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-108",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-16T11:16:00",
+            "concluido_em": "2026-10-16T12:51:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-109",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-16T12:00:00",
+            "concluido_em": "2026-10-16T16:18:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-110",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-16T15:32:00",
+            "concluido_em": "2026-10-16T18:42:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-111",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-16T17:40:00",
+            "concluido_em": "2026-10-16T20:42:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-112",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-16T23:59:00",
+            "concluido_em": "2026-10-17T01:27:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-113",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-19T07:52:00",
+            "concluido_em": "2026-10-19T12:28:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-114",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-19T12:56:00",
+            "concluido_em": "2026-10-19T18:02:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-115",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-19T16:23:00",
+            "concluido_em": "2026-10-19T18:51:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-116",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-19T16:26:00",
+            "concluido_em": "2026-10-19T20:48:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-117",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-19T18:18:00",
+            "concluido_em": "2026-10-19T23:48:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-118",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-19T19:15:00",
+            "concluido_em": "2026-10-19T23:00:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-119",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-20T07:56:00",
+            "concluido_em": "2026-10-20T11:23:00",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-120",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-20T11:33:00",
+            "concluido_em": "2026-10-20T14:51:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-121",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-20T16:19:00",
+            "concluido_em": "2026-10-20T19:07:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-122",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-20T17:35:00",
+            "concluido_em": "2026-10-20T20:44:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-123",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-20T18:18:00",
+            "concluido_em": "2026-10-20T20:26:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-124",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-20T18:23:00",
+            "concluido_em": "2026-10-20T20:24:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-125",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-10-21T08:57:00",
+            "concluido_em": "2026-10-21T13:15:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-126",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-21T11:34:00",
+            "concluido_em": "2026-10-21T16:26:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-127",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-10-22T02:27:00",
+            "concluido_em": "2026-10-22T06:04:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-128",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-22T02:45:00",
+            "concluido_em": "2026-10-22T07:19:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-129",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-22T18:51:00",
+            "concluido_em": "2026-10-23T00:42:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-130",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-22T22:28:00",
+            "concluido_em": "2026-10-23T04:31:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-131",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-22T22:48:00",
+            "concluido_em": "2026-10-23T03:01:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-132",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-23T08:34:00",
+            "concluido_em": "2026-10-23T11:31:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-133",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-23T14:50:00",
+            "concluido_em": "2026-10-23T20:12:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-134",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-23T19:27:00",
+            "concluido_em": "2026-10-23T22:36:00",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-135",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-23T19:51:00",
+            "concluido_em": "2026-10-23T23:25:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-136",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-23T23:41:00",
+            "concluido_em": "2026-10-24T06:22:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-137",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-24T09:40:00",
+            "concluido_em": "2026-10-24T16:09:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-138",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-10-25T13:25:00",
+            "concluido_em": "2026-10-25T15:44:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-139",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-25T14:13:00",
+            "concluido_em": "2026-10-25T16:44:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-140",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-26T08:08:00",
+            "concluido_em": "2026-10-26T11:40:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-141",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-26T08:56:00",
+            "concluido_em": "2026-10-26T12:56:36",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-142",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-26T14:28:00",
+            "concluido_em": "2026-10-26T17:35:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-143",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-26T15:15:00",
+            "concluido_em": "2026-10-26T17:13:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-144",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-26T15:47:00",
+            "concluido_em": "2026-10-26T18:57:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-145",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-10-26T16:13:00",
+            "concluido_em": "2026-10-26T20:50:48",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-146",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-26T17:02:00",
+            "concluido_em": "2026-10-26T23:24:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-147",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-10-26T17:57:00",
+            "concluido_em": "2026-10-26T23:07:12",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-148",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-27T01:51:00",
+            "concluido_em": "2026-10-27T05:15:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-149",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-10-27T09:49:00",
+            "concluido_em": "2026-10-27T12:18:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-150",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-27T11:49:00",
+            "concluido_em": "2026-10-27T15:46:00",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-151",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-27T13:38:00",
+            "concluido_em": "2026-10-27T16:34:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-152",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-27T15:54:00",
+            "concluido_em": "2026-10-27T20:21:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-153",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-28T16:06:00",
+            "concluido_em": "2026-10-28T18:40:12",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-154",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-28T18:04:00",
+            "concluido_em": "2026-10-28T22:06:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-155",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-28T22:01:00",
+            "concluido_em": "2026-10-28T23:57:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-156",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-29T09:57:00",
+            "concluido_em": "2026-10-29T13:46:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-157",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-10-29T10:20:00",
+            "concluido_em": "2026-10-29T14:08:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-158",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-29T10:48:00",
+            "concluido_em": "2026-10-29T17:01:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-159",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-29T18:28:00",
+            "concluido_em": "2026-10-30T00:03:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-160",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-10-30T13:24:00",
+            "concluido_em": "2026-10-30T16:03:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-161",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-10-30T17:26:00",
+            "concluido_em": "2026-10-30T20:14:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-162",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-10-30T18:33:00",
+            "concluido_em": "2026-10-31T00:33:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-163",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-30T22:42:00",
+            "concluido_em": "2026-10-31T05:04:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-164",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-10-31T16:37:00",
+            "concluido_em": "2026-10-31T22:14:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-165",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-11-01T18:50:00",
+            "concluido_em": "2026-11-01T21:01:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-166",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-11-02T17:02:00",
+            "concluido_em": "2026-11-02T19:30:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-167",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-11-02T17:25:00",
+            "concluido_em": "2026-11-02T19:14:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-168",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-11-02T21:15:00",
+            "concluido_em": "2026-11-02T22:46:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-169",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-11-03T13:56:00",
+            "concluido_em": "2026-11-03T17:03:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-170",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-03T14:03:00",
+            "concluido_em": "2026-11-03T20:36:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-171",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-03T15:52:00",
+            "concluido_em": "2026-11-03T21:15:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-172",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-11-03T20:30:00",
+            "concluido_em": "2026-11-03T23:39:36",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-173",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-11-04T07:46:00",
+            "concluido_em": "2026-11-04T12:39:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-174",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-11-04T11:07:00",
+            "concluido_em": "2026-11-04T17:12:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-175",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-04T16:35:00",
+            "concluido_em": "2026-11-04T20:35:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-176",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-11-04T19:48:00",
+            "concluido_em": "2026-11-04T22:26:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-177",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-11-04T20:46:00",
+            "concluido_em": "2026-11-05T01:33:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-178",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-11-04T22:17:00",
+            "concluido_em": "2026-11-05T03:13:24",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-179",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-11-05T08:08:00",
+            "concluido_em": "2026-11-05T10:08:00",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-180",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-11-05T10:38:00",
+            "concluido_em": "2026-11-05T13:33:12",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-181",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-11-05T11:00:00",
+            "concluido_em": "2026-11-05T14:12:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-182",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-11-05T12:57:00",
+            "concluido_em": "2026-11-05T15:58:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-183",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-11-05T15:26:00",
+            "concluido_em": "2026-11-05T17:17:36",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-184",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-11-05T16:10:00",
+            "concluido_em": "2026-11-05T17:47:48",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-185",
+            "empresa": "Santander",
+            "equipamento": "RT-CORE-01",
+            "aberto_em": "2026-11-05T17:52:00",
+            "concluido_em": "2026-11-05T21:14:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-186",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-05T19:02:00",
+            "concluido_em": "2026-11-06T01:01:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-187",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-04",
+            "aberto_em": "2026-11-06T16:16:00",
+            "concluido_em": "2026-11-06T17:04:36",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-188",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-11-06T17:07:00",
+            "concluido_em": "2026-11-06T22:22:00",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-189",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-11-06T17:16:00",
+            "concluido_em": "2026-11-06T20:59:48",
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-190",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-06T19:52:00",
+            "concluido_em": "2026-11-06T23:39:24",
+            "responsavel": "Cláudio Lopes"
+        },
+        {
+            "id": "ARG-191",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-11-06T21:19:00",
+            "concluido_em": "2026-11-07T02:15:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-192",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-11-07T02:15:00",
+            "concluido_em": "2026-11-07T05:43:12",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-193",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-11-07T14:39:00",
+            "concluido_em": "2026-11-07T21:07:48",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-194",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-07T22:55:00",
+            "concluido_em": "2026-11-08T04:00:24",
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-195",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-11-08T13:36:00",
+            "concluido_em": "2026-11-08T17:21:00",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-196",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-11-09T17:34:00",
+            "concluido_em": "2026-11-09T21:51:24",
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-197",
+            "empresa": "Santander",
+            "equipamento": "SRV-DB-01",
+            "aberto_em": "2026-11-09T20:00:00",
+            "concluido_em": null,
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-198",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-03",
+            "aberto_em": "2026-11-10T08:15:00",
+            "concluido_em": null,
+            "responsavel": "Beatriz Costa"
+        },
+        {
+            "id": "ARG-199",
+            "empresa": "Itaú",
+            "equipamento": "SW-ACCESS-01",
+            "aberto_em": "2026-11-10T09:40:00",
+            "concluido_em": null,
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-200",
+            "empresa": "Bradesco",
+            "equipamento": "FW-EDGE-01",
+            "aberto_em": "2026-11-10T11:30:00",
+            "concluido_em": null,
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-201",
+            "empresa": "Itaú",
+            "equipamento": "SW-CORE-01",
+            "aberto_em": "2026-11-10T12:10:00",
+            "concluido_em": null,
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-202",
+            "empresa": "Banco do Brasil",
+            "equipamento": "RT-FILIAL-01",
+            "aberto_em": "2026-11-10T13:50:00",
+            "concluido_em": null,
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-203",
+            "empresa": "Santander",
+            "equipamento": "RT-EDGE-02",
+            "aberto_em": "2026-11-10T14:20:00",
+            "concluido_em": null,
+            "responsavel": "Rafael Lima"
+        },
+        {
+            "id": "ARG-204",
+            "empresa": "Banco do Brasil",
+            "equipamento": "SW-ACCESS-07",
+            "aberto_em": "2026-11-10T14:40:00",
+            "concluido_em": null,
+            "responsavel": "Ana Souza"
+        },
+        {
+            "id": "ARG-205",
+            "empresa": "Bradesco",
+            "equipamento": "FW-CORE-02",
+            "aberto_em": "2026-11-10T14:55:00",
+            "concluido_em": null,
+            "responsavel": "Ana Souza"
+        }
+    ],
+    "equipe": {
+        "quantidadeAnalistas": 4
+    }
+}
