@@ -67,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarInformacoesUsuario();
 });
 
+async function direcionarPaginaDetalhesEquipamentos(dados) {
+    window.location.href = `../equipamento.html?idEmpresa=${dados.idEmpresa}idEquipamento=${dados.idDispositivo}`;
+}
+
 function pegarIdDaUrl() {
     const parametros = new URLSearchParams(window.location.search);
     const id = Number(parametros.get("idEmpresa"));
@@ -171,6 +175,11 @@ function carregarEquipamentosEmpresa() {
             hover:bg-white/5
             cursor-pointer
         `;
+
+        
+        linha.addEventListener('click', () => {
+            direcionarPaginaDetalhesEquipamentos(item);
+        });
 
         linha.innerHTML = `
 

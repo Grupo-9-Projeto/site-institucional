@@ -305,10 +305,9 @@ function carregarRankEquipamentos() {
             hover:bg-white/5
             active:bg-white/10
         `;
-
-        card.addEventListener('click', () => {
-            direcionarPaginaDetalhesEquipamentos(item);
-        });
+async function direcionarPaginaDetalhesEquipamentos(dados) {
+    window.location.href = `../equipamento.html?idEmpresa=${dados.idEmpresa}idEquipamento=${dados.idDispositivo}`;
+}
 
         card.innerHTML = `
             <!-- Rank -->
