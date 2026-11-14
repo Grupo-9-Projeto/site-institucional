@@ -6,36 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../../../assets/logos/Argos-logo_branco.png" type="image/png">
     <title>Argos (Analista) - Equipamento</title>
-
     <link rel="stylesheet" href="../../../output.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="../../../js/api.js" defer></script>
-    
     <script src="script.js" defer></script>
     <script src="equipamento.js" defer></script>
 </head>
 
 <body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden" data-page="equipamento-json">
-
     <button id="btn-hamburguer"
         class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-white/15 focus:outline-none">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
     </button>
-
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
 
     <aside id="sidebar"
         class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-screen flex flex-col justify-between overflow-hidden">
-
         <div>
             <div class="px-6 py-6 border-b border-white/10 flex gap-3 shrink-0">
                 <img src="../../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos"
                     class="h-8 w-auto object-contain">
                 <p class="self-center text-xl font-semibold">Argos</p>
             </div>
-
             <div class="px-6 py-6 border-b border-white/10 shrink-0">
                 <div
                     class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
@@ -44,87 +38,135 @@
                 <p class="mt-3 text-white/60">Olá,</p>
                 <p class="text-lg font-bold">Claudio</p>
             </div>
-
             <nav class="flex flex-col py-4">
                 <a href="../home/home.html"
                     class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-element">Home</a>
             </nav>
         </div>
-
         <div class="border-t border-white/10 py-4 shrink-0">
             <a href="../configuracao/index.html"
                 class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
             <a href="#"
                 class="block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
-
     </aside>
 
     <main class="flex-1 h-full overflow-y-auto p-4 pt-16 md:p-8 md:pt-8">
         <div class="max-w-[1500px] mx-auto w-full">
 
-             <div class="flex items-center gap-2 text-xs text-white/60 mb-3">
+            <!-- Breadcrumb -->
+            <div class="flex items-center gap-2 text-xs text-white/60 mb-3">
                 <a href="../home/IndividualJoao/home.html" class="hover:text-white transition-colors">Home</a>
-                <span>›</span>
+                <span>&gt;</span>
                 <a id="empresa-breadcrumb" href="../home/IndividualJoao/equipamentos.html" class="hover:text-white transition-colors">Empresa</a>
-                <span>›</span>
-                <a id="equipamento-breadcrumb" href="../home/equipamento.html" class="hover:text-white transition-colors">Equipamento</a>
+                <span>&gt;</span>
+                <a id="equipamento-breadcrumb" href="../home/equipamento.html" class="text-white font-semibold hover:text-light-blue transition-colors">Equipamento</a>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3 mb-8">
-                <h1 id="equipamento-titulo" class="text-3xl font-bold font-space-grotesk">Equipamento</h1>
-                <span id="equipamento-status" class="flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/10"></span>
-                <span id="equipamento-categoria" class="text-xs text-white/60"></span>
-            </div>
+            <!-- Cabeçalho técnico enriquecido -->
+            <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 pb-6 border-b border-white/10">
+                <div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <h1 id="equipamento-titulo" class="text-3xl font-bold font-space-grotesk">Equipamento</h1>
+                        <span id="equipamento-status"
+                            class="flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/10"></span>
+                        <span id="equipamento-categoria" class="text-xs text-white/60"></span>
+                    </div>
+                </div>
 
+                <div class="flex flex-wrap items-center gap-2.5 text-xs">
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0D1924] border border-white/10">
+                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider">IP</span>
+                        <span id="equipamento-ip" class="font-semibold text-white/90">—</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0D1924] border border-white/10">
+                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider">MAC</span>
+                        <span id="equipamento-mac" class="font-semibold text-white/90">—</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0D1924] border border-white/10">
+                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider">Disco</span>
+                        <span id="equipamento-disco-resumo" class="font-semibold text-purple-400">—</span>
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0D1924] border border-white/10">
+                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider">Última coleta</span>
+                        <span id="equipamento-ultima-coleta" class="font-semibold text-light-blue">—</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Resumo operacional (4 KPIs) -->
             <section class="mb-6">
                 <h2 class="font-semibold text-sm">Resumo operacional</h2>
-                <p class="text-xs text-white/60 mt-1 mb-4">Leitura mais recente e histórico deste equipamento</p>
+                <p class="text-xs text-white/60 mt-1 mb-4">Diagnóstico instantâneo, saturação de recursos e limiares configurados</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">CPU</p>
-                    <p id="card-cpu" class="text-3xl font-bold font-space-grotesk mt-3 text-light-blue">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Leitura instantânea atual</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">RAM</p>
-                    <p id="card-ram" class="text-3xl font-bold font-space-grotesk mt-3 text-amber-400">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Leitura instantânea atual</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Disco</p>
-                    <p id="card-disco" class="text-3xl font-bold font-space-grotesk mt-3 text-purple-400">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Leitura instantânea atual</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Pacotes</p>
-                    <p id="card-pacotes" class="text-3xl font-bold font-space-grotesk mt-3 text-emerald-400">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Pacotes na coleta atual</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Alertas registrados</p>
-                    <p id="card-alertas-total" class="text-3xl font-bold font-space-grotesk mt-3 text-amber-400">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Total no histórico disponível</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Alertas críticos</p>
-                    <p id="card-alertas-criticos" class="text-3xl font-bold font-space-grotesk mt-3 text-red-500">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Ocorrências de maior severidade</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Métrica dominante</p>
-                    <p id="card-dominante" class="text-3xl font-bold font-space-grotesk mt-3 text-emerald-400">—</p>
-                    <p class="text-[10px] text-white/40 mt-2">Maior pressão na coleta atual</p>
-                </div>
-                <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Conexão atual</p>
-                    <p id="card-conexao" class="text-3xl font-bold font-space-grotesk mt-3 text-emerald-400">—</p>
-                    <p id="card-conexao-legenda" class="text-[10px] text-white/40 mt-2">—</p>
-                </div>
+                    <!-- KPI 1: Saúde & Alertas -->
+                    <div id="kpi-card-saude"
+                        class="bg-[#0D1924] border border-white/10 border-t-2 border-t-emerald-400 rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-[#101F2D]">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Saúde &amp; Alertas</p>
+                            <span id="card-dominante" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white/5 text-white/70">
+                                Dominante: —
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2.5 mt-3">
+                            <span id="indicador-pulso-saude" class="hidden w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0"></span>
+                            <p id="card-saude-status" class="text-3xl font-bold font-space-grotesk text-emerald-400">—</p>
+                        </div>
+                        <p id="card-alertas-resumo" class="text-[11px] text-white/50 mt-3">—</p>
+                    </div>
+
+                    <!-- KPI 2: CPU -->
+                    <div id="kpi-card-cpu"
+                        class="bg-[#0D1924] border border-white/10 border-t-2 border-t-light-blue rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-[#101F2D]">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">CPU</p>
+                            <span id="card-cpu-ghz" class="text-xs font-medium text-white/60">—</span>
+                        </div>
+                        <p id="card-cpu" class="text-3xl font-bold font-space-grotesk mt-3 text-light-blue">0,0%</p>
+                        <div class="mt-3">
+                            <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div id="barra-kpi-cpu" class="h-full w-0 bg-light-blue rounded-full transition-all duration-700 ease-out"></div>
+                            </div>
+                            <p id="card-cpu-limite" class="text-[11px] text-white/50 mt-2">Limite: —</p>
+                        </div>
+                    </div>
+
+                    <!-- KPI 3: Memória RAM -->
+                    <div id="kpi-card-ram"
+                        class="bg-[#0D1924] border border-white/10 border-t-2 border-t-teal-400 rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-[#101F2D]">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Memória RAM</p>
+                            <span id="card-ram-gb" class="text-xs font-medium text-white/60">—</span>
+                        </div>
+                        <p id="card-ram" class="text-3xl font-bold font-space-grotesk mt-3 text-teal-400">0,0%</p>
+                        <div class="mt-3">
+                            <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div id="barra-kpi-ram" class="h-full w-0 bg-teal-400 rounded-full transition-all duration-700 ease-out"></div>
+                            </div>
+                            <p id="card-ram-limite" class="text-[11px] text-white/50 mt-2">Limite: —</p>
+                        </div>
+                    </div>
+
+                    <!-- KPI 4: Perda de Pacotes -->
+                    <div id="kpi-card-pacotes"
+                        class="bg-[#0D1924] border border-white/10 border-t-2 border-t-emerald-400 rounded-2xl p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-[#101F2D]">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Perda de Pacotes</p>
+                            <span id="card-pacotes-abs" class="text-xs font-medium text-white/60">—</span>
+                        </div>
+                        <p id="card-pacotes" class="text-3xl font-bold font-space-grotesk mt-3 text-emerald-400">0,0%</p>
+                        <div class="mt-3">
+                            <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div id="barra-kpi-pacotes" class="h-full w-0 bg-emerald-400 rounded-full transition-all duration-700 ease-out"></div>
+                            </div>
+                            <p id="card-pacotes-limite" class="text-[11px] text-white/50 mt-2">Limite: —</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
+            <!-- Filtro de período dos gráficos -->
             <section class="bg-[#0D1924] border border-white/10 rounded-2xl p-5 mb-4">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div>
@@ -132,31 +174,44 @@
                         <p id="periodo-descricao" class="text-xs text-white/60 mt-1">Uso diário de recursos</p>
                     </div>
                     <div data-filtro="registros" class="flex flex-wrap items-center gap-2">
-                        <button type="button" data-periodo="semana" class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Última semana</button>
-                        <button type="button" data-periodo="mes" class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Último mês</button>
-                        <button type="button" data-periodo="personalizado" class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Período personalizado</button>
+                        <button type="button" data-periodo="semana"
+                            class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Última semana</button>
+                        <button type="button" data-periodo="mes"
+                            class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Último mês</button>
+                        <button type="button" data-periodo="personalizado"
+                            class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Período personalizado</button>
                     </div>
                 </div>
                 <div data-personalizado="registros" class="hidden mt-5 pt-5 border-t border-white/10">
                     <div class="flex flex-wrap items-end gap-4">
                         <div>
                             <label class="block text-xs text-white/60 mb-2">De</label>
-                            <input type="date" data-inicio class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
+                            <input type="date" data-inicio
+                                class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
                         </div>
                         <div>
                             <label class="block text-xs text-white/60 mb-2">Até</label>
-                            <input type="date" data-fim class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
+                            <input type="date" data-fim
+                                class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
                         </div>
-                        <button type="button" data-aplicar class="px-5 py-2 rounded-md bg-light-blue text-main-blue text-xs font-semibold transition cursor-pointer">Aplicar</button>
+                        <button type="button" data-aplicar
+                            class="px-5 py-2 rounded-md bg-light-blue text-main-blue text-xs font-semibold transition cursor-pointer">Aplicar</button>
                     </div>
                 </div>
             </section>
 
+            <!-- Gráficos históricos com linha de limiar e estatísticas -->
             <section class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
+                <!-- Gráfico CPU -->
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <div class="flex items-center justify-between mb-5">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
                         <h3 class="text-sm font-semibold text-light-blue">CPU</h3>
-                        <span class="text-[10px] text-white/40">% médio por dia</span>
+                        <div class="flex flex-wrap items-center gap-3 text-[11px] text-white/50">
+                            <span>Média: <strong id="media-cpu" class="text-white/90 font-semibold">—</strong></span>
+                            <span>Pico: <strong id="pico-cpu" class="text-white/90 font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-cpu" class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-cpu" class="font-semibold">—</strong></span>
+                        </div>
                     </div>
                     <div class="flex gap-2">
                         <div class="flex flex-col justify-between h-[180px] text-[10px] text-white/40 text-right">
@@ -165,15 +220,22 @@
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-cpu" class="h-[180px] flex items-end gap-[5px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-cpu" class="relative h-[180px] border-b border-white/10 pb-1"></div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Gráfico RAM -->
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <div class="flex items-center justify-between mb-5">
-                        <h3 class="text-sm font-semibold text-amber-400">RAM</h3>
-                        <span class="text-[10px] text-white/40">% médio por dia</span>
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+                        <h3 class="text-sm font-semibold text-teal-400">RAM</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-[11px] text-white/50">
+                            <span>Média: <strong id="media-ram" class="text-white/90 font-semibold">—</strong></span>
+                            <span>Pico: <strong id="pico-ram" class="text-white/90 font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-ram" class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-ram" class="font-semibold">—</strong></span>
+                        </div>
                     </div>
                     <div class="flex gap-2">
                         <div class="flex flex-col justify-between h-[180px] text-[10px] text-white/40 text-right">
@@ -182,15 +244,22 @@
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-ram" class="h-[180px] flex items-end gap-[5px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-ram" class="relative h-[180px] border-b border-white/10 pb-1"></div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Gráfico DISCO -->
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <div class="flex items-center justify-between mb-5">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
                         <h3 class="text-sm font-semibold text-purple-400">DISCO</h3>
-                        <span class="text-[10px] text-white/40">% médio por dia</span>
+                        <div class="flex flex-wrap items-center gap-3 text-[11px] text-white/50">
+                            <span>Média: <strong id="media-disco" class="text-white/90 font-semibold">—</strong></span>
+                            <span>Pico: <strong id="pico-disco" class="text-white/90 font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-disco" class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-disco" class="font-semibold">—</strong></span>
+                        </div>
                     </div>
                     <div class="flex gap-2">
                         <div class="flex flex-col justify-between h-[180px] text-[10px] text-white/40 text-right">
@@ -199,63 +268,121 @@
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-disco" class="h-[180px] flex items-end gap-[5px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-disco" class="relative h-[180px] border-b border-white/10 pb-1"></div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Gráfico PERDA DE PACOTES -->
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-5">
-                    <div class="flex items-center justify-between mb-5">
-                        <h3 class="text-sm font-semibold text-emerald-400">PACOTES</h3>
-                        <span class="text-[10px] text-white/40">% médio por dia</span>
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+                        <h3 class="text-sm font-semibold text-emerald-400">PERDA DE PACOTES</h3>
+                        <div class="flex flex-wrap items-center gap-3 text-[11px] text-white/50">
+                            <span>Média: <strong id="media-pacotes" class="text-white/90 font-semibold">—</strong></span>
+                            <span>Pico: <strong id="pico-pacotes" class="text-white/90 font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-pacotes" class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-pacotes" class="font-semibold">—</strong></span>
+                        </div>
                     </div>
                     <div class="flex gap-2">
-                        <div class="flex flex-col justify-between h-[180px] text-[10px] text-white/40 text-right">
+                        <div id="eixo-y-pacotes" class="flex flex-col justify-between h-[180px] text-[10px] text-white/40 text-right min-w-[28px]">
                             <span>100%</span>
                             <span>50%</span>
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-pacotes" class="h-[180px] flex items-end gap-[5px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-pacotes" class="relative h-[180px] border-b border-white/10 pb-1"></div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- Tabela de alertas -->
             <section class="bg-[#0D1924] border border-white/10 rounded-2xl overflow-hidden">
                 <div class="px-5 py-5 border-b border-white/10">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <div>
-                            <h2 class="font-semibold text-sm">Tabela de alertas</h2>
+                            <div class="flex flex-wrap items-center gap-2.5">
+                                <h2 class="font-semibold text-sm">Tabela de alertas</h2>
+                                <span id="alertas-badge-criticos"
+                                    class="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-500/10 border border-red-500/30 text-red-400">
+                                    0 críticos
+                                </span>
+                                <span id="alertas-badge-atencao"
+                                    class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-400">
+                                    0 atenção
+                                </span>
+                            </div>
                             <p id="alertas-descricao" class="text-xs text-white/60 mt-1">Registros de eventos deste equipamento</p>
                         </div>
+
+                        <!-- Filtro de período -->
                         <div data-filtro="alertas" class="flex flex-wrap items-center gap-2">
-                        <button type="button" data-periodo="semana" class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Última semana</button>
-                        <button type="button" data-periodo="mes" class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Último mês</button>
-                        <button type="button" data-periodo="personalizado" class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Período personalizado</button>
-                    </div>
-                    </div>
-                    <div data-personalizado="alertas" class="hidden mt-5 pt-5 border-t border-white/10">
-                    <div class="flex flex-wrap items-end gap-4">
-                        <div>
-                            <label class="block text-xs text-white/60 mb-2">De</label>
-                            <input type="date" data-inicio class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
+                            <button type="button" data-periodo="semana"
+                                class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Última semana</button>
+                            <button type="button" data-periodo="mes"
+                                class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Último mês</button>
+                            <button type="button" data-periodo="personalizado"
+                                class="px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer">Período personalizado</button>
                         </div>
-                        <div>
-                            <label class="block text-xs text-white/60 mb-2">Até</label>
-                            <input type="date" data-fim class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
+                    </div>
+
+                    <!-- Barra secundária: Severidade + Métrica -->
+                    <div class="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                        <div id="filtro-alerta-severidade" class="relative z-10 flex flex-wrap items-center gap-2">
+                            <span class="text-[11px] text-white/40 mr-1">Severidade:</span>
+                            <button type="button" data-sev="todos"
+                                class="px-3 py-1 text-xs font-semibold rounded-md border border-light-blue bg-light-blue text-main-blue cursor-pointer transition-colors">
+                                Todos
+                            </button>
+                            <button type="button" data-sev="critico"
+                                class="px-3 py-1 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-colors">
+                                Crítico
+                            </button>
+                            <button type="button" data-sev="atencao"
+                                class="px-3 py-1 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-colors">
+                                Atenção
+                            </button>
                         </div>
-                        <button type="button" data-aplicar class="px-5 py-2 rounded-md bg-light-blue text-main-blue text-xs font-semibold transition cursor-pointer">Aplicar</button>
+
+                        <div class="flex items-center gap-2">
+                            <label for="filtro-alerta-metrica" class="text-[11px] text-white/40">Métrica:</label>
+                            <select id="filtro-alerta-metrica"
+                                class="bg-main-blue border border-white/15 rounded-md px-3 py-1.5 text-xs text-white outline-none focus:border-light-blue cursor-pointer">
+                                <option value="todas">Todas as métricas</option>
+                                <option value="cpu">CPU</option>
+                                <option value="ram">RAM</option>
+                                <option value="pacotes">Perda de Pacotes</option>
+                                <option value="disco">Disco</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Período personalizado -->
+                    <div data-personalizado="alertas" class="hidden mt-4 pt-4 border-t border-white/10">
+                        <div class="flex flex-wrap items-end gap-4">
+                            <div>
+                                <label class="block text-xs text-white/60 mb-2">De</label>
+                                <input type="date" data-inicio
+                                    class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-white/60 mb-2">Até</label>
+                                <input type="date" data-fim
+                                    class="bg-main-blue border border-white/15 rounded-md px-3 py-2 text-xs text-white scheme-dark outline-none focus:border-light-blue cursor-pointer">
+                            </div>
+                            <button type="button" data-aplicar
+                                class="px-5 py-2 rounded-md bg-light-blue text-main-blue text-xs font-semibold transition cursor-pointer">Aplicar</button>
+                        </div>
                     </div>
                 </div>
-                </div>
+
                 <div id="alertas-container"></div>
             </section>
-
         </div>
     </main>
-
 </body>
 
 </html>
