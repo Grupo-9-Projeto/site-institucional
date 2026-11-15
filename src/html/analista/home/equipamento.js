@@ -31,22 +31,42 @@ let estadoAlertas = {
 
 document.addEventListener("DOMContentLoaded", iniciar);
 
+function obterIdEquipamento() {
+    const params = new URLSearchParams(window.location.search);
+    let id = params.get("idEquipamento") || params.get("idDispositivo") || params.get("id");
+    if (!id) {
+        const match = window.location.search.match(/idEquipamento=(\d+)/i);
+        if (match) id = match[1];
+    }
+    return id || sessionStorage.getItem("ID_DISPOSITIVO") || "";
+}
+
 async function iniciar() {
     criarTooltipGrafico();
     configurarSubfiltrosAlertas();
 
+    const idDispositivo = obterIdEquipamento();
+    if (!idDispositivo) {
+        mostrarErro("ID do equipamento não informado na URL.");
+        return;
+    }
+
     try {
-        const resposta = await fetch("equipamento-mock.json");
-        if (!resposta.ok) {
-            throw new Error("Erro ao carregar o JSON.");
+        const resposta = await apiFetch(`/lucas/equipamento/${encodeURIComponent(idDispositivo)}`, {
+            method: "GET"
+        });
+
+        if (!resposta.ok || !resposta.dados) {
+            throw new Error("Erro ao carregar os dados do equipamento.");
         }
-        const json = await resposta.json();
-        dados = prepararDados(json);
+
+        dados = prepararDados(resposta.dados);
         preencherCabecalho();
         preencherCards();
         configurarFiltro("registros", mostrarGraficos);
         configurarFiltro("alertas", mostrarAlertas);
     } catch (erro) {
+        if (erro && erro.sessaoExpirada) return;
         console.log(erro);
         mostrarErro("Não foi possível carregar os dados do equipamento.");
     }
@@ -159,14 +179,12 @@ function animarContagemPercentual(elemento, valorFinal, duracaoMs = 680) {
     if (!elemento || !Number.isFinite(valorFinal)) return;
 
     let inicioTempo = null;
-
     function atualizarQuadro(timestamp) {
         if (!inicioTempo) inicioTempo = timestamp;
         let decorrido = timestamp - inicioTempo;
         let progresso = Math.min(decorrido / duracaoMs, 1);
         let suavizado = 1 - Math.pow(1 - progresso, 3);
         let valorAtual = valorFinal * suavizado;
-
         elemento.textContent = formatarNumero(valorAtual, 1) + "%";
 
         if (progresso < 1) {
@@ -175,7 +193,6 @@ function animarContagemPercentual(elemento, valorFinal, duracaoMs = 680) {
             elemento.textContent = formatarNumero(valorFinal, 1) + "%";
         }
     }
-
     requestAnimationFrame(atualizarQuadro);
 }
 
@@ -328,7 +345,6 @@ function campoDaMetrica(tipo) {
 function calcularDataAtras(dias) {
     let data = new Date();
     data.setDate(data.getDate() - Number(dias));
-
     let ano = data.getFullYear();
     let mes = String(data.getMonth() + 1).padStart(2, "0");
     let dia = String(data.getDate()).padStart(2, "0");
@@ -381,7 +397,6 @@ function preencherCabecalho() {
         "equipamento-categoria",
         equipamento.categoria + " • " + equipamento.modelo
     );
-
     preencherTexto("equipamento-ip", equipamento.ip || "—");
     preencherTexto("equipamento-mac", equipamento.mac || equipamento.enderecoMac || "—");
     preencherTexto("equipamento-ultima-coleta", atual.hora || "—");
@@ -473,6 +488,7 @@ function preencherCards() {
     let saudeStatus = document.getElementById("card-saude-status");
     let saudeCard = document.getElementById("kpi-card-saude");
     let pulsoSaude = document.getElementById("indicador-pulso-saude");
+
     let acimaDoLimite = [
         cpuPct >= dados.limites.cpu,
         ramPct >= dados.limites.ram,
@@ -597,8 +613,8 @@ function configurarFiltro(nomeFiltro, atualizar) {
                 personalizado.classList.remove("hidden");
                 return;
             }
-
             personalizado.classList.add("hidden");
+
             let dias = 29;
             if (periodo === "semana") {
                 dias = 6;
@@ -817,7 +833,6 @@ function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao
     let soma = 0;
     let contagem = 0;
     let pico = 0;
-
     for (let i = 0; i < historico.length; i++) {
         let v = Number(historico[i].pacotes);
         if (!Number.isFinite(v)) continue;
@@ -866,7 +881,6 @@ function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao
         }
 
         barra.style.backgroundColor = corBarra;
-
         vincularInteracaoBarra(coluna, barra, historico[i].dia, valor, corBarra);
         animarEntradaBarra(barra, i);
 
@@ -929,7 +943,6 @@ function obterStatusAlerta(alerta) {
         if (s === "resolvido") return "Resolvido";
         return alerta.status;
     }
-
     let dias = Number(alerta.diasAtras);
     if (dias === 0) return "Pendente";
     if (dias <= 5) return "Em atendimento";
@@ -1002,7 +1015,6 @@ function renderizarTabelaAlertas() {
             let campo = campoDaMetrica(alerta.tipo);
             if (campo !== estadoAlertas.metrica) return false;
         }
-
         return true;
     });
 
@@ -1045,7 +1057,6 @@ function renderizarTabelaAlertas() {
 
         let statusTexto = obterStatusAlerta(alerta);
         let estiloStatus = obterEstiloStatus(statusTexto);
-
         let tagHoje = Number(alerta.diasAtras) === 0
             ? `<span class="ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase bg-light-blue/15 text-light-blue">Hoje</span>`
             : "";
