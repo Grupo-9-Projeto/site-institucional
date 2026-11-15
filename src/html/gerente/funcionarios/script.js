@@ -120,11 +120,14 @@ async function carregarFuncionarios() {
 async function enviarConvite() {
     const input = document.getElementById("email");
     const email = input ? input.value.trim() : "";
+    const botaoSubmit = document.querySelector("#modal form button[type='submit']") || document.querySelector("#modal button[type='submit']");
 
     if (!emailValido(email)) {
         alert("Informe um e-mail válido.");
         return;
     }
+
+    alternarCarregamentoBotao(botaoSubmit, true, "Enviando token...");
 
     try {
         const { ok, status, dados } = await apiFetch("/funcionarios/criar_funcionario", {
@@ -146,6 +149,8 @@ async function enviarConvite() {
         }
     } catch (erro) {
         tratarErroDeRede(erro);
+    } finally {
+        alternarCarregamentoBotao(botaoSubmit, false);
     }
 }
 
@@ -462,6 +467,33 @@ document.addEventListener('keydown', e => {
         fecharModalExcluir();
     }
 });
+
+function alternarCarregamentoBotao(botao, carregando, textoCarregando = "Carregando...") {
+    if (!botao) return;
+
+    if (carregando) {
+        if (!botao.dataset.textoOriginal) {
+            botao.dataset.textoOriginal = botao.innerHTML;
+        }
+        botao.disabled = true;
+        botao.classList.add("opacity-60", "cursor-not-allowed", "pointer-events-none");
+        botao.innerHTML = `
+            <span class="inline-flex items-center justify-center gap-2">
+                <svg class="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>${textoCarregando}</span>
+            </span>
+        `;
+    } else {
+        botao.disabled = false;
+        botao.classList.remove("opacity-60", "cursor-not-allowed", "pointer-events-none");
+        if (botao.dataset.textoOriginal) {
+            botao.innerHTML = botao.dataset.textoOriginal;
+        }
+    }
+}
 
 
 // ---------- inicialização ----------

@@ -172,38 +172,72 @@ function toggleFaq(pergunta, marcador){
         }
 }
 
-function criarUsuario() {
-    
+function criarUsuario(botaoParam) {
     let email = document.getElementById("input_email").value;
-    // let token = document.getElementById("input_token").value;
+    const botao = botaoParam || document.querySelector('button[onclick*="criarUsuario"]');
 
     const verifyFieldParam = { email };
-
     try {
-        verifyFields(verifyFieldParam)    
-        console.log("Todos os campos estão válidos!");
+        verifyFields(verifyFieldParam);
     } catch (error) {
-        console.error("Erro de validação:", error);
-        return;
+        alert(error);
+        return false;
     }
 
-    fetch("http://localhost:8080/usuarios/cadastrar_gerente", {
+    alternarCarregamentoBotao(botao, true, "Enviando token...");
+
+    fetch(`${API_URL}/usuarios/cadastrar_gerente`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${obterToken()}`
         },
-        body: JSON.stringify({
-            email: email,
-        })
-    }).then(response => {
-        if (response.ok) {
-            alert("Criação de usuário realizado com sucesso! Um email já foi enviado com o token de acesso.");
+        body: JSON.stringify({ email: email })
+    }).then(async response => {
+        const dados = await response.json().catch(() => null);
 
+        if (response.ok) {
+            alert(dados?.res || "Criação de usuário realizada com sucesso! Um email já foi enviado com o token de acesso.");
+            document.getElementById("input_email").value = "";
+            if (typeof ficha !== "undefined" && ficha.close) ficha.close();
         } else {
-            alert("Houve um erro ao tentar realizar a criação de usuário. Verifique se o token é válido.");
+            const msg = typeof dados === "string" ? dados : dados?.res;
+            alert(msg || "Houve um erro ao tentar realizar a criação de usuário.");
         }
+        
     }).catch(error => {
         console.error("Erro na requisição: ", error);
-    }); 
+        alert("Não foi possível conectar ao servidor.");
+    }).finally(() => {
+        alternarCarregamentoBotao(botao, false);
+    });
+
+    return false;
+}
+
+function alternarCarregamentoBotao(botao, carregando, textoCarregando = "Criando...") {
+    if (!botao) return;
+
+    if (carregando) {
+        if (!botao.dataset.textoOriginal) {
+            botao.dataset.textoOriginal = botao.innerHTML;
+        }
+        botao.disabled = true;
+        botao.classList.add("opacity-60", "cursor-not-allowed", "pointer-events-none");
+        botao.innerHTML = `
+            <span class="inline-flex items-center justify-center gap-2">
+                <svg class="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>${textoCarregando}</span>
+            </span>
+        `;
+    } else {
+        botao.disabled = false;
+        botao.classList.remove("opacity-60", "cursor-not-allowed", "pointer-events-none");
+        if (botao.dataset.textoOriginal) {
+            botao.innerHTML = botao.dataset.textoOriginal;
+        }
+    }
 }
