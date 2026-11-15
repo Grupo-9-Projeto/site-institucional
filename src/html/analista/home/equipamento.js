@@ -44,6 +44,7 @@ function obterIdEquipamento() {
 async function iniciar() {
     criarTooltipGrafico();
     configurarSubfiltrosAlertas();
+    carregarInformacoesUsuario();
 
     const idDispositivo = obterIdEquipamento();
     if (!idDispositivo) {
@@ -69,6 +70,27 @@ async function iniciar() {
         if (erro && erro.sessaoExpirada) return;
         console.log(erro);
         mostrarErro("Não foi possível carregar os dados do equipamento.");
+    }
+}
+
+async function carregarInformacoesUsuario() {
+    try {
+        const resposta = await apiFetch("/usuarios/informacoes_usuario", {
+            method: "GET"
+        });
+
+        if (!resposta.ok || !Array.isArray(resposta.dados) || resposta.dados.length === 0) {
+            return;
+        }
+
+        const nome = String(resposta.dados[0].nome || "").trim();
+        if (!nome) return;
+
+        preencherTexto("nome_title", nome);
+        preencherTexto("foto_usuario", nome.charAt(0).toUpperCase());
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) return;
+        console.log("Erro ao carregar informações do usuário:", erro);
     }
 }
 
