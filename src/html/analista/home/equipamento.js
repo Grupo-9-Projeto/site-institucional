@@ -1145,9 +1145,18 @@ function renderizarTabelaAlertas() {
     let linhasTabela = container.querySelectorAll("[data-alerta-id]");
     for (let i = 0; i < linhasTabela.length; i++) {
         linhasTabela[i].addEventListener("click", function () {
-            let id = this.getAttribute("data-alerta-id");
-            window.location.href =
-                "detalheAlerta.html?id=" + encodeURIComponent(id);
+            let idAlerta = this.getAttribute("data-alerta-id");
+            let paramsUrl = new URLSearchParams(window.location.search);
+            let idEmpresa = (dados.dispositivo && dados.dispositivo.idEmpresa) || paramsUrl.get("idEmpresa") || "";
+            let idEquipamento = (dados.dispositivo && dados.dispositivo.id) || obterIdEquipamento() || "";
+
+            let query = new URLSearchParams({
+                empresa: idEmpresa,
+                equipamento: idEquipamento,
+                alerta: idAlerta
+            });
+
+            window.location.href = "relatorio.html?" + query.toString();
         });
         linhasTabela[i].addEventListener("keydown", function (evento) {
             if (evento.key === "Enter" || evento.key === " ") {
