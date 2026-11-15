@@ -39,7 +39,7 @@
                         Cadastre-se
                     </h1>
                 </div>
-                <div class="flex flex-col gap-6 sm:gap-8 lg:gap-[clamp(16px,5.4vh,48px)]">
+                <form onsubmit="event.preventDefault(); registerUser();" class="flex flex-col gap-6 sm:gap-8 lg:gap-[clamp(16px,5.4vh,48px)]">
                     <div class="flex flex-col gap-3 lg:gap-[clamp(8px,2.7vh,24px)] w-full font-jet-brains">
                             <div class="flex flex-col gap-1.5">
                                 <label for="input_nome" class="text-sm sm:text-base font-medium">Nome</label>
@@ -72,12 +72,12 @@
                             </div>
                     </div>
                     <div class="w-full">
-                        <button onclick="registerUser()" 
+                        <button type="submit"
                             class="w-full py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-xl lg:text-2xl text-(--main-blue) bg-(--off-white) border-2 border-transparent transition-all duration-200 hover:scale-102">
                             Cadastrar →
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
