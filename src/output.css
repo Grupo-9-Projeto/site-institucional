@@ -349,6 +349,9 @@
   .z-50 {
     z-index: 50;
   }
+  .col-span-2 {
+    grid-column: span 2 / span 2;
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -708,6 +711,9 @@
   .h-\[100vh\] {
     height: 100vh;
   }
+  .h-\[160px\] {
+    height: 160px;
+  }
   .h-\[180px\] {
     height: 180px;
   }
@@ -872,6 +878,12 @@
   }
   .max-w-\[44px\] {
     max-width: 44px;
+  }
+  .max-w-\[140px\] {
+    max-width: 140px;
+  }
+  .max-w-\[180px\] {
+    max-width: 180px;
   }
   .max-w-\[930px\] {
     max-width: 930px;
@@ -1063,6 +1075,12 @@
   }
   .gap-\[5px\] {
     gap: 5px;
+  }
+  .gap-x-3 {
+    column-gap: calc(var(--spacing) * 3);
+  }
+  .gap-y-1 {
+    row-gap: var(--spacing);
   }
   .self-center {
     align-self: center;
@@ -2216,6 +2234,9 @@
     --tw-tracking: var(--tracking-widest);
     letter-spacing: var(--tracking-widest);
   }
+  .break-words {
+    overflow-wrap: break-word;
+  }
   .whitespace-nowrap {
     white-space: nowrap;
   }
@@ -2813,6 +2834,9 @@
     background-color: var(--color-light-blue);
   }
   @media (width >= 40rem) {
+    .sm\:col-auto {
+      grid-column: auto;
+    }
     .sm\:mt-0 {
       margin-top: 0px;
     }
@@ -2822,11 +2846,23 @@
     .sm\:mt-3 {
       margin-top: calc(var(--spacing) * 3);
     }
+    .sm\:mt-5 {
+      margin-top: calc(var(--spacing) * 5);
+    }
     .sm\:mr-5 {
       margin-right: calc(var(--spacing) * 5);
     }
     .sm\:mb-0 {
       margin-bottom: 0px;
+    }
+    .sm\:mb-2 {
+      margin-bottom: calc(var(--spacing) * 2);
+    }
+    .sm\:mb-5 {
+      margin-bottom: calc(var(--spacing) * 5);
+    }
+    .sm\:mb-8 {
+      margin-bottom: calc(var(--spacing) * 8);
     }
     .sm\:ml-5 {
       margin-left: calc(var(--spacing) * 5);
@@ -2849,6 +2885,9 @@
     .sm\:h-40 {
       height: calc(var(--spacing) * 40);
     }
+    .sm\:h-\[180px\] {
+      height: 180px;
+    }
     .sm\:w-1\/2 {
       width: calc(1 / 2 * 100%);
     }
@@ -2861,6 +2900,9 @@
     .sm\:w-\[33\%\] {
       width: 33%;
     }
+    .sm\:w-auto {
+      width: auto;
+    }
     .sm\:max-w-14 {
       max-width: calc(var(--spacing) * 14);
     }
@@ -2869,6 +2911,12 @@
     }
     .sm\:max-w-\[56px\] {
       max-width: 56px;
+    }
+    .sm\:max-w-none {
+      max-width: none;
+    }
+    .sm\:flex-initial {
+      flex: 0 auto;
     }
     .sm\:grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2879,8 +2927,29 @@
     .sm\:flex-row {
       flex-direction: row;
     }
+    .sm\:flex-wrap {
+      flex-wrap: wrap;
+    }
+    .sm\:items-center {
+      align-items: center;
+    }
+    .sm\:items-end {
+      align-items: flex-end;
+    }
     .sm\:items-start {
       align-items: flex-start;
+    }
+    .sm\:justify-start {
+      justify-content: flex-start;
+    }
+    .sm\:gap-2 {
+      gap: calc(var(--spacing) * 2);
+    }
+    .sm\:gap-2\.5 {
+      gap: calc(var(--spacing) * 2.5);
+    }
+    .sm\:gap-3 {
+      gap: calc(var(--spacing) * 3);
     }
     .sm\:gap-4 {
       gap: calc(var(--spacing) * 4);
@@ -2909,8 +2978,14 @@
     .sm\:px-4 {
       padding-inline: calc(var(--spacing) * 4);
     }
+    .sm\:px-5 {
+      padding-inline: calc(var(--spacing) * 5);
+    }
     .sm\:px-6 {
       padding-inline: calc(var(--spacing) * 6);
+    }
+    .sm\:py-1\.5 {
+      padding-block: calc(var(--spacing) * 1.5);
     }
     .sm\:py-2 {
       padding-block: calc(var(--spacing) * 2);
@@ -2924,8 +2999,20 @@
     .sm\:py-4 {
       padding-block: calc(var(--spacing) * 4);
     }
+    .sm\:py-5 {
+      padding-block: calc(var(--spacing) * 5);
+    }
+    .sm\:pt-5 {
+      padding-top: calc(var(--spacing) * 5);
+    }
+    .sm\:pt-16 {
+      padding-top: calc(var(--spacing) * 16);
+    }
     .sm\:pr-5 {
       padding-right: calc(var(--spacing) * 5);
+    }
+    .sm\:pb-6 {
+      padding-bottom: calc(var(--spacing) * 6);
     }
     .sm\:text-start {
       text-align: start;
@@ -3332,6 +3419,15 @@
     }
     .xl\:grid-cols-\[1fr_340px\] {
       grid-template-columns: 1fr 340px;
+    }
+    .xl\:flex-row {
+      flex-direction: row;
+    }
+    .xl\:items-center {
+      align-items: center;
+    }
+    .xl\:justify-between {
+      justify-content: space-between;
     }
     .xl\:text-3xl {
       font-size: var(--text-3xl);
