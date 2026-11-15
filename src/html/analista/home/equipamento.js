@@ -415,6 +415,13 @@ function preencherCabecalho() {
     preencherTexto("equipamento-titulo", equipamento.nome);
     preencherTexto("equipamento-breadcrumb", equipamento.nome);
     preencherTexto("empresa-breadcrumb", equipamento.empresa);
+
+    let linkEmpresa = document.getElementById("empresa-breadcrumb");
+    let paramsUrl = new URLSearchParams(window.location.search);
+    let idEmpresa = equipamento.idEmpresa || paramsUrl.get("idEmpresa");
+    if (linkEmpresa && idEmpresa) {
+        linkEmpresa.href = "IndividualJoao/equipamentos.html?idEmpresa=" + encodeURIComponent(idEmpresa);
+    }
     preencherTexto(
         "equipamento-categoria",
         equipamento.categoria + " • " + equipamento.modelo
