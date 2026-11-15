@@ -2,6 +2,15 @@
 const empresaId = sessionStorage.getItem("EMPRESA_ID")
 const gestorId = sessionStorage.getItem("GESTOR_ID");
 
+function exibirMensagemAuth(mensagem) {
+    const elErro = document.getElementById("mensagem_erro") || document.getElementById("div_erros_login");
+    if (elErro) {
+        elErro.textContent = mensagem;
+        elErro.classList.remove("hidden");
+        return;
+    }
+    alert(mensagem);
+}
 
 function registerUser() {
     let name = document.getElementById("input_nome").value;
@@ -13,19 +22,18 @@ function registerUser() {
     const verifyFieldParam = { name, email, passwordHash, token };
 
     try {
-        verifyFields(verifyFieldParam)    
-        console.log("Todos os campos estão válidos!");
+        verifyFields(verifyFieldParam);
     } catch (error) {
-        console.error("Erro de validação:", error);
-        return;
+        exibirMensagemAuth(error);
+        return false;
     }
 
     if (passwordHash !== confirmPassword) {
-        console.error("Senhas diferentes!");
-        return;
+        exibirMensagemAuth("As senhas inseridas não coincidem.");
+        return false;
     }
 
-    fetch("http://localhost:8080/usuarios/cadastrar", {
+    fetch(`${API_URL}/usuarios/cadastrar`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -36,24 +44,40 @@ function registerUser() {
             passwordHashServer: passwordHash,
             tokenServer: token
         })
-    }).then(response => {
+    }).then(async response => {
+        const dados = await response.json().catch(() => null);
         if (response.ok) {
-            alert("Cadastro realizado com sucesso! Você já pode fazer o login.");
+            alert("Cadastro realizado com sucesso! Você pode fazer o login.");
             setTimeout(() => {
                 window.location = "login.html";
             }, 2000);
         } else {
-            alert("Houve um erro ao tentar realizar o cadastro. Verifique se o token é válido.");
+            const msgServidor = typeof dados === "string" ? dados : dados?.res;
+            exibirMensagemAuth(msgServidor || "Houve um erro ao tentar realizar o cadastro. Verifique se o token é válido.");
         }
     }).catch(error => {
         console.error("Erro na requisição: ", error);
+        exibirMensagemAuth("Não foi possível conectar ao servidor.");
     });
+
+    return false;
 }
 
 
 function authUser() {
     let email = document.getElementById("input_email").value;
     let passwordHash = document.getElementById("input_senha").value;
+
+    if (!email || email.trim().length === 0 || !passwordHash || passwordHash.trim().length === 0) {
+        exibirMensagemAuth("Preencha o e-mail e a senha.");
+        return false;
+    }
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(email.trim())) {
+        exibirMensagemAuth("O e-mail inserido é inválido.");
+        return false;
+    }
 
     fetch(`${API_URL}/usuarios/autenticar`, {
         method: "POST",
@@ -70,25 +94,21 @@ function authUser() {
         if (!response.ok) {
             let mensagem;
             if (typeof dados === "string") {
-            mensagem = dados;
+                mensagem = dados;
             } else if (dados && dados.res) {
-            mensagem = dados.res;
-            } else {
-            mensagem = undefined;
+                mensagem = dados.res;
             }
-
-            alert(mensagem || "Não foi possível fazer login. Verifique e-mail e senha.");
+            exibirMensagemAuth(mensagem || "Não foi possível fazer login. Verifique e-mail e senha.");
             return;
         }
 
         salvarToken(dados.token);
-
         const infoToken = lerToken();
         window.location = paginaIniciadlDoCargo(infoToken && infoToken.role);
     }).catch(function (erro) {
         console.error(erro);
-        alert("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");
-    })
+        exibirMensagemAuth("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");
+    });
 
     return false;
 }
