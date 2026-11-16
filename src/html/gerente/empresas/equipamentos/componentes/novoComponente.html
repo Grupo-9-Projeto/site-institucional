@@ -92,7 +92,7 @@
                         <input id="nome" name="nome" type="text" placeholder="Ex: CPU Principal" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm placeholder:text-white/30 focus:border-light-blue focus:outline-none transition-element">
                     </div>
      
-                    <div class="flex flex-col gap-2">
+                    <!-- <div class="flex flex-col gap-2">
                         <label for="tipo" class="text-sm font-bold text-white/60">Tipo</label>
                         <select id="tipo" name="tipo" required class="w-full rounded-md border border-white/15 bg-main-blue px-4 py-3 text-sm text-white focus:border-light-blue focus:outline-none transition-element">
                             <option value="" disabled selected class="text-white/40">Selecione uma categoria</option>
@@ -101,7 +101,27 @@
                             <option value="Rede" class="bg-main-blue text-white">Rede</option>
                             <option value="Disco" class="bg-main-blue text-white">Disco</option>
                         </select>
-                    </div>
+                    </div> -->
+                    <label for="tipo" class="text-sm font-bold text-white/60">Tipo</label>
+                     <div class="grid gap-3 sm:grid-cols-2">
+                         
+                            <label class="metric-option flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-white/15 bg-main-blue px-4 text-sm hover:border-white/30 transition-element">
+                                <input type="checkbox" value="CPU" checked class="h-4 w-4 accent-light-blue">
+                                <span>CPU</span>
+                            </label>
+                            <label class="metric-option flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-white/15 bg-main-blue px-4 text-sm hover:border-white/30 transition-element">
+                                <input type="checkbox" value="RAM" checked class="h-4 w-4 accent-light-blue">
+                                <span>RAM</span>
+                            </label>
+                            <label class="metric-option flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-white/15 bg-main-blue px-4 text-sm hover:border-white/30 transition-element">
+                                <input type="checkbox" value="Disco" class="h-4 w-4 accent-light-blue">
+                                <span>Disco</span>
+                            </label>
+                            <label class="metric-option flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-white/15 bg-main-blue px-4 text-sm hover:border-white/30 transition-element">
+                                <input type="checkbox" value="Rede" class="h-4 w-4 accent-light-blue">
+                                <span>Rede</span>
+                            </label>
+                        </div>
      
                     <div class="flex flex-col gap-2">
                         <label for="unidade" class="text-sm font-bold text-white/60">Unidade de medida</label>
