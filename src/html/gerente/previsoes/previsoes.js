@@ -3,6 +3,8 @@ const COR_AMARELA = "#FBBF24";
 const COR_VERMELHA = "#EF4444";
 const COR_AZUL = "#03C8FF";
 
+const DIAS_DA_SEMANA = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+const FAIXAS_HORARIO = ["0–4h", "4–8h", "8–12h", "12–16h", "16–20h", "20–24h"];
 const CORES_MAPA = ["#142235", "#1D3B63", "#2875A8", "#F5C542", "#FF6B6B"];
 const CORES_TEXTO_MAPA = ["#9AA6C0", "#E6EBF5", "#FFFFFF", "#2A2000", "#2A0505"];
 
@@ -11,20 +13,20 @@ let usandoDadosSimulados = false;
 
 document.addEventListener("DOMContentLoaded", iniciar);
 
+
 async function iniciar() {
     if (!exigirGerente()) return;
 
     carregarNomeDoUsuario();
 
     try {
-        const dados = await carregarDados();
-        const resultado = calcularPrevisoes(dados, new Date());
+        const previsoes = await carregarPrevisoes();
 
-        mostrarReferencia(resultado);
-        mostrarCards(resultado);
-        mostrarMapaDeCalor(resultado);
-        mostrarGrafico(resultado);
-        mostrarTabela(resultado);
+        mostrarReferencia(previsoes);
+        mostrarCards(previsoes);
+        mostrarMapaDeCalor(previsoes);
+        mostrarGrafico(previsoes);
+        mostrarTabela(previsoes);
     } catch (erro) {
         if (erro.sessaoExpirada) return;
         console.error(erro);
@@ -32,20 +34,26 @@ async function iniciar() {
     }
 }
 
-async function carregarDados() {
+async function carregarPrevisoes() {
+    let dados = null;
+
     try {
-        const resposta = await apiFetch("/previsoes/chamados", { method: "GET" });
+        const resposta = await apiFetch("/previsoes", { method: "GET" });
         if (resposta.ok) {
             usandoDadosSimulados = false;
-            return resposta.dados;
+            dados = resposta.dados;
         }
     } catch (erro) {
         if (erro.sessaoExpirada) throw erro;
     }
 
-    const resposta = await fetch("./previsoes-dados.json");
-    usandoDadosSimulados = true;
-    return await resposta.json();
+    if (dados === null) {
+        const resposta = await fetch("./previsoes-dados.json");
+        usandoDadosSimulados = true;
+        dados = await resposta.json();
+    }
+
+    return calcularPrevisoes(dados.etl, dados.empresas, dados.quantidadeAnalistas);
 }
 
 function carregarNomeDoUsuario() {
@@ -68,12 +76,6 @@ function escapar(texto) {
         .replace(/"/g, "&quot;");
 }
 
-function dataCurta(data) {
-    const dia = String(data.getDate()).padStart(2, "0");
-    const mes = String(data.getMonth() + 1).padStart(2, "0");
-    return dia + "/" + mes;
-}
-
 function formatarHoras(horas) {
     if (!(horas > 0)) return "—";
 
@@ -86,17 +88,14 @@ function formatarHoras(horas) {
     return h + "h " + m + "min";
 }
 
-
 function mostrarReferencia(r) {
-    const fimSemana = somarDias(r.proximaSemana, 6);
-    const origem = usandoDadosSimulados ? "DADOS SIMULADOS (Jira indisponível)" : "dados do Jira";
+    const origem = usandoDadosSimulados ? "DADOS SIMULADOS (previsões ainda não geradas)" : "dados do Jira";
 
-    document.getElementById("referencia").textContent =
-        "Próxima semana: " + dataCurta(r.proximaSemana) + " a " + dataCurta(fimSemana) + " · " + origem;
+    document.getElementById("referencia").textContent = "Próxima semana: " + r.proximaSemana + " · " + origem;
     document.getElementById("periodo-grafico").textContent =
-        "";
+        "4 semanas reais e 3 semanas previstas (a semana atual ainda não terminou, por isso não entra)";
     document.getElementById("periodo-tabela").textContent =
-        "";
+        "Alertas previstos e tempo médio de resolução na próxima semana";
 }
 
 
@@ -134,26 +133,26 @@ function mostrarCards(r) {
 
     let nomeEmpresa = "—";
     let textoEmpresa = "Sem dados suficientes";
-    if (r.empresaMaiorEsforco) {
-        const e = r.empresaMaiorEsforco;
-        nomeEmpresa = escapar(e.empresa);
-        textoEmpresa = e.alertasPrevistos + " alertas · " + formatarHoras(e.esforcoHoras) + " estimadas";
+    let rodapeEmpresa = "";
+    if (r.empresas.length > 0) {
+        nomeEmpresa = escapar(r.empresas[0].empresa);
+        textoEmpresa = r.empresas[0].alertasPrevistos + " alertas previstos";
+        rodapeEmpresa = "Tempo médio de resolução: " + formatarHoras(r.empresas[0].tempoMedioHoras);
     }
 
     const alertasPorAnalista = r.alertasPorAnalista.toFixed(1).replace(".", ",");
-    const capacidade = Math.round(r.capacidade.porAnalista);
 
     document.getElementById("cards").innerHTML =
-        criarCard("Alertas previstos ", r.previsao.valor,
+        criarCard("Alertas previstos", r.previsao.valor,
             "Faixa estimada: " + r.previsao.minimo + " a " + r.previsao.maximo,
-            "", COR_AZUL) +
+            "Total esperado para a próxima semana", COR_AZUL) +
         criarCard("Carga por analista", alertasPorAnalista + " alertas",
             textoCarga,
-            r.quantidadeAnalistas + " analistas · capacidade de " + capacidade + " alertas cada", corCarga) +
+            r.quantidadeAnalistas + " analistas · capacidade de " + r.capacidadePorAnalista + " alertas cada", corCarga) +
         criarCard("Variação de alertas", valorVariacao,
-            textoVariacao, "", corVariacao) +
-        criarCard("Maior esforço previsto", nomeEmpresa,
-            textoEmpresa, "", COR_AMARELA);
+            textoVariacao, "Previsão comparada com o histórico", corVariacao) +
+        criarCard("Empresa com mais alertas", nomeEmpresa,
+            textoEmpresa, rodapeEmpresa, COR_AMARELA);
 }
 
 
@@ -194,7 +193,6 @@ function mostrarMapaDeCalor(r) {
     document.getElementById("mapa-calor-insight").textContent = frase;
 }
 
-
 function mostrarGrafico(r) {
     const nomesDasSemanas = [];
     const alertasReais = [];
@@ -202,7 +200,7 @@ function mostrarGrafico(r) {
 
     for (let i = 0; i < r.semanasGrafico.length; i++) {
         const semana = r.semanasGrafico[i];
-        nomesDasSemanas.push(dataCurta(semana.inicio));
+        nomesDasSemanas.push(semana.rotulo);
 
         if (semana.tipo === "historico") {
             alertasReais.push(semana.valor);
@@ -252,24 +250,23 @@ function mostrarTabela(r) {
     for (let i = 0; i < r.empresas.length; i++) {
         const empresa = r.empresas[i];
 
-        const cor = i === 0 ? COR_AMARELA : COR_AZUL;
-
-        let situacaoSla = `<span class="status-sla acima">Média acima do SLA</span>`;
+        let situacaoSla = `<span class="status-sla acima">Acima do prazo</span>`;
         if (empresa.dentroSla) {
-            situacaoSla = `<span class="status-sla dentro">Média dentro do SLA</span>`;
+            situacaoSla = `<span class="status-sla dentro">Dentro do prazo</span>`;
         }
 
         linhas += `
             <tr class="border-b border-white/10">
                 <td class="px-2 py-3 font-semibold">${escapar(empresa.empresa)}</td>
-                <td class="px-2 py-3 text-center font-semibold" style="color:${cor};">${empresa.alertasPrevistos}
-                    <span class="block text-[9px] text-white/40 font-normal">${empresa.minimo}–${empresa.maximo}</span>
-                </td>
+                <td class="px-2 py-3 text-center font-semibold" style="color:${COR_AZUL};">${empresa.alertasPrevistos}</td>
                 <td class="px-2 py-3 text-center">${formatarHoras(empresa.tempoMedioHoras)}</td>
-                <td class="px-2 py-3 text-center font-semibold">${formatarHoras(empresa.esforcoHoras)}</td>
-                <td class="px-2 py-3 text-center">${empresa.prazoHoras}h<br>${situacaoSla}</td>
+                <td class="px-2 py-3 text-center">${situacaoSla}<br><span class="text-[9px] text-white/40">prazo: ${formatarHoras(empresa.prazoHoras)}</span></td>
             </tr>
         `;
+    }
+
+    if (linhas === "") {
+        linhas = `<tr><td colspan="4" class="px-2 py-6 text-center text-white/50">Nenhuma empresa vinculada.</td></tr>`;
     }
 
     document.getElementById("tabela-empresas").innerHTML = `
@@ -280,13 +277,15 @@ function mostrarTabela(r) {
                         <th class="px-2 py-3">Empresa</th>
                         <th class="px-2 py-3 text-center">Alertas<br>previstos</th>
                         <th class="px-2 py-3 text-center">Tempo médio<br>de resolução</th>
-                        <th class="px-2 py-3 text-center">Esforço<br>estimado</th>
                         <th class="px-2 py-3 text-center">SLA</th>
                     </tr>
                 </thead>
                 <tbody>${linhas}</tbody>
             </table>
         </div>
-        
+        <div class="mt-4 rounded-lg bg-white/[0.035] border border-white/10 p-3">
+            <p class="text-[10px] text-white/70 font-semibold">Como interpretar</p>
+            <p class="text-[10px] text-white/45 mt-1">O SLA é o prazo combinado em contrato. "Dentro do prazo" significa que o tempo médio de resolução da empresa é menor que esse prazo.</p>
+        </div>
     `;
 }
