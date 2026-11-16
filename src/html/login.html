@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,60 +9,103 @@
     <title>Argos - Login</title>
 
     <link rel="stylesheet" href="../output.css">
+    <script src="../js/api.js" defer></script>
+    <script src="../js/script.js" defer></script>
 </head>
 
-<body class="font-space-grotesk select-none">
-    <div class="min-h-screen lg:h-screen w-full bg-main-blue flex flex-col lg:flex-row lg:gap-4 lg:p-8 text-white lg:overflow-hidden">
-        <div class="w-full gradient-border lg:w-[65%] lg:min-w-0 flex lg:border lg:border-white bg-transparent lg:bg-linear-to-b lg:from-main-blue lg:to-main-purple lg:gradient-border p-4 sm:p-6 lg:p-[clamp(16px,4vh,40px)] lg:overflow-hidden">
-            <div class="flex lg:flex-col w-full">   
-                <div class="text-2xl md:text-3xl lg:text-[clamp(24px,5.5vh,60px)] shrink-0">
-                    <a href="../index.html" class="transition-transform duration-300 hover:scale-110">
-                        ←
+<body class="font-space-grotesk select-none bg-main-blue overflow-x-hidden">
+    <div
+        class="min-h-screen lg:h-screen w-full bg-main-blue flex flex-col lg:flex-row gap-3 sm:gap-4 p-3 sm:p-5 lg:p-8 text-white lg:overflow-hidden">
+
+        <!-- Painel de Marca (Compacto no mobile/tablet, completo no desktop) -->
+        <div
+            class="relative w-full gradient-border lg:w-[65%] lg:min-w-0 flex flex-row items-center justify-between lg:flex-col lg:items-stretch lg:justify-between lg:border lg:border-white bg-linear-to-b from-main-blue to-main-purple px-4 py-3.5 sm:px-6 sm:py-4 lg:p-[clamp(16px,4vh,40px)] overflow-hidden shrink-0">
+
+            <!-- Grade sutil e brilho radial de fundo -->
+            <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:36px_36px]"></div>
+            <div class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-48 lg:size-72 rounded-full bg-white/[0.06] blur-3xl"></div>
+
+            <!-- Topo: Botão de voltar -->
+            <div class="relative z-10 flex items-center justify-between shrink-0">
+                <a href="../index.html"
+                    class="inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-white/15 bg-white/5 text-white/80 text-xs sm:text-sm font-medium hover:bg-white hover:text-[#09121B] transition-all">
+                    <span>&larr;</span>
+                    <span>Voltar <span class="hidden sm:inline">ao início</span></span>
+                </a>
+                <span class="hidden lg:inline text-xs font-semibold tracking-widest uppercase text-white/40">Argos</span>
+            </div>
+
+            <!-- Centro: Logo (Compacta à direita no mobile, centralizada no desktop) -->
+            <div class="relative z-10 lg:my-auto flex items-center justify-center lg:py-6 shrink-0">
+                <div class="flex items-center gap-2.5 px-3 py-1.5 sm:px-3.5 sm:py-2 lg:p-6 rounded-2xl lg:rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-sm shadow-2xl">
+                    <img class="h-7 sm:h-8 lg:h-auto lg:max-w-[240px] lg:max-h-[22vh] w-auto object-contain transition-transform duration-300"
+                        src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
+                    <span class="lg:hidden text-xs sm:text-sm font-bold tracking-widest uppercase text-white/90">Argos</span>
+                </div>
+            </div>
+
+            <!-- Base: Hierarquia de texto + selos (apenas desktop) -->
+            <div class="hidden lg:flex relative z-10 flex-col gap-3.5 min-w-0">
+                <span class="w-fit px-3 py-1 rounded-full border border-white/15 bg-white/5 text-[11px] font-semibold tracking-wider uppercase text-white/75">
+                    Monitoramento &bull; Infraestrutura Cisco
+                </span>
+
+                <h3 class="font-medium text-[clamp(20px,4vh,42px)] leading-tight text-white/90">
+                    <span class="block">Tenha <span class="font-bold text-white">total controle.</span></span>
+                    <span class="block">Monitore seus equipamentos</span>
+                    <span class="block">Cisco com <span class="font-bold text-white">Argos.</span></span>
+                </h3>
+
+                <div class="flex flex-wrap gap-2 pt-3 border-t border-white/10">
+                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-white/70">
+                        Telemetria em tempo real
+                    </span>
+                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-white/70">
+                        Alertas por limiar
+                    </span>
+                    <span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-white/70">
+                        Gestão centralizada
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Painel do Formulário -->
+        <div
+            class="w-full flex-1 lg:w-[35%] lg:min-w-0 flex flex-col justify-center gradient-border bg-linear-to-b from-main-blue to-main-purple px-5 py-7 sm:p-8 lg:p-[clamp(16px,4vh,40px)] lg:overflow-y-auto">
+            <form onsubmit="event.preventDefault(); authUser();" class="w-full max-w-md mx-auto lg:max-w-none flex flex-col gap-4">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center mb-1">Faça Log-in</h1>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="input_email" class="text-xs sm:text-sm font-medium text-white/80">Email</label>
+                    <input id="input_email" type="email" placeholder="exemplo@gmail.com"
+                        class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-white/15 bg-[#15293D]/70 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-white/60 focus:ring-2 focus:ring-white/15 transition-all">
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <label for="input_senha" class="text-xs sm:text-sm font-medium text-white/80">Senha</label>
+                    <input id="input_senha" type="password" placeholder="Sua senha aqui"
+                        class="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-white/15 bg-[#15293D]/70 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-white/60 focus:ring-2 focus:ring-white/15 transition-all">
+                </div>
+
+                <p id="mensagem_erro" class="hidden text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/30 rounded-xl px-3.5 py-2.5"></p>
+
+                <button type="submit"
+                    class="w-full mt-1 sm:mt-2 py-2.5 sm:py-3 px-4 rounded-xl bg-white text-[#09121B] text-sm sm:text-base font-bold hover:bg-white/90 cursor-pointer transition-all">
+                    Log In &rarr;
+                </button>
+
+                <div class="mt-2 sm:mt-3 pt-4 border-t border-white/10 flex flex-col items-center gap-2.5">
+                    <span class="text-xs sm:text-sm text-white/60">Não tem uma conta?</span>
+                    <a href="cadastro.html"
+                        class="w-full text-center py-2.5 sm:py-3 px-4 rounded-xl border border-white/25 bg-white/5 text-white text-xs sm:text-sm font-semibold hover:bg-white hover:text-[#09121B] transition-all">
+                        Criar conta com token
                     </a>
                 </div>
-                <div class="flex lg:flex lg:mt-auto justify-center shrink-0">
-                    <img class="max-w-11 sm:max-w-14 md:max-w-20 lg:max-w-[288px] max-h-[8vh] lg:max-h-[26vh] w-auto h-auto object-contain transition-transform duration-300" src="../assets/logos/Argos-logo_branco.png" alt="Logo Argos Branca">
-                </div>
-                <div class="hidden lg:block lg:mt-auto lg:flex-none min-w-0">
-                    <h3 class="font-medium text-xs sm:text-sm md:text-base lg:text-[clamp(20px,4.4vh,48px)] leading-tight truncate lg:whitespace-normal">
-                        <span class="block">Tenha <span class="font-bold">total controle.</span></span>
-                        <span class="block">Monitore seus equipamentos</span>
-                        <span class="block">Cisco com <span class="font-bold">Argos.</span></span>
-                    </h3>
-                </div>
-            </div>
+            </form>
         </div>
-        <div class="w-full flex-1 lg:w-[35%] lg:min-w-0  flex flex-col justify-center gradient-border bg-linear-to-b from-main-blue to-main-purple p-5 sm:p-6 md:p-8 lg:p-[clamp(16px,4vh,40px)]  lg:overflow-hidden">
-            <div>
-                <div class="flex items-center justify-center">
-                    <h1 class="font-bold text-xl sm:text-2xl lg:text-3xl mb-6 lg:mb-8 transition-transform duration-300">
-                        Faça Log in 
-                    </h1>
-                </div>
-                <div class="flex flex-col gap-6 sm:gap-8 lg:gap-[clamp(16px,5.4vh,48px)]">
-                    <div class="flex flex-col gap-3 lg:gap-[clamp(8px,2.7vh,24px)] w-full font-jet-brains">
-                        <div class="flex flex-col gap-1.5">
-                            <label for="input_email" class="text-sm sm:text-base font-medium">Email</label>
-                            <input id="input_email" type="email" placeholder="exemplo@gmail.com"
-                                class="w-full text-sm sm:text-base px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-gray-700 bg-[#15293D] placeholder:text-gray-400 focus:outline-none focus:border-[#00BCEB]">
-                        </div>
 
-                        <div class="flex flex-col gap-1.5">
-                            <label for="input_senha" class="text-sm sm:text-base font-medium">Senha</label>
-                            <input id="input_senha" type="password" placeholder="Sua senha aqui"
-                                class="w-full text-sm sm:text-base px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-gray-700 bg-[#15293D] placeholder:text-gray-400 focus:outline-none focus:border-[#00BCEB]">
-                        </div>
-                    </div>
-                    <div class="w-full">
-                        <button onclick="authUser()" 
-                            class="w-full py-2.5 sm:py-3 rounded-xl font-bold text-base sm:text-xl lg:text-2xl text-(--main-blue) bg-(--off-white) border-2 border-transparent transition-all duration-200 hover:scale-102">
-                            Log In →
-                        </button>
-                    </div>
-            </div>
-        </div>
     </div>
-    <script src="../js/api.js"></script>
-    <script src="../js/script.js"></script>
 </body>
+
 </html>
