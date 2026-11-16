@@ -2,6 +2,15 @@
 const empresaId = sessionStorage.getItem("EMPRESA_ID")
 const gestorId = sessionStorage.getItem("GESTOR_ID");
 
+function exibirMensagemAuth(mensagem) {
+    const elErro = document.getElementById("mensagem_erro") || document.getElementById("div_erros_login");
+    if (elErro) {
+        elErro.textContent = mensagem;
+        elErro.classList.remove("hidden");
+        return;
+    }
+    alert(mensagem);
+}
 
 function registerUser() {
     let name = document.getElementById("input_nome").value;
@@ -13,19 +22,18 @@ function registerUser() {
     const verifyFieldParam = { name, email, passwordHash, token };
 
     try {
-        verifyFields(verifyFieldParam)    
-        console.log("Todos os campos estão válidos!");
+        verifyFields(verifyFieldParam);
     } catch (error) {
-        console.error("Erro de validação:", error);
-        return;
+        exibirMensagemAuth(error);
+        return false;
     }
 
     if (passwordHash !== confirmPassword) {
-        console.error("Senhas diferentes!");
-        return;
+        exibirMensagemAuth("As senhas inseridas não coincidem.");
+        return false;
     }
 
-    fetch("http://localhost:8080/usuarios/cadastrar", {
+    fetch(`${API_URL}/usuarios/cadastrar`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -36,24 +44,40 @@ function registerUser() {
             passwordHashServer: passwordHash,
             tokenServer: token
         })
-    }).then(response => {
+    }).then(async response => {
+        const dados = await response.json().catch(() => null);
         if (response.ok) {
-            alert("Cadastro realizado com sucesso! Você já pode fazer o login.");
+            alert("Cadastro realizado com sucesso! Você pode fazer o login.");
             setTimeout(() => {
                 window.location = "login.html";
             }, 2000);
         } else {
-            alert("Houve um erro ao tentar realizar o cadastro. Verifique se o token é válido.");
+            const msgServidor = typeof dados === "string" ? dados : dados?.res;
+            exibirMensagemAuth(msgServidor || "Houve um erro ao tentar realizar o cadastro. Verifique se o token é válido.");
         }
     }).catch(error => {
         console.error("Erro na requisição: ", error);
+        exibirMensagemAuth("Não foi possível conectar ao servidor.");
     });
+
+    return false;
 }
 
 
 function authUser() {
     let email = document.getElementById("input_email").value;
     let passwordHash = document.getElementById("input_senha").value;
+
+    if (!email || email.trim().length === 0 || !passwordHash || passwordHash.trim().length === 0) {
+        exibirMensagemAuth("Preencha o e-mail e a senha.");
+        return false;
+    }
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(email.trim())) {
+        exibirMensagemAuth("O e-mail inserido é inválido.");
+        return false;
+    }
 
     fetch(`${API_URL}/usuarios/autenticar`, {
         method: "POST",
@@ -70,25 +94,21 @@ function authUser() {
         if (!response.ok) {
             let mensagem;
             if (typeof dados === "string") {
-            mensagem = dados;
+                mensagem = dados;
             } else if (dados && dados.res) {
-            mensagem = dados.res;
-            } else {
-            mensagem = undefined;
+                mensagem = dados.res;
             }
-
-            alert(mensagem || "Não foi possível fazer login. Verifique e-mail e senha.");
+            exibirMensagemAuth(mensagem || "Não foi possível fazer login. Verifique e-mail e senha.");
             return;
         }
 
         salvarToken(dados.token);
-
         const infoToken = lerToken();
         window.location = paginaIniciadlDoCargo(infoToken && infoToken.role);
     }).catch(function (erro) {
         console.error(erro);
-        alert("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");
-    })
+        exibirMensagemAuth("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");
+    });
 
     return false;
 }
@@ -152,38 +172,72 @@ function toggleFaq(pergunta, marcador){
         }
 }
 
-function criarUsuario() {
-    
+function criarUsuario(botaoParam) {
     let email = document.getElementById("input_email").value;
-    // let token = document.getElementById("input_token").value;
+    const botao = botaoParam || document.querySelector('button[onclick*="criarUsuario"]');
 
     const verifyFieldParam = { email };
-
     try {
-        verifyFields(verifyFieldParam)    
-        console.log("Todos os campos estão válidos!");
+        verifyFields(verifyFieldParam);
     } catch (error) {
-        console.error("Erro de validação:", error);
-        return;
+        alert(error);
+        return false;
     }
 
-    fetch("http://localhost:8080/usuarios/cadastrar_gerente", {
+    alternarCarregamentoBotao(botao, true, "Enviando token...");
+
+    fetch(`${API_URL}/usuarios/cadastrar_gerente`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${obterToken()}`
         },
-        body: JSON.stringify({
-            email: email,
-        })
-    }).then(response => {
-        if (response.ok) {
-            alert("Criação de usuário realizado com sucesso! Um email já foi enviado com o token de acesso.");
+        body: JSON.stringify({ email: email })
+    }).then(async response => {
+        const dados = await response.json().catch(() => null);
 
+        if (response.ok) {
+            alert(dados?.res || "Criação de usuário realizada com sucesso! Um email já foi enviado com o token de acesso.");
+            document.getElementById("input_email").value = "";
+            if (typeof ficha !== "undefined" && ficha.close) ficha.close();
         } else {
-            alert("Houve um erro ao tentar realizar a criação de usuário. Verifique se o token é válido.");
+            const msg = typeof dados === "string" ? dados : dados?.res;
+            alert(msg || "Houve um erro ao tentar realizar a criação de usuário.");
         }
+        
     }).catch(error => {
         console.error("Erro na requisição: ", error);
-    }); 
+        alert("Não foi possível conectar ao servidor.");
+    }).finally(() => {
+        alternarCarregamentoBotao(botao, false);
+    });
+
+    return false;
+}
+
+function alternarCarregamentoBotao(botao, carregando, textoCarregando = "Criando...") {
+    if (!botao) return;
+
+    if (carregando) {
+        if (!botao.dataset.textoOriginal) {
+            botao.dataset.textoOriginal = botao.innerHTML;
+        }
+        botao.disabled = true;
+        botao.classList.add("opacity-60", "cursor-not-allowed", "pointer-events-none");
+        botao.innerHTML = `
+            <span class="inline-flex items-center justify-center gap-2">
+                <svg class="animate-spin h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>${textoCarregando}</span>
+            </span>
+        `;
+    } else {
+        botao.disabled = false;
+        botao.classList.remove("opacity-60", "cursor-not-allowed", "pointer-events-none");
+        if (botao.dataset.textoOriginal) {
+            botao.innerHTML = botao.dataset.textoOriginal;
+        }
+    }
 }
