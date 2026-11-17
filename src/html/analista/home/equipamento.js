@@ -19,9 +19,10 @@ const LIMITES_PADRAO = {
     pacotes: 30
 };
 
+const JIRA_BASE_URL = "https://argos-cisco.atlassian.net/browse";
+
 let dados;
 let tooltipGraficoEl = null;
-
 let estadoAlertas = {
     inicio: "",
     fim: "",
@@ -201,12 +202,14 @@ function animarContagemPercentual(elemento, valorFinal, duracaoMs = 680) {
     if (!elemento || !Number.isFinite(valorFinal)) return;
 
     let inicioTempo = null;
+
     function atualizarQuadro(timestamp) {
         if (!inicioTempo) inicioTempo = timestamp;
         let decorrido = timestamp - inicioTempo;
         let progresso = Math.min(decorrido / duracaoMs, 1);
         let suavizado = 1 - Math.pow(1 - progresso, 3);
         let valorAtual = valorFinal * suavizado;
+
         elemento.textContent = formatarNumero(valorAtual, 1) + "%";
 
         if (progresso < 1) {
@@ -215,10 +218,28 @@ function animarContagemPercentual(elemento, valorFinal, duracaoMs = 680) {
             elemento.textContent = formatarNumero(valorFinal, 1) + "%";
         }
     }
+
     requestAnimationFrame(atualizarQuadro);
 }
 
+function isStatusJiraConcluido(statusJira) {
+    if (!statusJira) return false;
+    let s = String(statusJira).toLowerCase();
+    return s.includes("conclu") || s.includes("done") || s.includes("resol") || s.includes("fechad");
+}
+
 function obterNivelAlerta(alerta) {
+    let nivelOriginal = String(alerta.nivel || alerta.nivel_alerta || "").toLowerCase().trim();
+    if (nivelOriginal.includes("crítico") || nivelOriginal.includes("critico")) {
+        return "Crítico";
+    }
+    if (nivelOriginal.includes("alto")) {
+        return "Alto";
+    }
+    if (nivelOriginal.includes("atenção") || nivelOriginal.includes("atencao")) {
+        return "Atenção";
+    }
+
     let temValor =
         alerta.valor !== null &&
         alerta.valor !== undefined &&
@@ -234,10 +255,6 @@ function obterNivelAlerta(alerta) {
         return Number(alerta.valor) >= Number(alerta.limite) ? "Crítico" : "Atenção";
     }
 
-    let nivelOriginal = String(alerta.nivel || "").toLowerCase();
-    if (nivelOriginal.includes("crítico") || nivelOriginal.includes("critico")) {
-        return "Crítico";
-    }
     return "Atenção";
 }
 
@@ -273,21 +290,31 @@ function prepararDados(json) {
 
         let campo = campoDaMetrica(alerta.tipo);
         if (alerta.valor === undefined || alerta.valor === null) {
-            if (registro && campo) {
+            if (alerta.valor_registrado !== undefined && alerta.valor_registrado !== null) {
+                alerta.valor = Number(alerta.valor_registrado);
+            } else if (registro && campo) {
                 alerta.valor = registro[campo];
             }
         }
 
         alerta.nivel = obterNivelAlerta(alerta);
+        alerta.unidade = alerta.unidade || alerta.unidade_medida || "%";
+        alerta.componente = alerta.componente || alerta.tipo || "—";
+        alerta.jiraKey = alerta.jiraKey || alerta.jira_key || null;
+        alerta.statusJira = alerta.statusJira || alerta.status_jira || null;
+        alerta.resolvido = Boolean(alerta.resolvido) || isStatusJiraConcluido(alerta.statusJira);
 
         if (!alerta.descricao) {
             let nome = campo === "pacotes"
                 ? "Perda de pacotes"
-                : "Uso de " + alerta.tipo;
-            alerta.descricao =
-                alerta.nivel === "Crítico"
-                    ? nome + " atingiu ou ultrapassou o limite configurado."
-                    : nome + " entrou na faixa de atenção próxima ao limite.";
+                : "Uso de " + (alerta.componente || alerta.tipo);
+            if (alerta.nivel === "Crítico") {
+                alerta.descricao = nome + " atingiu ou ultrapassou o limite crítico configurado.";
+            } else if (alerta.nivel === "Alto") {
+                alerta.descricao = nome + " atingiu nível alto de utilização.";
+            } else {
+                alerta.descricao = nome + " entrou na faixa de atenção.";
+            }
         }
     }
 
@@ -295,7 +322,7 @@ function prepararDados(json) {
         return (b.dia + (b.hora || "")).localeCompare(a.dia + (a.hora || ""));
     });
 
-    let limitesConfig = extrairLimites(json.limites, json.limitesAtencao, alertas);
+    let limitesConfig = extrairLimites(json.limites, json.limitesAlto, json.limitesAtencao, alertas);
 
     return {
         dispositivo: json.dispositivo,
@@ -303,12 +330,13 @@ function prepararDados(json) {
         historico: historico,
         alertas: alertas,
         limites: limitesConfig.critico,
+        limitesAlto: limitesConfig.alto,
         limitesAtencao: limitesConfig.atencao,
         metricaDominante: json.metricaDominante
     };
 }
 
-function extrairLimites(limitesJson, limitesAtencaoJson, alertasOrdenados) {
+function extrairLimites(limitesJson, limitesAltoJson, limitesAtencaoJson, alertasOrdenados) {
     let limites = {
         cpu: LIMITES_PADRAO.cpu,
         ram: LIMITES_PADRAO.ram,
@@ -320,7 +348,7 @@ function extrairLimites(limitesJson, limitesAtencaoJson, alertasOrdenados) {
     for (let i = 0; i < alertasOrdenados.length; i++) {
         let alerta = alertasOrdenados[i];
         let campo = campoDaMetrica(alerta.tipo);
-        if (campo && !encontrados[campo] && alerta.limite != null) {
+        if (campo && !encontrados[campo] && alerta.limite != null && alerta.nivel === "Crítico") {
             limites[campo] = Number(alerta.limite);
             encontrados[campo] = true;
         }
@@ -331,6 +359,20 @@ function extrairLimites(limitesJson, limitesAtencaoJson, alertasOrdenados) {
         if (limitesJson.ram != null) limites.ram = Number(limitesJson.ram);
         if (limitesJson.disco != null) limites.disco = Number(limitesJson.disco);
         if (limitesJson.pacotes != null) limites.pacotes = Number(limitesJson.pacotes);
+    }
+
+    let limitesAlto = {
+        cpu: Math.max(limites.cpu - 5, 0),
+        ram: Math.max(limites.ram - 5, 0),
+        disco: Math.max(limites.disco - 5, 0),
+        pacotes: Math.round(limites.pacotes * 0.75)
+    };
+
+    if (limitesAltoJson) {
+        if (limitesAltoJson.cpu != null) limitesAlto.cpu = Number(limitesAltoJson.cpu);
+        if (limitesAltoJson.ram != null) limitesAlto.ram = Number(limitesAltoJson.ram);
+        if (limitesAltoJson.disco != null) limitesAlto.disco = Number(limitesAltoJson.disco);
+        if (limitesAltoJson.pacotes != null) limitesAlto.pacotes = Number(limitesAltoJson.pacotes);
     }
 
     let limitesAtencao = {
@@ -349,6 +391,7 @@ function extrairLimites(limitesJson, limitesAtencaoJson, alertasOrdenados) {
 
     return {
         critico: limites,
+        alto: limitesAlto,
         atencao: limitesAtencao
     };
 }
@@ -422,9 +465,10 @@ function preencherCabecalho() {
     if (linkEmpresa && idEmpresa) {
         linkEmpresa.href = "IndividualJoao/equipamentos.html?idEmpresa=" + encodeURIComponent(idEmpresa);
     }
+
     preencherTexto(
         "equipamento-categoria",
-        equipamento.categoria + " • " + equipamento.modelo
+        equipamento.categoria + " · " + equipamento.modelo
     );
     preencherTexto("equipamento-ip", equipamento.ip || "—");
     preencherTexto("equipamento-mac", equipamento.mac || equipamento.enderecoMac || "—");
@@ -461,7 +505,7 @@ function preencherCards() {
 
     preencherTexto("card-cpu-ghz", atual.cpuGhz != null ? formatarNumero(atual.cpuGhz, 1) + " GHz" : "—");
     preencherTexto("card-ram-gb", atual.ramGb != null ? formatarNumero(atual.ramGb, 1) + " GB" : "—");
-    preencherTexto("card-pacotes-abs", atual.pacotes != null ? formatarNumero(atual.pacotes) + " pct coletados" : "—");
+    preencherTexto("card-pacotes-abs", atual.pacotes != null ? formatarNumero(atual.pacotes) + " coletas" : "—");
 
     atualizarCardMetrica({
         valor: cpuPct,
@@ -499,10 +543,14 @@ function preencherCards() {
         idLimite: "card-pacotes-limite"
     });
 
-    let criticos = 0;
+    let criticosAtivos = 0;
+    let totalCriticos = 0;
     for (let i = 0; i < dados.alertas.length; i++) {
-        if (obterNivelAlerta(dados.alertas[i]) === "Crítico") {
-            criticos++;
+        if (dados.alertas[i].nivel === "Crítico") {
+            totalCriticos++;
+            if (!dados.alertas[i].resolvido) {
+                criticosAtivos++;
+            }
         }
     }
 
@@ -533,7 +581,7 @@ function preencherCards() {
         estadoTexto = "Offline";
         estadoCor = "#9CA3AF";
         estadoBorda = "border-t-gray-500";
-    } else if (cpuPct >= 90 || ramPct >= 90 || acimaDoLimite >= 2) {
+    } else if (cpuPct >= 90 || ramPct >= 90 || acimaDoLimite >= 2 || criticosAtivos > 0) {
         estadoTexto = "Crítico";
         estadoCor = "#EF4444";
         estadoBorda = "border-t-red-500";
@@ -548,6 +596,7 @@ function preencherCards() {
         saudeStatus.textContent = estadoTexto;
         saudeStatus.style.color = estadoCor;
     }
+
     if (pulsoSaude) {
         if (isCritico) {
             pulsoSaude.classList.remove("hidden");
@@ -555,6 +604,7 @@ function preencherCards() {
             pulsoSaude.classList.add("hidden");
         }
     }
+
     if (saudeCard) {
         saudeCard.classList.remove("border-t-emerald-400", "border-t-amber-400", "border-t-red-500", "border-t-gray-500");
         saudeCard.classList.add(estadoBorda);
@@ -562,7 +612,8 @@ function preencherCards() {
 
     preencherTexto(
         "card-alertas-resumo",
-        criticos + " crítico" + (criticos === 1 ? "" : "s") + " de " + dados.alertas.length + " alertas registrados"
+        criticosAtivos + " crítico" + (criticosAtivos === 1 ? "" : "s") + " ativo" + (criticosAtivos === 1 ? "" : "s") +
+        " (" + totalCriticos + " total) de " + dados.alertas.length + " alertas"
     );
 }
 
@@ -615,7 +666,7 @@ function atualizarCardMetrica(cfg) {
         let complemento = excedeu
             ? "+" + formatarNumero(diferenca, 1) + "% acima"
             : "folga de " + formatarNumero(diferenca, 1) + "%";
-        elLimite.textContent = "Limite: " + cfg.limite + "% • " + complemento;
+        elLimite.textContent = "Limite: " + cfg.limite + "% · " + complemento;
     }
 }
 
@@ -626,28 +677,33 @@ function configurarFiltro(nomeFiltro, atualizar) {
     let personalizado = document.querySelector(
         '[data-personalizado="' + nomeFiltro + '"]'
     );
+
     if (!botoes.length || !personalizado) return;
 
     for (let i = 0; i < botoes.length; i++) {
         botoes[i].addEventListener("click", function () {
             for (let j = 0; j < botoes.length; j++) {
                 botoes[j].className =
-                    "px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer";
+                    "px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center";
             }
+
             this.className =
-                "px-4 py-2 text-xs font-semibold rounded-md border border-light-blue bg-light-blue text-main-blue cursor-pointer";
+                "px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-light-blue bg-light-blue text-main-blue cursor-pointer text-center";
 
             let periodo = this.dataset.periodo;
+
             if (periodo === "personalizado") {
                 personalizado.classList.remove("hidden");
                 return;
             }
+
             personalizado.classList.add("hidden");
 
             let dias = 29;
             if (periodo === "semana") {
                 dias = 6;
             }
+
             atualizar(
                 calcularDataAtras(dias),
                 calcularDataAtras(0)
@@ -660,6 +716,7 @@ function configurarFiltro(nomeFiltro, atualizar) {
         aplicar.addEventListener("click", function () {
             let inicio = personalizado.querySelector("[data-inicio]").value;
             let fim = personalizado.querySelector("[data-fim]").value;
+
             if (!inicio || !fim) {
                 alert("Selecione a data inicial e a data final.");
                 return;
@@ -668,6 +725,7 @@ function configurarFiltro(nomeFiltro, atualizar) {
                 alert("A data inicial não pode ser maior que a data final.");
                 return;
             }
+
             atualizar(inicio, fim);
         });
     }
@@ -682,6 +740,7 @@ function configurarFiltro(nomeFiltro, atualizar) {
     if (!botaoInicial) {
         botaoInicial = botoes[0];
     }
+
     botaoInicial.click();
 }
 
@@ -694,7 +753,7 @@ function mostrarGraficos(dataInicio, dataFim) {
 
     preencherTexto(
         "periodo-descricao",
-        "Uso diário de recursos • " + dataBr(dataInicio) + " até " + dataBr(dataFim)
+        "Uso diário de recursos · " + dataBr(dataInicio) + " até " + dataBr(dataFim)
     );
 
     desenharGrafico(
@@ -776,8 +835,8 @@ function renderizarLinhasLimiar(grafico, limiteCritico, limiteAtencao, tetoEscal
 function desenharGrafico(id, historico, metrica, cor, limiteCritico, limiteAtencao) {
     let grafico = document.getElementById(id);
     if (!grafico) return;
-    grafico.innerHTML = "";
 
+    grafico.innerHTML = "";
     preencherTexto("atencao-label-" + metrica, limiteAtencao + "%");
     preencherTexto("limite-label-" + metrica, limiteCritico + "%");
 
@@ -846,8 +905,8 @@ function calcularTetoEscala(maiorValor) {
 function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao) {
     let grafico = document.getElementById(id);
     if (!grafico) return;
-    grafico.innerHTML = "";
 
+    grafico.innerHTML = "";
     preencherTexto("atencao-label-pacotes", limiteAtencao + "%");
     preencherTexto("limite-label-pacotes", limiteCritico + "%");
 
@@ -862,6 +921,7 @@ function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao
     let soma = 0;
     let contagem = 0;
     let pico = 0;
+
     for (let i = 0; i < historico.length; i++) {
         let v = Number(historico[i].pacotes);
         if (!Number.isFinite(v)) continue;
@@ -910,6 +970,7 @@ function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao
         }
 
         barra.style.backgroundColor = corBarra;
+
         vincularInteracaoBarra(coluna, barra, historico[i].dia, valor, corBarra);
         animarEntradaBarra(barra, i);
 
@@ -937,6 +998,7 @@ function configurarSubfiltrosAlertas() {
                 todosBotoes[i].className =
                     "px-3 py-1 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-colors";
             }
+
             botao.className =
                 "px-3 py-1 text-xs font-semibold rounded-md border border-light-blue bg-light-blue text-main-blue cursor-pointer transition-colors";
 
@@ -964,214 +1026,140 @@ function mostrarAlertas(dataInicio, dataFim) {
     renderizarTabelaAlertas();
 }
 
-function obterStatusAlerta(alerta) {
-    if (alerta.status) {
-        let s = String(alerta.status).trim().toLowerCase();
-        if (s === "pendente" || s === "ativo" || s === "aberto") return "Pendente";
-        if (s.includes("atendimento")) return "Em atendimento";
-        if (s === "resolvido") return "Resolvido";
-        return alerta.status;
+function badgeSeveridade(nivel) {
+    if (nivel === "Crítico") {
+        return `<span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-red-500/10 border border-red-500/30 text-red-400">Crítico</span>`;
     }
-    let dias = Number(alerta.diasAtras);
-    if (dias === 0) return "Pendente";
-    if (dias <= 5) return "Em atendimento";
-    return "Resolvido";
+    if (nivel === "Alto") {
+        return `<span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-orange-500/10 border border-orange-500/30 text-orange-400">Alto</span>`;
+    }
+    return `<span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-400">Atenção</span>`;
 }
 
-function obterEstiloStatus(statusTexto) {
-    let s = String(statusTexto || "").toLowerCase();
-    if (s === "pendente" || s === "ativo") {
-        return {
-            badge: "bg-red-500/10 text-red-400 border border-red-500/30",
-            dot: "bg-red-500 animate-pulse"
-        };
+function badgeStatusJira(statusJira) {
+    if (!statusJira) {
+        return `<span class="text-xs text-white/35">Monitoramento local</span>`;
     }
-    if (s.includes("atendimento")) {
-        return {
-            badge: "bg-orange-500/10 text-orange-500 border border-orange-500/30",
-            dot: "bg-orange-500"
-        };
+
+    const textoSeguro = escapeHTML(statusJira);
+    const normalizado = statusJira.toLowerCase();
+    const concluido = isStatusJiraConcluido(normalizado);
+    const andamento = normalizado.includes("andamento") || normalizado.includes("progress");
+
+    if (concluido) {
+        return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+            <span class="size-1.5 rounded-full bg-emerald-400"></span>${textoSeguro}
+        </span>`;
     }
-    return {
-        badge: "bg-emerald-900/40 text-emerald-400 border border-emerald-800/50",
-        dot: "bg-emerald-500"
-    };
+
+    if (andamento) {
+        return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-500/10 border border-sky-500/30 text-sky-400">
+            <span class="size-1.5 rounded-full bg-sky-400 animate-pulse"></span>${textoSeguro}
+        </span>`;
+    }
+
+    return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-300">
+        <span class="size-1.5 rounded-full bg-amber-400"></span>${textoSeguro}
+    </span>`;
 }
 
 function renderizarTabelaAlertas() {
-    if (!dados) return;
+    const container = document.getElementById("alertas-container");
+    if (!container || !dados) return;
 
-    let dataInicio = estadoAlertas.inicio || calcularDataAtras(29);
-    let dataFim = estadoAlertas.fim || calcularDataAtras(0);
-
-    preencherTexto(
-        "alertas-descricao",
-        "Registros de eventos do dispositivo • " +
-        dataBr(dataInicio) + " até " + dataBr(dataFim)
-    );
-
-    let container = document.getElementById("alertas-container");
-    if (!container) return;
-
-    let noPeriodo = dados.alertas.filter(function (alerta) {
-        return alerta.dia >= dataInicio && alerta.dia <= dataFim;
+    const noPeriodo = dados.alertas.filter(function (alerta) {
+        if (estadoAlertas.inicio && alerta.dia < estadoAlertas.inicio) return false;
+        if (estadoAlertas.fim && alerta.dia > estadoAlertas.fim) return false;
+        return true;
     });
 
-    let totalCriticos = 0;
-    let totalAtencao = 0;
+    let qtdCriticos = 0;
+    let qtdAltos = 0;
+    let qtdAtencao = 0;
+
     for (let i = 0; i < noPeriodo.length; i++) {
-        if (obterNivelAlerta(noPeriodo[i]) === "Crítico") {
-            totalCriticos++;
-        } else {
-            totalAtencao++;
-        }
+        if (noPeriodo[i].nivel === "Crítico") qtdCriticos++;
+        else if (noPeriodo[i].nivel === "Alto") qtdAltos++;
+        else qtdAtencao++;
     }
 
-    preencherTexto(
-        "alertas-badge-criticos",
-        totalCriticos + (totalCriticos === 1 ? " crítico" : " críticos")
-    );
-    preencherTexto("alertas-badge-atencao", totalAtencao + " atenção");
+    preencherTexto("alertas-badge-criticos", qtdCriticos + (qtdCriticos === 1 ? " crítico" : " críticos"));
+    preencherTexto("alertas-badge-altos", qtdAltos + (qtdAltos === 1 ? " alto" : " altos"));
+    preencherTexto("alertas-badge-atencao", qtdAtencao + " atenção");
 
-    let filtrados = noPeriodo.filter(function (alerta) {
-        let nivelCalculado = obterNivelAlerta(alerta);
-        let isCritico = nivelCalculado === "Crítico";
+    if (estadoAlertas.inicio && estadoAlertas.fim) {
+        preencherTexto(
+            "alertas-descricao",
+            "Registros de " + dataBr(estadoAlertas.inicio) + " até " + dataBr(estadoAlertas.fim)
+        );
+    }
 
-        if (estadoAlertas.severidade === "critico" && !isCritico) return false;
-        if (estadoAlertas.severidade === "atencao" && isCritico) return false;
+    const filtrados = noPeriodo.filter(function (alerta) {
+        if (estadoAlertas.severidade !== "todos") {
+            if (estadoAlertas.severidade === "critico" && alerta.nivel !== "Crítico") return false;
+            if (estadoAlertas.severidade === "alto" && alerta.nivel !== "Alto") return false;
+            if (estadoAlertas.severidade === "atencao" && alerta.nivel !== "Atenção") return false;
+        }
 
         if (estadoAlertas.metrica !== "todas") {
-            let campo = campoDaMetrica(alerta.tipo);
-            if (campo !== estadoAlertas.metrica) return false;
+            if (campoDaMetrica(alerta.tipo) !== estadoAlertas.metrica) return false;
         }
+
         return true;
     });
 
     if (filtrados.length === 0) {
         container.innerHTML = `
-            <div class="px-5 py-10 text-center">
-                <p class="text-sm text-white/60">Nenhum alerta encontrado para os filtros selecionados.</p>
-                <p class="text-xs text-white/40 mt-1">Tente ampliar o período ou alterar o filtro de severidade/métrica.</p>
+            <div class="p-8 text-center text-xs text-white/45">
+                Nenhum alerta registrado para os filtros selecionados.
             </div>
         `;
         return;
     }
 
-    let linhas = "";
-    for (let i = 0; i < filtrados.length; i++) {
-        let alerta = filtrados[i];
-        let nivelCalculado = obterNivelAlerta(alerta);
-        let critico = nivelCalculado === "Crítico";
+    const linhas = filtrados.map(function (alerta) {
+        const dataHoraTexto = dataBr(alerta.dia) + (alerta.hora ? " às " + alerta.hora : "");
+        const valorFormatado = alerta.valor != null
+            ? `${formatarNumero(alerta.valor, 1)} ${escapeHTML(alerta.unidade || "%")}`
+            : "—";
 
-        let badgeSev = critico
-            ? "bg-red-500/10 border border-red-500/30 text-red-400"
-            : "bg-amber-500/10 border border-amber-500/30 text-amber-400";
-        let dotSev = critico ? "bg-red-500" : "bg-amber-400";
+        const celulaChamado = alerta.jiraKey
+            ? `<a href="${JIRA_BASE_URL}/${encodeURIComponent(alerta.jiraKey)}" target="_blank" rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-light-blue/10 border border-light-blue/30 text-light-blue text-xs font-semibold hover:bg-light-blue hover:text-main-blue transition-colors">
+                  <span>${escapeHTML(alerta.jiraKey)}</span>
+                  <span>&#8599;</span>
+               </a>`
+            : `<span class="text-xs text-white/35">—</span>`;
 
-        let campo = campoDaMetrica(alerta.tipo);
-        let nomeMetrica = NOMES[campo] || alerta.tipo || "—";
-
-        let temValor = alerta.valor != null && Number.isFinite(Number(alerta.valor));
-        let temLimite = alerta.limite != null && Number.isFinite(Number(alerta.limite));
-        let valorFmt = temValor ? formatarNumero(alerta.valor, 1) + "%" : "—";
-        let limiteFmt = temLimite ? formatarNumero(alerta.limite, 0) + "%" : "—";
-
-        let badgeExcedente = "";
-        if (temValor && temLimite) {
-            let diff = Number(alerta.valor) - Number(alerta.limite);
-            if (diff > 0) {
-                badgeExcedente = `<span class="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-red-500/10 text-red-400">+${formatarNumero(diff, 1)}%</span>`;
-            }
-        }
-
-        let statusTexto = obterStatusAlerta(alerta);
-        let estiloStatus = obterEstiloStatus(statusTexto);
-        let tagHoje = Number(alerta.diasAtras) === 0
-            ? `<span class="ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase bg-light-blue/15 text-light-blue">Hoje</span>`
-            : "";
-
-        let codigo = "ALT-" + String(alerta.id).padStart(3, "0");
-
-        linhas += `
-            <tr class="group border-b border-white/10 last:border-b-0 border-l-2 border-l-transparent hover:border-l-light-blue hover:bg-white/[0.04] transition-all duration-150 cursor-pointer"
-                tabindex="0"
-                role="link"
-                data-alerta-id="${escapeHTML(alerta.id)}">
-                <td class="px-4 py-3.5 whitespace-nowrap">
-                    <div class="text-white/90 font-medium">${dataBr(alerta.dia)}${tagHoje}</div>
-                    <div class="text-[11px] text-white/40 mt-0.5">${escapeHTML(alerta.hora || "—")}</div>
-                </td>
-                <td class="px-4 py-3.5">
-                    <div class="font-semibold text-white/90 group-hover:text-white transition-colors">${escapeHTML(nomeMetrica)}</div>
-                    <div class="text-[11px] text-white/50 mt-0.5 line-clamp-1">${escapeHTML(alerta.descricao || "")}</div>
-                </td>
-                <td class="px-4 py-3.5 whitespace-nowrap">
-                    <div class="font-semibold text-white/90">${valorFmt}${badgeExcedente}</div>
-                    <div class="text-[11px] text-white/45 mt-0.5">Limite: ${limiteFmt}</div>
-                </td>
-                <td class="px-4 py-3.5 whitespace-nowrap">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold ${badgeSev}">
-                        <span class="w-1.5 h-1.5 rounded-full ${dotSev}"></span>
-                        ${escapeHTML(nivelCalculado)}
-                    </span>
-                </td>
-                <td class="px-4 py-3.5 whitespace-nowrap">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold ${estiloStatus.badge}">
-                        <span class="w-1.5 h-1.5 rounded-full ${estiloStatus.dot}"></span>
-                        ${escapeHTML(statusTexto)}
-                    </span>
-                </td>
-                <td class="px-4 py-3.5 whitespace-nowrap text-right">
-                    <span class="inline-flex items-center gap-1 font-semibold text-light-blue group-hover:underline">
-                        ${codigo}
-                        <span aria-hidden="true" class="transition-transform duration-150 group-hover:translate-x-1">&rarr;</span>
-                    </span>
-                </td>
+        return `
+            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                <td class="px-5 py-3.5 text-xs text-white/75 whitespace-nowrap">${escapeHTML(dataHoraTexto)}</td>
+                <td class="px-5 py-3.5 whitespace-nowrap">${badgeSeveridade(alerta.nivel)}</td>
+                <td class="px-5 py-3.5 text-xs font-medium text-white">${escapeHTML(alerta.componente || alerta.tipo || "—")}</td>
+                <td class="px-5 py-3.5 text-xs font-semibold text-white/90 whitespace-nowrap">${valorFormatado}</td>
+                <td class="px-5 py-3.5 text-xs text-white/65 max-w-xs truncate" title="${escapeHTML(alerta.descricao || "")}">${escapeHTML(alerta.descricao || "—")}</td>
+                <td class="px-5 py-3.5 whitespace-nowrap">${celulaChamado}</td>
+                <td class="px-5 py-3.5 whitespace-nowrap">${badgeStatusJira(alerta.statusJira)}</td>
             </tr>
         `;
-    }
+    }).join("");
 
     container.innerHTML = `
-        <div class="w-full overflow-x-auto">
-            <table class="w-full min-w-[760px] text-left text-xs">
-                <thead>
-                    <tr class="border-b border-white/10 bg-white/[0.02] text-[10px] uppercase tracking-wider text-white/50">
-                        <th class="px-4 py-3">Data / Hora</th>
-                        <th class="px-4 py-3">Métrica / Evento</th>
-                        <th class="px-4 py-3">Leitura vs. Limite</th>
-                        <th class="px-4 py-3">Severidade</th>
-                        <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3 text-right">Detalhes</th>
-                    </tr>
-                </thead>
-                <tbody>${linhas}</tbody>
-            </table>
-        </div>
+        <table class="w-full text-left border-collapse min-w-[820px]">
+            <thead>
+                <tr class="border-b border-white/10 text-[10px] font-semibold uppercase tracking-wider text-white/45 bg-white/[0.02]">
+                    <th class="px-5 py-3">Data / Hora</th>
+                    <th class="px-5 py-3">Severidade</th>
+                    <th class="px-5 py-3">Componente</th>
+                    <th class="px-5 py-3">Leitura</th>
+                    <th class="px-5 py-3">Descrição</th>
+                    <th class="px-5 py-3">Chamado Jira</th>
+                    <th class="px-5 py-3">Status</th>
+                </tr>
+            </thead>
+            <tbody>${linhas}</tbody>
+        </table>
     `;
-
-    let linhasTabela = container.querySelectorAll("[data-alerta-id]");
-    for (let i = 0; i < linhasTabela.length; i++) {
-        linhasTabela[i].addEventListener("click", function () {
-            let idAlerta = this.getAttribute("data-alerta-id");
-            let paramsUrl = new URLSearchParams(window.location.search);
-            let idEmpresa = (dados.dispositivo && dados.dispositivo.idEmpresa) || paramsUrl.get("idEmpresa") || "";
-            let idEquipamento = (dados.dispositivo && dados.dispositivo.id) || obterIdEquipamento() || "";
-
-            let query = new URLSearchParams({
-                empresa: idEmpresa,
-                equipamento: idEquipamento,
-                alerta: idAlerta
-            });
-
-            window.location.href = "relatorio.html?" + query.toString();
-        });
-        linhasTabela[i].addEventListener("keydown", function (evento) {
-            if (evento.key === "Enter" || evento.key === " ") {
-                evento.preventDefault();
-                this.click();
-            }
-        });
-    }
 }
 
 function escapeHTML(valor) {
