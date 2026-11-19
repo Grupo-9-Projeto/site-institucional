@@ -1,133 +1,40 @@
-const empresasMock = [
-    {
-        id: 1,
-        nome: "Bradesco",
-        criticos: 3,
-        atencao: 0,
-        saudaveis: 0
-    },
-    {
-        id: 2,
-        nome: "sei la",
-        criticos: 1,
-        atencao: 2,
-        saudaveis: 4
-    },
-    {
-        id: 3,
-        nome: "Itaú",
-        criticos: 0,
-        atencao: 1,
-        saudaveis: 6
-    }
-];
-
-
-const rankingMock = [
-    {
-        idDispositivo: 1,
-        idEmpresa: 1,
-        nome: "FW-CORE-03",
-        empresa: "Bradesco",
-        categoria: "Firewall",
-        status: "Ativo",
-        conexao: "Offline",
-        alertas_criticos: 8
-    },
-    {
-        idDispositivo: 2,
-        idEmpresa: 1,
-        nome: "FW-CORE-02",
-        empresa: "Bradesco",
-        categoria: "Firewall",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 6
-    },
-    {
-        idDispositivo: 3,
-        idEmpresa: 2,
-        nome: "FW-EDGE-01",
-        empresa: "Bradesco",
-        categoria: "Firewall",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 4
-    },
-    {
-        idDispositivo: 4,
-        idEmpresa: 2,
-        nome: "SW-ACCESS-01",
-        empresa: "Itaú",
-        categoria: "Switch",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 2
-    },
-    {
-        idDispositivo: 5,
-        idEmpresa: 2,
-        nome: "RT-CORE-01",
-        empresa: "Santander",
-        categoria: "Router",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 1
-    }
-];
-
-
-function criarGraficoDisponibilidade(online, offline) {
-
-    const canvas = document.getElementById('graficoDisponibilidade');
-
-    graficoDisponibilidade = new Chart(canvas, {
-
-        // Tipo do gráfico
-        type: 'doughnut',
-
-        // Dados
-        data: {
-            labels: ['Online', 'Offline'],
-
-            datasets: [{
-                data: [online, offline],
-
-                backgroundColor: [
-                    '#22c55e',
-                    '#1e293b'
-                ],
-
-                borderWidth: 0,
-                hoverOffset: 0
-            }]
-        },
-
-        // Configurações visuais
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-
-            // Espessura do círculo
-            cutout: '78%',
-
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
+async function chamarApi(caminho, metodo, corpo) {
+    try {
+        return await apiFetch(caminho, {
+            method: metodo,
+            body: corpo ? JSON.stringify(corpo) : undefined
+        });
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) {
+            return { ok: false, status: 401, dados: null };
         }
-    });
+        return { ok: false, status: 0, dados: null };
+    }
 }
 
-function carregarCardsEmpresas() {
+async function carregarCardsEmpresas() {
     const container = document.getElementById('containerEmpresas');
 
     container.innerHTML = '';
 
-    empresasMock.forEach(empresa => {
+    const dados = await chamarApi("/joao/equipamentos_monitorados", "GET");
 
-        let total = empresa.atencao + empresa.criticos + empresa.saudaveis;
+    dados.dados.forEach(async empresa => {
+
+        console.log(empresa)
+        const resposta1 = await chamarApi("/joao/alertas_empresa", "POST", {
+            id_empresa: empresa.id_empresa
+        })
+        const resposta2 = await chamarApi("/joao/porcentagem_empresa", "POST", {
+            id_empresa: empresa.id_empresa
+        })
+
+        const dadosAlertas = resposta1.dados[0];
+        const percentual = resposta2.dados[0];
+
+
+
+        let total = dadosAlertas.alerta_atencao + dadosAlertas.alerta_critico + dadosAlertas.alerta_saudavel;
 
         const card = document.createElement('div');
         card.className = `
@@ -142,12 +49,12 @@ function carregarCardsEmpresas() {
         `;
 
         card.addEventListener('click', () => {
-            direcionarPaginaEquipamentos(empresa.id);
+            direcionarPaginaEquipamentos(empresa.id_empresa);
         });
 
         card.innerHTML = `
             <h2 class="text-center text-xl font-bold mb-5">
-                ${empresa.nome}
+                ${empresa.nome_empresa}
             </h2>
 
             <div class="border-t border-white/10"></div>
@@ -158,19 +65,34 @@ function carregarCardsEmpresas() {
                 </span>
 
                 <span class="text-light-blue text-2xl font-bold">
-                    ${total}
+                    ${empresa.dispositivos_monitorados}
                 </span>
             </div>
 
             <div class="border-t border-white/10"></div>
 
-            <p class="text-white/60 text-xs font-bold text-center uppercase mt-3 mb-3">
-                Distribuição de saúde
-            </p>
+<!-- Disponibilidade da infraestrutura -->
+<div class="flex items-center justify-between py-4 px-1">
+
+    <span class="text-white/60 text-xs font-bold uppercase">
+        Infraestrutura disponível
+    </span>
+
+    <span class="text-green-500 text-2xl font-bold">
+        ${Math.trunc(percentual.porcentagem)}%
+    </span>
+
+</div>
+
+<div class="border-t border-white/10"></div>
+
+<p class="text-white/60 text-xs font-bold text-center uppercase mt-3 mb-3">
+    Distribuição de saúde
+</p>
 
             <div class="relative w-36 h-36 mx-auto">
 
-                <canvas id="grafico-saude-${empresa.id}"></canvas>
+                <canvas id="grafico-saude-${empresa.id_empresa}"></canvas>
 
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
 
@@ -192,7 +114,7 @@ function carregarCardsEmpresas() {
                     <div class="flex items-center gap-1">
                         <span class="size-2 rounded-full bg-red-500"></span>
                         <span class="text-red-500 font-bold">
-                            ${empresa.criticos}
+                            ${dadosAlertas.alerta_critico}
                         </span>
                     </div>
                     <span class="text-white/50 text-[10px]">Críticos</span>
@@ -202,7 +124,7 @@ function carregarCardsEmpresas() {
                     <div class="flex items-center gap-1">
                         <span class="size-2 rounded-full bg-amber-400"></span>
                         <span class="text-amber-400 font-bold">
-                            ${empresa.atencao}
+                            ${dadosAlertas.alerta_atencao}
                         </span>
                     </div>
                     <span class="text-white/50 text-[10px]">Atenção</span>
@@ -212,7 +134,7 @@ function carregarCardsEmpresas() {
                     <div class="flex items-center gap-1">
                         <span class="size-2 rounded-full bg-green-500"></span>
                         <span class="text-green-500 font-bold">
-                            ${empresa.saudaveis}
+                            ${dadosAlertas.alerta_saudavel}
                         </span>
                     </div>
                     <span class="text-white/50 text-[10px]">Saudáveis</span>
@@ -223,7 +145,7 @@ function carregarCardsEmpresas() {
 
         container.appendChild(card)
         const canvas = document.getElementById(
-            `grafico-saude-${empresa.id}`
+            `grafico-saude-${empresa.id_empresa}`
         );
 
         new Chart(canvas, {
@@ -235,9 +157,9 @@ function carregarCardsEmpresas() {
 
                 datasets: [{
                     data: [
-                        empresa.criticos,
-                        empresa.atencao,
-                        empresa.saudaveis
+                        dadosAlertas.alerta_critico,
+                        dadosAlertas.alerta_atencao,
+                        dadosAlertas.alerta_saudavel
                     ],
 
                     backgroundColor: [
@@ -271,43 +193,47 @@ function carregarCardsEmpresas() {
 }
 
 
-function carregarRankEquipamentos() {
+
+async function carregarRankEquipamentos() {
     const container = document.getElementById('containerRanking');
     container.innerHTML = "";
 
-    rankingMock.forEach((item, index) => {
+    const dados = await chamarApi("/joao/rankEquipamentos", "GET");
+
+    dados.dados.forEach((item, index) => {
 
         const posicao = index + 1;
 
-        const online = item.conexao.toLowerCase() === "online";
+        const ativo = item.status.toLowerCase() === "ativo";
 
         const corPosicao = posicao <= 3
             ? "bg-red-500/10 text-red-500"
             : "bg-[#1A2731] text-white/50";
 
-        const corConexao = online
+        const corStatus = ativo
             ? "bg-green-500"
             : "bg-gray-500";
 
-        const corTextoConexao = online
+        const corTextoStatus = ativo
             ? "text-green-500"
             : "text-gray-500";
 
         const card = document.createElement('div');
 
         card.className = `
-            grid grid-cols-[60px_minmax(220px,1.5fr)_minmax(100px,0.6fr)_minmax(100px,0.5fr)_minmax(120px,0.6fr)_minmax(180px,0.8fr)]
-            items-center gap-4 px-6 py-4 min-w-[900px]
-            border-t border-white/10
+    grid grid-cols-[60px_minmax(200px,1.5fr)_minmax(120px,0.7fr)_minmax(120px,0.7fr)_minmax(150px,0.8fr)]
+    items-center gap-4 px-6 py-4 min-w-[750px]
+    border-t border-white/10
 
-            cursor-pointer
-            transition-colors duration-200
-            hover:bg-white/5
-            active:bg-white/10
-        `;
-async function direcionarPaginaDetalhesEquipamentos(dados) {
-    window.location.href = `../equipamento.html?idEmpresa=${dados.idEmpresa}idEquipamento=${dados.idDispositivo}`;
-}
+    cursor-pointer
+    transition-colors duration-200
+    hover:bg-white/5
+    active:bg-white/10
+`;
+
+        card.addEventListener('click', () => {
+            direcionarPaginaDetalhesEquipamentos(item);
+        });
 
         card.innerHTML = `
             <!-- Rank -->
@@ -317,14 +243,14 @@ async function direcionarPaginaDetalhesEquipamentos(dados) {
                 </div>
             </div>
 
-            <!-- Equipamento -->
+            <!-- Endereço MAC -->
             <div class="flex flex-col gap-1">
                 <span class="text-cyan-400 font-bold text-sm">
-                    ${item.nome}
+                    ${item.endereco_mac}
                 </span>
 
-                <span class="text-white/50 text-xs">
-                    ${item.empresa}
+                <span class="text-white/40 text-xs">
+                    Endereço MAC
                 </span>
             </div>
 
@@ -334,38 +260,27 @@ async function direcionarPaginaDetalhesEquipamentos(dados) {
             </div>
 
             <!-- Status -->
-            <div class="text-cyan-400 font-bold text-sm">
+            <div class="flex items-center gap-2 ${corTextoStatus} text-sm font-semibold">
+                <span class="w-2 h-2 rounded-full ${corStatus}"></span>
                 ${item.status}
             </div>
 
-            <!-- Conexão -->
-            <div class="flex items-center gap-2 ${corTextoConexao} text-sm font-semibold">
-                <span class="w-2 h-2 rounded-full ${corConexao}"></span>
-                ${item.conexao}
-            </div>
+            <!-- Alertas críticos -->
+            <div class="flex items-center justify-center gap-2">
+                <span class="text-red-500 font-bold text-lg">
+                    ${item.alertas_criticos}
+                </span>
 
-            <!-- Alertas críticos: somente quantidade -->
-            <div class="text-red-500 font-bold text-sm text-center">
-                ${item.alertas_criticos}
+                <span class="text-white/40 text-xs">
+                    críticos
+                </span>
             </div>
         `;
+
         container.appendChild(card);
     });
 }
 
-async function chamarApi(caminho, metodo, corpo) {
-    try {
-        return await apiFetch(caminho, {
-            method: metodo,
-            body: corpo ? JSON.stringify(corpo) : undefined
-        });
-    } catch (erro) {
-        if (erro && erro.sessaoExpirada) {
-            return { ok: false, status: 401, dados: null };
-        }
-        return { ok: false, status: 0, dados: null };
-    }
-}
 
 async function carregarInformacoesUsuario() {
     let nome_title = document.getElementById("nome_title");
@@ -383,7 +298,7 @@ async function direcionarPaginaEquipamentos(empresaId) {
 }
 
 async function direcionarPaginaDetalhesEquipamentos(dados) {
-    window.location.href = `../equipamento.html?idEmpresa=${dados.idEmpresa}idEquipamento=${dados.idDispositivo}`;
+    window.location.href = `../equipamento.html?idEmpresa=${dados.id_empresa}idEquipamento=${dados.id_dispositivo}`;
 }
 
 
