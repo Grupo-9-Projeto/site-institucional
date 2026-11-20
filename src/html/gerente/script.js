@@ -1,5 +1,3 @@
-const MODO_PREVIEW = true;
-
 const btnHamburguer = document.getElementById('btn-hamburguer');
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('sidebar-overlay');
@@ -42,68 +40,6 @@ function fecharModal() {
 
     modal.classList.add('hidden');
     modal.classList.remove('flex');
-}
-
-const dadosClientes = [
-    { nome: "Bradesco", status: "Critico", texto_violados: "2 SLAs violados" },
-    { nome: "Itaú", status: "Atencao", texto_violados: "1 SLA violado" },
-    { nome: "Santander", status: "Estavel", texto_violados: "0 SLAs violados" },
-    { nome: "Banco do Brasil", status: "Atencao", texto_violados: "1 SLA violado" },
-    { nome: "Nubank", status: "Estavel", texto_violados: "0 SLAs violados" }
-];
-
-function chamadosCliente(termoBusca = "") {
-    const clientes = document.getElementById("container_clientes");
-
-    if (!clientes) return;
-
-    clientes.innerHTML = "";
-
-    const filtrados = dadosClientes.filter(cliente =>
-        cliente.nome.toLowerCase().includes(termoBusca.toLowerCase())
-    );
-
-    if (filtrados.length === 0) {
-        clientes.innerHTML = `
-            <p class="text-gray-400 text-xs text-center py-4">
-                Nenhum cliente encontrado.
-            </p>
-        `;
-        return;
-    }
-
-    filtrados.forEach(cliente => {
-        const corBadgeBg = cliente.status === "Critico"
-            ? "bg-red-400/20 text-red-300 border-red-400/20"
-            : cliente.status === "Atencao"
-                ? "bg-amber-400/20 text-amber-300 border-amber-400/20"
-                : "bg-green-400/20 text-green-300 border-green-400/20";
-
-        const card = document.createElement("div");
-
-        card.className = "flex items-center justify-between p-3.5 bg-[#09121B] rounded-xl border border-white/5 hover:border-light-blue/50 cursor-pointer transition-element font-['Poppins']";
-
-        card.innerHTML = `
-            <div class="flex flex-col gap-1">
-                <span class="text-white font-bold text-sm">${cliente.nome}</span>
-                <span class="text-gray-400 text-xs">${cliente.texto_violados}</span>
-            </div>
-
-            <div class="px-3 py-1 rounded-full text-xs font-semibold border ${corBadgeBg}">
-                ${cliente.status === "Atencao"
-                    ? "Atenção"
-                    : cliente.status === "Critico"
-                        ? "Crítico"
-                        : "Estável"}
-            </div>
-        `;
-
-        card.addEventListener("click", () => {
-            window.location.href = `./sla-empresa.html?empresa=${encodeURIComponent(cliente.nome)}`;
-        });
-
-        clientes.appendChild(card);
-    });
 }
 
 let dados = [];
@@ -476,411 +412,363 @@ async function chamarApi(caminho, metodo, corpo) {
     }
 }
 
-const dadosJsonSlas = {
-    historico_slas_violados: [
-        {
-            id_sla: "SLA-031",
-            equipamento: "FW-CORE-03",
-            cliente: "Bradesco",
-            tipo_sla: "Disponibilidade",
-            tempo_excedido: "+1h 22m",
-            gravidade: "urgente"
-        },
-        {
-            id_sla: "SLA-032",
-            equipamento: "FW-CORE-02",
-            cliente: "Bradesco",
-            tipo_sla: "Resolução",
-            tempo_excedido: "+2h 05m",
-            gravidade: "urgente"
-        },
-        {
-            id_sla: "SLA-033",
-            equipamento: "SW-ACCESS-01",
-            cliente: "Itaú",
-            tipo_sla: "Tempo de Resposta",
-            tempo_excedido: "+45m",
-            gravidade: "medio"
-        },
-        {
-            id_sla: "SLA-034",
-            equipamento: "RT-CORE-01",
-            cliente: "Santander",
-            tipo_sla: "Disponibilidade",
-            tempo_excedido: "0m",
-            gravidade: "estavel"
-        }
-    ]
+async function carregarInformacoesUsuario() {
+    const nomeTitle = document.getElementById("nome_title");
+    const foto = document.getElementById("foto_usuario");
+
+    if (!nomeTitle && !foto) return;
+    if (typeof apiFetch !== "function") return;
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    if (!resposta.ok || !resposta.dados || !resposta.dados[0]) return;
+
+    const usuario = resposta.dados[0];
+
+    if (nomeTitle) nomeTitle.textContent = usuario.nome;
+    if (foto) foto.textContent = usuario.nome?.[0] || "";
+}
+
+const HOME_ESTILO_NIVEL = {
+    ok: { texto: "text-green-500", corHex: "#22C55E" },
+    atencao: { texto: "text-yellow-500", corHex: "#FBBF24" },
+    critico: { texto: "text-red-500", corHex: "#EF4444" },
+    info: { texto: "text-light-blue", corHex: "#7DD3FC" }
 };
 
-function ordenarSLAs(dados) {
-    const listaSLAs = dados.historico_slas_violados || dados;
+let resultadoHomeAtual = null;
 
-    const listaCopiaSLAs = [...listaSLAs];
-
-    const prioridade = {
-        urgente: 1,
-        medio: 2,
-        estavel: 3
+function gerarDadosMockadosHome() {
+    const agora = new Date();
+    const minutosAtras = min => new Date(agora.getTime() - min * 60000).toISOString();
+    const diasAtras = (dias, hora = 10) => {
+        const d = new Date(agora);
+        d.setDate(d.getDate() - dias);
+        d.setHours(hora, 15, 0, 0);
+        return d.toISOString();
     };
 
-    return listaCopiaSLAs.sort((a, b) => {
-        return (prioridade[a.gravidade] || 99) -
-            (prioridade[b.gravidade] || 99);
-    });
-}
+    const contratos = [
+        { empresa: "Bradesco", prazoHoras: 4 },
+        { empresa: "Itaú", prazoHoras: 4 },
+        { empresa: "Banco do Brasil", prazoHoras: 2 },
+        { empresa: "Santander", prazoHoras: 24 },
+        { empresa: "Nubank", prazoHoras: 24 }
+    ];
 
-const PLANOS_CISCO = {
-    "24x7x2": {
-        nome: "Smart Net Total Care 24x7x2",
-        sigla: "2HR",
-        prazoRmaTexto: "2 horas",
-        disponibilidade: "24h / 7 dias (inclui feriados)",
-        corteHora: null,
-        onsiteTexto: "24/7",
-        onsiteDetalhe: "Agendamento a qualquer hora"
-    },
-    "24x7x4": {
-        nome: "Smart Net Total Care 24x7x4",
-        sigla: "4HR",
-        prazoRmaTexto: "4 horas",
-        disponibilidade: "24h / 7 dias (inclui feriados)",
-        corteHora: null,
-        onsiteTexto: "24/7",
-        onsiteDetalhe: "Agendamento a qualquer hora"
-    },
-    "8x5x4": {
-        nome: "Smart Net Total Care 8x5x4",
-        sigla: "4HR Comercial",
-        prazoRmaTexto: "4 horas",
-        disponibilidade: "Dias úteis, horário comercial (sem feriados)",
-        corteHora: 13,
-        onsiteTexto: "Comercial",
-        onsiteDetalhe: "Dias úteis · corte às 13:00"
-    },
-    "8x7xNCD": {
-        nome: "Smart Net Total Care 8x7xNCD",
-        sigla: "NCD",
-        prazoRmaTexto: "Próx. dia",
-        disponibilidade: "7 dias/semana, 09:00 às 17:00 (inclui feriados)",
-        corteHora: 15,
-        onsiteTexto: "09h – 17h",
-        onsiteDetalhe: "Dia seguinte à entrega da peça"
-    },
-    "8x5xNBD": {
-        nome: "Smart Net Total Care 8x5xNBD",
-        sigla: "NBD",
-        prazoRmaTexto: "Próx. dia útil",
-        disponibilidade: "Dias úteis, 09:00 às 17:00 (sem feriados)",
-        corteHora: 15,
-        onsiteTexto: "09h – 17h",
-        onsiteDetalhe: "Próx. dia útil após a peça"
-    },
-    "8x5xSNBD": {
-        nome: "Smart Net Total Care 8x5xSNBD",
-        sigla: "SNBD",
-        prazoRmaTexto: "Próx. dia útil",
-        disponibilidade: "Dias úteis, horário comercial (sem feriados)",
-        corteHora: 15,
-        onsiteTexto: "Não incluso",
-        onsiteDetalhe: "Somente envio da peça"
-    }
-};
+    const semCobertura = [
+        { id_dispositivo: 106, equipamento: "FW-EDGE-01", empresa: "Bradesco", motivo: "Equipamento sem cobertura RMA ativa" }
+    ];
 
-const EMPRESAS_SLA = {
-    "bradesco": {
-        empresa: "Bradesco",
-        plano: "8x5x4",
-        equipamentos: [
-            { nome: "FW-CORE-02", modelo: "Cisco Firepower 4100", status: "coberto", detalhe: "Coberto 8x5x4 · Corte às 13:00" },
-            { nome: "FW-CORE-03", modelo: "Cisco ASA 5510", status: "ldos", detalhe: "LDoS vencido · Sem suporte Cisco" },
-            { nome: "FW-EDGE-01", modelo: "Cisco Firepower 2100", status: "descoberto", detalhe: "Sem contrato RMA ativo" },
-            { nome: "RT-DC-02", modelo: "Cisco ASR-9006", status: "coberto", detalhe: "Coberto 8x5x4 · Corte às 13:00" }
-        ]
-    },
-    "itau": {
-        empresa: "Itaú",
-        plano: "24x7x4",
-        equipamentos: [
-            { nome: "SW-CORE-01", modelo: "Cisco Nexus 9500", status: "coberto", detalhe: "Coberto 24x7x4 · Software em dia" },
-            { nome: "SW-ACCESS-01", modelo: "Cisco Catalyst 2960", status: "ldos", detalhe: "LDoS em 90 dias · Planejar troca" },
-            { nome: "SW-ACCESS-04", modelo: "Cisco Catalyst 9300", status: "coberto", detalhe: "Coberto 24x7x4 · Coletor ativo" },
-            { nome: "FW-PIX-01", modelo: "Cisco Firepower 9300", status: "coberto", detalhe: "Coberto 24x7x4 · Crítico" }
-        ]
-    },
-    "santander": {
-        empresa: "Santander",
-        plano: "8x5xNBD",
-        equipamentos: [
-            { nome: "RT-CORE-01", modelo: "Cisco ASR-9006", status: "coberto", detalhe: "Coberto 8x5xNBD · Corte às 15:00" },
-            { nome: "RT-EDGE-02", modelo: "Cisco ISR 4451", status: "coberto", detalhe: "Coberto 8x5xNBD · Corte às 15:00" },
-            { nome: "SRV-DB-01", modelo: "Cisco UCS C240", status: "ldos", detalhe: "Fim de suporte próximo (LDoS)" }
-        ]
-    },
-    "banco do brasil": {
-        empresa: "Banco do Brasil",
-        plano: "24x7x2",
-        equipamentos: [
-            { nome: "RT-FILIAL-01", modelo: "Cisco ASR 1001-X", status: "coberto", detalhe: "Coberto 24x7x2 · Missão crítica" },
-            { nome: "SW-ACCESS-07", modelo: "Cisco Catalyst 9200", status: "coberto", detalhe: "Coberto 24x7x2 · Coletor ativo" },
-            { nome: "FW-MATRIZ-01", modelo: "Cisco Firepower 9300", status: "coberto", detalhe: "Coberto 24x7x2 · Crítico" }
-        ]
-    },
-    "nubank": {
-        empresa: "Nubank",
-        plano: "8x7xNCD",
-        equipamentos: [
-            { nome: "SW-CLOUD-01", modelo: "Cisco Nexus 93180YC", status: "coberto", detalhe: "Coberto 8x7xNCD · Corte às 15:00" },
-            { nome: "FW-EDGE-04", modelo: "Cisco Firepower 4100", status: "coberto", detalhe: "Coberto 8x7xNCD · Coletor ativo" },
-            { nome: "RT-BGP-02", modelo: "Cisco ASR 1002-HX", status: "coberto", detalhe: "Coberto 8x7xNCD · Software em dia" }
-        ]
-    }
-};
+    const chamados = [
+        { id: "CH-412", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "aberto", severidade: "critica", responsavel: "Lucas", aberto_em: minutosAtras(206) },
+        { id: "CH-415", id_dispositivo: 103, empresa: "Banco do Brasil", equipamento: "FW-MATRIZ-01", status: "aberto", severidade: "critica", responsavel: null, aberto_em: minutosAtras(85) },
+        { id: "CH-416", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "aberto", severidade: "critica", responsavel: "Ana", aberto_em: minutosAtras(165) },
+        { id: "CH-417", id_dispositivo: 107, empresa: "Bradesco", equipamento: "FW-CORE-02", status: "aberto", severidade: "alta", responsavel: "Rafael", aberto_em: minutosAtras(140) },
+        { id: "CH-418", id_dispositivo: 104, empresa: "Santander", equipamento: "RT-CORE-01", status: "aberto", severidade: "normal", responsavel: "Ana", aberto_em: minutosAtras(95) },
+        { id: "CH-419", id_dispositivo: 108, empresa: "Itaú", equipamento: "SW-CORE-01", status: "aberto", severidade: "normal", responsavel: "Lucas", aberto_em: minutosAtras(60) },
+        { id: "CH-420", id_dispositivo: 105, empresa: "Nubank", equipamento: "SW-CLOUD-01", status: "aberto", severidade: "normal", responsavel: "Rafael", aberto_em: minutosAtras(50) },
+        { id: "CH-421", id_dispositivo: 109, empresa: "Bradesco", equipamento: "RT-DC-02", status: "aberto", severidade: "normal", responsavel: "Ana", aberto_em: minutosAtras(40) },
+        { id: "CH-422", id_dispositivo: 110, empresa: "Santander", equipamento: "RT-EDGE-02", status: "aberto", severidade: "normal", responsavel: "Lucas", aberto_em: minutosAtras(35) },
+        { id: "CH-423", id_dispositivo: 111, empresa: "Itaú", equipamento: "FW-PIX-01", status: "aberto", severidade: "normal", responsavel: "Rafael", aberto_em: minutosAtras(25) },
+        { id: "CH-424", id_dispositivo: 112, empresa: "Nubank", equipamento: "FW-EDGE-04", status: "aberto", severidade: "normal", responsavel: "Ana", aberto_em: minutosAtras(15) },
+        { id: "CH-425", id_dispositivo: 113, empresa: "Banco do Brasil", equipamento: "RT-FILIAL-01", status: "aberto", severidade: "normal", responsavel: "Lucas", aberto_em: minutosAtras(10) },
 
-const estadoSlaEmpresa = {
-    dadosEmpresa: null,
-    filtroEquipamentos: "todos"
-};
-
-function escHtml(t) {
-    return String(t ?? "").replace(/[&<>"']/g, c =>
-        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
-
-function normalizarNomeEmpresa(texto) {
-    return String(texto || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim()
-        .toLowerCase();
-}
-
-function obterEmpresaSlaDaUrl() {
-    const params = new URLSearchParams(window.location.search);
-    const nome = params.get("empresa") || "";
-    const chave = normalizarNomeEmpresa(nome);
-
-    if (EMPRESAS_SLA[chave]) {
-        return EMPRESAS_SLA[chave];
-    }
-
-    if (nome.trim()) {
-        return {
-            empresa: nome.trim(),
-            plano: "8x5xNBD",
-            equipamentos: [
-                { nome: "EQ-PRINCIPAL-01", modelo: "Cisco Hardware", status: "coberto", detalhe: "Coberto 8x5xNBD · Corte às 15:00" }
-            ]
-        };
-    }
-
-    return EMPRESAS_SLA["bradesco"];
-}
-
-function obterStatusRmaAgora(emp, plano) {
-    if (plano.corteHora === null) {
-        return {
-            statusAgora: "Sem horário de corte (24/7)",
-            cor: "text-green-500"
-        };
-    }
-
-    const agora = new Date();
-    const dia = agora.getDay();
-    const horaDecimal = agora.getHours() + agora.getMinutes() / 60;
-    const ehFds = dia === 0 || dia === 6;
-
-    if (ehFds && emp.plano !== "8x7xNCD") {
-        return {
-            statusAgora: "Fim de semana · próx. dia útil",
-            cor: "text-amber-400"
-        };
-    }
-
-    if (horaDecimal >= plano.corteHora) {
-        return {
-            statusAgora: `Passou do corte (${plano.corteHora}:00) · próx. dia útil`,
-            cor: "text-amber-400"
-        };
-    }
+        { id: "CH-401", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(1, 9), concluido_em: diasAtras(1, 12) },
+        { id: "CH-402", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "concluido", aberto_em: diasAtras(1, 14), concluido_em: diasAtras(1, 16) },
+        { id: "CH-403", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(4, 14), concluido_em: diasAtras(4, 19) },
+        { id: "CH-404", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(9, 10), concluido_em: diasAtras(9, 13) },
+        { id: "CH-405", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(15, 15), concluido_em: diasAtras(15, 18) },
+        { id: "CH-406", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "concluido", aberto_em: diasAtras(6, 11), concluido_em: diasAtras(6, 13) },
+        { id: "CH-407", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "concluido", aberto_em: diasAtras(12, 16), concluido_em: diasAtras(12, 19) },
+        { id: "CH-408", id_dispositivo: 103, empresa: "Banco do Brasil", equipamento: "FW-MATRIZ-01", status: "concluido", aberto_em: diasAtras(5, 8), concluido_em: diasAtras(5, 11) },
+        { id: "CH-409", id_dispositivo: 103, empresa: "Banco do Brasil", equipamento: "FW-MATRIZ-01", status: "concluido", aberto_em: diasAtras(14, 14), concluido_em: diasAtras(14, 15) },
+        { id: "CH-410", id_dispositivo: 104, empresa: "Santander", equipamento: "RT-CORE-01", status: "concluido", aberto_em: diasAtras(3, 9), concluido_em: diasAtras(3, 12) },
+        { id: "CH-411", id_dispositivo: 104, empresa: "Santander", equipamento: "RT-CORE-01", status: "concluido", aberto_em: diasAtras(8, 11), concluido_em: diasAtras(8, 14) },
+        { id: "CH-413", id_dispositivo: 105, empresa: "Nubank", equipamento: "SW-CLOUD-01", status: "concluido", aberto_em: diasAtras(7, 13), concluido_em: diasAtras(7, 15) },
+        { id: "CH-414", id_dispositivo: 105, empresa: "Nubank", equipamento: "SW-CLOUD-01", status: "concluido", aberto_em: diasAtras(11, 10), concluido_em: diasAtras(11, 12) }
+    ];
 
     return {
-        statusAgora: `Dentro do corte · fecha às ${plano.corteHora}:00`,
-        cor: "text-green-500"
+        abertosOntem: 9,
+        slaMesAnterior: 93,
+        metaSla: 95,
+        contratos,
+        semCobertura,
+        chamados
     };
 }
 
-const ESTADO_EQUIPAMENTO = {
-    coberto: { estado: "ok", rotulo: "Coberto" },
-    ldos: { estado: "atencao", rotulo: "Alerta LDoS" },
-    descoberto: { estado: "critico", rotulo: "Sem cobertura" }
-};
+function formatarMinutosHome(totalMin) {
+    const abs = Math.abs(Math.round(totalMin));
+    const h = Math.floor(abs / 60);
+    const m = abs % 60;
+    if (h === 0) return `${m} min`;
+    if (m === 0) return `${h}h`;
+    return `${h}h ${String(m).padStart(2, "0")}m`;
+}
 
-const ORDEM_EQUIPAMENTO = { descoberto: 0, ldos: 1, coberto: 2 };
+function calcularHome(dadosHome) {
+    const agora = new Date();
+    const prazoPorEmpresa = {};
+    dadosHome.contratos.forEach(c => { prazoPorEmpresa[c.empresa] = c.prazoHoras * 60; });
 
-const ESTILO_ESTADO = {
-    ok: {
-        veredito: "rounded-xl border border-white/10 border-l-4 border-l-green-400 bg-[#0D1924] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4",
-        icone: "size-9 rounded-lg shrink-0 grid place-items-center text-sm font-bold bg-green-400/15 text-green-300 border border-green-400/25",
-        badge: "px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-green-400/20 text-green-300 border-green-400/20",
-        ponto: "size-2.5 rounded-full shrink-0 mt-1.5 sm:mt-0 bg-green-400"
-    },
-    atencao: {
-        veredito: "rounded-xl border border-white/10 border-l-4 border-l-amber-400 bg-[#0D1924] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4",
-        icone: "size-9 rounded-lg shrink-0 grid place-items-center text-sm font-bold bg-amber-400/15 text-amber-300 border border-amber-400/25",
-        badge: "px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-amber-400/20 text-amber-300 border-amber-400/20",
-        ponto: "size-2.5 rounded-full shrink-0 mt-1.5 sm:mt-0 bg-amber-400"
-    },
-    critico: {
-        veredito: "rounded-xl border border-white/10 border-l-4 border-l-red-400 bg-[#0D1924] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4",
-        icone: "size-9 rounded-lg shrink-0 grid place-items-center text-sm font-bold bg-red-400/15 text-red-300 border border-red-400/25",
-        badge: "px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-red-400/20 text-red-300 border-red-400/20",
-        ponto: "size-2.5 rounded-full shrink-0 mt-1.5 sm:mt-0 bg-red-400"
-    }
-};
+    const abertos = dadosHome.chamados.filter(c => c.status === "aberto");
+    const diffOntem = abertos.length - dadosHome.abertosOntem;
 
-function renderizarSlaEmpresa() {
-    const emp = estadoSlaEmpresa.dadosEmpresa;
-    const plano = PLANOS_CISCO[emp.plano];
-    const rma = obterStatusRmaAgora(emp, plano);
-    const el = id => document.getElementById(id);
+    const vencendoHoje = [];
+    abertos.forEach(c => {
+        const limiteMin = prazoPorEmpresa[c.empresa] || 240;
+        const decorridoMin = (agora - new Date(c.aberto_em)) / 60000;
+        const restanteMin = limiteMin - decorridoMin;
+        if (restanteMin <= 180) {
+            vencendoHoje.push({ ...c, restanteMin, limiteMin });
+        }
+    });
 
-    document.title = `Argos (Gerente) - SLA ${emp.empresa}`;
-    el("titulo-empresa").textContent = emp.empresa;
-    el("badge-nivel").textContent = `${plano.nome} (${plano.sigla})`;
-    el("subtitulo-contrato").textContent = `Cobertura do contrato: ${plano.disponibilidade}`;
+    const concluidos = dadosHome.chamados.filter(c => c.status === "concluido");
+    let dentroSla = 0;
+    concluidos.forEach(c => {
+        const limiteMin = prazoPorEmpresa[c.empresa] || 240;
+        const duracaoMin = (new Date(c.concluido_em) - new Date(c.aberto_em)) / 60000;
+        if (duracaoMin <= limiteMin) dentroSla++;
+    });
+    const slaMes = concluidos.length > 0 ? Math.round((dentroSla / concluidos.length) * 100) : 100;
 
-    const total = emp.equipamentos.length;
-    const cobertos = emp.equipamentos.filter(e => e.status === "coberto").length;
-    const descobertos = emp.equipamentos.filter(e => e.status === "descoberto").length;
-    const ldos = emp.equipamentos.filter(e => e.status === "ldos").length;
-    const alertas = descobertos + ldos;
+    const contagemEq = {};
+    dadosHome.chamados.forEach(c => {
+        const chave = String(c.id_dispositivo);
+        if (!contagemEq[chave]) {
+            contagemEq[chave] = {
+                id_dispositivo: c.id_dispositivo,
+                equipamento: c.equipamento,
+                empresa: c.empresa,
+                qtd: 0
+            };
+        }
+        contagemEq[chave].qtd++;
+    });
 
-    let estado, statusEmpresa, icone, titulo, texto;
+    const reincidentes = Object.values(contagemEq)
+        .filter(item => item.qtd >= 3)
+        .sort((a, b) => b.qtd - a.qtd);
 
-    if (descobertos > 0) {
-        estado = "critico";
-        statusEmpresa = "Crítico";
-        icone = "!";
-        titulo = `Regularizar ${descobertos} equipamento(s) sem cobertura RMA`;
-        texto = "Solicitar inclusão no contrato com 30 dias de antecedência para garantir reposição.";
-    } else if (ldos > 0) {
-        estado = "atencao";
-        statusEmpresa = "Atenção";
-        icone = "!";
-        titulo = "Planejar substituição de hardware (LDoS)";
-        texto = "Há equipamento próximo ou após o fim de suporte. Utilize o Cisco Migration Support na transição.";
-    } else {
-        estado = "ok";
-        statusEmpresa = "Estável";
-        icone = "✓";
-        titulo = `Contrato de ${emp.empresa} em conformidade`;
-        texto = "Todos os equipamentos da base estão cobertos e dentro da janela de suporte.";
-    }
+    const filaAcoes = [];
 
-    const estilo = ESTILO_ESTADO[estado];
-
-    const badgeStatus = el("badge-status-empresa");
-    if (badgeStatus) {
-        badgeStatus.className = estilo.badge;
-        badgeStatus.textContent = statusEmpresa;
-    }
-
-    el("sla-veredito").className = estilo.veredito;
-    el("veredito-icone").className = estilo.icone;
-    el("veredito-icone").textContent = icone;
-    el("rec-titulo").textContent = titulo;
-    el("rec-texto").textContent = texto;
-
-    el("kpi-cobertura").textContent = `${cobertos} de ${total}`;
-    el("kpi-cobertura-sub").textContent = descobertos > 0
-        ? `${descobertos} sem cobertura · ${ldos} alerta LDoS`
-        : (ldos > 0 ? `${ldos} alerta LDoS` : "Base 100% coberta");
-
-    const pct = qtd => total ? `${(qtd / total) * 100}%` : "0%";
-    el("barra-ok").style.width = pct(cobertos);
-    el("barra-atencao").style.width = pct(ldos);
-    el("barra-critico").style.width = pct(descobertos);
-
-    el("valor-tac").textContent = "Até 1 hora";
-    el("detalhe-tac").textContent = "Sev 1–2: 24/7 · Sev 3–4: comercial";
-
-    el("valor-rma").textContent = plano.prazoRmaTexto;
-    el("status-rma-agora").className = `text-[12px] leading-snug mt-2 break-words ${rma.cor}`;
-    el("status-rma-agora").textContent = rma.statusAgora;
-
-    el("valor-onsite").textContent = plano.onsiteTexto;
-    el("detalhe-onsite").textContent = plano.onsiteDetalhe;
-
-    el("titulo-equipamentos").textContent = `Equipamentos (${total})`;
-
-    const btnTodos = el("filtro-eq-todos");
-    const btnAtencao = el("filtro-eq-atencao");
-    if (btnAtencao) {
-        btnAtencao.textContent = alertas > 0 ? `Com alerta (${alertas})` : "Com alerta";
-    }
-
-    if (btnTodos && btnAtencao) {
-        const ativoClasse = "px-3 py-1.5 rounded-lg text-xs font-medium border border-light-blue bg-light-blue/10 text-white cursor-pointer transition-colors";
-        const inativoClasse = "px-3 py-1.5 rounded-lg text-xs font-medium border border-white/10 bg-[#09121B] text-white/60 hover:text-white cursor-pointer transition-colors";
-
-        btnTodos.className = estadoSlaEmpresa.filtroEquipamentos === "todos" ? ativoClasse : inativoClasse;
-        btnAtencao.className = estadoSlaEmpresa.filtroEquipamentos === "atencao" ? ativoClasse : inativoClasse;
-    }
-
-    const ordenados = emp.equipamentos
-        .filter(eq => estadoSlaEmpresa.filtroEquipamentos === "todos" || eq.status !== "coberto")
+    vencendoHoje
         .slice()
-        .sort((a, b) => ORDEM_EQUIPAMENTO[a.status] - ORDEM_EQUIPAMENTO[b.status]);
+        .sort((a, b) => a.restanteMin - b.restanteMin)
+        .forEach(c => {
+            const jaPassou = c.restanteMin <= 0;
+            filaAcoes.push({
+                nivel: "critico",
+                titulo: `${c.equipamento} (#${c.id_dispositivo}) · ${c.empresa}`,
+                detalhe: jaPassou
+                    ? `Chamado #${c.id} estourou o SLA há ${formatarMinutosHome(c.restanteMin)} · agir agora`
+                    : `Chamado #${c.id} vence o SLA em ${formatarMinutosHome(c.restanteMin)}`,
+                textoBotao: "Ver chamado",
+                link: `./chamados/index.html?chamado=${encodeURIComponent(c.id)}`
+            });
+        });
 
-    const containerEq = el("lista-equipamentos");
-    if (ordenados.length === 0) {
-        containerEq.innerHTML = `
-            <p class="text-xs text-gray-400 text-center py-4">
-                Nenhum equipamento com alerta para esta empresa.
-            </p>
-        `;
+    abertos
+        .filter(c => !c.responsavel && !vencendoHoje.some(v => v.id === c.id))
+        .forEach(c => {
+            filaAcoes.push({
+                nivel: "critico",
+                titulo: `Chamado #${c.id} · ${c.equipamento} (#${c.id_dispositivo})`,
+                detalhe: `${c.empresa} · está sem analista responsável`,
+                textoBotao: "Ver chamado",
+                link: `./chamados/index.html?chamado=${encodeURIComponent(c.id)}`
+            });
+        });
+
+    reincidentes.forEach(r => {
+        filaAcoes.push({
+            nivel: "atencao",
+            titulo: `${r.equipamento} (#${r.id_dispositivo}) · ${r.empresa}`,
+            detalhe: `${r.qtd} chamados em 30 dias · investigar recorrência`,
+            textoBotao: "Ver chamados",
+            link: `./chamados/index.html?dispositivo=${encodeURIComponent(r.id_dispositivo)}`
+        });
+    });
+
+    dadosHome.semCobertura.forEach(s => {
+        filaAcoes.push({
+            nivel: "atencao",
+            titulo: `${s.equipamento} (#${s.id_dispositivo}) · ${s.empresa}`,
+            detalhe: s.motivo,
+            textoBotao: "Ver chamados",
+            link: `./chamados/index.html?dispositivo=${encodeURIComponent(s.id_dispositivo)}`
+        });
+    });
+
+    return {
+        abertosTotal: abertos.length,
+        diffOntem,
+        vencemHojeTotal: vencendoHoje.length,
+        slaMes,
+        slaMesAnterior: dadosHome.slaMesAnterior,
+        metaSla: dadosHome.metaSla,
+        reincidentes,
+        filaAcoes
+    };
+}
+
+function criarCardHome(titulo, valor, detalhe, nivel) {
+    const c = HOME_ESTILO_NIVEL[nivel] || HOME_ESTILO_NIVEL.info;
+    return `
+        <article class="flex-1 min-w-0 rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4 lg:p-6 overflow-hidden" style="border-top: 3px solid ${c.corHex};">
+            <div>
+                <p class="text-gray-400 text-[13px] truncate">${titulo}</p>
+                <p class="font-bold text-2xl mt-1 truncate ${c.texto}">${valor}</p>
+            </div>
+            <p class="text-xs leading-snug mt-2 truncate ${c.texto}">${detalhe}</p>
+        </article>
+    `;
+}
+
+function renderizarKpisHome(r) {
+    const sinalOntem = r.diffOntem >= 0 ? "↑ +" : "↓ ";
+    const nivelAbertos = r.diffOntem > 0 ? "atencao" : "info";
+
+    const nivelVencem = r.vencemHojeTotal > 0 ? "critico" : "ok";
+    const detVencem = r.vencemHojeTotal > 0 ? "Prioridade imediata hoje" : "Nenhum prazo em risco hoje";
+
+    const diffSla = r.slaMes - r.slaMesAnterior;
+    const nivelSla = r.slaMes >= r.metaSla ? "ok" : (r.slaMes >= r.metaSla - 10 ? "atencao" : "critico");
+    let textoSla = `Igual ao mês passado (${r.slaMesAnterior}%)`;
+    if (diffSla > 0) {
+        textoSla = `${diffSla} pontos acima do mês passado (${r.slaMesAnterior}%)`;
+    } else if (diffSla < 0) {
+        textoSla = `${Math.abs(diffSla)} pontos abaixo do mês passado (${r.slaMesAnterior}%)`;
+    }
+
+    document.getElementById("cards").innerHTML =
+        criarCardHome("Chamados em aberto", r.abertosTotal, `${sinalOntem}${r.diffOntem} desde ontem`, nivelAbertos) +
+        criarCardHome("Vencem hoje (SLA)", r.vencemHojeTotal, detVencem, nivelVencem) +
+        criarCardHome("SLA do mês", `${r.slaMes}%`, textoSla, nivelSla);
+}
+
+function renderizarFilaHome(r, termoBusca = "") {
+    const container = document.getElementById("fila-acoes");
+    const titulo = document.getElementById("titulo-fila");
+    if (!container) return;
+
+    const termo = termoBusca.trim().toLowerCase();
+    const filtrados = r.filaAcoes.filter(item =>
+        !termo ||
+        item.titulo.toLowerCase().includes(termo) ||
+        item.detalhe.toLowerCase().includes(termo)
+    );
+
+    if (titulo) {
+        titulo.textContent = `Fila de ações de hoje (${filtrados.length})`;
+    }
+
+    if (filtrados.length === 0) {
+        container.innerHTML = `<p class="text-gray-400 text-xs text-center py-4">Nenhum item encontrado na fila.</p>`;
         return;
     }
 
-    containerEq.innerHTML = ordenados.map(eq => {
-        const info = ESTADO_EQUIPAMENTO[eq.status];
-        const eqEstilo = ESTILO_ESTADO[info.estado];
+    container.innerHTML = filtrados.map(item => {
+        const corHex = item.nivel === "critico" ? HOME_ESTILO_NIVEL.critico.corHex : HOME_ESTILO_NIVEL.atencao.corHex;
         return `
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 p-3.5 rounded-xl bg-[#09121B] border border-white/5">
-            <div class="flex items-start sm:items-center gap-3 min-w-0 flex-1">
-                <span class="${eqEstilo.ponto}"></span>
-                <div class="min-w-0 flex-1">
-                    <p class="text-sm font-semibold text-white break-words">
-                        ${escHtml(eq.nome)} <span class="font-normal text-white/50">· ${escHtml(eq.modelo)}</span>
-                    </p>
-                    <p class="text-xs text-gray-400 mt-0.5 break-words">${escHtml(eq.detalhe)}</p>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-3.5 bg-[#09121B] rounded-xl border border-white/5">
+                <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <span class="h-2 w-2 rounded-full shrink-0" style="background:${corHex};"></span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-white font-bold text-sm truncate">${item.titulo}</p>
+                        <p class="text-gray-400 text-xs mt-1">${item.detalhe}</p>
+                    </div>
                 </div>
+                <a href="${item.link}"
+                    class="px-3 py-2 rounded-lg text-xs font-semibold text-light-blue bg-light-blue/10 border border-light-blue hover:bg-white/5 transition-element shrink-0 text-center">
+                    ${item.textoBotao}
+                </a>
             </div>
-            <span class="self-start sm:self-center shrink-0 ${eqEstilo.badge}">${info.rotulo}</span>
-        </div>`;
+        `;
     }).join("");
 }
 
-function inicializarSlaEmpresa() {
-    if (!document.getElementById("titulo-empresa")) return;
+function renderizarReincidentesHome(r, termoBusca = "") {
+    const container = document.getElementById("lista-reincidentes");
+    const titulo = document.getElementById("titulo-reincidentes");
+    if (!container) return;
 
-    estadoSlaEmpresa.dadosEmpresa = obterEmpresaSlaDaUrl();
+    const termo = termoBusca.trim().toLowerCase();
+    const filtrados = r.reincidentes.filter(item =>
+        !termo ||
+        item.equipamento.toLowerCase().includes(termo) ||
+        item.empresa.toLowerCase().includes(termo) ||
+        String(item.id_dispositivo).includes(termo)
+    );
 
-    document.getElementById("filtro-eq-todos")?.addEventListener("click", () => {
-        estadoSlaEmpresa.filtroEquipamentos = "todos";
-        renderizarSlaEmpresa();
+    if (titulo) {
+        titulo.textContent = `Reincidentes (${filtrados.length})`;
+    }
+
+    if (filtrados.length === 0) {
+        container.innerHTML = `<p class="text-gray-400 text-xs text-center py-4">Nenhum equipamento reincidente encontrado.</p>`;
+        return;
+    }
+
+    const maiorQtd = r.reincidentes[0]?.qtd || 1;
+
+    container.innerHTML = filtrados.map((item, i) => {
+        const pct = Math.round((item.qtd / maiorQtd) * 100);
+        const nivel = i === 0 ? HOME_ESTILO_NIVEL.critico : HOME_ESTILO_NIVEL.atencao;
+        const url = `./chamados/index.html?dispositivo=${encodeURIComponent(item.id_dispositivo)}`;
+
+        return `
+            <div onclick="window.location.href='${url}'"
+                class="flex flex-col gap-2 p-3.5 bg-[#09121B] rounded-xl border border-white/5 hover:border-light-blue/50 cursor-pointer transition-element">
+                <div class="flex justify-between items-center gap-3">
+                    <p class="text-white font-bold text-sm truncate">
+                        ${item.equipamento} <span class="font-normal text-white/60">(#${item.id_dispositivo}) · ${item.empresa}</span>
+                    </p>
+                    <span class="text-xs font-bold shrink-0 ${nivel.texto}">${item.qtd} chamados</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+                    <span class="block h-full rounded-full" style="width:${pct}%;background:${nivel.corHex};"></span>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+function inicializarHome() {
+    if (!document.getElementById("fila-acoes")) return;
+
+    const agora = new Date();
+    const dia = String(agora.getDate()).padStart(2, "0");
+    const mes = String(agora.getMonth() + 1).padStart(2, "0");
+    const hora = String(agora.getHours()).padStart(2, "0");
+    const min = String(agora.getMinutes()).padStart(2, "0");
+    const ref = document.getElementById("referencia");
+    if (ref) {
+        ref.textContent = `Hoje, ${dia}/${mes} · Atualizado às ${hora}:${min} · dados simulados`;
+    }
+
+    const dadosHome = gerarDadosMockadosHome();
+    resultadoHomeAtual = calcularHome(dadosHome);
+
+    renderizarKpisHome(resultadoHomeAtual);
+    renderizarFilaHome(resultadoHomeAtual);
+    renderizarReincidentesHome(resultadoHomeAtual);
+
+    document.getElementById("busca-fila")?.addEventListener("input", (e) => {
+        renderizarFilaHome(resultadoHomeAtual, e.target.value);
     });
 
-    document.getElementById("filtro-eq-atencao")?.addEventListener("click", () => {
-        estadoSlaEmpresa.filtroEquipamentos = "atencao";
-        renderizarSlaEmpresa();
+    document.getElementById("busca-reincidentes")?.addEventListener("input", (e) => {
+        renderizarReincidentesHome(resultadoHomeAtual, e.target.value);
     });
-
-    renderizarSlaEmpresa();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    carregarInformacoesUsuario();
 
     const btnSair = document.getElementById("btn-sair");
 
@@ -899,17 +787,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    chamadosCliente();
-
-    const inputBuscaCliente = document.getElementById("input-busca-cliente");
-
-    if (inputBuscaCliente) {
-        inputBuscaCliente.addEventListener("input", (e) => {
-            chamadosCliente(e.target.value);
-        });
-    }
-
-    inicializarSlaEmpresa();
+    inicializarHome();
 
     inicializarRelatorio();
 
