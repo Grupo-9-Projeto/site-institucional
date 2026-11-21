@@ -9,14 +9,14 @@ const API_URL = "http://localhost:8080"
 const BASE_JS = document.currentScript.src;
 const LOGIN_URL = new URL("../html/login.html", BASE_JS).href;
 
-function paginaIniciadlDoCargo(cargo) {
+function paginaInicialDoCargo(cargo) {
     if (cargo === "super") {
         return new URL("../usuarios.html", BASE_JS).href
     }
     if (cargo === "gerente") {
         return new URL("../html/gerente/home.html", BASE_JS).href
     }
-    return new URL("../html/analista/home/individualJoao/home.html", BASE_JS).href;
+    return new URL("../html/analista/home/IndividualJoao/home.html", BASE_JS).href;
 }
 
 // ---------- Token (JWT) ----------
@@ -32,7 +32,6 @@ function obterToken() {
 
 function sair() {
     sessionStorage.removeItem("TOKEN");
-    console.log("aaaa")
     window.location.href = LOGIN_URL;
 }
 
@@ -56,6 +55,28 @@ function exigirGerente() {
 
     if (!infoToken || infoToken.role !== "gerente" || expirado) {
         sair();
+        return false;
+    }
+    return true;
+}
+
+// Para telas exclusivas de analista: sem token válido volta ao login;
+// com token de gerente/super vai para a página inicial do cargo dele.
+function exigirAnalista() {
+    const infoToken = lerToken();
+    const expirado = infoToken && infoToken.exp && infoToken.exp * 1000 < Date.now();
+
+    if (!infoToken || expirado) {
+        sair();
+        return false;
+    }
+
+    if (infoToken.role !== "analista") {
+        if (infoToken.role === "gerente" || infoToken.role === "super") {
+            window.location.href = paginaInicialDoCargo(infoToken.role);
+        } else {
+            sair();
+        }
         return false;
     }
     return true;
