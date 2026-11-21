@@ -43,6 +43,8 @@ function obterIdEquipamento() {
 }
 
 async function iniciar() {
+    if (!exigirAnalista()) return;
+
     criarTooltipGrafico();
     configurarSubfiltrosAlertas();
     carregarInformacoesUsuario();
