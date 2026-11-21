@@ -429,370 +429,491 @@ async function carregarInformacoesUsuario() {
     if (foto) foto.textContent = usuario.nome?.[0] || "";
 }
 
-const HOME_ESTILO_NIVEL = {
-    ok: { texto: "text-green-500", corHex: "#22C55E" },
-    atencao: { texto: "text-yellow-500", corHex: "#FBBF24" },
-    critico: { texto: "text-red-500", corHex: "#EF4444" },
-    info: { texto: "text-light-blue", corHex: "#7DD3FC" }
+const HOME_BADGE_ESTILO = {
+    critico: {
+        texto: "Crítico",
+        classe: "px-2.5 py-0.5 rounded-md text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/30",
+        ponto: "#EF4444"
+    },
+    atencao: {
+        texto: "Atenção",
+        classe: "px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30",
+        ponto: "#F59E0B"
+    },
+    ok: {
+        texto: "Ok",
+        classe: "px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30",
+        ponto: "#10B981"
+    }
 };
 
-let resultadoHomeAtual = null;
-
 function gerarDadosMockadosHome() {
-    const agora = new Date();
-    const minutosAtras = min => new Date(agora.getTime() - min * 60000).toISOString();
-    const diasAtras = (dias, hora = 10) => {
-        const d = new Date(agora);
-        d.setDate(d.getDate() - dias);
-        d.setHours(hora, 15, 0, 0);
-        return d.toISOString();
+    return {
+        empresasPoucosFuncionarios: [
+            { nome: "Santander", funcionarios: 1, status: "Ativa" },
+            { nome: "Bradesco", funcionarios: 2, status: "Ativa" },
+            { nome: "Itaú", funcionarios: 2, status: "Ativa" },
+            { nome: "Safra", funcionarios: 3, status: "Suspensa" },
+            { nome: "BTG Pactual", funcionarios: 4, status: "Ativa" },
+            { nome: "XP Investimentos", funcionarios: 5, status: "Inativa" }
+        ],
+        chamados: {
+            emAberto: 9,
+            emAtendimento: 6,
+            resolvidos: 8,
+            criticosEmAberto: 2
+        },
+        slas: {
+            disponibilidade: 11,
+            resolucao: 7,
+            tempoResposta: 5
+        }
     };
+}
 
-    const contratos = [
-        { empresa: "Bradesco", prazoHoras: 4 },
-        { empresa: "Itaú", prazoHoras: 4 },
-        { empresa: "Banco do Brasil", prazoHoras: 2 },
-        { empresa: "Santander", prazoHoras: 24 },
-        { empresa: "Nubank", prazoHoras: 24 }
-    ];
+function normalizarDadosHome(bruto) {
+    const mock = gerarDadosMockadosHome();
+    if (!bruto || typeof bruto !== "object") return mock;
 
-    const semCobertura = [
-        { id_dispositivo: 106, equipamento: "FW-EDGE-01", empresa: "Bradesco", motivo: "Equipamento sem cobertura RMA ativa" }
-    ];
+    const origem = bruto.dados && typeof bruto.dados === "object" ? bruto.dados : bruto;
 
-    const chamados = [
-        { id: "CH-412", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "aberto", severidade: "critica", responsavel: "Lucas", aberto_em: minutosAtras(206) },
-        { id: "CH-415", id_dispositivo: 103, empresa: "Banco do Brasil", equipamento: "FW-MATRIZ-01", status: "aberto", severidade: "critica", responsavel: null, aberto_em: minutosAtras(85) },
-        { id: "CH-416", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "aberto", severidade: "critica", responsavel: "Ana", aberto_em: minutosAtras(165) },
-        { id: "CH-417", id_dispositivo: 107, empresa: "Bradesco", equipamento: "FW-CORE-02", status: "aberto", severidade: "alta", responsavel: "Rafael", aberto_em: minutosAtras(140) },
-        { id: "CH-418", id_dispositivo: 104, empresa: "Santander", equipamento: "RT-CORE-01", status: "aberto", severidade: "normal", responsavel: "Ana", aberto_em: minutosAtras(95) },
-        { id: "CH-419", id_dispositivo: 108, empresa: "Itaú", equipamento: "SW-CORE-01", status: "aberto", severidade: "normal", responsavel: "Lucas", aberto_em: minutosAtras(60) },
-        { id: "CH-420", id_dispositivo: 105, empresa: "Nubank", equipamento: "SW-CLOUD-01", status: "aberto", severidade: "normal", responsavel: "Rafael", aberto_em: minutosAtras(50) },
-        { id: "CH-421", id_dispositivo: 109, empresa: "Bradesco", equipamento: "RT-DC-02", status: "aberto", severidade: "normal", responsavel: "Ana", aberto_em: minutosAtras(40) },
-        { id: "CH-422", id_dispositivo: 110, empresa: "Santander", equipamento: "RT-EDGE-02", status: "aberto", severidade: "normal", responsavel: "Lucas", aberto_em: minutosAtras(35) },
-        { id: "CH-423", id_dispositivo: 111, empresa: "Itaú", equipamento: "FW-PIX-01", status: "aberto", severidade: "normal", responsavel: "Rafael", aberto_em: minutosAtras(25) },
-        { id: "CH-424", id_dispositivo: 112, empresa: "Nubank", equipamento: "FW-EDGE-04", status: "aberto", severidade: "normal", responsavel: "Ana", aberto_em: minutosAtras(15) },
-        { id: "CH-425", id_dispositivo: 113, empresa: "Banco do Brasil", equipamento: "RT-FILIAL-01", status: "aberto", severidade: "normal", responsavel: "Lucas", aberto_em: minutosAtras(10) },
-
-        { id: "CH-401", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(1, 9), concluido_em: diasAtras(1, 12) },
-        { id: "CH-402", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "concluido", aberto_em: diasAtras(1, 14), concluido_em: diasAtras(1, 16) },
-        { id: "CH-403", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(4, 14), concluido_em: diasAtras(4, 19) },
-        { id: "CH-404", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(9, 10), concluido_em: diasAtras(9, 13) },
-        { id: "CH-405", id_dispositivo: 101, empresa: "Bradesco", equipamento: "FW-CORE-03", status: "concluido", aberto_em: diasAtras(15, 15), concluido_em: diasAtras(15, 18) },
-        { id: "CH-406", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "concluido", aberto_em: diasAtras(6, 11), concluido_em: diasAtras(6, 13) },
-        { id: "CH-407", id_dispositivo: 102, empresa: "Itaú", equipamento: "SW-ACCESS-01", status: "concluido", aberto_em: diasAtras(12, 16), concluido_em: diasAtras(12, 19) },
-        { id: "CH-408", id_dispositivo: 103, empresa: "Banco do Brasil", equipamento: "FW-MATRIZ-01", status: "concluido", aberto_em: diasAtras(5, 8), concluido_em: diasAtras(5, 11) },
-        { id: "CH-409", id_dispositivo: 103, empresa: "Banco do Brasil", equipamento: "FW-MATRIZ-01", status: "concluido", aberto_em: diasAtras(14, 14), concluido_em: diasAtras(14, 15) },
-        { id: "CH-410", id_dispositivo: 104, empresa: "Santander", equipamento: "RT-CORE-01", status: "concluido", aberto_em: diasAtras(3, 9), concluido_em: diasAtras(3, 12) },
-        { id: "CH-411", id_dispositivo: 104, empresa: "Santander", equipamento: "RT-CORE-01", status: "concluido", aberto_em: diasAtras(8, 11), concluido_em: diasAtras(8, 14) },
-        { id: "CH-413", id_dispositivo: 105, empresa: "Nubank", equipamento: "SW-CLOUD-01", status: "concluido", aberto_em: diasAtras(7, 13), concluido_em: diasAtras(7, 15) },
-        { id: "CH-414", id_dispositivo: 105, empresa: "Nubank", equipamento: "SW-CLOUD-01", status: "concluido", aberto_em: diasAtras(11, 10), concluido_em: diasAtras(11, 12) }
-    ];
+    const listaEmpresas = Array.isArray(origem.empresasPoucosFuncionarios)
+        ? origem.empresasPoucosFuncionarios
+        : Array.isArray(origem.empresas)
+            ? origem.empresas
+            : mock.empresasPoucosFuncionarios;
 
     return {
-        abertosOntem: 9,
-        slaMesAnterior: 93,
-        metaSla: 95,
-        contratos,
-        semCobertura,
-        chamados
+        empresasPoucosFuncionarios: listaEmpresas
+            .map(item => ({
+                nome: item.nome || item.empresa || "Empresa",
+                funcionarios: Number(item.funcionarios ?? item.qtdFuncionarios ?? item.totalFuncionarios ?? 0),
+                status: item.status || "Ativa"
+            }))
+            .sort((a, b) => a.funcionarios - b.funcionarios),
+        chamados: {
+            emAberto: Number(origem.chamados?.emAberto ?? origem.chamados?.em_aberto ?? mock.chamados.emAberto),
+            emAtendimento: Number(origem.chamados?.emAtendimento ?? origem.chamados?.em_atendimento ?? mock.chamados.emAtendimento),
+            resolvidos: Number(origem.chamados?.resolvidos ?? origem.chamados?.resolvidos ?? mock.chamados.resolvidos),
+            criticosEmAberto: Number(origem.chamados?.criticosEmAberto ?? origem.chamados?.criticos_em_aberto ?? mock.chamados.criticosEmAberto)
+        },
+        slas: {
+            disponibilidade: Number(origem.slas?.disponibilidade ?? mock.slas.disponibilidade),
+            resolucao: Number(origem.slas?.resolucao ?? mock.slas.resolucao),
+            tempoResposta: Number(origem.slas?.tempoResposta ?? origem.slas?.tempo_resposta ?? mock.slas.tempoResposta)
+        }
     };
 }
 
-function formatarMinutosHome(totalMin) {
-    const abs = Math.abs(Math.round(totalMin));
-    const h = Math.floor(abs / 60);
-    const m = abs % 60;
-    if (h === 0) return `${m} min`;
-    if (m === 0) return `${h}h`;
-    return `${h}h ${String(m).padStart(2, "0")}m`;
+function aplicarBadgeEsfera(idBadge, nivel) {
+    const el = document.getElementById(idBadge);
+    if (!el) return;
+    const estilo = HOME_BADGE_ESTILO[nivel] || HOME_BADGE_ESTILO.ok;
+    el.textContent = estilo.texto;
+    el.className = estilo.classe;
 }
 
-function calcularHome(dadosHome) {
-    const agora = new Date();
-    const prazoPorEmpresa = {};
-    dadosHome.contratos.forEach(c => { prazoPorEmpresa[c.empresa] = c.prazoHoras * 60; });
+function desenharGraficoRadar(canvasId, itens) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return false;
 
-    const abertos = dadosHome.chamados.filter(c => c.status === "aberto");
-    const diffOntem = abertos.length - dadosHome.abertosOntem;
+    const parent = canvas.parentElement;
+    if (!parent) return false;
 
-    const vencendoHoje = [];
-    abertos.forEach(c => {
-        const limiteMin = prazoPorEmpresa[c.empresa] || 240;
-        const decorridoMin = (agora - new Date(c.aberto_em)) / 60000;
-        const restanteMin = limiteMin - decorridoMin;
-        if (restanteMin <= 180) {
-            vencendoHoje.push({ ...c, restanteMin, limiteMin });
+    const rect = parent.getBoundingClientRect();
+    const width = Math.max(200, Math.floor(rect.width));
+    const height = Math.max(125, Math.floor(rect.height));
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return false;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+
+    const n = itens.length;
+    if (n < 3) return false;
+
+    const cx = width / 2;
+    const cy = height / 2 + 6;
+    const raioMax = Math.max(22, Math.min(width / 2 - 58, height / 2 - 22));
+    const maxValor = Math.max(1, ...itens.map(i => Math.max(0, i.valor)));
+    const aneis = 3;
+
+    for (let nivel = 1; nivel <= aneis; nivel++) {
+        const r = (raioMax / aneis) * nivel;
+        ctx.beginPath();
+        for (let i = 0; i < n; i++) {
+            const angulo = -Math.PI / 2 + (i * Math.PI * 2) / n;
+            const x = cx + Math.cos(angulo) * r;
+            const y = cy + Math.sin(angulo) * r;
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
         }
+        ctx.closePath();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    for (let i = 0; i < n; i++) {
+        const angulo = -Math.PI / 2 + (i * Math.PI * 2) / n;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.cos(angulo) * raioMax, cy + Math.sin(angulo) * raioMax);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+    }
+
+    const pontos = itens.map((item, i) => {
+        const angulo = -Math.PI / 2 + (i * Math.PI * 2) / n;
+        const proporcao = Math.max(0.08, Math.min(1, Math.max(0, item.valor) / maxValor));
+        const r = raioMax * proporcao;
+        return {
+            x: cx + Math.cos(angulo) * r,
+            y: cy + Math.sin(angulo) * r,
+            angulo,
+            item
+        };
     });
 
-    const concluidos = dadosHome.chamados.filter(c => c.status === "concluido");
-    let dentroSla = 0;
-    concluidos.forEach(c => {
-        const limiteMin = prazoPorEmpresa[c.empresa] || 240;
-        const duracaoMin = (new Date(c.concluido_em) - new Date(c.aberto_em)) / 60000;
-        if (duracaoMin <= limiteMin) dentroSla++;
+    ctx.beginPath();
+    pontos.forEach((p, idx) => {
+        if (idx === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
     });
-    const slaMes = concluidos.length > 0 ? Math.round((dentroSla / concluidos.length) * 100) : 100;
+    ctx.closePath();
+    ctx.fillStyle = "rgba(239, 68, 68, 0.24)";
+    ctx.fill();
+    ctx.strokeStyle = "#EF4444";
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-    const contagemEq = {};
-    dadosHome.chamados.forEach(c => {
-        const chave = String(c.id_dispositivo);
-        if (!contagemEq[chave]) {
-            contagemEq[chave] = {
-                id_dispositivo: c.id_dispositivo,
-                equipamento: c.equipamento,
-                empresa: c.empresa,
-                qtd: 0
-            };
+    pontos.forEach((p) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = p.item.cor;
+        ctx.fill();
+        ctx.strokeStyle = "#0D1924";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        const labelRaio = raioMax + 10;
+        const cosA = Math.cos(p.angulo);
+        const sinA = Math.sin(p.angulo);
+        let lx = cx + cosA * labelRaio;
+        const ly = cy + sinA * labelRaio + (sinA > 0.4 ? 4 : 0);
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+        ctx.font = "500 10px Poppins, sans-serif";
+        ctx.textBaseline = "middle";
+        if (Math.abs(cosA) < 0.2) {
+            ctx.textAlign = "center";
+        } else if (cosA > 0) {
+            ctx.textAlign = "left";
+            lx = Math.min(width - 86, lx);
+        } else {
+            ctx.textAlign = "left";
+            lx = Math.max(6, lx - 68);
         }
-        contagemEq[chave].qtd++;
+        ctx.fillText(`${p.item.rotulo} (${p.item.valor})`, lx, ly);
     });
 
-    const reincidentes = Object.values(contagemEq)
-        .filter(item => item.qtd >= 3)
-        .sort((a, b) => b.qtd - a.qtd);
-
-    const filaAcoes = [];
-
-    vencendoHoje
-        .slice()
-        .sort((a, b) => a.restanteMin - b.restanteMin)
-        .forEach(c => {
-            const jaPassou = c.restanteMin <= 0;
-            filaAcoes.push({
-                nivel: "critico",
-                titulo: `${c.equipamento} (#${c.id_dispositivo}) · ${c.empresa}`,
-                detalhe: jaPassou
-                    ? `Chamado #${c.id} estourou o SLA há ${formatarMinutosHome(c.restanteMin)} · agir agora`
-                    : `Chamado #${c.id} vence o SLA em ${formatarMinutosHome(c.restanteMin)}`,
-                textoBotao: "Ver chamado",
-                link: `./chamados/index.html?chamado=${encodeURIComponent(c.id)}`
-            });
-        });
-
-    abertos
-        .filter(c => !c.responsavel && !vencendoHoje.some(v => v.id === c.id))
-        .forEach(c => {
-            filaAcoes.push({
-                nivel: "critico",
-                titulo: `Chamado #${c.id} · ${c.equipamento} (#${c.id_dispositivo})`,
-                detalhe: `${c.empresa} · está sem analista responsável`,
-                textoBotao: "Ver chamado",
-                link: `./chamados/index.html?chamado=${encodeURIComponent(c.id)}`
-            });
-        });
-
-    reincidentes.forEach(r => {
-        filaAcoes.push({
-            nivel: "atencao",
-            titulo: `${r.equipamento} (#${r.id_dispositivo}) · ${r.empresa}`,
-            detalhe: `${r.qtd} chamados em 30 dias · investigar recorrência`,
-            textoBotao: "Ver chamados",
-            link: `./chamados/index.html?dispositivo=${encodeURIComponent(r.id_dispositivo)}`
-        });
-    });
-
-    dadosHome.semCobertura.forEach(s => {
-        filaAcoes.push({
-            nivel: "atencao",
-            titulo: `${s.equipamento} (#${s.id_dispositivo}) · ${s.empresa}`,
-            detalhe: s.motivo,
-            textoBotao: "Ver chamados",
-            link: `./chamados/index.html?dispositivo=${encodeURIComponent(s.id_dispositivo)}`
-        });
-    });
-
-    return {
-        abertosTotal: abertos.length,
-        diffOntem,
-        vencemHojeTotal: vencendoHoje.length,
-        slaMes,
-        slaMesAnterior: dadosHome.slaMesAnterior,
-        metaSla: dadosHome.metaSla,
-        reincidentes,
-        filaAcoes
-    };
+    return true;
 }
 
-function criarCardHome(titulo, valor, detalhe, nivel) {
-    const c = HOME_ESTILO_NIVEL[nivel] || HOME_ESTILO_NIVEL.info;
-    return `
-        <article class="flex-1 min-w-0 rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4 lg:p-6 overflow-hidden" style="border-top: 3px solid ${c.corHex};">
-            <div>
-                <p class="text-gray-400 text-[13px] truncate">${titulo}</p>
-                <p class="font-bold text-2xl mt-1 truncate ${c.texto}">${valor}</p>
-            </div>
-            <p class="text-xs leading-snug mt-2 truncate ${c.texto}">${detalhe}</p>
-        </article>
-    `;
+function desenharGraficoRosca(canvasId, itens, rotuloCentro) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return false;
+
+    const parent = canvas.parentElement;
+    if (!parent) return false;
+
+    const rect = parent.getBoundingClientRect();
+    const width = Math.max(200, Math.floor(rect.width));
+    const height = Math.max(120, Math.floor(rect.height));
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return false;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+
+    const total = itens.reduce((acc, item) => acc + Math.max(0, item.valor), 0);
+    const legendWidth = width >= 280 ? 120 : 0;
+    const donutAreaWidth = Math.max(80, width - legendWidth);
+
+    const cx = donutAreaWidth / 2;
+    const cy = height / 2;
+    const outerRadius = Math.max(24, Math.min(donutAreaWidth, height) / 2 - 8);
+    const innerRadius = Math.max(14, outerRadius * 0.62);
+
+    if (total === 0) {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.14)";
+        ctx.lineWidth = outerRadius - innerRadius;
+        ctx.beginPath();
+        ctx.arc(cx, cy, (outerRadius + innerRadius) / 2, 0, Math.PI * 2);
+        ctx.stroke();
+    } else {
+        let anguloAtual = -Math.PI / 2;
+        const gap = itens.filter(i => i.valor > 0).length > 1 ? 0.03 : 0;
+
+        itens.forEach(item => {
+            if (item.valor <= 0) return;
+            const fatia = (item.valor / total) * (Math.PI * 2);
+            const inicio = anguloAtual + gap / 2;
+            const fim = anguloAtual + fatia - gap / 2;
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, outerRadius, inicio, Math.max(inicio, fim));
+            ctx.arc(cx, cy, innerRadius, Math.max(inicio, fim), inicio, true);
+            ctx.closePath();
+            ctx.fillStyle = item.cor;
+            ctx.fill();
+
+            anguloAtual += fatia;
+        });
+    }
+
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "700 15px Poppins, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(String(total), cx, cy - 6);
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
+    ctx.font = "500 10px Poppins, sans-serif";
+    ctx.fillText(rotuloCentro, cx, cy + 9);
+
+    if (legendWidth > 0) {
+        const legX = donutAreaWidth + 6;
+        const rowH = 22;
+        const startY = Math.max(10, cy - (itens.length * rowH) / 2 + rowH / 2);
+
+        itens.forEach((item, idx) => {
+            const y = startY + idx * rowH;
+
+            ctx.beginPath();
+            ctx.arc(legX + 4, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = item.cor;
+            ctx.fill();
+
+            ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+            ctx.font = "500 11px Poppins, sans-serif";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "middle";
+            ctx.fillText(`${item.valor} ${item.rotulo}`, legX + 14, y);
+        });
+    }
+
+    return true;
 }
 
-function renderizarKpisHome(r) {
-    const sinalOntem = r.diffOntem >= 0 ? "↑ +" : "↓ ";
-    const nivelAbertos = r.diffOntem > 0 ? "atencao" : "info";
+function renderizarGraficoSlas(sla) {
+    const itens = [
+        { rotulo: "Disponibilidade", valor: sla.disponibilidade, cor: "#EF4444" },
+        { rotulo: "Resolução", valor: sla.resolucao, cor: "#F59E0B" },
+        { rotulo: "Tempo resp.", valor: sla.tempoResposta, cor: "#3B82F6" }
+    ];
 
-    const nivelVencem = r.vencemHojeTotal > 0 ? "critico" : "ok";
-    const detVencem = r.vencemHojeTotal > 0 ? "Prioridade imediata hoje" : "Nenhum prazo em risco hoje";
+    desenharGraficoRadar("canvas-slas", itens);
 
-    const diffSla = r.slaMes - r.slaMesAnterior;
-    const nivelSla = r.slaMes >= r.metaSla ? "ok" : (r.slaMes >= r.metaSla - 10 ? "atencao" : "critico");
-    let textoSla = `Igual ao mês passado (${r.slaMesAnterior}%)`;
-    if (diffSla > 0) {
-        textoSla = `${diffSla} pontos acima do mês passado (${r.slaMesAnterior}%)`;
-    } else if (diffSla < 0) {
-        textoSla = `${Math.abs(diffSla)} pontos abaixo do mês passado (${r.slaMesAnterior}%)`;
+    const legendaEl = document.getElementById("legenda-slas");
+    if (legendaEl) {
+        legendaEl.innerHTML = itens.map(item => `
+            <span class="flex items-center gap-1.5">
+                <span class="h-2 w-2 rounded-full inline-block" style="background:${item.cor};"></span>
+                <span>${item.valor} ${item.rotulo.toLowerCase()}</span>
+            </span>
+        `).join("");
     }
-
-    document.getElementById("cards").innerHTML =
-        criarCardHome("Chamados em aberto", r.abertosTotal, `${sinalOntem}${r.diffOntem} desde ontem`, nivelAbertos) +
-        criarCardHome("Vencem hoje (SLA)", r.vencemHojeTotal, detVencem, nivelVencem) +
-        criarCardHome("SLA do mês", `${r.slaMes}%`, textoSla, nivelSla);
 }
 
-function renderizarFilaHome(r, termoBusca = "") {
-    const container = document.getElementById("fila-acoes");
-    const titulo = document.getElementById("titulo-fila");
-    if (!container) return;
+function renderizarGraficoChamados(ch) {
+    const itens = [
+        { rotulo: "Em aberto", valor: ch.emAberto, cor: "#EF4444" },
+        { rotulo: "Em atend.", valor: ch.emAtendimento, cor: "#F59E0B" },
+        { rotulo: "Resolvidos", valor: ch.resolvidos, cor: "#10B981" }
+    ];
 
-    const termo = termoBusca.trim().toLowerCase();
-    const filtrados = r.filaAcoes.filter(item =>
-        !termo ||
-        item.titulo.toLowerCase().includes(termo) ||
-        item.detalhe.toLowerCase().includes(termo)
-    );
+    desenharGraficoRosca("canvas-chamados", itens, "CHAMADOS");
 
-    if (titulo) {
-        titulo.textContent = `Fila de ações de hoje (${filtrados.length})`;
+    const legendaEl = document.getElementById("legenda-chamados");
+    if (legendaEl) {
+        legendaEl.innerHTML = itens.map(item => `
+            <span class="flex items-center gap-1.5">
+                <span class="h-2 w-2 rounded-full inline-block" style="background:${item.cor};"></span>
+                <span>${item.valor} ${item.rotulo.toLowerCase()}</span>
+            </span>
+        `).join("");
     }
+}
 
-    if (filtrados.length === 0) {
-        container.innerHTML = `<p class="text-gray-400 text-xs text-center py-4">Nenhum item encontrado na fila.</p>`;
-        return;
-    }
+function renderizarTabelaEmpresasPoucosFuncionarios(lista) {
+    const tbody = document.getElementById("tabela-empresas-poucos-funcionarios");
+    const legendaEl = document.getElementById("legenda-empresas");
+    if (!tbody) return;
 
-    container.innerHTML = filtrados.map(item => {
-        const corHex = item.nivel === "critico" ? HOME_ESTILO_NIVEL.critico.corHex : HOME_ESTILO_NIVEL.atencao.corHex;
-        return `
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 p-3.5 bg-[#09121B] rounded-xl border border-white/5">
-                <div class="flex items-center gap-3 min-w-0 flex-1">
-                    <span class="h-2 w-2 rounded-full shrink-0" style="background:${corHex};"></span>
-                    <div class="min-w-0 flex-1">
-                        <p class="text-white font-bold text-sm truncate">${item.titulo}</p>
-                        <p class="text-gray-400 text-xs mt-1">${item.detalhe}</p>
-                    </div>
-                </div>
-                <a href="${item.link}"
-                    class="px-3 py-2 rounded-lg text-xs font-semibold text-light-blue bg-light-blue/10 border border-light-blue hover:bg-white/5 transition-element shrink-0 text-center">
-                    ${item.textoBotao}
-                </a>
-            </div>
+    const ordenadas = [...lista].sort((a, b) => a.funcionarios - b.funcionarios);
+
+    if (ordenadas.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td class="py-3 px-3 text-white/60" colspan="2">Nenhuma empresa encontrada.</td>
+            </tr>
         `;
-    }).join("");
+    } else {
+        tbody.innerHTML = ordenadas.map(emp => {
+            const qtdTexto = emp.funcionarios === 1 ? "1 func." : `${emp.funcionarios} funcs.`;
+            const corQtd = emp.funcionarios <= 2 ? "text-red-400 font-semibold" : "text-amber-300 font-medium";
+            return `
+                <tr class="hover:bg-white/5 transition-colors">
+                    <td class="py-2.5 px-3 font-medium text-white">${emp.nome}</td>
+                    <td class="py-2.5 px-3 text-right ${corQtd}">${qtdTexto}</td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    if (legendaEl) {
+        const menorEquipe = ordenadas.length > 0 ? ordenadas[0].funcionarios : 0;
+        legendaEl.textContent = ordenadas.length > 0
+            ? `Menor equipe: ${menorEquipe} ${menorEquipe === 1 ? "funcionário" : "funcionários"}`
+            : "";
+    }
 }
 
-function renderizarReincidentesHome(r, termoBusca = "") {
-    const container = document.getElementById("lista-reincidentes");
-    const titulo = document.getElementById("titulo-reincidentes");
-    if (!container) return;
+function renderizarHomeHolistica(dadosHome) {
+    const normalizados = normalizarDadosHome(dadosHome);
+    const { empresasPoucosFuncionarios, chamados: ch, slas: sla } = normalizados;
 
-    const termo = termoBusca.trim().toLowerCase();
-    const filtrados = r.reincidentes.filter(item =>
-        !termo ||
-        item.equipamento.toLowerCase().includes(termo) ||
-        item.empresa.toLowerCase().includes(termo) ||
-        String(item.id_dispositivo).includes(termo)
-    );
+    const estadosAreas = [];
 
-    if (titulo) {
-        titulo.textContent = `Reincidentes (${filtrados.length})`;
+    const totalSla = sla.disponibilidade + sla.resolucao + sla.tempoResposta;
+    const nivelSla = totalSla >= 15 ? "atencao" : (totalSla > 0 ? "atencao" : "ok");
+    estadosAreas.push({ nome: "os SLAs", nivel: nivelSla });
+    aplicarBadgeEsfera("badge-slas", nivelSla);
+
+    const maiorSla = [
+        { nome: "Disponibilidade", valor: sla.disponibilidade },
+        { nome: "Resolução", valor: sla.resolucao },
+        { nome: "Tempo de resposta", valor: sla.tempoResposta }
+    ].sort((a, b) => b.valor - a.valor)[0];
+
+    const tituloSlasEl = document.getElementById("titulo-slas");
+    if (tituloSlasEl) {
+        tituloSlasEl.textContent = totalSla > 0
+            ? `${maiorSla.nome} concentra ${maiorSla.valor} das ${totalSla} violações de SLA`
+            : "Nenhuma violação de SLA registrada";
+    }
+    renderizarGraficoSlas(sla);
+
+    const totalCh = ch.emAberto + ch.emAtendimento + ch.resolvidos;
+    const nivelCh = ch.criticosEmAberto > 0 ? "critico" : (ch.emAberto > 0 ? "atencao" : "ok");
+    estadosAreas.push({ nome: "os chamados", nivel: nivelCh });
+    aplicarBadgeEsfera("badge-chamados", nivelCh);
+
+    const tituloChamadosEl = document.getElementById("titulo-chamados");
+    const subtituloChamadosEl = document.getElementById("subtitulo-chamados");
+    if (tituloChamadosEl) {
+        tituloChamadosEl.textContent = ch.criticosEmAberto > 0
+            ? `${ch.criticosEmAberto} ${ch.criticosEmAberto === 1 ? "chamado crítico ainda está em aberto" : "chamados críticos ainda estão em aberto"}`
+            : `${ch.emAberto} ${ch.emAberto === 1 ? "chamado em aberto" : "chamados em aberto"}`;
+    }
+    if (subtituloChamadosEl) {
+        subtituloChamadosEl.textContent = `São ${totalCh} chamados no total.`;
+    }
+    renderizarGraficoChamados(ch);
+
+    const criticaEquipe = empresasPoucosFuncionarios.filter(e => e.funcionarios <= 1).length;
+    const atencaoEquipe = empresasPoucosFuncionarios.filter(e => e.funcionarios > 1 && e.funcionarios <= 3).length;
+    const nivelEmp = criticaEquipe > 0 ? "critico" : (atencaoEquipe > 0 ? "atencao" : "ok");
+    estadosAreas.push({ nome: "as empresas", nivel: nivelEmp });
+    aplicarBadgeEsfera("badge-empresas", nivelEmp);
+
+    const tituloEmpEl = document.getElementById("titulo-empresas");
+    const subtituloEmpEl = document.getElementById("subtitulo-empresas");
+    if (tituloEmpEl) {
+        tituloEmpEl.textContent = "Empresas com poucos funcionários";
+    }
+    if (subtituloEmpEl) {
+        subtituloEmpEl.textContent = `${empresasPoucosFuncionarios.length} empresas listadas por menor equipe.`;
+    }
+    renderizarTabelaEmpresasPoucosFuncionarios(empresasPoucosFuncionarios);
+
+    const faixaEl = document.getElementById("faixa-resumo-home");
+    const textoFaixaEl = document.getElementById("texto-faixa-home");
+    const indicadoresEl = document.getElementById("indicadores-faixa-home");
+
+    const criticos = estadosAreas.filter(a => a.nivel === "critico");
+    const atencoes = estadosAreas.filter(a => a.nivel === "atencao");
+
+    if (faixaEl && textoFaixaEl) {
+        if (criticos.length > 0) {
+            faixaEl.className = "rounded-xl border border-red-500/30 bg-red-950/35 px-4 py-2.5 flex items-center justify-between gap-3 shrink-0 transition-element";
+            textoFaixaEl.className = "text-xs sm:text-sm font-medium text-red-300";
+            const foco = criticos[0].nome;
+            textoFaixaEl.textContent = `${criticos.length} ${criticos.length === 1 ? "área crítica" : "áreas críticas"} e ${atencoes.length} em atenção. Comece por ${foco}.`;
+        } else if (atencoes.length > 0) {
+            faixaEl.className = "rounded-xl border border-amber-500/30 bg-amber-950/30 px-4 py-2.5 flex items-center justify-between gap-3 shrink-0 transition-element";
+            textoFaixaEl.className = "text-xs sm:text-sm font-medium text-amber-300";
+            textoFaixaEl.textContent = `${atencoes.length} ${atencoes.length === 1 ? "área em atenção" : "áreas em atenção"}. Acompanhe os indicadores abaixo.`;
+        } else {
+            faixaEl.className = "rounded-xl border border-emerald-500/30 bg-emerald-950/30 px-4 py-2.5 flex items-center justify-between gap-3 shrink-0 transition-element";
+            textoFaixaEl.className = "text-xs sm:text-sm font-medium text-emerald-300";
+            textoFaixaEl.textContent = "Todas as áreas estão dentro do esperado.";
+        }
     }
 
-    if (filtrados.length === 0) {
-        container.innerHTML = `<p class="text-gray-400 text-xs text-center py-4">Nenhum equipamento reincidente encontrado.</p>`;
-        return;
+    if (indicadoresEl) {
+        indicadoresEl.innerHTML = estadosAreas.map(area => {
+            const cor = (HOME_BADGE_ESTILO[area.nivel] || HOME_BADGE_ESTILO.ok).ponto;
+            return `<span class="h-2.5 w-2.5 rounded-full inline-block" style="background:${cor};"></span>`;
+        }).join("");
     }
 
-    const maiorQtd = r.reincidentes[0]?.qtd || 1;
-
-    container.innerHTML = filtrados.map((item, i) => {
-        const pct = Math.round((item.qtd / maiorQtd) * 100);
-        const nivel = i === 0 ? HOME_ESTILO_NIVEL.critico : HOME_ESTILO_NIVEL.atencao;
-        const url = `./chamados/index.html?dispositivo=${encodeURIComponent(item.id_dispositivo)}`;
-
-        return `
-            <div onclick="window.location.href='${url}'"
-                class="flex flex-col gap-2 p-3.5 bg-[#09121B] rounded-xl border border-white/5 hover:border-light-blue/50 cursor-pointer transition-element">
-                <div class="flex justify-between items-center gap-3">
-                    <p class="text-white font-bold text-sm truncate">
-                        ${item.equipamento} <span class="font-normal text-white/60">(#${item.id_dispositivo}) · ${item.empresa}</span>
-                    </p>
-                    <span class="text-xs font-bold shrink-0 ${nivel.texto}">${item.qtd} chamados</span>
-                </div>
-                <div class="w-full h-2 rounded-full bg-white/5 overflow-hidden">
-                    <span class="block h-full rounded-full" style="width:${pct}%;background:${nivel.corHex};"></span>
-                </div>
-            </div>
-        `;
-    }).join("");
+    const referenciaEl = document.getElementById("referencia");
+    if (referenciaEl) {
+        const agora = new Date();
+        referenciaEl.textContent = `Atualizado em ${agora.toLocaleDateString("pt-BR")}, ${agora.toLocaleTimeString("pt-BR")}`;
+    }
 }
 
-function inicializarHome() {
-    if (!document.getElementById("fila-acoes")) return;
+async function inicializarHome() {
+    const gridHome = document.getElementById("grid-esferas-home");
+    if (!gridHome) return;
 
-    const agora = new Date();
-    const dia = String(agora.getDate()).padStart(2, "0");
-    const mes = String(agora.getMonth() + 1).padStart(2, "0");
-    const hora = String(agora.getHours()).padStart(2, "0");
-    const min = String(agora.getMinutes()).padStart(2, "0");
-    const ref = document.getElementById("referencia");
-    if (ref) {
-        ref.textContent = `Hoje, ${dia}/${mes} · Atualizado às ${hora}:${min} · dados simulados`;
+    const dadosMock = gerarDadosMockadosHome();
+    renderizarHomeHolistica(dadosMock);
+
+    if (typeof apiFetch !== "function") return;
+
+    const resposta = await chamarApi("/thabata/home", "GET");
+    if (resposta.ok && resposta.dados) {
+        renderizarHomeHolistica(resposta.dados);
     }
 
-    const dadosHome = gerarDadosMockadosHome();
-    resultadoHomeAtual = calcularHome(dadosHome);
-
-    renderizarKpisHome(resultadoHomeAtual);
-    renderizarFilaHome(resultadoHomeAtual);
-    renderizarReincidentesHome(resultadoHomeAtual);
-
-    document.getElementById("busca-fila")?.addEventListener("input", (e) => {
-        renderizarFilaHome(resultadoHomeAtual, e.target.value);
-    });
-
-    document.getElementById("busca-reincidentes")?.addEventListener("input", (e) => {
-        renderizarReincidentesHome(resultadoHomeAtual, e.target.value);
+    window.addEventListener("resize", () => {
+        const atual = resposta.ok && resposta.dados ? normalizarDadosHome(resposta.dados) : dadosMock;
+        renderizarGraficoSlas(atual.slas);
+        renderizarGraficoChamados(atual.chamados);
     });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     carregarInformacoesUsuario();
-
-    const btnSair = document.getElementById("btn-sair");
-
-    if (btnSair) {
-        btnSair.addEventListener("click", (e) => {
-            e.preventDefault();
-            abrirModal();
-        });
-    }
-
-    if (modal) {
-        modal.addEventListener("click", (e) => {
-            if (e.target === modal) {
-                fecharModal();
-            }
-        });
-    }
-
     inicializarHome();
-
     inicializarRelatorio();
-
-    if (typeof renderizarGraficos === "function") {
-        renderizarGraficos();
-    }
-
 });
