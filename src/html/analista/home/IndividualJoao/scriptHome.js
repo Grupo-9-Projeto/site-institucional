@@ -19,15 +19,18 @@ async function carregarCardsEmpresas() {
 
     const dados = await chamarApi("/joao/equipamentos_monitorados", "GET");
 
+    if (!dados.ok || !Array.isArray(dados.dados)) return;
+
     dados.dados.forEach(async empresa => {
 
-        console.log(empresa)
         const resposta1 = await chamarApi("/joao/alertas_empresa", "POST", {
             id_empresa: empresa.id_empresa
         })
         const resposta2 = await chamarApi("/joao/porcentagem_empresa", "POST", {
             id_empresa: empresa.id_empresa
         })
+
+        if (!resposta1.ok || !resposta2.ok || !resposta1.dados?.[0] || !resposta2.dados?.[0]) return;
 
         const dadosAlertas = resposta1.dados[0];
         const percentual = resposta2.dados[0];
@@ -200,6 +203,8 @@ async function carregarRankEquipamentos() {
 
     const dados = await chamarApi("/joao/rankEquipamentos", "GET");
 
+    if (!dados.ok || !Array.isArray(dados.dados)) return;
+
     dados.dados.forEach((item, index) => {
 
         const posicao = index + 1;
@@ -288,7 +293,8 @@ async function carregarInformacoesUsuario() {
 
     const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
 
-    console.log(resposta.dados[0])
+    if (!resposta.ok || !Array.isArray(resposta.dados) || !resposta.dados[0]) return;
+
     nome_title.textContent = resposta.dados[0].nome;
     foto.textContent = resposta.dados[0].nome[0]
 }
@@ -298,11 +304,13 @@ async function direcionarPaginaEquipamentos(empresaId) {
 }
 
 async function direcionarPaginaDetalhesEquipamentos(dados) {
-    window.location.href = `../equipamento.html?idEmpresa=${dados.id_empresa}idEquipamento=${dados.id_dispositivo}`;
+    window.location.href = `../equipamento.html?idEmpresa=${dados.id_empresa}&idEquipamento=${dados.id_dispositivo}`;
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (!exigirAnalista()) return;
+
     carregarCardsEmpresas()
     carregarRankEquipamentos()
     carregarInformacoesUsuario();

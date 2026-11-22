@@ -483,6 +483,8 @@ const ARGOS_DATA = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (!exigirAnalista()) return;
+
     const btnHamburguer = document.getElementById('btn-hamburguer');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
@@ -512,9 +514,30 @@ document.addEventListener("DOMContentLoaded", () => {
         carregarEquipamento();
     }
     if (pagina === "relatorio") {
-    carregarRelatorioAlerta();
+        carregarUsuarioSidebar();
+        carregarRelatorioAlerta();
     }
 });
+
+async function carregarUsuarioSidebar() {
+    const nomeEl = document.getElementById("nome_title");
+    const fotoEl = document.getElementById("foto_usuario");
+    if (!nomeEl || !fotoEl) return;
+
+    try {
+        const resposta = await apiFetch("/usuarios/informacoes_usuario", { method: "GET" });
+        if (!resposta.ok || !Array.isArray(resposta.dados) || !resposta.dados[0]) return;
+
+        const nome = String(resposta.dados[0].nome || "").trim();
+        if (!nome) return;
+
+        nomeEl.textContent = nome;
+        fotoEl.textContent = nome.charAt(0).toUpperCase();
+    } catch (erro) {
+        if (erro && erro.sessaoExpirada) return;
+        console.log("Erro ao carregar informações do usuário:", erro);
+    }
+}
 
 function obterEmpresaPorId(id) {
     return ARGOS_DATA.empresas.find(empresa => empresa.id === id);
@@ -613,7 +636,7 @@ function carregarEmpresa() {
     const empresa = obterEmpresaPorId(empresaId);
 
     if (!empresa) {
-        window.location.href = "home.html";
+        window.location.href = "IndividualJoao/home.html";
         return;
     }
 
@@ -673,7 +696,7 @@ function carregarEquipamento() {
     const equipamento = obterEquipamentoPorId(equipamentoId);
 
     if (!empresa || !equipamento || equipamento.empresa !== empresa.id) {
-        window.location.href = "home.html";
+        window.location.href = "IndividualJoao/home.html";
         return;
     }
 
@@ -722,7 +745,7 @@ function carregarRelatorioAlerta() {
     const limites = ARGOS_DATA.limitesPorSeveridade;
 
     if (!empresa || !equipamento || equipamento.empresa !== empresa.id || !alerta) {
-        window.location.href = "home.html";
+        window.location.href = "IndividualJoao/home.html";
         return;
     }
 

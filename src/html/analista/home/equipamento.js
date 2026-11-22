@@ -43,6 +43,8 @@ function obterIdEquipamento() {
 }
 
 async function iniciar() {
+    if (!exigirAnalista()) return;
+
     criarTooltipGrafico();
     configurarSubfiltrosAlertas();
     carregarInformacoesUsuario();
@@ -457,13 +459,17 @@ function preencherCabecalho() {
 
     preencherTexto("equipamento-titulo", equipamento.nome);
     preencherTexto("equipamento-breadcrumb", equipamento.nome);
-    preencherTexto("empresa-breadcrumb", equipamento.empresa);
+    let nomeEmpresa = equipamento.empresa || "Empresa";
+    preencherTexto("empresa-breadcrumb", nomeEmpresa);
 
     let linkEmpresa = document.getElementById("empresa-breadcrumb");
     let paramsUrl = new URLSearchParams(window.location.search);
     let idEmpresa = equipamento.idEmpresa || paramsUrl.get("idEmpresa");
-    if (linkEmpresa && idEmpresa) {
-        linkEmpresa.href = "IndividualJoao/equipamentos.html?idEmpresa=" + encodeURIComponent(idEmpresa);
+    if (linkEmpresa) {
+        linkEmpresa.title = nomeEmpresa;
+        if (idEmpresa) {
+            linkEmpresa.href = "IndividualJoao/equipamentos.html?idEmpresa=" + encodeURIComponent(idEmpresa);
+        }
     }
 
     preencherTexto(
