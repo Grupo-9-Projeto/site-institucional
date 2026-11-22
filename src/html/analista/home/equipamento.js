@@ -157,19 +157,206 @@ function esconderTooltipGrafico() {
     }
 }
 
-function animarEntradaBarra(barra, indice) {
-    barra.style.transformOrigin = "bottom center";
-    barra.style.transform = "scaleY(0)";
-    barra.style.opacity = "0.4";
+function animarEntradaLinha(pathLinha, areaPreenchida, grupoPontos) {
+    if (pathLinha && typeof pathLinha.getTotalLength === "function") {
+        let comprimento = pathLinha.getTotalLength();
+        pathLinha.style.strokeDasharray = comprimento;
+        pathLinha.style.strokeDashoffset = comprimento;
 
-    let atraso = Math.min(indice * 12, 240);
-    setTimeout(function () {
-        if (barra.dataset.hoverAtivo === "1") return;
-        barra.style.transition =
-            "transform 400ms cubic-bezier(0.22, 1, 0.36, 1), opacity 280ms ease-out";
-        barra.style.transform = "scaleY(1)";
-        barra.style.opacity = "1";
-    }, 20 + atraso);
+        requestAnimationFrame(function () {
+            pathLinha.style.transition = "stroke-dashoffset 650ms cubic-bezier(0.22, 1, 0.36, 1)";
+            pathLinha.style.strokeDashoffset = "0";
+        });
+    }
+
+    if (areaPreenchida) {
+        areaPreenchida.style.opacity = "0";
+        requestAnimationFrame(function () {
+            areaPreenchida.style.transition = "opacity 600ms ease-out 120ms";
+            areaPreenchida.style.opacity = "1";
+        });
+    }
+
+    if (grupoPontos) {
+        grupoPontos.style.opacity = "0";
+        setTimeout(function () {
+            grupoPontos.style.transition = "opacity 300ms ease-out";
+            grupoPontos.style.opacity = "1";
+        }, 280);
+    }
+}
+
+function renderizarSerieLinhaSVG(grafico, pontos, corBase, limiteCritico, limiteAtencao, tetoEscala, idUnico) {
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const larguraView = 600;
+    const alturaView = 180;
+    const padX = 8;
+    const padTop = 8;
+    const padBottom = 6;
+    const larguraUtil = larguraView - padX * 2;
+    const alturaUtil = alturaView - padTop - padBottom;
+
+    let svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", `0 0 ${larguraView} ${alturaView}`);
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.classList.add("w-full", "h-full", "overflow-visible", "block");
+
+    // Grade horizontal sutil (50% e topo)
+    [0.5, 1].forEach(function (fator) {
+        let yGrade = padTop + alturaUtil * (1 - fator);
+        let linhaGrade = document.createElementNS(SVG_NS, "line");
+        linhaGrade.setAttribute("x1", padX);
+        linhaGrade.setAttribute("x2", larguraView - padX);
+        linhaGrade.setAttribute("y1", yGrade);
+        linhaGrade.setAttribute("y2", yGrade);
+        linhaGrade.setAttribute("stroke", "rgba(255,255,255,0.05)");
+        linhaGrade.setAttribute("stroke-width", "1");
+        linhaGrade.setAttribute("vector-effect", "non-scaling-stroke");
+        svg.appendChild(linhaGrade);
+    });
+
+    // Gradiente da área sob a linha
+    let defs = document.createElementNS(SVG_NS, "defs");
+    let gradiente = document.createElementNS(SVG_NS, "linearGradient");
+    let gradId = "grad-linha-" + idUnico;
+    gradiente.setAttribute("id", gradId);
+    gradiente.setAttribute("x1", "0%");
+    gradiente.setAttribute("y1", "0%");
+    gradiente.setAttribute("x2", "0%");
+    gradiente.setAttribute("y2", "100%");
+
+    let stopTop = document.createElementNS(SVG_NS, "stop");
+    stopTop.setAttribute("offset", "0%");
+    stopTop.setAttribute("stop-color", corBase);
+    stopTop.setAttribute("stop-opacity", "0.28");
+
+    let stopBottom = document.createElementNS(SVG_NS, "stop");
+    stopBottom.setAttribute("offset", "100%");
+    stopBottom.setAttribute("stop-color", corBase);
+    stopBottom.setAttribute("stop-opacity", "0.0");
+
+    gradiente.appendChild(stopTop);
+    gradiente.appendChild(stopBottom);
+    defs.appendChild(gradiente);
+    svg.appendChild(defs);
+
+    // Calcula coordenadas (x, y) de cada ponto
+    let coordenadas = pontos.map(function (ponto, indice) {
+        let ratioX = pontos.length === 1 ? 0.5 : indice / (pontos.length - 1);
+        let x = padX + ratioX * larguraUtil;
+        let valorNormalizado = Math.min(Math.max(ponto.valor / tetoEscala, 0), 1);
+        let y = padTop + alturaUtil * (1 - valorNormalizado);
+
+        let corPonto = corBase;
+        if (ponto.valor >= limiteCritico) {
+            corPonto = "#EF4444";
+        } else if (ponto.valor >= limiteAtencao) {
+            corPonto = "#F59E0B";
+        }
+
+        return {
+            x: x,
+            y: y,
+            dia: ponto.dia,
+            valor: ponto.valor,
+            cor: corPonto
+        };
+    });
+
+    // Linha guia vertical no hover
+    let guiaHover = document.createElementNS(SVG_NS, "line");
+    guiaHover.setAttribute("y1", padTop);
+    guiaHover.setAttribute("y2", alturaView - padBottom);
+    guiaHover.setAttribute("stroke", "rgba(255,255,255,0.22)");
+    guiaHover.setAttribute("stroke-width", "1");
+    guiaHover.setAttribute("stroke-dasharray", "3 3");
+    guiaHover.setAttribute("vector-effect", "non-scaling-stroke");
+    guiaHover.style.opacity = "0";
+    svg.appendChild(guiaHover);
+
+    let areaPath = null;
+    let linhaPath = null;
+
+    if (coordenadas.length > 1) {
+        let dLinha = coordenadas
+            .map(function (c, i) {
+                return (i === 0 ? "M " : "L ") + c.x.toFixed(2) + " " + c.y.toFixed(2);
+            })
+            .join(" ");
+
+        let baseY = (alturaView - padBottom).toFixed(2);
+        let dArea =
+            dLinha +
+            ` L ${coordenadas[coordenadas.length - 1].x.toFixed(2)} ${baseY}` +
+            ` L ${coordenadas[0].x.toFixed(2)} ${baseY} Z`;
+
+        areaPath = document.createElementNS(SVG_NS, "path");
+        areaPath.setAttribute("d", dArea);
+        areaPath.setAttribute("fill", `url(#${gradId})`);
+        svg.appendChild(areaPath);
+
+        linhaPath = document.createElementNS(SVG_NS, "path");
+        linhaPath.setAttribute("d", dLinha);
+        linhaPath.setAttribute("fill", "none");
+        linhaPath.setAttribute("stroke", corBase);
+        linhaPath.setAttribute("stroke-width", "2.25");
+        linhaPath.setAttribute("stroke-linecap", "round");
+        linhaPath.setAttribute("stroke-linejoin", "round");
+        linhaPath.setAttribute("vector-effect", "non-scaling-stroke");
+        svg.appendChild(linhaPath);
+    }
+
+    grafico.appendChild(svg);
+
+    // Camada HTML sobreposta para pontos circulares sem distorção de aspect-ratio e áreas de hover
+    let camadaInteracao = document.createElement("div");
+    camadaInteracao.className = "absolute inset-0 z-20";
+
+    let larguraColunaPct = 100 / coordenadas.length;
+
+    coordenadas.forEach(function (c) {
+        let leftPct = (c.x / larguraView) * 100;
+        let topPct = (c.y / alturaView) * 100;
+
+        // Marcador circular do ponto (cor muda automaticamente se atingir atenção/crítico)
+        let pontoEl = document.createElement("div");
+        pontoEl.className =
+            "pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#0D1924] transition-transform duration-150";
+        let tamanhoPonto = coordenadas.length > 22 ? 6 : 8;
+        pontoEl.style.width = tamanhoPonto + "px";
+        pontoEl.style.height = tamanhoPonto + "px";
+        pontoEl.style.left = leftPct + "%";
+        pontoEl.style.top = topPct + "%";
+        pontoEl.style.backgroundColor = c.cor;
+
+        // Faixa vertical invisível para facilitar o hover no ponto mesmo em telas mobile/desktop
+        let zonaHover = document.createElement("div");
+        zonaHover.className = "absolute top-0 bottom-0 -translate-x-1/2 cursor-pointer";
+        zonaHover.style.left = leftPct + "%";
+        zonaHover.style.width = Math.max(larguraColunaPct, 3) + "%";
+
+        zonaHover.addEventListener("mouseenter", function () {
+            pontoEl.style.transform = "translate(-50%, -50%) scale(1.65)";
+            pontoEl.style.boxShadow = "0 0 10px " + c.cor;
+            guiaHover.setAttribute("x1", c.x);
+            guiaHover.setAttribute("x2", c.x);
+            guiaHover.style.opacity = "1";
+            mostrarTooltipGrafico(pontoEl, c.dia, c.valor, c.cor);
+        });
+
+        zonaHover.addEventListener("mouseleave", function () {
+            pontoEl.style.transform = "translate(-50%, -50%) scale(1)";
+            pontoEl.style.boxShadow = "none";
+            guiaHover.style.opacity = "0";
+            esconderTooltipGrafico();
+        });
+
+        camadaInteracao.appendChild(pontoEl);
+        camadaInteracao.appendChild(zonaHover);
+    });
+
+    grafico.appendChild(camadaInteracao);
+    animarEntradaLinha(linhaPath, areaPath, camadaInteracao);
 }
 
 function vincularInteracaoBarra(coluna, barra, dia, valor, cor) {
@@ -846,7 +1033,23 @@ function desenharGrafico(id, historico, metrica, cor, limiteCritico, limiteAtenc
     preencherTexto("atencao-label-" + metrica, limiteAtencao + "%");
     preencherTexto("limite-label-" + metrica, limiteCritico + "%");
 
-    if (historico.length === 0) {
+    let soma = 0;
+    let pico = -Infinity;
+    let pontosValidos = [];
+
+    for (let i = 0; i < historico.length; i++) {
+        let valor = Number(historico[i][metrica]);
+        if (!Number.isFinite(valor)) continue;
+
+        soma += valor;
+        if (valor > pico) pico = valor;
+        pontosValidos.push({
+            dia: historico[i].dia,
+            valor: valor
+        });
+    }
+
+    if (pontosValidos.length === 0) {
         preencherTexto("media-" + metrica, "—");
         preencherTexto("pico-" + metrica, "—");
         grafico.innerHTML =
@@ -854,49 +1057,20 @@ function desenharGrafico(id, historico, metrica, cor, limiteCritico, limiteAtenc
         return;
     }
 
-    let soma = 0;
-    let contagem = 0;
-    let pico = -Infinity;
-
-    let containerBarras = document.createElement("div");
-    containerBarras.className = "relative z-0 h-full flex items-end gap-[5px]";
-
-    for (let i = 0; i < historico.length; i++) {
-        let valor = Number(historico[i][metrica]);
-        if (!Number.isFinite(valor)) continue;
-
-        soma += valor;
-        contagem++;
-        if (valor > pico) pico = valor;
-
-        let coluna = document.createElement("div");
-        let barra = document.createElement("div");
-        barra.className = "w-full rounded-t-sm";
-
-        let altura = Math.min(Math.max(valor, 3), 100);
-        let corBarra = cor;
-        if (valor >= limiteCritico) {
-            corBarra = "#EF4444";
-        } else if (valor >= limiteAtencao) {
-            corBarra = "#F59E0B";
-        }
-
-        barra.style.height = altura + "%";
-        barra.style.backgroundColor = corBarra;
-
-        vincularInteracaoBarra(coluna, barra, historico[i].dia, valor, corBarra);
-        animarEntradaBarra(barra, i);
-
-        coluna.appendChild(barra);
-        containerBarras.appendChild(coluna);
-    }
-
-    grafico.appendChild(containerBarras);
+    renderizarSerieLinhaSVG(
+        grafico,
+        pontosValidos,
+        cor,
+        limiteCritico,
+        limiteAtencao,
+        100,
+        metrica
+    );
     renderizarLinhasLimiar(grafico, limiteCritico, limiteAtencao, 100);
 
-    let media = contagem > 0 ? soma / contagem : 0;
+    let media = soma / pontosValidos.length;
     preencherTexto("media-" + metrica, formatarNumero(media, 1) + "%");
-    preencherTexto("pico-" + metrica, contagem > 0 ? formatarNumero(pico, 1) + "%" : "—");
+    preencherTexto("pico-" + metrica, formatarNumero(pico, 1) + "%");
 }
 
 function calcularTetoEscala(maiorValor) {
@@ -916,24 +1090,27 @@ function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao
     preencherTexto("atencao-label-pacotes", limiteAtencao + "%");
     preencherTexto("limite-label-pacotes", limiteCritico + "%");
 
-    if (historico.length === 0) {
-        preencherTexto("media-pacotes", "—");
-        preencherTexto("pico-pacotes", "—");
-        grafico.innerHTML =
-            '<div class="h-full flex items-center justify-center"><p class="text-xs text-white/40">Sem leituras no período</p></div>';
-        return;
-    }
-
     let soma = 0;
-    let contagem = 0;
     let pico = 0;
+    let pontosValidos = [];
 
     for (let i = 0; i < historico.length; i++) {
         let v = Number(historico[i].pacotes);
         if (!Number.isFinite(v)) continue;
         soma += v;
-        contagem++;
         if (v > pico) pico = v;
+        pontosValidos.push({
+            dia: historico[i].dia,
+            valor: v
+        });
+    }
+
+    if (pontosValidos.length === 0) {
+        preencherTexto("media-pacotes", "—");
+        preencherTexto("pico-pacotes", "—");
+        grafico.innerHTML =
+            '<div class="h-full flex items-center justify-center"><p class="text-xs text-white/40">Sem leituras no período</p></div>';
+        return;
     }
 
     let tetoY = calcularTetoEscala(Math.max(pico, limiteCritico) * 1.15);
@@ -947,47 +1124,18 @@ function desenharGraficoPerdaPacotes(id, historico, limiteCritico, limiteAtencao
         `;
     }
 
-    let containerBarras = document.createElement("div");
-    containerBarras.className = "relative z-0 h-full flex items-end gap-[5px]";
-
-    for (let i = 0; i < historico.length; i++) {
-        let valor = Number(historico[i].pacotes);
-        if (!Number.isFinite(valor)) continue;
-
-        let coluna = document.createElement("div");
-        let barra = document.createElement("div");
-        barra.className = "w-full rounded-t-sm";
-
-        let percentualEscala = Math.min((valor / tetoY) * 100, 100);
-        let corBarra = "#22C55E";
-
-        if (valor <= 0) {
-            barra.style.height = "2px";
-            corBarra = "#64748B";
-        } else if (valor >= limiteCritico) {
-            barra.style.height = Math.max(percentualEscala, 3) + "%";
-            corBarra = "#EF4444";
-        } else if (valor >= limiteAtencao) {
-            barra.style.height = Math.max(percentualEscala, 3) + "%";
-            corBarra = "#F59E0B";
-        } else {
-            barra.style.height = Math.max(percentualEscala, 3) + "%";
-            corBarra = "#22C55E";
-        }
-
-        barra.style.backgroundColor = corBarra;
-
-        vincularInteracaoBarra(coluna, barra, historico[i].dia, valor, corBarra);
-        animarEntradaBarra(barra, i);
-
-        coluna.appendChild(barra);
-        containerBarras.appendChild(coluna);
-    }
-
-    grafico.appendChild(containerBarras);
+    renderizarSerieLinhaSVG(
+        grafico,
+        pontosValidos,
+        CORES.pacotes,
+        limiteCritico,
+        limiteAtencao,
+        tetoY,
+        "pacotes"
+    );
     renderizarLinhasLimiar(grafico, limiteCritico, limiteAtencao, tetoY);
 
-    let media = contagem > 0 ? soma / contagem : 0;
+    let media = soma / pontosValidos.length;
     preencherTexto("media-pacotes", formatarNumero(media, 1) + "%");
     preencherTexto("pico-pacotes", formatarNumero(pico, 1) + "%");
 }
