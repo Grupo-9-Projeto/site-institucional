@@ -729,39 +729,59 @@ function carregarEquipamento() {
     renderizarAlertas(equipamento);
 }
 
-function carregarRelatorioAlerta() {
+
+async function carregarRelatorioAlerta() {
+
+    console.count("[DEBUG] carregarRelatorioAlerta executada");
 
     const parametros = new URLSearchParams(window.location.search);
-
-    const empresaId = parametros.get("empresa");
-    const equipamentoId = parametros.get("equipamento");
     const alertaId = parametros.get("alerta");
 
-
-    const empresa = obterEmpresaPorId(empresaId);
-    const equipamento = obterEquipamentoPorId(equipamentoId);
-
-    const alerta = equipamento?.alertas.find(alerta => alerta.id === alertaId);
-    const limites = ARGOS_DATA.limitesPorSeveridade;
-
-    if (!empresa || !equipamento || equipamento.empresa !== empresa.id || !alerta) {
-        window.location.href = "IndividualJoao/home.html";
+    if (!alertaId || !/^\d+$/.test(alertaId)) {
+        mostrarErroRelatorio("Identificador do alerta inválido.");
         return;
     }
 
+    // Busca os dados reais do relatório no backend.
+    const resposta = await chamarApi(
+        `/relatorioAlerta/alerta/${alertaId}`,
+        "GET"
+    );
+
+    if (!resposta.ok || !resposta.dados) {
+        const mensagem = resposta.dados?.mensagem
+            || "Não foi possível carregar o relatório.";
+
+        mostrarErroRelatorio(mensagem);
+        return;
+    }
+
+    const dados = resposta.dados;
+    
+    const alerta = dados.alerta;
+    const empresa = dados.empresa;
+    const dispositivo = dados.dispositivo;
+    const componente = dados.componente;
+    const captura = dados.captura;
+
+    // Normaliza a severidade recebida do backend.
+    const severidade = normalizarSeveridade(alerta.severidade);
+
+    // Breadcrumbs.
     const breadcrumbEmpEl = document.querySelector("#empresa-breadcrumb");
     const breadcrumbEqEl = document.querySelector("#equipamento-breadcrumb");
 
     if (breadcrumbEmpEl) {
         breadcrumbEmpEl.textContent = empresa.nome;
-        breadcrumbEmpEl.href = `empresa.html?empresa=${empresa.id}`;
+        breadcrumbEmpEl.href = `../home/IndividualJoao/empresa.html?empresa=${empresa.id}`;
     }
 
     if (breadcrumbEqEl) {
-        breadcrumbEqEl.textContent = equipamento.id;
-        breadcrumbEqEl.href = `equipamento.html?empresa=${empresa.id}&equipamento=${equipamento.id}`;
+        breadcrumbEqEl.textContent = dispositivo.nome;
+        breadcrumbEqEl.href = `../home/equipamento.html?empresa=${empresa.id}&equipamento=${dispositivo.id}`;
     }
 
+    // Dados principais do alerta.
     const tituloEl = document.querySelector("#alerta-titulo");
     const descricaoEl = document.querySelector("#alerta-descricao");
     const severidadeEl = document.querySelector("#alerta-severidade");
@@ -771,40 +791,40 @@ function carregarRelatorioAlerta() {
     const modeloEl = document.querySelector("#alerta-modelo");
     const alertaCard = document.querySelector("#alerta-card");
 
-
     if (tituloEl) {
-        tituloEl.textContent = alerta.titulo;
+        tituloEl.textContent = componente.tipo
+            ? `Alerta de ${componente.tipo} — ${componente.nome}`
+            : `Alerta — ${dispositivo.nome}`;
     }
 
     if (descricaoEl) {
-        descricaoEl.textContent = alerta.descricao;
+        descricaoEl.textContent = alerta.descricao
+            || `Alerta registrado no componente ${componente.nome}.`;
     }
 
     if (severidadeEl) {
-        severidadeEl.textContent = alerta.severidade;
-         aplicarEstiloSeveridade(severidadeEl, alerta.severidade);
+        severidadeEl.textContent = severidade;
+        aplicarEstiloSeveridade(severidadeEl, severidade);
     }
 
     if (dataEl) {
-        dataEl.textContent = `${alerta.data} às ${alerta.hora}`;
+        dataEl.textContent = formatarDataHoraRelatorio(alerta.dataHora);
     }
 
     if (equipamentoEl) {
-        equipamentoEl.textContent = equipamento.id;
+        equipamentoEl.textContent = dispositivo.nome;
     }
 
     if (modeloEl) {
-        modeloEl.textContent = `${equipamento.categoria} ${equipamento.modelo}`;
+        modeloEl.textContent = `${dispositivo.categoria} ${dispositivo.modelo}`;
     }
 
     if (alertaCard) {
-        aplicarBordaSeveridade(alertaCard, alerta.severidade);
+        aplicarBordaSeveridade(alertaCard, severidade);
     }
 
-    const captura = equipamento.capturasProcessos?.find(
-        captura => captura.data === alerta.data &&
-                captura.hora === alerta.hora
-    );
+    // Limiares reais cadastrados para o componente.
+    const limites = criarLimitesPorComponente(componente);
 
     preencherMetrica(
         "#alerta-cpu",
@@ -824,8 +844,87 @@ function carregarRelatorioAlerta() {
         "ram"
     );
 
+    // Processos da captura, quando disponíveis.
     renderizarProcessos(captura);
+
+    console.log("[DEBUG] Estado final após 3 segundos:", {
+        titulo: document.querySelector("#alerta-titulo")?.textContent,
+        descricao: document.querySelector("#alerta-descricao")?.textContent,
+        equipamento: document.querySelector("#alerta-equipamento")?.textContent
+    });
+
+    setTimeout(() => {
+        console.log("[DEBUG] Estado após 3 segundos:", {
+            titulo: document.querySelector("#alerta-titulo")?.textContent,
+            descricao: document.querySelector("#alerta-descricao")?.textContent,
+            equipamento: document.querySelector("#alerta-equipamento")?.textContent
+        });
+    }, 3000);
 }
+
+
+function normalizarSeveridade(severidade) {
+    const valores = {
+        "atencao": "Atenção",
+        "atenção": "Atenção",
+        "alto": "Alto",
+        "critico": "Crítico",
+        "crítico": "Crítico",
+        "info": "Info"
+    };
+
+    return valores[String(severidade || "").toLowerCase()] || "Info";
+}
+
+
+function formatarDataHoraRelatorio(dataHora) {
+    if (!dataHora) return "Data indisponível";
+
+    const data = new Date(dataHora);
+
+    if (Number.isNaN(data.getTime())) {
+        return "Data indisponível";
+    }
+
+    return data.toLocaleString("pt-BR");
+}
+
+
+function criarLimitesPorComponente(componente) {
+    const converter = valor =>
+        valor == null ? null : Number(valor);
+
+    const atencao = converter(componente.limiarAtencao);
+    const alto = converter(componente.limiarAlto);
+    const critico = converter(componente.limiarCritico);
+
+    return {
+        "Crítico": {
+            cpu: critico,
+            ram: critico
+        },
+        "Alto": {
+            cpu: alto,
+            ram: alto
+        },
+        "Atenção": {
+            cpu: atencao,
+            ram: atencao
+        }
+    };
+}
+
+
+function mostrarErroRelatorio(mensagem) {
+    const titulo = document.querySelector("#alerta-titulo");
+    const descricao = document.querySelector("#alerta-descricao");
+
+    if (titulo) titulo.textContent = "Não foi possível carregar o relatório.";
+    if (descricao) descricao.textContent = mensagem;
+
+    console.error("Erro no relatório:", mensagem);
+}
+
 
 function renderizarProcessos(captura) {
     const processoCpu = document.getElementById("processo-maior-cpu");
@@ -998,28 +1097,33 @@ function preencherMetrica(seletorValor, seletorBarra, seletorLimite, valor, limi
     elementoBarra.classList.add(estilo.fundo);
 }
 
+
 function obterFaixaMetrica(valor, limites, tipo) {
-    if (valor == null || !limites) {
-        return {
-            cor: "light-blue",
-            limite: null
-        };
+    if (valor == null || !Number.isFinite(Number(valor)) || !limites) {
+        return { cor: "light-blue", limite: null };
     }
 
-    if (valor > limites["Crítico"][tipo]) {
-        return { cor: "red-500", limite: limites["Crítico"][tipo] };
+    valor = Number(valor);
+
+    const critico = limites["Crítico"][tipo];
+    const alto = limites["Alto"][tipo];
+    const atencao = limites["Atenção"][tipo];
+
+    if (critico != null && valor > critico) {
+        return { cor: "red-500", limite: critico };
     }
 
-    if (valor > limites["Alto"][tipo]) {
-        return { cor: "orange-500", limite: limites["Alto"][tipo] };
+    if (alto != null && valor > alto) {
+        return { cor: "orange-500", limite: alto };
     }
 
-    if (valor > limites["Atenção"][tipo]) {
-        return { cor: "amber-400", limite: limites["Atenção"][tipo] };
+    if (atencao != null && valor > atencao) {
+        return { cor: "amber-400", limite: atencao };
     }
 
     return { cor: "light-blue", limite: null };
 }
+
 
 function configurarFiltrosDePeriodo(equipamento) {
     const botoes = document.querySelectorAll(".periodo-btn");

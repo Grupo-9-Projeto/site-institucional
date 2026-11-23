@@ -1286,7 +1286,11 @@ function renderizarTabelaAlertas() {
             : `<span class="text-xs text-white/35">—</span>`;
 
         return `
-            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+            <tr
+                data-id-alerta="${encodeURIComponent(alerta.id)}"
+                class="border-b border-white/5 hover:bg-white/[0.04] transition-colors cursor-pointer"
+                title="Clique para visualizar o relatório deste alerta"
+            >
                 <td class="px-5 py-3.5 text-xs text-white/75 whitespace-nowrap">${escapeHTML(dataHoraTexto)}</td>
                 <td class="px-5 py-3.5 whitespace-nowrap">${badgeSeveridade(alerta.nivel)}</td>
                 <td class="px-5 py-3.5 text-xs font-medium text-white">${escapeHTML(alerta.componente || alerta.tipo || "—")}</td>
@@ -1314,6 +1318,16 @@ function renderizarTabelaAlertas() {
             <tbody>${linhas}</tbody>
         </table>
     `;
+    container.querySelectorAll("tbody tr[data-id-alerta]").forEach(function (linha) {
+        linha.addEventListener("click", function (evento) {
+            // Não redireciona quando o usuário clica em um link, como o Jira.
+            if (evento.target.closest("a")) return;
+
+            const idAlerta = this.dataset.idAlerta;
+
+            window.location.href = `relatorio.html?alerta=${encodeURIComponent(idAlerta)}`;
+        });
+    });
 }
 
 function escapeHTML(valor) {
