@@ -192,19 +192,29 @@ function calcularPrevisoes(dados, agora) {
         ? Math.round(((previsao.valor - semanaAnterior) / semanaAnterior) * 100)
         : null;
 
+    const retaDeTendencia = regressaoLinear(historicoCompleto);
     const semanasGrafico = [];
     const inicioVisivel = quantidadeSemanasModelo - quantidadeSemanasVisiveis;
     for (let i = inicioVisivel; i < quantidadeSemanasModelo; i++) {
         semanasGrafico.push({
             inicio: somarDias(inicioHistorico, 7 * i),
             tipo: "historico",
-            valor: historicoCompleto[i]
+            valor: historicoCompleto[i],
+            tendencia: Math.max(0, retaDeTendencia.a * i + retaDeTendencia.b)
         });
     }
+    // semana em andamento: aparece no eixo sem barra, para não parecer que falta uma semana
+    semanasGrafico.push({
+        inicio: semanaAtual,
+        tipo: "atual",
+        tendencia: Math.max(0, retaDeTendencia.a * quantidadeSemanasModelo + retaDeTendencia.b)
+    });
     for (let i = 0; i < previsoesFuturas.length; i++) {
         semanasGrafico.push({
             inicio: somarDias(proximaSemana, 7 * i),
             tipo: "previsao",
+            // a semana atual (ainda incompleta) ocupa a posição quantidadeSemanasModelo da reta
+            tendencia: Math.max(0, retaDeTendencia.a * (quantidadeSemanasModelo + 1 + i) + retaDeTendencia.b),
             ...previsoesFuturas[i]
         });
     }

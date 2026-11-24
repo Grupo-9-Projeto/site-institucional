@@ -37,16 +37,22 @@
             padding: 4px 0;
         }
         .heatmap-grid { max-width: 100%; }
-        .heatmap-label { color: rgba(255,255,255,.52); text-align: center; font-size: 10px; white-space: nowrap; }
+        .heatmap-label { color: rgba(255,255,255,.65); text-align: center; font-size: 11px; white-space: nowrap; }
         .heatmap-day { color: rgba(255,255,255,.68); align-self: center; font-size: 11px; }
-        .heatmap-cell { min-width: 0; height: 25px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+        .heatmap-cell { min-width: 0; height: 25px; border-radius: 5px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
         .chart-area { position: relative; width: 100%; min-width: 0; min-height: 0; flex: 1 1 auto; }
         .chart-area canvas { display: block; }
         #tabela-empresas { min-width: 0; min-height: 0; overflow: auto; }
         #tabela-empresas table { min-width: 520px; }
-        .status-sla { display: inline-block; margin-top: 4px; padding: 3px 6px; border-radius: 5px; font-size: 9px; white-space: nowrap; }
+        .status-sla { display: inline-block; margin-top: 4px; padding: 3px 6px; border-radius: 5px; font-size: 11px; white-space: nowrap; }
         .status-sla.dentro { color: #86EFAC; background: rgba(34,197,94,.12); }
         .status-sla.acima { color: #FCA5A5; background: rgba(239,68,68,.12); }
+        .heatmap-legend { display: flex; align-items: center; justify-content: center; flex: 0 0 auto; padding-left: 4px; }
+        .legenda-vertical { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; max-height: 260px; min-height: 140px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); }
+        .legenda-vertical-barra { flex: 1 1 auto; width: 14px; border-radius: 7px; border: 1px solid rgba(255,255,255,.3); }
+        .nota-grafico { font-size: 11px; line-height: 1.35; color: rgba(255,255,255,.65); }
+        #analise-modelos table { min-width: 0; }
+        .anomalia-detalhe { display: block; font-size: 11px; color: rgba(255,255,255,.65); font-weight: 400; }
         @media (max-width: 1100px) {
             body { height: auto; min-height: 100%; overflow: auto; }
             main { height: auto !important; min-height: 100vh; overflow: visible !important; }
@@ -61,8 +67,8 @@
             .dashboard-left { grid-template-rows: 340px 340px; }
             .dashboard-content > article { min-height: 440px; }
             .heatmap-grid { gap: 5px !important; }
-            .heatmap-label { font-size: 8px; }
-            .heatmap-cell { height: 25px; font-size: 10px; }
+            .heatmap-label { font-size: 10px; }
+            .heatmap-cell { height: 25px; font-size: 11px; }
         }
     </style>
     <script src="/src/js/api.js" defer></script>
@@ -86,21 +92,21 @@
             </div>
             <div class="px-6 py-6 border-b border-white/10 shrink-0">
                 <div id="foto_usuario" class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold"></div>
-                <p class="mt-3 text-white/60">Olá,</p>
+                <p class="mt-3 text-white/10060">Olá,</p>
                 <p class="text-lg font-bold" id="nome_title"></p>
             </div>
             <nav class="flex flex-col py-4">
-                <a href="/src/html/gerente/home.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
-                <a href="/src/html/gerente/previsoes/previsoes.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Previsões</a>
-                <a href="/src/html/gerente/empresas/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
-                <a href="/src/html/gerente/funcionarios/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
-                <a href="/src/html/gerente/chamados/index.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
-                <a href="/src/html/gerente/relatorio.html" class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
+                <a href="/src/html/gerente/home.html" class="px-6 py-3.5 text-sm text-white/10070 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Home</a>
+                <a href="/src/html/gerente/previsoes/previsoes.html" class="px-6 py-3.5 text-sm text-white/10070 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Previsões</a>
+                <a href="/src/html/gerente/empresas/index.html" class="px-6 py-3.5 text-sm text-white/10070 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
+                <a href="/src/html/gerente/funcionarios/index.html" class="px-6 py-3.5 text-sm text-white/10070 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
+                <a href="/src/html/gerente/chamados/index.html" class="px-6 py-3.5 text-sm text-white/10070 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico de Chamados</a>
+                <a href="/src/html/gerente/relatorio.html" class="px-6 py-3.5 text-sm text-white/10070 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar Relatório</a>
             </nav>
         </div>
         <div class="border-t border-white/10 py-4 shrink-0">
-            <a href="/src/html/gerente/configuracoes/index.html" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
-            <a onclick="sair()" class="cursor-pointer block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
+            <a href="/src/html/gerente/configuracoes/index.html" class="block px-6 py-3.5 text-sm text-white/100100 hover:text-white transition-element">Configurações</a>
+            <a onclick="sair()" class="cursor-pointer block px-6 py-3.5 text-sm text-white/100100 hover:text-red-550 transition-element">Sair</a>
         </div>
     </aside>
 
@@ -108,10 +114,10 @@
         <div class="max-w-[1600px] mx-auto h-full flex flex-col min-h-0">
             <header class="flex flex-col md:flex-row md:justify-between md:items-center gap-1 mb-4 shrink-0">
                 <div>
-                    <h1 class="text-2xl font-semibold">Previsões</h1>
-                    <p class="text-xs text-white/60 mt-1">O que esperar da próxima semana, com base no histórico de chamados</p>
+                    <h1 class="text-2xl font-semibold">Previsões para próxima semana </h1>
+                    <p class="text-xs text-white/100100 mt-1">O que esperar da próxima semana, com base no histórico de chamados</p>
                 </div>
-                <p id="referencia" class="text-xs text-white/40"></p>
+                <p id="referencia" class="text-xs text-white/100100"></p>
             </header>
 
             <section id="cards" class="grid grid-cols-2 xl:grid-cols-4 gap-3 mb-4 shrink-0"></section>
@@ -120,32 +126,40 @@
                 <div class="dashboard-left">
                     <article class="dashboard-panel border border-white/10 rounded-xl bg-[#0D1924] p-4 min-h-0 flex flex-col">
                         <div class="mb-3 shrink-0">
-                            <h2 class="text-sm font-bold">Previsão por dia e horário</h2>
-                            <p class="text-xs text-white/60 mt-0.5"></p>
+                            <h2 class="text-sm font-bold">Previsão de chamados por dia e horário</h2>
+                            <p class="text-xs text-white/100100 mt-0.5">Em quais dias e horários os alertas da próxima semana se concentram</p>
                         </div>
-                        <div id="mapa-calor" class="flex-1 min-h-0 flex items-center"></div>
-                        <p id="mapa-calor-insight" class="text-[11px] text-white/75 mt-3 border-t border-white/10 pt-3 shrink-0"></p>
+                        <div class="flex-1 min-h-0 flex items-stretch gap-3">
+                            <div id="mapa-calor" class="flex-1 min-w-0 min-h-0 flex items-center"></div>
+                            <div id="mapa-calor-legenda" class="heatmap-legend"></div>
+                        </div>
+                        <p id="mapa-calor-insight" class="text-[11px] text-white/100100 mt-3 border-t border-white/10 pt-3 shrink-0"></p>
                     </article>
 
                     <article class="dashboard-panel border border-white/10 rounded-xl bg-[#0D1924] p-4 min-h-0 flex flex-col">
                         <div class="mb-2 shrink-0">
-                            <h2 class="text-sm font-bold">Previsão de alertas</h2>
-                            <p id="periodo-grafico" class="text-xs text-white/60 mt-0.5"></p>
+                            <h2 class="text-sm font-bold">Previsão de chamados para próximas semanas</h2>
+                            <p id="periodo-grafico" class="text-xs text-white/100100 mt-0.5"></p>
                         </div>
                         <div class="chart-area">
                             <canvas id="grafico-previsao"></canvas>
                         </div>
-                        <p class="text-[10px] text-white/40 mt-2 shrink-0"></p>
                     </article>
                 </div>
 
                 <article class="dashboard-panel border border-white/10 rounded-xl bg-[#0D1924] p-4 min-h-0 flex flex-col">
                     <div class="mb-3 shrink-0">
                         <h2 class="text-sm font-bold">Empresas que exigem mais atenção</h2>
-                        <p id="periodo-tabela" class="text-xs text-white/60 mt-0.5">Volume previsto, tempo médio de resolução e esforço estimado</p>
+                        <p id="periodo-tabela" class="text-xs text-white/100100 mt-0.5">Ordenadas por esforço estimado (alertas previstos × tempo médio de resolução)</p>
                     </div>
                     <div id="tabela-empresas" class="flex-1 min-h-0 overflow-auto"></div>
 
+                    <div id="analise-modelos" class="shrink-0 border-t border-white/10 pt-3 mt-3">
+                        <h2 class="text-sm font-bold">Análise por modelo monitorado</h2>
+                        <p class="text-xs text-white/100100 mt-0.5 mb-2">Modelos com mais chamados e o componente com mais anomalias no histórico</p>
+                        <div id="tabela-modelos"></div>
+                        <p id="nota-modelos" class="nota-grafico mt-2"></p>
+                    </div>
                 </article>
             </section>
         </div>
