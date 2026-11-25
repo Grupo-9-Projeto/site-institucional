@@ -587,6 +587,28 @@ function textoAnomalia(modelo, etl) {
         `<span class="anomalia-detalhe">${detalhe}</span>`;
 }
 
+function numeroBR(valor) {
+    return String(valor).replace(".", ",");
+}
+
+// Coluna "Temp. do ambiente": média da temperatura externa (Open-Meteo, coletada pelo script)
+// e a taxa de leituras com anomalia quando estava quente x nas demais.
+function textoTemperatura(modelo, etl) {
+    const t = modelo.temperatura;
+    if (!t || etl.status !== "ok") {
+        return `<span class="text-white/100100">—</span>`;
+    }
+
+    const media = `<span class="font-semibold" style="color:${COR_AZUL};">${numeroBR(t.media)} °C</span>`;
+
+    if (t.quente.leituras > 0 && t.normal.leituras > 0) {
+        return media +
+            `<span class="anomalia-detalhe">≥ ${t.limiteQuente} °C: ${numeroBR(t.quente.taxaPorMil)} por mil</span>` +
+            `<span class="anomalia-detalhe">demais: ${numeroBR(t.normal.taxaPorMil)} por mil</span>`;
+    }
+    return media + `<span class="anomalia-detalhe">máx. ${numeroBR(t.maxima)} °C</span>`;
+}
+
 function mostrarModelos(dados, origem) {
     const area = document.getElementById("tabela-modelos");
     const nota = document.getElementById("nota-modelos");
@@ -608,6 +630,7 @@ function mostrarModelos(dados, origem) {
                 <td class="px-2 py-2 text-center font-semibold">${m.chamados}</td>
                 <td class="px-2 py-2 text-center">${formatarHoras(m.tempoMedioHoras)}</td>
                 <td class="px-2 py-2">${textoAnomalia(m, dados.etl)}</td>
+                <td class="px-2 py-2">${textoTemperatura(m, dados.etl)}</td>
             </tr>
         `;
     }
@@ -620,6 +643,7 @@ function mostrarModelos(dados, origem) {
                     <th class="px-2 py-2 text-center">Chamados</th>
                     <th class="px-2 py-2 text-center">Tempo<br>médio</th>
                     <th class="px-2 py-2">Anomalia<br>predominante</th>
+                    <th class="px-2 py-2">Temp. do<br>ambiente</th>
                 </tr>
             </thead>
             <tbody>${linhas}</tbody>
@@ -637,5 +661,10 @@ function mostrarModelos(dados, origem) {
         nota.textContent = "Sem registros de monitoramento no período para estes equipamentos.";
     } else {
         nota.textContent = "Indicadores de anomalia indisponíveis no momento: " + (dados.etl.mensagem || "falha na leitura da ETL.");
+    }
+
+    if (origem === "real" && dados.etl.status === "ok" && lista.some(function (m) { return m.temperatura; })) {
+        nota.textContent += " Temp. do ambiente: Open-Meteo, coletada pelo script de monitoramento; " +
+            "\"por mil\" = leituras com alguma anomalia a cada mil (relação nos dados, não causa).";
     }
 }
