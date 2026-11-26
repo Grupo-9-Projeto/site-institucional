@@ -104,7 +104,7 @@ function authUser() {
 
         salvarToken(dados.token);
         const infoToken = lerToken();
-        window.location = paginaIniciadlDoCargo(infoToken && infoToken.role);
+        window.location = paginaInicialDoCargo(infoToken && infoToken.role);
     }).catch(function (erro) {
         console.error(erro);
         exibirMensagemAuth("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");

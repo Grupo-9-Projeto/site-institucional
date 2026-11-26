@@ -5,171 +5,224 @@ async function chamarApi(caminho, metodo, corpo) {
             body: corpo ? JSON.stringify(corpo) : undefined
         });
     } catch (erro) {
-        if (erro && erro.sessaoExpirada) {
-            return { ok: false, status: 401, dados: null };
-        }
-        console.log(erro, "erro")
+        console.error("Erro na API:", erro);
 
-        return { ok: false, status: 0, dados: null };
+        return {
+            ok: false,
+            status: erro?.sessaoExpirada ? 401 : 0,
+            dados: null
+        };
     }
 }
+async function carregarInformacoesUsuario() {
+    const nome = document.getElementById("nome_title");
+    const foto = document.getElementById("foto_usuario");
 
-async function carregarInformacoesUsuario(){
-    let nome_title = document.getElementById("nome_title");
-    let foto = document.getElementById("foto_usuario");
+    const resposta = await chamarApi(
+        "/usuarios/informacoes_usuario",
+        "GET"
+    );
 
-    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+    if (!resposta.ok || !resposta.dados?.[0]) return;
 
-    console.log(resposta.dados[0])
-    nome_title.textContent = resposta.dados[0].nome;
-    foto.textContent = resposta.dados[0].nome[0]
+    const usuario = resposta.dados[0];
+
+    if (nome) nome.textContent = usuario.nome;
+    if (foto) foto.textContent = usuario.nome?.[0] || "";
 }
-document.addEventListener('DOMContentLoaded', () => {
-   carregarInformacoesUsuario();
-});
 
+// ============================================================
+// IDENTIFICADORES DA URL
+// ============================================================
 
 function pegarIdsDaUrl() {
     const parametros = new URLSearchParams(window.location.search);
 
     return {
         empresaId: Number(parametros.get("empresaId")) || 0,
-        equipamentoId: Number(parametros.get("eqId")) || 0,
-        dispositivoId: Number(parametros.get("compId")) || 0
+        equipamentoId: Number(parametros.get("eqId")) || 0
     };
 }
 
-function mostrarErro(resposta, mensagemPadrao) {
-    if (resposta.status === 401) return;
-
+// MENSAGENS DE ERRO
+function obterMensagemErro(resposta) {
     if (resposta.status === 0) {
-        alert("Não foi possível conectar ao servidor. Verifique se o back-end está rodando.");
-        return;
+        return "Não foi possível conectar ao servidor.";
     }
 
-    if (resposta.status < 500) {
-        if (typeof resposta.dados === "string") {
-            alert(resposta.dados);
-            return;
-        }
-
-        if (resposta.dados && typeof resposta.dados.res === "string") {
-            alert(resposta.dados.res);
-            return;
-        }
+    if (typeof resposta.dados === "string") {
+        return resposta.dados;
     }
 
-    alert(mensagemPadrao);
+    return resposta.dados?.res ||
+        resposta.dados?.mensagem ||
+        resposta.dados?.Resposta ||
+        "Não foi possível cadastrar o componente.";
 }
 
 
+// CADASTRAR COMPONENTE
 async function criarComponente() {
-    // Campos do componente
+
+    const botao = document.querySelector(
+        'button[onclick="criarComponente()"]'
+    );
+
+    if (botao?.disabled) return;
+
     const nome = document.getElementById("nome");
-    const tipo = document.getElementById("tipo");
     const unidade = document.getElementById("unidade");
-    const capacidadeTotal = document.getElementById("Capacidade_total");
+    const capacidade = document.getElementById("Capacidade_total");
 
-    const nomeValor = nome.value.trim();
-    const tipoValor = tipo.value;
-    const unidadeValor = unidade.value.trim();
-    const capacidadeValor = Number(capacidadeTotal.value);
-
-    // Limiares
     const limiarCritico = document.getElementById("limiar_critico");
     const limiarAlto = document.getElementById("limiar_alto");
     const limiarAtencao = document.getElementById("limiar_atencao");
 
-    const limiarCriticoValor = Number(limiarCritico.value);
-    const limiarAltoValor = Number(limiarAlto.value);
-    const limiarAtencaoValor = Number(limiarAtencao.value);
+    // Recupera todos os tipos selecionados
+    const tiposSelecionados = Array.from(
+        document.querySelectorAll(
+            'input[type="checkbox"]:checked'
+        )
+    ).map(input => input.value);
 
-    // Status
-    const {empresaId, equipamentoId} = pegarIdsDaUrl();
-   
+    const { empresaId, equipamentoId } = pegarIdsDaUrl();
 
-    // Validação do nome identificador
-    if (nomeValor === "") {
-        alert("Preencha o nome identificador. Exemplo: CPU Principal.");
+    // VALIDAÇÕES
+    if (!empresaId || !equipamentoId) {
+        alert("Não foi possível identificar a empresa ou o equipamento.");
+        return;
+    }
+
+    if (!nome.value.trim()) {
+        alert("Informe o nome identificador.");
         nome.focus();
         return;
     }
 
-    if (nomeValor.length < 3 || nomeValor.length > 100) {
-        alert("O nome identificador deve ter entre 3 e 100 caracteres. Exemplo: CPU Principal.");
+    if (nome.value.trim().length < 3) {
+        alert("O nome deve possuir pelo menos 3 caracteres.");
         nome.focus();
         return;
     }
 
-
-    // Validação da capacidade total
-    if (
-        capacidadeTotal.value.trim() === "" ||
-        !Number.isFinite(capacidadeValor) ||
-        capacidadeValor <= 0
-    ) {
-        alert("Informe uma capacidade numérica maior que zero. Exemplo: 100.");
-        capacidadeTotal.focus();
+    if (tiposSelecionados.length === 0) {
+        alert("Selecione pelo menos um tipo de componente.");
         return;
     }
 
-    // Validação do limiar crítico
-    if (
-        limiarCritico.value.trim() === "" ||
-        !Number.isFinite(limiarCriticoValor) ||
-        limiarCriticoValor < 0
-    ) {
-        alert("Informe um limiar crítico numérico maior ou igual a zero. Exemplo: 95.");
-        limiarCritico.focus();
+    if (!unidade.value.trim()) {
+        alert("Informe a unidade de medida.");
+        unidade.focus();
         return;
     }
 
-    // Validação do limiar alto
-    if (
-        limiarAlto.value.trim() === "" ||
-        !Number.isFinite(limiarAltoValor) ||
-        limiarAltoValor < 0
-    ) {
-        alert("Informe um limiar alto numérico maior ou igual a zero. Exemplo: 85.");
-        limiarAlto.focus();
+    const capacidadeValor = Number(capacidade.value);
+    const criticoValor = Number(limiarCritico.value);
+    const altoValor = Number(limiarAlto.value);
+    const atencaoValor = Number(limiarAtencao.value);
+
+    if (!Number.isFinite(capacidadeValor) || capacidadeValor <= 0) {
+        alert("Informe uma capacidade válida.");
+        capacidade.focus();
         return;
     }
 
-    // Validação do limiar de atenção
     if (
-        limiarAtencao.value.trim() === "" ||
-        !Number.isFinite(limiarAtencaoValor) ||
-        limiarAtencaoValor < 0
+        !Number.isFinite(criticoValor) || criticoValor < 0 ||
+        !Number.isFinite(altoValor) || altoValor < 0 ||
+        !Number.isFinite(atencaoValor) || atencaoValor < 0
     ) {
-        alert("Informe um limiar de atenção numérico maior ou igual a zero. Exemplo: 70.");
-        limiarAtencao.focus();
+        alert("Informe valores válidos para os limiares.");
         return;
-    } 
-
-   console.log(tipoValor, unidadeValor)
-    const resposta = await chamarApi("/componentes/criar_componente", "POST", {
-        idDispositivo: equipamentoId,
-        empresa_id: empresaId,
-        nome_tipo: tipoValor,
-        unidade_medida: unidadeValor,
-        nome_identificador: nomeValor,
-        capacidade: capacidadeValor,
-        limiar_atencao: limiarAtencaoValor,
-        limiar_alto: limiarAltoValor,
-        limiar_critico: limiarCriticoValor
-    })
-
-    if(resposta.ok){
-        alert("Componente criado com sucesso")
-        voltarPagina()
-    }else{
-        alert("Deu algum erro ao criar o componente")
     }
 
+    // ENVIO PARA O BACKEND
+    if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Salvando...";
+    }
+
+    let cadastrados = 0;
+    let erros = [];
+
+    try {
+
+        // Cada tipo selecionado gera um cadastro individual
+        for (const tipo of tiposSelecionados) {
+
+            const dadosComponente = {
+                idDispositivo: equipamentoId,
+                empresa_id: empresaId,
+                nome_tipo: tipo,
+                unidade_medida: unidade.value.trim(),
+                nome_identificador: nome.value.trim(),
+                capacidade: capacidadeValor,
+                limiar_atencao: atencaoValor,
+                limiar_alto: altoValor,
+                limiar_critico: criticoValor
+            };
+
+            console.log("Enviando componente:", dadosComponente);
+
+            const resposta = await chamarApi(
+                "/componentes/criar_componente",
+                "POST",
+                dadosComponente
+            );
+
+            if (resposta.ok) {
+                cadastrados++;
+            } else {
+                erros.push({
+                    tipo: tipo,
+                    mensagem: obterMensagemErro(resposta)
+                });
+            }
+        }
+
+        // RESULTADO
+        if (erros.length === 0) {
+            alert(`${cadastrados} componente(s) cadastrado(s) com sucesso!`);
+            voltarPagina();
+            return;
+        }
+
+        if (cadastrados > 0) {
+            alert(
+                `${cadastrados} componente(s) foram cadastrados.\n\n` +
+                erros.map(e => `${e.tipo}: ${e.mensagem}`).join("\n")
+            );
+
+            voltarPagina();
+            return;
+        }
+
+        alert(
+            "Não foi possível cadastrar os componentes:\n\n" +
+            erros.map(e => `${e.tipo}: ${e.mensagem}`).join("\n")
+        );
+
+    } catch (erro) {
+        console.error("Erro no cadastro:", erro);
+        alert("Ocorreu um erro inesperado ao cadastrar os componentes.");
+
+    } finally {
+        if (botao) {
+            botao.disabled = false;
+            botao.textContent = "Salvar";
+        }
+    }
 }
 
-
+// VOLTAR PARA O EQUIPAMENTO
 function voltarPagina() {
     const { empresaId, equipamentoId } = pegarIdsDaUrl();
-    window.location.href = `../informacoesEquipamento.html?empresaId=${empresaId}&eqId=${equipamentoId}`;
+
+    window.location.href =
+        `../informacoesEquipamento.html?empresaId=${empresaId}&eqId=${equipamentoId}`;
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    carregarInformacoesUsuario();
+});
