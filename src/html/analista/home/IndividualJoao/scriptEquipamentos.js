@@ -1,83 +1,9 @@
-
-const rankingMock = [
-    {
-        idDispositivo: 1,
-        idEmpresa: 1,
-        nome: "FW-CORE-03",
-        empresa: "Bradesco",
-        categoria: "Firewall",
-        status: "Ativo",
-        conexao: "Offline",
-        alertas_criticos: 8,
-        ultimo_alerta: "CPU > 90%",
-        data_alerta: "15/09/2026"
-    },
-    {
-        idDispositivo: 2,
-        idEmpresa: 1,
-        nome: "FW-CORE-02",
-        empresa: "Bradesco",
-        categoria: "Firewall",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 6,
-        ultimo_alerta: "Perda de pacotes > 15%",
-        data_alerta: "15/09/2026"
-    },
-    {
-        idDispositivo: 3,
-        idEmpresa: 1,
-        nome: "FW-EDGE-01",
-        empresa: "Bradesco",
-        categoria: "Firewall",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 4,
-        ultimo_alerta: "Link down — interface WAN",
-        data_alerta: "14/09/2026"
-    },
-    {
-        idDispositivo: 4,
-        idEmpresa: 2,
-        nome: "SW-ACCESS-01",
-        empresa: "Itaú",
-        categoria: "Switch",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 2,
-        ultimo_alerta: "Nenhum alerta",
-        data_alerta: null
-    },
-    {
-        idDispositivo: 5,
-        idEmpresa: 3,
-        nome: "RT-CORE-01",
-        empresa: "Santander",
-        categoria: "Router",
-        status: "Ativo",
-        conexao: "Online",
-        alertas_criticos: 1,
-        ultimo_alerta: "Nenhum alerta",
-        data_alerta: null
-    }
-];
-
 document.addEventListener('DOMContentLoaded', () => {
+    if (!exigirAnalista()) return;
+
     carregarEquipamentosEmpresa();
     carregarInformacoesUsuario();
 });
-
-async function direcionarPaginaDetalhesEquipamentos(dados) {
-    window.location.href = `../equipamento.html?idEmpresa=${dados.idEmpresa}idEquipamento=${dados.idDispositivo}`;
-}
-
-function pegarIdDaUrl() {
-    const parametros = new URLSearchParams(window.location.search);
-    const id = Number(parametros.get("idEmpresa"));
-
-    return id || 0;
-}
-
 async function chamarApi(caminho, metodo, corpo) {
     try {
         return await apiFetch(caminho, {
@@ -92,31 +18,27 @@ async function chamarApi(caminho, metodo, corpo) {
     }
 }
 
-async function carregarInformacoesUsuario() {
-    let nome_title = document.getElementById("nome_title");
-    let foto = document.getElementById("foto_usuario");
-
-    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
-
-    console.log(resposta.dados[0])
-    nome_title.textContent = resposta.dados[0].nome;
-    foto.textContent = resposta.dados[0].nome[0]
-}
-
-function carregarEquipamentosEmpresa() {
-
+async function carregarEquipamentosEmpresa() {
     const container = document.getElementById('equipamentos-container');
 
     const empresaId = pegarIdDaUrl();
 
-    // Filtra somente os equipamentos da empresa selecionada
-    const equipamentosEmpresa = rankingMock.filter(item =>
-        Number(item.idEmpresa) === empresaId
-    );
+    // Sem empresa na URL não há o que mostrar: volta para a home
+    if (!empresaId) {
+        window.location.href = './home.html';
+        return;
+    }
+
+    const empresas = await chamarApi("/joao/equipamentos_empresa", "POST", {
+        id_empresa: empresaId
+    })
+
+    if (!empresas.ok || !Array.isArray(empresas.dados)) return;
+
+    const resposta = empresas.dados;
 
     // Caso a empresa não possua equipamentos
-    if (equipamentosEmpresa.length === 0) {
-
+    if (resposta.length === 0) {
         container.innerHTML = `
             <tr>
                 <td colspan="5" class="text-center py-8 text-white/50">
@@ -135,7 +57,7 @@ function carregarEquipamentosEmpresa() {
     }
 
     // Atualiza o nome da empresa
-    const nomeEmpresa = equipamentosEmpresa[0].empresa;
+    const nomeEmpresa = resposta[0].nome_fantasia;
 
     document.getElementById('empresa-titulo').textContent = nomeEmpresa;
 
@@ -143,15 +65,14 @@ function carregarEquipamentosEmpresa() {
 
     // Atualiza a quantidade de equipamentos
     document.getElementById('empresa-subtitulo').textContent =
-        `${equipamentosEmpresa.length} equipamentos vinculados`;
+        `${resposta.length} equipamentos vinculados`;
 
     // Limpa a tabela
     container.innerHTML = '';
 
     // Cria uma linha para cada equipamento
-    equipamentosEmpresa.forEach(item => {
-
-        const online = item.conexao.toLowerCase() === 'online';
+    resposta.forEach(item => {
+        const online = item.status.toLowerCase() === 'ativo';
 
         const corConexao = online
             ? 'bg-green-500'
@@ -190,7 +111,7 @@ function carregarEquipamentosEmpresa() {
                     <span class="w-2 h-2 rounded-full ${corConexao} shrink-0"></span>
 
                     <span class="text-cyan-400 font-bold">
-                        ${item.nome}
+                        ${item.endereco_mac}
                     </span>
 
                 </div>
@@ -211,7 +132,7 @@ function carregarEquipamentosEmpresa() {
             <!-- Conexão -->
             <td class="py-3 px-4 whitespace-nowrap">
                 <span class="${textoConexao} font-semibold">
-                    ${item.conexao}
+                    ${item.status}
                 </span>
             </td>
 
@@ -240,12 +161,29 @@ function carregarEquipamentosEmpresa() {
             </td>
         `;
 
-        // Clique na linha
-        linha.addEventListener('click', () => {
-            console.log('Equipamento selecionado:', item.idDispositivo);
-        });
-
         container.appendChild(linha);
-
     });
+}
+
+async function carregarInformacoesUsuario() {
+    let nome_title = document.getElementById("nome_title");
+    let foto = document.getElementById("foto_usuario");
+
+    const resposta = await chamarApi("/usuarios/informacoes_usuario", "GET");
+
+    if (!resposta.ok || !Array.isArray(resposta.dados) || !resposta.dados[0]) return;
+
+    nome_title.textContent = resposta.dados[0].nome;
+    foto.textContent = resposta.dados[0].nome[0]
+}
+
+function direcionarPaginaDetalhesEquipamentos(dados) {
+    window.location.href = `../equipamento.html?idEmpresa=${dados.id_empresa}&idEquipamento=${dados.id_dispositivo}`;
+}
+
+function pegarIdDaUrl() {
+    const parametros = new URLSearchParams(window.location.search);
+    const id = Number(parametros.get("idEmpresa"));
+
+    return id || 0;
 }

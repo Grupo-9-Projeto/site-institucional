@@ -21,7 +21,6 @@
         </svg>
     </button>
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
-
     <aside id="sidebar"
         class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-screen flex flex-col justify-between overflow-hidden">
         <div>
@@ -52,42 +51,51 @@
 
     <main class="flex-1 min-w-0 h-full overflow-y-auto overflow-x-hidden p-4 pt-16 sm:p-6 sm:pt-16 lg:p-8 lg:pt-8">
         <div class="max-w-[1500px] mx-auto w-full">
-
             <!-- Breadcrumb -->
             <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs text-white/60 mb-3">
                 <a href="IndividualJoao/home.html" class="hover:text-white transition-colors">Home</a>
                 <span>&gt;</span>
-                <a id="empresa-breadcrumb" href="IndividualJoao/equipamentos.html" class="hover:text-white transition-colors truncate max-w-[140px] sm:max-w-none">Empresa</a>
+                <a id="empresa-breadcrumb" href="IndividualJoao/equipamentos.html"
+                    class="hover:text-white transition-colors truncate max-w-[140px] sm:max-w-none">Empresa</a>
                 <span>&gt;</span>
-                <span id="equipamento-breadcrumb" class="text-white font-semibold truncate max-w-[180px] sm:max-w-none">Equipamento</span>
+                <span id="equipamento-breadcrumb"
+                    class="text-white font-semibold truncate max-w-[180px] sm:max-w-none">Equipamento</span>
             </div>
 
             <!-- Cabeçalho técnico enriquecido -->
-            <header class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-white/10">
+            <header
+                class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4 mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-white/10">
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                        <h1 id="equipamento-titulo" class="text-2xl sm:text-3xl font-bold font-space-grotesk break-words">Equipamento</h1>
+                        <h1 id="equipamento-titulo"
+                            class="text-2xl sm:text-3xl font-bold font-space-grotesk break-words">Equipamento</h1>
                         <span id="equipamento-status"
                             class="flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/10 shrink-0"></span>
                         <span id="equipamento-categoria" class="text-xs text-white/60 w-full sm:w-auto"></span>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5 text-xs">
-                    <div class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
+                    <div
+                        class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
                         <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">IP</span>
                         <span id="equipamento-ip" class="font-semibold text-white/90 truncate">—</span>
                     </div>
-                    <div class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
-                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">MAC</span>
+                    <div
+                        class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
+                        <span
+                            class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">MAC</span>
                         <span id="equipamento-mac" class="font-semibold text-white/90 truncate">—</span>
                     </div>
-                    <div class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
-                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">Disco</span>
+                    <div
+                        class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
+                        <span
+                            class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">Disco</span>
                         <span id="equipamento-disco-resumo" class="font-semibold text-purple-400 truncate">—</span>
                     </div>
-                    <div class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
-                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">Última coleta</span>
+                    <div
+                        class="flex items-center justify-between sm:justify-start gap-2 px-3 py-2 sm:py-1.5 rounded-lg bg-[#0D1924] border border-white/10 min-w-0">
+                        <span class="text-white/40 uppercase text-[10px] font-semibold tracking-wider shrink-0">Última
+                            coleta</span>
                         <span id="equipamento-ultima-coleta" class="font-semibold text-light-blue truncate">—</span>
                     </div>
                 </div>
@@ -96,21 +104,25 @@
             <!-- Resumo operacional (4 KPIs) -->
             <section class="mb-6">
                 <h2 class="font-semibold text-sm">Resumo operacional</h2>
-                <p class="text-xs text-white/60 mt-1 mb-4">Diagnóstico instantâneo, saturação de recursos e limiares configurados</p>
-
+                <p class="text-xs text-white/60 mt-1 mb-4">Diagnóstico instantâneo, saturação de recursos e limiares
+                    configurados</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
                     <!-- KPI 1: Saúde & Alertas -->
                     <div id="kpi-card-saude"
                         class="bg-[#0D1924] border border-white/10 border-t-2 border-t-emerald-400 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-[#101F2D]">
                         <div class="flex items-center justify-between gap-2">
-                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Saúde &amp; Alertas</p>
-                            <span id="card-dominante" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white/5 text-white/70 truncate">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Saúde &amp;
+                                Alertas</p>
+                            <span id="card-dominante"
+                                class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white/5 text-white/70 truncate">
                                 Dominante: —
                             </span>
                         </div>
                         <div class="flex items-center gap-2.5 mt-3">
-                            <span id="indicador-pulso-saude" class="hidden w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0"></span>
-                            <p id="card-saude-status" class="text-2xl sm:text-3xl font-bold font-space-grotesk text-emerald-400">—</p>
+                            <span id="indicador-pulso-saude"
+                                class="hidden w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shrink-0"></span>
+                            <p id="card-saude-status"
+                                class="text-2xl sm:text-3xl font-bold font-space-grotesk text-emerald-400">—</p>
                         </div>
                         <p id="card-alertas-resumo" class="text-[11px] text-white/50 mt-3">—</p>
                     </div>
@@ -122,10 +134,13 @@
                             <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">CPU</p>
                             <span id="card-cpu-ghz" class="text-xs font-medium text-white/60">—</span>
                         </div>
-                        <p id="card-cpu" class="text-2xl sm:text-3xl font-bold font-space-grotesk mt-3 text-light-blue">0,0%</p>
+                        <p id="card-cpu" class="text-2xl sm:text-3xl font-bold font-space-grotesk mt-3 text-light-blue">
+                            0,0%</p>
                         <div class="mt-3">
                             <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                <div id="barra-kpi-cpu" class="h-full w-0 bg-light-blue rounded-full transition-all duration-700 ease-out"></div>
+                                <div id="barra-kpi-cpu"
+                                    class="h-full w-0 bg-light-blue rounded-full transition-all duration-700 ease-out">
+                                </div>
                             </div>
                             <p id="card-cpu-limite" class="text-[11px] text-white/50 mt-2">Limite: —</p>
                         </div>
@@ -138,10 +153,13 @@
                             <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Memória RAM</p>
                             <span id="card-ram-gb" class="text-xs font-medium text-white/60">—</span>
                         </div>
-                        <p id="card-ram" class="text-2xl sm:text-3xl font-bold font-space-grotesk mt-3 text-teal-400">0,0%</p>
+                        <p id="card-ram" class="text-2xl sm:text-3xl font-bold font-space-grotesk mt-3 text-teal-400">
+                            0,0%</p>
                         <div class="mt-3">
                             <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                <div id="barra-kpi-ram" class="h-full w-0 bg-teal-400 rounded-full transition-all duration-700 ease-out"></div>
+                                <div id="barra-kpi-ram"
+                                    class="h-full w-0 bg-teal-400 rounded-full transition-all duration-700 ease-out">
+                                </div>
                             </div>
                             <p id="card-ram-limite" class="text-[11px] text-white/50 mt-2">Limite: —</p>
                         </div>
@@ -151,13 +169,17 @@
                     <div id="kpi-card-pacotes"
                         class="bg-[#0D1924] border border-white/10 border-t-2 border-t-emerald-400 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25 hover:bg-[#101F2D]">
                         <div class="flex items-center justify-between gap-2">
-                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Perda de Pacotes</p>
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-white/50">Perda de Pacotes
+                            </p>
                             <span id="card-pacotes-abs" class="text-xs font-medium text-white/60">—</span>
                         </div>
-                        <p id="card-pacotes" class="text-2xl sm:text-3xl font-bold font-space-grotesk mt-3 text-emerald-400">0,0%</p>
+                        <p id="card-pacotes"
+                            class="text-2xl sm:text-3xl font-bold font-space-grotesk mt-3 text-emerald-400">0,0%</p>
                         <div class="mt-3">
                             <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                <div id="barra-kpi-pacotes" class="h-full w-0 bg-emerald-400 rounded-full transition-all duration-700 ease-out"></div>
+                                <div id="barra-kpi-pacotes"
+                                    class="h-full w-0 bg-emerald-400 rounded-full transition-all duration-700 ease-out">
+                                </div>
                             </div>
                             <p id="card-pacotes-limite" class="text-[11px] text-white/50 mt-2">Limite: —</p>
                         </div>
@@ -172,13 +194,17 @@
                         <h2 class="font-semibold text-sm">Últimos Registros</h2>
                         <p id="periodo-descricao" class="text-xs text-white/60 mt-1">Uso diário de recursos</p>
                     </div>
-                    <div data-filtro="registros" class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
+                    <div data-filtro="registros"
+                        class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
                         <button type="button" data-periodo="semana"
-                            class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Última semana</button>
+                            class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Última
+                            semana</button>
                         <button type="button" data-periodo="mes"
-                            class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Último mês</button>
+                            class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Último
+                            mês</button>
                         <button type="button" data-periodo="personalizado"
-                            class="col-span-2 sm:col-auto px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Período personalizado</button>
+                            class="col-span-2 sm:col-auto px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Período
+                            personalizado</button>
                     </div>
                 </div>
                 <div data-personalizado="registros" class="hidden mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-white/10">
@@ -205,21 +231,26 @@
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4 sm:p-5 min-w-0">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-5">
                         <h3 class="text-sm font-semibold text-light-blue">CPU</h3>
-                        <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
+                        <div
+                            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
                             <span>Média: <strong id="media-cpu" class="text-white/90 font-semibold">—</strong></span>
                             <span>Pico: <strong id="pico-cpu" class="text-white/90 font-semibold">—</strong></span>
-                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-cpu" class="font-semibold">—</strong></span>
-                            <span class="text-red-400/90">Crítico: <strong id="limite-label-cpu" class="font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-cpu"
+                                    class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-cpu"
+                                    class="font-semibold">—</strong></span>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <div class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right shrink-0">
+                        <div
+                            class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right shrink-0">
                             <span>100%</span>
                             <span>50%</span>
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-cpu" class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-cpu" class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1">
+                            </div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
@@ -229,21 +260,26 @@
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4 sm:p-5 min-w-0">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-5">
                         <h3 class="text-sm font-semibold text-teal-400">RAM</h3>
-                        <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
+                        <div
+                            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
                             <span>Média: <strong id="media-ram" class="text-white/90 font-semibold">—</strong></span>
                             <span>Pico: <strong id="pico-ram" class="text-white/90 font-semibold">—</strong></span>
-                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-ram" class="font-semibold">—</strong></span>
-                            <span class="text-red-400/90">Crítico: <strong id="limite-label-ram" class="font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-ram"
+                                    class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-ram"
+                                    class="font-semibold">—</strong></span>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <div class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right shrink-0">
+                        <div
+                            class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right shrink-0">
                             <span>100%</span>
                             <span>50%</span>
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-ram" class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-ram" class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1">
+                            </div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
@@ -253,21 +289,26 @@
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4 sm:p-5 min-w-0">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-5">
                         <h3 class="text-sm font-semibold text-purple-400">DISCO</h3>
-                        <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
+                        <div
+                            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
                             <span>Média: <strong id="media-disco" class="text-white/90 font-semibold">—</strong></span>
                             <span>Pico: <strong id="pico-disco" class="text-white/90 font-semibold">—</strong></span>
-                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-disco" class="font-semibold">—</strong></span>
-                            <span class="text-red-400/90">Crítico: <strong id="limite-label-disco" class="font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-disco"
+                                    class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-disco"
+                                    class="font-semibold">—</strong></span>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <div class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right shrink-0">
+                        <div
+                            class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right shrink-0">
                             <span>100%</span>
                             <span>50%</span>
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-disco" class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-disco"
+                                class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1"></div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
@@ -277,21 +318,27 @@
                 <div class="bg-[#0D1924] border border-white/10 rounded-2xl p-4 sm:p-5 min-w-0">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-5">
                         <h3 class="text-sm font-semibold text-emerald-400">PERDA DE PACOTES</h3>
-                        <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
-                            <span>Média: <strong id="media-pacotes" class="text-white/90 font-semibold">—</strong></span>
+                        <div
+                            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/50">
+                            <span>Média: <strong id="media-pacotes"
+                                    class="text-white/90 font-semibold">—</strong></span>
                             <span>Pico: <strong id="pico-pacotes" class="text-white/90 font-semibold">—</strong></span>
-                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-pacotes" class="font-semibold">—</strong></span>
-                            <span class="text-red-400/90">Crítico: <strong id="limite-label-pacotes" class="font-semibold">—</strong></span>
+                            <span class="text-amber-400/90">Atenção: <strong id="atencao-label-pacotes"
+                                    class="font-semibold">—</strong></span>
+                            <span class="text-red-400/90">Crítico: <strong id="limite-label-pacotes"
+                                    class="font-semibold">—</strong></span>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <div id="eixo-y-pacotes" class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right min-w-[28px] shrink-0">
+                        <div id="eixo-y-pacotes"
+                            class="flex flex-col justify-between h-[160px] sm:h-[180px] text-[10px] text-white/40 text-right min-w-[28px] shrink-0">
                             <span>100%</span>
                             <span>50%</span>
                             <span>0%</span>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div id="grafico-pacotes" class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1"></div>
+                            <div id="grafico-pacotes"
+                                class="relative h-[160px] sm:h-[180px] border-b border-white/10 pb-1"></div>
                             <div data-eixo-x class="flex justify-between text-[10px] text-white/40 mt-2"></div>
                         </div>
                     </div>
@@ -309,28 +356,39 @@
                                     class="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-500/10 border border-red-500/30 text-red-400">
                                     0 críticos
                                 </span>
+                                <span id="alertas-badge-altos"
+                                    class="px-2 py-0.5 rounded text-[10px] font-semibold bg-orange-500/10 border border-orange-500/30 text-orange-400">
+                                    0 altos
+                                </span>
                                 <span id="alertas-badge-atencao"
                                     class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-400">
                                     0 atenção
                                 </span>
                             </div>
-                            <p id="alertas-descricao" class="text-xs text-white/60 mt-1">Registros de eventos deste equipamento</p>
+                            <p id="alertas-descricao" class="text-xs text-white/60 mt-1">Registros de eventos deste
+                                equipamento</p>
                         </div>
 
                         <!-- Filtro de período -->
-                        <div data-filtro="alertas" class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <div data-filtro="alertas"
+                            class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
                             <button type="button" data-periodo="semana"
-                                class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Última semana</button>
+                                class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Última
+                                semana</button>
                             <button type="button" data-periodo="mes"
-                                class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Último mês</button>
+                                class="px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Último
+                                mês</button>
                             <button type="button" data-periodo="personalizado"
-                                class="col-span-2 sm:col-auto px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Período personalizado</button>
+                                class="col-span-2 sm:col-auto px-3 sm:px-4 py-2 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white transition-colors cursor-pointer text-center">Período
+                                personalizado</button>
                         </div>
                     </div>
 
                     <!-- Barra secundária: Severidade + Métrica -->
-                    <div class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div id="filtro-alerta-severidade" class="relative z-10 flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <div
+                        class="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div id="filtro-alerta-severidade"
+                            class="relative z-10 flex flex-wrap items-center gap-1.5 sm:gap-2">
                             <span class="text-[11px] text-white/40 mr-1">Severidade:</span>
                             <button type="button" data-sev="todos"
                                 class="px-3 py-1 text-xs font-semibold rounded-md border border-light-blue bg-light-blue text-main-blue cursor-pointer transition-colors">
@@ -339,6 +397,10 @@
                             <button type="button" data-sev="critico"
                                 class="px-3 py-1 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-colors">
                                 Crítico
+                            </button>
+                            <button type="button" data-sev="alto"
+                                class="px-3 py-1 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-colors">
+                                Alto
                             </button>
                             <button type="button" data-sev="atencao"
                                 class="px-3 py-1 text-xs font-semibold rounded-md border border-white/15 text-white/70 hover:border-white hover:text-white cursor-pointer transition-colors">
