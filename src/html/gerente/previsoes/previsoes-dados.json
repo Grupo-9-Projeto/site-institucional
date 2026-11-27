@@ -2600,8 +2600,48 @@
     "quantidadeAnalistas": 4
   },
   "dataReferencia": "2026-11-23T08:00:00",
+  "climaPrevisao": {
+    "_aviso": "DADOS SIMULADOS, usados só quando a Open-Meteo não responde. Um item por dia da próxima semana da dataReferencia (seg a dom).",
+    "dias": [
+      {
+        "data": "2026-11-30",
+        "temperaturaMax": 29.4,
+        "chuvaMm": 2.1
+      },
+      {
+        "data": "2026-12-01",
+        "temperaturaMax": 31.8,
+        "chuvaMm": 0.0
+      },
+      {
+        "data": "2026-12-02",
+        "temperaturaMax": 33.6,
+        "chuvaMm": 4.0
+      },
+      {
+        "data": "2026-12-03",
+        "temperaturaMax": 34.9,
+        "chuvaMm": 0.5
+      },
+      {
+        "data": "2026-12-04",
+        "temperaturaMax": 27.0,
+        "chuvaMm": 24.5
+      },
+      {
+        "data": "2026-12-05",
+        "temperaturaMax": 25.2,
+        "chuvaMm": 31.0
+      },
+      {
+        "data": "2026-12-06",
+        "temperaturaMax": 26.1,
+        "chuvaMm": 8.2
+      }
+    ]
+  },
   "analiseModelos": {
-    "_aviso": "DADOS SIMULADOS, usados só quando o bucket/ETL não responde. Mesmo formato de GET /previsoes/modelos. Chamados e tempo médio vêm dos chamados deste arquivo (equipamento -> modelo pelo nome; SRV-* fica de fora). As anomalias são simuladas.",
+    "_aviso": "DADOS SIMULADOS, usados só quando o bucket/ETL não responde. Mesmo formato de GET /previsoes/modelos. Chamados e tempo médio vêm dos chamados deste arquivo (equipamento -> modelo pelo nome; SRV-* fica de fora). As anomalias e a temperatura do ambiente são simuladas.",
     "periodoChamados": {
       "inicio": "2026-09-28",
       "fim": "2026-11-23"
@@ -2633,7 +2673,23 @@
         },
         "anomaliasTotal": 175,
         "taxaPorMil": 0.7,
-        "componentePredominante": "cpu"
+        "componentePredominante": "cpu",
+        "temperatura": {
+          "media": 24.8,
+          "maxima": 35.2,
+          "leituras": 60480,
+          "limiteQuente": 30,
+          "quente": {
+            "leituras": 14515,
+            "comAnomalia": 118,
+            "taxaPorMil": 8.1
+          },
+          "normal": {
+            "leituras": 45965,
+            "comAnomalia": 92,
+            "taxaPorMil": 2.0
+          }
+        }
       },
       {
         "modelo": "Swith",
@@ -2652,7 +2708,23 @@
         },
         "anomaliasTotal": 122,
         "taxaPorMil": 0.5,
-        "componentePredominante": "ram"
+        "componentePredominante": "ram",
+        "temperatura": {
+          "media": 24.1,
+          "maxima": 34.6,
+          "leituras": 60480,
+          "limiteQuente": 30,
+          "quente": {
+            "leituras": 12096,
+            "comAnomalia": 62,
+            "taxaPorMil": 5.1
+          },
+          "normal": {
+            "leituras": 48384,
+            "comAnomalia": 70,
+            "taxaPorMil": 1.4
+          }
+        }
       },
       {
         "modelo": "Router",
@@ -2671,7 +2743,23 @@
         },
         "anomaliasTotal": 34,
         "taxaPorMil": 0.4,
-        "componentePredominante": "cpu"
+        "componentePredominante": "cpu",
+        "temperatura": {
+          "media": 24.5,
+          "maxima": 33.8,
+          "leituras": 20160,
+          "limiteQuente": 30,
+          "quente": {
+            "leituras": 4838,
+            "comAnomalia": 22,
+            "taxaPorMil": 4.5
+          },
+          "normal": {
+            "leituras": 15322,
+            "comAnomalia": 18,
+            "taxaPorMil": 1.2
+          }
+        }
       }
     ]
   }

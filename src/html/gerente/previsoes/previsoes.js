@@ -28,6 +28,7 @@ async function iniciar() {
         mostrarGrafico(resultado);
         mostrarTabela(resultado);
         carregarModelos();
+        carregarClima(resultado);
     } catch (erro) {
         if (erro.sessaoExpirada) return;
         console.error(erro);
@@ -164,7 +165,7 @@ function mostrarCards(r) {
 function mostrarMapaDeCalor(r) {
     const calor = r.calor;
 
-    let html = `<div class="heatmap-grid" style="display:grid;grid-template-columns:42px repeat(6,minmax(0,1fr));gap:5px;width:100%;">`;
+    let html = `<div class="heatmap-grid" style="display:grid;grid-template-columns:62px repeat(6,minmax(0,1fr));gap:5px;width:100%;">`;
 
     html += `<div></div>`;
     for (let faixa = 0; faixa < 6; faixa++) {
@@ -546,7 +547,7 @@ async function carregarModelos() {
         dados.modelos.forEach(function (modelo) {
             const simulado = reserva.modelos.find(function (item) { return item.modelo === modelo.modelo; });
             if (simulado) {
-                ["equipamentosComDados", "registrosMonitorados", "leiturasComponentes", "anomalias", "anomaliasTotal", "taxaPorMil", "componentePredominante"]
+                ["equipamentosComDados", "registrosMonitorados", "leiturasComponentes", "anomalias", "anomaliasTotal", "taxaPorMil", "componentePredominante", "temperatura"]
                     .forEach(function (campo) { modelo[campo] = simulado[campo]; });
             }
         });
@@ -663,8 +664,138 @@ function mostrarModelos(dados, origem) {
         nota.textContent = "Indicadores de anomalia indisponíveis no momento: " + (dados.etl.mensagem || "falha na leitura da ETL.");
     }
 
-    if (origem === "real" && dados.etl.status === "ok" && lista.some(function (m) { return m.temperatura; })) {
-        nota.textContent += " Temp. do ambiente: Open-Meteo, coletada pelo script de monitoramento; " +
-            "\"por mil\" = leituras com alguma anomalia a cada mil (relação nos dados, não causa).";
+    if (dados.etl.status === "ok" && lista.some(function (m) { return m.temperatura; })) {
+        if (origem === "real") {
+            nota.textContent += " Temp. do ambiente: Open-Meteo, coletada pelo script de monitoramento; " +
+                "\"por mil\" = leituras com alguma anomalia a cada mil (relação nos dados, não causa).";
+        } else {
+            nota.textContent += " Temp. do ambiente: simulada no arquivo local.";
+        }
+    }
+}
+
+
+// ======================================================================
+// CLIMA DA PRÓXIMA SEMANA NO MAPA DE CALOR
+// ☀️ = calor forte e 💧 = chuva forte previstos para o dia, ao lado do nome do dia.
+// É só contexto (possível impacto nos equipamentos): NÃO entra nos cálculos da previsão.
+// Fonte: Open-Meteo (previsão, grátis, sem chave). Se falhar, usa "climaPrevisao" do previsoes-dados.json.
+// ======================================================================
+const CLIMA_LATITUDE = -23.55;       // use o mesmo local do script de monitoramento (.env)
+const CLIMA_LONGITUDE = -46.63;
+const CLIMA_TEMPERATURA_ALTA = 32;   // °C: máxima do dia a partir da qual aparece o sol
+const CLIMA_CHUVA_FORTE_MM = 20;     // mm no dia a partir dos quais aparece a gota
+const CLIMA_TIMEOUT_MS = 5000;
+
+function dataISO(data) {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
+    const dia = String(data.getDate()).padStart(2, "0");
+    return ano + "-" + mes + "-" + dia;
+}
+
+async function buscarClimaApi(inicioSemana) {
+    const controle = new AbortController();
+    const timer = setTimeout(function () { controle.abort(); }, CLIMA_TIMEOUT_MS);
+    try {
+        const url = "https://api.open-meteo.com/v1/forecast" +
+            "?latitude=" + CLIMA_LATITUDE + "&longitude=" + CLIMA_LONGITUDE +
+            "&daily=temperature_2m_max,precipitation_sum&timezone=America%2FSao_Paulo" +
+            "&start_date=" + dataISO(inicioSemana) + "&end_date=" + dataISO(somarDias(inicioSemana, 6));
+        const resposta = await fetch(url, { signal: controle.signal });
+        if (!resposta.ok) return null;
+
+        const diario = (await resposta.json()).daily;
+        const porData = {};
+        for (let i = 0; i < diario.time.length; i++) {
+            if (typeof diario.temperature_2m_max[i] !== "number") continue;
+            porData[diario.time[i]] = {
+                temperaturaMax: diario.temperature_2m_max[i],
+                chuvaMm: typeof diario.precipitation_sum[i] === "number" ? diario.precipitation_sum[i] : 0
+            };
+        }
+        return Object.keys(porData).length > 0 ? porData : null;
+    } catch (erro) {
+        console.error("Não foi possível obter a previsão do tempo (Open-Meteo).", erro);
+        return null;
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+async function carregarReservaClima() {
+    try {
+        if (!dadosSimulados) {
+            const resposta = await fetch("./previsoes-dados.json");
+            dadosSimulados = await resposta.json();
+        }
+        if (!dadosSimulados.climaPrevisao) return null;
+
+        const porData = {};
+        dadosSimulados.climaPrevisao.dias.forEach(function (dia) {
+            porData[dia.data] = { temperaturaMax: dia.temperaturaMax, chuvaMm: dia.chuvaMm };
+        });
+        return porData;
+    } catch (erro) {
+        console.error("Não foi possível carregar a reserva do clima.", erro);
+        return null;
+    }
+}
+
+async function carregarClima(r) {
+    try {
+        let simulado = false;
+        let clima = await buscarClimaApi(r.proximaSemana);
+        if (!clima) {
+            clima = await carregarReservaClima();
+            simulado = true;
+        }
+        if (!clima) return;
+
+        mostrarIconesClima(r, clima, simulado);
+    } catch (erro) {
+        console.error("Falha ao mostrar o clima no mapa de calor.", erro);
+    }
+}
+
+function iconeClima(emoji, titulo) {
+    return `<span title="${titulo}" style="font-size:11px;margin-left:3px;cursor:help;">${emoji}</span>`;
+}
+
+function mostrarIconesClima(r, clima, simulado) {
+    const rotulos = document.querySelectorAll("#mapa-calor .heatmap-day");
+    const sufixo = simulado ? " (clima simulado)" : "";
+    let quantidadeIcones = 0;
+    let encontrouDados = false;
+
+    for (let dia = 0; dia < 7; dia++) {
+        const data = somarDias(r.proximaSemana, dia);
+        const info = clima[dataISO(data)];
+        if (!info || !rotulos[dia]) continue;
+        encontrouDados = true;
+
+        let icones = "";
+        if (info.temperaturaMax >= CLIMA_TEMPERATURA_ALTA) {
+            icones += iconeClima("☀️", "Calor forte previsto para " + dataCurta(data) + " (máx. " +
+                numeroBR(info.temperaturaMax) + " °C): possível impacto nos equipamentos" + sufixo);
+            quantidadeIcones++;
+        }
+        if (info.chuvaMm >= CLIMA_CHUVA_FORTE_MM) {
+            icones += iconeClima("💧", "Chuva forte prevista para " + dataCurta(data) + " (" +
+                numeroBR(info.chuvaMm) + " mm): possível impacto nos equipamentos" + sufixo);
+            quantidadeIcones++;
+        }
+        rotulos[dia].insertAdjacentHTML("beforeend", icones);
+    }
+
+    if (!encontrouDados) return;
+
+    const insight = document.getElementById("mapa-calor-insight");
+    const fonte = simulado ? "clima simulado do arquivo local" : "Open-Meteo";
+    if (quantidadeIcones > 0) {
+        insight.textContent += " ☀️ calor forte e 💧 chuva forte previstos (passe o mouse): possível impacto nos equipamentos; " +
+            "é contexto e não altera a previsão (" + fonte + ").";
+    } else {
+        insight.textContent += " Sem calor ou chuva forte previstos para a semana (" + fonte + ").";
     }
 }
