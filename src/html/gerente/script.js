@@ -652,7 +652,7 @@ function desenharGraficoRosca(canvasId, itens, rotuloCentro) {
     ctx.clearRect(0, 0, width, height);
 
     const total = itens.reduce((acc, item) => acc + Math.max(0, item.valor), 0);
-    const legendWidth = width >= 280 ? 120 : 0;
+    const legendWidth = 0;
     const donutAreaWidth = Math.max(80, width - legendWidth);
 
     const cx = donutAreaWidth / 2;
@@ -779,7 +779,7 @@ function renderizarTabelaEmpresasPoucosFuncionarios(lista) {
             const qtdTexto = emp.funcionarios === 1 ? "1 func." : `${emp.funcionarios} funcs.`;
             const corQtd = emp.funcionarios <= 2 ? "text-red-400 font-semibold" : "text-amber-300 font-medium";
             return `
-                <tr class="hover:bg-white/5 transition-colors">
+                <tr>
                     <td class="py-2.5 px-3 font-medium text-white">${emp.nome}</td>
                     <td class="py-2.5 px-3 text-right ${corQtd}">${qtdTexto}</td>
                 </tr>
@@ -855,7 +855,6 @@ function renderizarHomeHolistica(dadosHome) {
 
     const faixaEl = document.getElementById("faixa-resumo-home");
     const textoFaixaEl = document.getElementById("texto-faixa-home");
-    const indicadoresEl = document.getElementById("indicadores-faixa-home");
 
     const criticos = estadosAreas.filter(a => a.nivel === "critico");
     const atencoes = estadosAreas.filter(a => a.nivel === "atencao");
@@ -875,13 +874,6 @@ function renderizarHomeHolistica(dadosHome) {
             textoFaixaEl.className = "text-xs sm:text-sm font-medium text-emerald-300";
             textoFaixaEl.textContent = "Todas as áreas estão dentro do esperado.";
         }
-    }
-
-    if (indicadoresEl) {
-        indicadoresEl.innerHTML = estadosAreas.map(area => {
-            const cor = (HOME_BADGE_ESTILO[area.nivel] || HOME_BADGE_ESTILO.ok).ponto;
-            return `<span class="h-2.5 w-2.5 rounded-full inline-block" style="background:${cor};"></span>`;
-        }).join("");
     }
 
     const referenciaEl = document.getElementById("referencia");
