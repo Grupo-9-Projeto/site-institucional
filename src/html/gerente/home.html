@@ -10,13 +10,11 @@
     <link rel="stylesheet" href="../../output.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../../js/api.js" defer></script>
-    <script src="script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./script.js" defer></script>
 </head>
 
-<body class="h-screen w-screen flex bg-main-blue text-white font-poppins overflow-hidden">
+<body class="min-h-screen lg:h-screen w-full flex bg-main-blue text-white font-poppins overflow-x-hidden lg:overflow-hidden">
 
     <button id="btn-hamburguer"
         class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0D1924] text-white rounded-lg border border-gray-500 focus:outline-none">
@@ -28,101 +26,164 @@
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
 
     <aside id="sidebar"
-        class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 h-screen flex flex-col justify-between overflow-hidden">
+        class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full transition-transform duration-300 bg-[#0B141D] border-r border-white/10 lg:translate-x-0 lg:static lg:w-1/5 shrink-0 min-h-screen lg:h-screen flex flex-col justify-between overflow-y-auto lg:overflow-hidden">
 
         <div>
-            <div class="px-6 py-6 border-b border-white/10 flex gap-3 shrink-0">
+            <div class="px-6 py-5 border-b border-white/10 flex gap-3 shrink-0">
                 <img src="../../assets/logos/Argos-logo_branco.png" alt="Logo da Argos"
                     class="h-8 w-auto object-contain">
                 <p class="self-center text-xl font-semibold">Argos</p>
             </div>
 
-            <div class="px-6 py-6 border-b border-white/10 shrink-0">
-                <div id="foto_usuario" class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
-                    
+            <div class="px-6 py-5 border-b border-white/10 shrink-0">
+                <div id="foto_usuario"
+                    class="size-12 rounded-full grid place-items-center bg-main-purple border-2 border-[#2d3a6b] text-light-blue text-xl font-bold">
                 </div>
-                <p class="mt-3 text-white/60">Olá,</p>
+                <p class="mt-3 text-white/60 text-sm">Olá,</p>
                 <p class="text-lg font-bold" id="nome_title"></p>
             </div>
 
-            <nav class="flex flex-col py-4">
+            <nav class="flex flex-col py-3">
                 <a href="./home.html"
-                    class="px-6 py-3.5 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-element">Home</a>
+                    class="px-6 py-3 text-sm font-bold text-light-blue border-l-2 border-light-blue bg-light-blue/5 transition-element">Home</a>
+                <a href="./previsoes/previsoes.html"
+                    class="px-6 py-3 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Previsões</a>
                 <a href="./empresas/index.html"
-                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
+                    class="px-6 py-3 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Empresas</a>
                 <a href="./funcionarios/index.html"
-                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
+                    class="px-6 py-3 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Funcionários</a>
                 <a href="./chamados/index.html"
-                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico
+                    class="px-6 py-3 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Histórico
                     de Chamados</a>
                 <a href="./relatorio.html"
-                    class="px-6 py-3.5 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar
+                    class="px-6 py-3 text-sm text-white/70 border-l-2 border-transparent hover:text-white hover:bg-white/5 transition-element">Gerar
                     Relatório</a>
             </nav>
         </div>
 
-        <div class="border-t border-white/10 py-4 shrink-0">
-            <a href="./configuracoes/index.html" class="block px-6 py-3.5 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
-            <a  onclick="sair()" class="cursor-pointer block px-6 py-3.5 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
+        <div class="border-t border-white/10 py-3 shrink-0">
+            <a href="./configuracoes/index.html"
+                class="block px-6 py-3 text-sm text-white/40 hover:text-white transition-element">Configurações</a>
+            <a onclick="abrirModal()"
+                class="cursor-pointer block px-6 py-3 text-sm text-white/40 hover:text-red-500 transition-element">Sair</a>
         </div>
 
     </aside>
 
-    <main class="flex-1 h-full overflow-y-auto p-4 pt-18 md:p-8 md:pt-8">
+    <main class="flex-1 min-w-0 min-h-screen lg:h-screen overflow-y-auto lg:overflow-hidden p-4 pt-16 lg:p-5 custom-scrollbar">
+        <div class="w-full min-h-full lg:h-full flex flex-col lg:min-h-0 gap-3">
 
-        <div class="max-w-4xl mx-auto w-full">
+            <header class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 shrink-0">
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-semibold text-white leading-tight">Home</h1>
+                    <p class="text-xs text-white/55 mt-0.5">Visão geral do que precisa de atenção</p>
+                </div>
+                <p id="referencia" class="text-xs text-white/40">–</p>
+            </header>
 
-            <p class="text-white text-2xl font-semibold mb-3 md:mt-9 lg:mt-0">Home</p>
+            <section id="faixa-resumo-home"
+                class="rounded-xl border border-red-500/30 bg-red-950/35 px-4 py-2.5 flex items-center justify-between gap-3 shrink-0 transition-element">
+                <p id="texto-faixa-home" class="text-xs sm:text-sm font-medium text-red-300">
+                    Carregando resumo das áreas...
+                </p>
+                <div id="indicadores-faixa-home" class="flex items-center gap-1.5 shrink-0"></div>
+            </section>
 
-            <div id="kpis" class="flex flex-col md:flex-row justify-between mb-6 w-full gap-4">
+            <section id="grid-esferas-home"
+                class="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-3 lg:flex-1 lg:min-h-0">
 
-                <div
-                    class="flex-1 min-w-0 min-h-[148px] rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4.5 lg:p-6">
-                    <div>
-                        <p class="text-gray-400 text-[13px]">Chamados abertos na semana</p>
-                        <p class="text-white font-bold text-[32px] mt-1">29</p>
+                <article
+                    class="relative lg:col-span-2 lg:row-span-1 rounded-xl border border-white/10 bg-[#0D1924] p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center lg:min-h-0">
+                    <span id="badge-slas"
+                        style="position: absolute; top: 16px; right: 16px; z-index: 10;"
+                        class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30 shrink-0">
+                        Atenção
+                    </span>
+
+                    <div class="h-full flex flex-col justify-between gap-2 lg:min-h-0">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-base sm:text-lg font-semibold text-white">SLAs</span>
+                            <h2 id="titulo-slas" class="text-xs font-medium text-white/90 leading-snug"></h2>
+                            <p id="subtitulo-slas" class="text-xs text-white/55">Violações por tipo de SLA.</p>
+                        </div>
+
+                        <div id="legenda-slas" class="flex items-center gap-3 flex-wrap text-xs text-white/80"></div>
                     </div>
-                    <p class="text-yellow-500 text-[12px] leading-snug mt-2">+4 em relação à semana anterior</p>
-                </div>
 
-                <div
-                    class="flex-1 min-w-0 min-h-[148px] rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4.5 lg:p-6">
-                    <div>
-                        <p class="text-gray-400 text-[13px]">SLA cumprido</p>
-                        <p class="text-white font-bold text-[32px] mt-1">87%</p>
+                    <div id="grafico-slas" class="w-full h-full min-h-32 flex items-center justify-center lg:min-h-0">
+                        <canvas id="canvas-slas" class="w-full h-full"></canvas>
                     </div>
-                    <p class="text-green-500 text-[12px] leading-snug mt-2">+2 pontos nas últimas 24 horas</p>
-                </div>
+                </article>
 
-                <div
-                    class="flex-1 min-w-0 min-h-[148px] rounded-xl border border-white/10 bg-[#0D1924] flex flex-col justify-between p-4.5 lg:p-6">
-                    <div>
-                        <p class="text-gray-400 text-[13px]">Tempo médio de resolução</p>
-                        <p class="text-white font-bold text-[32px] mt-1">1d 2h</p>
+                <aside
+                    class="lg:col-start-3 lg:row-span-2 rounded-xl border border-white/10 bg-[#0D1924] p-4 flex flex-col justify-between gap-3 lg:min-h-0">
+                    <div class="flex flex-col gap-1 shrink-0">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-base sm:text-lg font-semibold text-white">Empresas</span>
+                            <span id="badge-empresas"
+                                class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30 shrink-0">
+                                Atenção
+                            </span>
+                        </div>
+                        <h2 id="titulo-empresas" class="text-xs font-medium text-white/90 leading-snug">
+                            Empresas com poucos funcionários
+                        </h2>
+                        <p id="subtitulo-empresas" class="text-xs text-white/55">
+                            Listagem de empresas com menor equipe.
+                        </p>
                     </div>
-                    <p class="text-green-500 text-[12px] leading-snug mt-2">−3h em relação ao mês anterior</p>
-                </div>
 
-            </div>
-
-            <div id="saude_por_empresa" class="flex-1 rounded-xl border border-white/10 p-6 bg-[#0D1924]">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                    <div>
-                        <p class="font-bold text-sm text-white">Saúde por cliente</p>
-                        <p class="text-gray-400 text-[13px] mt-1">Situação operacional no período.</p>
+                    <div class="flex-1 min-h-40 lg:min-h-0 overflow-y-auto custom-scrollbar border border-white/10 rounded-lg">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead class="bg-white/5 text-white/60 sticky top-0">
+                                <tr>
+                                    <th class="py-2 px-3 font-semibold">Empresa</th>
+                                    <th class="py-2 px-3 font-semibold text-right">Funcionários</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-empresas-poucos-funcionarios" class="divide-y divide-white/10 text-white/85">
+                                <tr>
+                                    <td class="py-2.5 px-3">Carregando...</td>
+                                    <td class="py-2.5 px-3 text-right">–</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <input type="text" id="input-busca-cliente" placeholder="Buscar cliente..."
-                        class="px-3.5 py-2 bg-[#09121B] text-white rounded-md border border-white/15 focus:border-light-blue focus:outline-none text-xs w-full md:w-56 transition-element placeholder:text-white/40">
-                </div>
 
-                <div id="container_clientes"
-                    class="mt-3 flex flex-col gap-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                </div>
-            </div>
+                    <div class="flex items-center justify-between gap-2 shrink-0 pt-1">
+                        <div id="legenda-empresas" class="flex items-center gap-2 flex-wrap text-xs text-white/70"></div>
+                    </div>
+                </aside>
+
+                <article
+                    class="relative lg:col-span-2 lg:row-start-2 rounded-xl border border-white/10 bg-[#0D1924] p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 items-center lg:min-h-0">
+                    <span id="badge-chamados"
+                        style="position: absolute; top: 16px; right: 16px; z-index: 10;"
+                        class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-red-500/15 text-red-400 border border-red-500/30 shrink-0">
+                        Crítico
+                    </span>
+
+                    <div class="h-full flex flex-col justify-between gap-2 lg:min-h-0">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-base sm:text-lg font-semibold text-white">Chamados</span>
+                            <h2 id="titulo-chamados" class="text-xs font-medium text-white/90 leading-snug"></h2>
+                            <p id="subtitulo-chamados" class="text-xs text-white/55"></p>
+                        </div>
+
+                        <div class="flex items-center gap-3 flex-wrap shrink-0">
+                            <div id="legenda-chamados" class="flex items-center gap-3 flex-wrap text-xs text-white/80"></div>
+                        </div>
+                    </div>
+
+                    <div id="grafico-chamados" class="w-full h-full min-h-32 flex items-center justify-center lg:min-h-0">
+                        <canvas id="canvas-chamados" class="w-full h-full"></canvas>
+                    </div>
+                </article>
+
+            </section>
 
         </div>
     </main>
-
 
     <div id="modal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-4">
         <div class="bg-[#0D1924] border border-white/10 rounded-2xl w-full max-w-md p-6 flex flex-col gap-4 shadow-xl">
